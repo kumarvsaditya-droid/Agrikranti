@@ -37,7 +37,7 @@ button{font:inherit}
 .iconbtn{background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:6px 10px;cursor:pointer;font-weight:700;font-size:14px}
 /* bottom nav */
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--bg2);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
-.nav .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.nav .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr)}
 .nav button{background:none;border:0;color:var(--muted);padding:8px 0 10px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:700;cursor:pointer}
 .nav button svg{width:24px;height:24px}
 .nav button.on{color:var(--gold)}
@@ -133,6 +133,7 @@ sup{font-size:.7em}
   <button data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
   <button data-go="tests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h10M9 12h10M9 19h10"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Tests</button>
   <button data-go="ebooks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg>eBooks</button>
+  <button data-go="semester"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>Semester</button>
   <button data-go="results"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Results</button>
   <button data-go="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile</button>
 </div></nav>
@@ -162,6 +163,14 @@ var EBOOKS = [
     price: 99, cover: 'FULL<br>NOTES' },
   { id: 'sample1', title: 'Free Sample - Agriculture Notes', sub: 'Full notes ke pehle 10 pages, pehle padhkar dekhein', pages: 10,
     price: 0, file: 'ebooks/Agrikranti_Notes_Free_Sample.pdf', cover: 'FREE<br>SAMPLE' }
+];
+
+/* B.Sc. Agriculture semester papers: har subject ka question paper + solution (free) */
+var SEMESTER = [
+  { sem: 1, title: 'B.Sc. Agriculture - 1st Semester', papers: [
+    { code: 'SSC-101', subject: 'Fundamentals of Soil Science', info: 'Model Paper (Previous Year Pattern) · 50 अंक · Q.1 अनिवार्य + Section A (4×5) + Section B (2×10)',
+      paper: 'papers/BSc_Sem1_SSC101_Question_Paper.pdf', solution: 'papers/BSc_Sem1_SSC101_Solved_Paper.pdf', pages: 14 }
+  ]}
 ];
 
 /* ================= helpers ================= */
@@ -231,7 +240,7 @@ function go(view, arg){
   clearInterval(S.timer);
   window.scrollTo(0,0);
   if(view!=='quiz') setNav(true);
-  ({home:home, tests:tests, ebooks:ebooks, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
+  ({home:home, tests:tests, ebooks:ebooks, semester:semester, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
 }
 document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ go(b.getAttribute('data-go')); }; });
 
@@ -252,6 +261,7 @@ function home(){
   h+='<h2 class="sec">अगला <span>टेस्ट</span></h2>'+testCard(next);
   h+=shareCard();
   h+='<button class="btn ghost block" data-go2="tests">सभी '+TESTS.length+' टेस्ट देखें</button>';
+  h+='<div class="card link" data-go2="semester" style="cursor:pointer"><span class="ic" style="background:#1f5f3a">🎓</span><span><b>B.Sc. Agriculture Semester Papers</b><span class="muted small">SSC-101 model paper + पूरा solution, free</span></span></div>';
   h+='<h2 class="sec">पढ़ाई के लिए <span>eBooks</span></h2>'+EBOOKS.map(ebookCard).join('');
   h+='<h2 class="sec">हमसे <span>जुड़ें</span></h2>'+socialCards();
   h+='</main>';
@@ -437,6 +447,21 @@ function ebooks(){
   h+='<div class="card"><b>Payment के लिए</b><div class="muted small" style="margin:4px 0 8px">'+esc(CONFIG.payeeName)+' · UPI: '+esc(CONFIG.upiId)+'</div><img src="img/phonepe-qr.png" alt="PhonePe QR" style="width:100%;max-width:320px;border-radius:12px;display:block;margin:0 auto;background:#0a0a0a"></div>';
   h+='<div class="card empty">और eBooks जल्द आ रही हैं। अपडेट के लिए Telegram / WhatsApp से जुड़ें।</div></main>';
   app.innerHTML=h; bindBooks();
+}
+
+function semester(){
+  activeTab('semester');
+  var h=topbar()+'<main class="page"><h2 class="sec">B.Sc. Agriculture <span>Semester</span></h2><p class="muted small" style="margin:0">Semester exam के लिए model question paper और gold-medalist style हल (English + हिंदी)। सब free है।</p>';
+  SEMESTER.forEach(function(g){
+    h+='<h2 class="sec">'+esc(g.title)+'</h2>';
+    g.papers.forEach(function(x){
+      h+='<div class="card ebook"><div class="cover"><span>'+esc(x.code)+'</span><small>Sem '+g.sem+'</small></div><div style="flex:1;min-width:0"><b>'+esc(x.subject)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(x.info)+'</div>'
+       +'<div class="chips"><span class="chip done">Free</span><span class="chip">Solution: '+x.pages+' पेज</span></div>'
+       +'<div class="row"><a class="btn ghost" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(x.paper)+'">Question Paper</a><a class="btn gold" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(x.solution)+'">Solution देखें</a></div></div></div>';
+    });
+  });
+  h+=shareCard()+'<div class="card empty">बाकी subjects के paper जल्द आ रहे हैं। अपडेट के लिए Telegram / WhatsApp से जुड़ें।</div></main>';
+  app.innerHTML=h; bindCommon();
 }
 
 /* ================= Results ================= */
