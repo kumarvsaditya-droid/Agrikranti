@@ -1,0 +1,51 @@
+TITLE|Test 10 - Grand Test: Animal Science, Soil Amendments, LCC, Insects, Crop Origin, Schemes
+Grass tetany रोग पशुओं में किस तत्व की कमी से होता है?||Ca||Mg||P||Zn||B||Grass tetany (hypomagnesaemia) Mg की कमी से होता है।
+पशुओं में parakeratosis किस तत्व की कमी से होता है?||Fe||Zn||Cu||Se||B||Parakeratosis Zn की कमी से होता है (विशेषकर सूअर में)।
+पशुओं में Pica (मिट्टी आदि खाना) मुख्यतः किस तत्व की कमी से होता है?||P (फॉस्फोरस)||K||Na||Mg||A||Pica मुख्यतः फॉस्फोरस की कमी से होता है।
+दुधारू पशुओं में milk fever (hypocalcaemia) किस कारण होता है?||Mg की कमी||Ca की कमी||Glucose की कमी||Vitamin A की कमी||B||ब्याने के बाद रक्त में Ca की कमी से milk fever होता है।
+भेड़-बकरी में enterotoxaemia (फड़किया) किस जीवाणु से होता है?||Clostridium perfringens||Bacillus anthracis||Brucella abortus||Pasteurella multocida||A||Enterotoxaemia Clostridium perfringens (type D) से होता है।
+Anthrax रोगकारक की खोज किसने की?||Robert Koch||Louis Pasteur||Fleming||Jenner||A||Robert Koch (1876) ने Bacillus anthracis खोजा।
+Rinderpest रोग किस virus से होता है?||Morbillivirus||Aphthovirus||Lyssavirus||Orbivirus||A||Rinderpest Morbillivirus से होता है; इसे 2011 में विश्व से समाप्त घोषित किया गया।
+SWOT analysis की अवधारणा किसने दी?||Albert Humphrey||Abraham Maslow||Peter Drucker||Philip Kotler||A||Albert Humphrey ने SWOT analysis दिया।
+आवश्यकता आधारित प्रेरणा सिद्धांत (Hierarchy of Needs) किसने दिया?||Abraham Maslow||Herzberg||McClelland||Rogers||A||Abraham Maslow ने need hierarchy theory दी।
+Etawah Pilot Project (1948) किसने शुरू किया?||Albert Mayer||F.L. Brayne||Spencer Hatch||Rabindranath Tagore||A||अमेरिकी Albert Mayer ने 1948 में इटावा पायलट प्रोजेक्ट शुरू किया।
+भूदान आंदोलन (1951) किसने शुरू किया?||महात्मा गांधी||विनोबा भावे||जयप्रकाश नारायण||S.K. Dey||B||विनोबा भावे ने 1951 में भूदान और 1952 में ग्रामदान आंदोलन शुरू किया।
+NITI Aayog का गठन कब हुआ?||15 March 1950||1 January 2015||1 April 1951||26 Jan 2010||B||NITI Aayog 1 जनवरी 2015 को बना; योजना आयोग 15 मार्च 1950 को बना था।
+Diptera (मक्खी) के larva को क्या कहते हैं?||Caterpillar||Maggot||Grub||Nymph||B||Diptera - maggot, Lepidoptera - caterpillar, Coleoptera - grub, मच्छर - wriggler।
+Coleoptera (भृंग) के larva को क्या कहते हैं?||Grub||Maggot||Caterpillar||Naiad||A||भृंगों के larva grub कहलाते हैं।
+जलीय कीटों (जैसे dragonfly) के अपरिपक्व को क्या कहते हैं?||Nymph||Naiad||Maggot||Wriggler||B||जलीय अपरिपक्व अवस्था naiad कहलाती है।
+American bollworm, gram pod borer, sunflower head borer किस एक ही कीट के नाम हैं?||Spodoptera litura||Helicoverpa armigera||Earias vittella||Pectinophora gossypiella||B||ये सभी Helicoverpa armigera के ही अलग-अलग नाम हैं।
+पक्षी और सरीसृप मुख्यतः कौन सा नाइट्रोजन अपशिष्ट निकालते हैं?||Ammonia||Urea||Uric acid||Creatinine||C||स्थलीय पक्षी, सरीसृप, कीट uricotelic होते हैं; मछलियाँ ammonotelic और स्तनधारी ureotelic।
+मधुमक्खियों (Hymenoptera) के आगे और पीछे के पंख किस प्रकार जुड़े होते हैं?||Frenate||Hamulate (hooks)||Amplexiform||Jugate||B||Hymenoptera में hamuli (कांटे) से पंख जुड़ते हैं; तितलियों में amplexiform और पतंगों में frenate।
+किस वर्ग के जीवों में दो जोड़ी antenna होते हैं?||Insecta||Crustacea||Arachnida||Myriapoda||B||Crustacea में दो जोड़ी antenna; Protura में antenna नहीं होते।
+Five kingdom classification किसने दी?||R.H. Whittaker||Linnaeus||Haeckel||Woese||A||R.H. Whittaker ने 1969 में five kingdom classification दी।
+मक्का (maize) का जंगली पूर्वज कौन सा है?||Teosinte||Tripsacum||Sorghum||Coix||A||मक्का का पूर्वज teosinte है।
+एशियाई चावल (Oryza sativa) का जंगली पूर्वज कौन सा है?||Oryza rufipogon||Oryza glaberrima||Oryza barthii||Oryza longistaminata||A||O. rufipogon एशियाई चावल का और O. barthii अफ्रीकी चावल का पूर्वज है।
+टमाटर का जंगली पूर्वज कौन सा है?||Solanum pimpinellifolium||Solanum incanum||Solanum tuberosum||Solanum nigrum||A||टमाटर का पूर्वज S. pimpinellifolium; बैंगन का S. incanum।
+सेब (apple) का जंगली पूर्वज कौन सा है?||Malus sieversii||Pyrus communis||Malus baccata||Prunus avium||A||Apple का पूर्वज Malus sieversii (मध्य एशिया) है।
+Indian mustard (Brassica juncea) किन दो प्रजातियों के संकरण से बनी है?||B. rapa × B. nigra||B. oleracea × B. rapa||B. nigra × B. oleracea||B. napus × B. rapa||A||U's triangle: B. juncea = B. rapa × B. nigra; B. napus = B. rapa × B. oleracea।
+Leaf Colour Chart (LCC) किसने विकसित किया?||S. Furuya||IRRI only||Yoshida||Swaminathan||A||LCC जापान के S. Furuya ने विकसित किया।
+SPAD meter की reading कितनी या उससे कम होने पर धान में N देना चाहिए?||20||35||50||70||B||SPAD reading 35 या उससे कम होने पर नाइट्रोजन दी जाती है।
+"मेरा गांव मेरा गौरव" (MGMG) योजना कब शुरू हुई?||25 July 2015||9 April 2002||30 June 1998||2005||A||MGMG ICAR ने जुलाई 2015 में शुरू की।
+Agri-Clinics and Agri-Business Centres (ACABC) योजना में training कितने दिनों की होती है?||15 दिन||45 दिन||90 दिन||6 माह||B||ACABC (9 April 2002) में कृषि स्नातकों को 45 दिन का प्रशिक्षण दिया जाता है।
+भारत का पहला zinc biofortified धान कौन सा है?||CR Dhan 310||DRR Dhan 45||Pusa Basmati 1||Swarna||B||DRR Dhan 45 (IIRR, 2016) में लगभग 22.6 ppm Zn है।
+CR Dhan 310 किस गुण के लिए जाना जाता है?||High zinc||High protein (10.3%)||Drought tolerance||Submergence tolerance||B||CR Dhan 310 (ICAR-NRRI) में 10.3% protein है।
+अंगूर की Kniffin training system कहाँ विकसित हुई?||फ्रांस||न्यूयॉर्क (USA)||ऑस्ट्रेलिया||न्यूजीलैंड||B||William Kniffin ने 1850 में न्यूयॉर्क में यह प्रणाली विकसित की।
+Tatura trellis training system किस देश की है?||ऑस्ट्रेलिया||जर्मनी||न्यूजीलैंड||इटली||A||Tatura trellis ऑस्ट्रेलिया में विकसित हुई; Lincoln canopy न्यूजीलैंड की।
+सेब की Spindle bush training system किस देश में विकसित हुई?||फ्रांस||जर्मनी||USA||भारत||B||Spindle bush जर्मनी में विकसित हुई।
+Calcium carbonate equivalent (CCE) सबसे अधिक किस liming material का है?||Calcite (CaCO3)||Calcium oxide (CaO)||Dolomite||Basic slag||B||CaO 179, Ca(OH)2 136, dolomite ~109, CaCO3 100, basic slag 86।
+Dolomite का CCE लगभग कितना होता है?||86||100||108.7||179||C||Dolomite (CaMg(CO3)2) का CCE लगभग 109 होता है।
+Gypsum के स्थान पर alkali soil सुधार में sulphur का gypsum equivalent कितना होता है?||0.19||0.57||0.63||1.62||A||Gypsum = 1.00 के आधार पर sulphur 0.19, H2SO4 0.57, pyrite 0.63 और FeSO4·7H2O 1.62।
+अधिक चूने की आवश्यकता वाली (high lime requiring) फसल कौन सी है?||Alfalfa (lucerne)||आलू||Blueberry||चाय||A||Alfalfa, फूलगोभी, प्याज, sugar beet, barley को अधिक चूना चाहिए; आलू, blueberry कम।
+कम चूने की आवश्यकता (acid tolerant) वाली फसल कौन सी है?||Alfalfa||आलू||Sugar beet||Barley||B||आलू, शकरकंद, जई, राई, तम्बाकू कम चूना चाहने वाली फसलें हैं।
+USDA land capability classification में कितनी classes हैं?||4||6||8||12||C||LCC में 8 classes हैं: I - IV खेती योग्य और V - VIII खेती अयोग्य।
+Land capability Class I का रंग कोड क्या है?||पीला||हल्का हरा||लाल||बैंगनी||B||Class I हल्का हरा, II पीला, III लाल, IV नीला, V गहरा हरा, VI नारंगी, VII भूरा, VIII बैंगनी।
+Land capability Class VIII की भूमि किस उपयोग के लिए है?||सघन खेती||वन्य जीव, मनोरंजन, जलग्रहण||चारागाह और खेती||बागवानी||B||Class VIII किसी भी खेती, चारागाह या वन के लिए अनुपयुक्त है; केवल वन्यजीव, मनोरंजन, watershed।
+River buffalo का chromosome number (2n) क्या है?||48||50||52||60||B||River buffalo 50, swamp buffalo 48; गाय और बकरी 60।
+घोड़े का chromosome number (2n) क्या है?||60||64||78||38||B||घोड़ा 2n = 64; मुर्गी 78; सूअर 38; भेड़ 54।
+विश्व की लगभग कितनी प्रतिशत भैंसें भारत में हैं?||25%||40%||57%||80%||C||विश्व की लगभग 57% भैंसें भारत में हैं; सबसे अधिक उत्तर प्रदेश में।
+अंगोरा बकरी से मिलने वाले रेशे को क्या कहते हैं?||Pashmina||Mohair||Angora wool||Cashmere||B||अंगोरा बकरी से mohair; अंगोरा खरगोश से angora wool।
+पश्मीना किस बकरी से प्राप्त होता है?||Gaddi||Changthangi||Jamunapari||Barbari||B||पश्मीना लद्दाख की Changthangi (Changra) बकरी से मिलता है।
+भारत की "मेरिनो" किस भेड़ नस्ल को कहा जाता है?||Chokla||Marwari||Deccani||Bannur||A||Chokla भेड़ की ऊन सबसे महीन है, इसलिए इसे भारत की Merino कहते हैं।
+दूध में वसा निकालने की Gerber method में कितना दूध लिया जाता है?||1 ml||10.75 ml||5 ml||25 ml||B||Gerber test: 10 ml H2SO4 + 10.75 ml दूध + 1 ml amyl alcohol।
+Kisan Call Centre (टोल फ्री 1800-180-1551) कब शुरू हुआ?||21 January 2004||26 May 2015||9 April 2002||1 July 2015||A||KCC 21 जनवरी 2004 को शुरू हुआ और 22 भाषाओं में सेवा देता है।

@@ -1,0 +1,51 @@
+TITLE|Test 6 - Seedless Watermelon, PRA, Cropping, Soil Water, Soil Orders, Colloids, GHG, Photoperiod
+भारत की पहली seedless तरबूज किस्म कौन सी है?||Sugar Baby||Pusa Bedana||Arka Manik||Asahi Yamato||B||Pusa Bedana (IARI) पहली seedless (triploid) तरबूज किस्म है।
+Pusa Bedana किस संकरण से बनी है?||Tetra-2 (4n) × Pusa Rasal (2n)||Sugar Baby × Arka Manik||Tetra-1 × Arka Manik||Pusa Rasal × Sugar Baby||A||Pusa Bedana = Tetra-2 (4n, मादा) × Pusa Rasal (2n, नर), जिससे 3n बीजरहित फल मिलता है।
+Triploid (3x) seedless तरबूज बनाने के लिए मादा पौधा कैसा लिया जाता है?||Diploid (2x)||Tetraploid (4x)||Haploid||Triploid||B||हमेशा मादा 4x और नर 2x लेते हैं; उल्टा करने पर बीज ठीक नहीं बनते।
+तरबूज की Sugar Baby किस्म कैसी है?||Seedless triploid||बीज वाली (seeded) open-pollinated||F1 hybrid seedless||Tetraploid||B||Sugar Baby बीज वाली open-pollinated किस्म है (USA से)।
+PRA में स्थानीय लोगों द्वारा याद की गई घटनाओं का कालक्रम क्या कहलाता है?||Seasonal calendar||Time line||Transect walk||Venn diagram||B||घटनाओं का कालानुक्रम (chronology) time line कहलाता है।
+Participatory Rural Appraisal (PRA) की अवधारणा किसने दी?||Robert Chambers||Gordon Conway||Neela Mukherjee||E.M. Rogers||A||PRA को Robert Chambers ने विकसित और लोकप्रिय किया।
+Rapid Rural Appraisal (RRA) किसके नाम से जुड़ा है?||Robert Chambers और Gordon Conway||Wilson और Gallup||Benor और Baxter||Rogers और Shoemaker||A||RRA Robert Chambers और Gordon Conway से जुड़ा है।
+निम्न में से कौन PRA का सिद्धांत नहीं है?||Participation||Flexibility||Local knowledge से सीखना||Top-down planning||D||PRA के सिद्धांत participation, flexibility, local knowledge से सीखना और empowerment हैं; top-down नहीं।
+Cropping pattern में फसलों का "अनुपात (ratio)" क्या दर्शाता है?||Temporal arrangement||Spatial arrangement||Crop rotation||Crop intensity||B||फसलों का क्रम temporal और अनुपात spatial arrangement दर्शाता है।
+दो या अधिक फसलों के बीज मिलाकर बिना पंक्ति के बोना क्या कहलाता है?||Intercropping||Mixed cropping||Relay cropping||Sole cropping||B||Mixed cropping में बीज मिलाकर बोते हैं; intercropping में निश्चित पंक्तियों में।
+दो या अधिक फसलों को निश्चित पंक्ति अनुपात में साथ उगाना क्या कहलाता है?||Mixed cropping||Intercropping||Sequential cropping||Ratoon cropping||B||Intercropping में फसलें निश्चित row arrangement में उगाई जाती हैं।
+Micropores (capillary pores) में मुख्यतः क्या रहता है?||हवा||पानी||Organic matter||Sand||B||Micropores (< 0.05 mm) में पानी और macropores में हवा रहती है।
+किस मृदा में micropores सबसे अधिक होते हैं?||Sand||Silt||Clay||Gravel||C||Micropores: clay > silt > sand।
+एक आदर्श मृदा में हवा और पानी का अनुपात आयतन के आधार पर कितना होता है?||10% हवा, 40% पानी||25% हवा, 25% पानी||40% हवा, 10% पानी||50% हवा, 0% पानी||B||आदर्श मृदा: 45% खनिज, 5% OM, 25% पानी और 25% हवा।
+Compacted subsoil का bulk density लगभग कितना हो सकता है?||< 1.0 g/cm3||1.1 g/cm3||> 1.7 g/cm3||2.65 g/cm3||C||संघनित (compacted) मृदा का BD 1.7 g/cm3 से अधिक हो सकता है, जो जड़ वृद्धि रोकता है।
+मृदा में कुल जल (total water content) को क्या कहते हैं?||Chresard||Holard||Echard||Hygroscopic water||B||Holard = कुल जल; Chresard = पौधों को उपलब्ध जल; Echard = अनुपलब्ध जल।
+पौधों को उपलब्ध (मुख्यतः capillary) जल क्या कहलाता है?||Holard||Chresard||Echard||Gravitational||B||Chresard मुख्यतः capillary जल है जो पौधे ले सकते हैं।
+Histosols मृदा की मुख्य पहचान क्या है?||ज्वालामुखीय राख||अधिक organic matter (peat)||Permafrost||शुष्क जलवायु||B||Histosols organic (peat) मृदा हैं।
+भारत की काली मृदा (black cotton soil) किस soil order में आती है?||Andisols||Vertisols||Mollisols||Oxisols||B||काली कपास मृदा Vertisols हैं (swelling clay)। Andisols ज्वालामुखीय राख की मृदा है।
+Permafrost वाली मृदा किस order में आती है?||Gelisols||Histosols||Aridisols||Spodosols||A||Gelisols में permafrost होता है।
+सबसे अधिक अपक्षयित (strongly weathered) soil order कौन सा है?||Entisols||Inceptisols||Oxisols||Aridisols||C||Oxisols सबसे अधिक अपक्षयित, Fe-Al oxides वाली उष्णकटिबंधीय मृदा है।
+सबसे नई (recent), कम विकसित soil order कौन सा है?||Entisols||Ultisols||Alfisols||Spodosols||A||Entisols नई मृदा है जिसमें horizon विकास बहुत कम होता है।
+Terrace farming के लिए उपयुक्त standard slope कितना है?||1 - 3%||16 - 33%||50 - 60%||> 70%||B||16 - 33% ढलान पर terrace farming की जाती है।
+मृदा colloids का आकार कितना होता है?||< 1 µm (< 0.001 mm)||1 - 2 mm||0.05 - 0.2 mm||2 - 20 µm||A||Colloid कण 1 µm (0.001 mm) से छोटे होते हैं।
+Kaolinite किस प्रकार का clay mineral है?||2:1 expanding||1:1 non-expanding||2:1 non-expanding||2:1:1||B||Kaolinite 1:1 non-expanding है और इसका CEC कम होता है।
+Montmorillonite की विशेषता क्या है?||1:1 non-expanding||2:1 expanding (फूलने-सिकुड़ने वाला)||2:1:1 type||Amorphous||B||Montmorillonite 2:1 expanding clay है, जिसका CEC अधिक होता है।
+Chlorite किस प्रकार का clay mineral है?||1:1||2:1||2:1:1 (2:2)||Amorphous||C||Chlorite 2:1:1 (2:2) प्रकार का non-expanding खनिज है।
+Illite (hydrous mica) की परतों के बीच मुख्यतः कौन सा आयन होता है जो इसे non-expanding बनाता है?||Na||K (पोटैशियम)||Ca||H||B||Illite की परतें K से जुड़ी रहती हैं, इसलिए यह non-expanding है।
+Father of Soil Taxonomy किसे कहा जाता है?||V.V. Dokuchaev||Guy D. Smith||Hans Jenny||C.F. Marbut||B||Guy D. Smith को Soil Taxonomy का जनक कहा जाता है।
+मृदा रसायन (Soil Chemistry) का जनक किसे माना जाता है (cation exchange की खोज)?||Thomas Way||Liebig||Hillel||Leather||A||Thomas Way ने 1850 में cation exchange खोजा और Father of Soil Chemistry कहलाते हैं।
+मृदा विकास की 5 अवस्थाएँ (Initial, Juvenile, Virile, Senile, Final) किसने दीं?||Mohr और Van Baren||Jenny||Joffe||Dokuchaev||A||Mohr और Van Baren ने मृदा विकास की 5 अवस्थाएँ दीं।
+Ozone (O3) और PAN को क्या माना जाता है?||Primary pollutants||Secondary pollutants||Greenhouse gas नहीं||Natural gases||B||ये सीधे उत्सर्जित नहीं होते, सूर्य प्रकाश में रासायनिक अभिक्रिया से बनते हैं, इसलिए secondary pollutants हैं।
+Disease cycle में pathogen का पौधे में प्रवेश क्या कहलाता है?||Inoculation||Penetration||Dispersal||Survival||B||क्रम: Inoculation → Penetration → Infection → Disease → Reproduction → Dispersal → Survival।
+Organic carbon से organic matter निकालने का Van Bemmelen factor कितना है?||1.33||1.724||2.0||0.58||B||OM = OC × 1.724 और OC = OM × 0.58।
+BIS के अनुसार Type-I cattle feed किन पशुओं के लिए है?||बछड़ों के लिए||अधिक दूध (15 लीटर से अधिक) देने वाले पशुओं के लिए||बैलों के लिए||सूखे पशुओं के लिए||B||Type-I उच्च दुग्ध उत्पादक पशुओं के लिए है, जिसमें crude protein लगभग 22% होता है।
+AICRPDA (All India Coordinated Research Project on Dryland Agriculture) कब शुरू हुआ?||1970||1985||1965||1990||A||AICRPDA 1970 में संतोषनगर, हैदराबाद में शुरू हुआ।
+CRIDA, हैदराबाद की स्थापना कब हुई?||1970||1985||1976||1992||B||CRIDA (Central Research Institute for Dryland Agriculture) 1985 में स्थापित हुआ।
+Global warming में CO2 का योगदान लगभग कितना माना जाता है?||20%||40%||60%||90%||C||योगदान: CO2 ~60%, CH4 ~20%, CFC ~14%, N2O ~6%।
+IPCC (AR6) के अनुसार N2O का Global Warming Potential (100 वर्ष) कितना है?||1||28||273||25,200||C||CO2 = 1, CH4 ~28, N2O = 273, SF6 ~25,200।
+किस गैस का Global Warming Potential सबसे अधिक है?||CO2||CH4||N2O||SF6 (Sulfur hexafluoride)||D||SF6 का GWP लगभग 25,200 है और यह 3,200 वर्ष तक वायुमंडल में रहती है।
+Photoperiodism की खोज किसने की?||Garner और Allard (1920)||Lysenko (1928)||Klippart (1857)||Went (1928)||A||Garner और Allard ने 1920 में Maryland Mammoth तम्बाकू पर photoperiodism खोजा।
+Photoperiodism की खोज किस फसल पर हुई?||गेहूं||Maryland Mammoth तम्बाकू||सोयाबीन||मक्का||B||Maryland Mammoth तम्बाकू पर प्रयोग से photoperiodism खोजा गया।
+"Vernalization" शब्द किसने दिया?||Trofim Lysenko (1928)||Klippart||Garner||Chailakhyan||A||सोवियत वैज्ञानिक Lysenko ने 1928 में vernalization शब्द दिया।
+Lysenko से पहले (1857) शीत उपचार से winter wheat को spring wheat जैसा बनाने का प्रेक्षण किसने किया?||Klippart||Garner||Allard||Mendel||A||J.H. Klippart ने 1857 में यह प्रेक्षण किया।
+CRIDA के अनुसार shallow tillage की गहराई कितनी होती है?||5 - 6 cm||15 - 20 cm||25 - 30 cm||40 cm||A||Shallow 5 - 6 cm, medium 15 - 20 cm और deep 25 - 30 cm।
+Deep tillage (25 - 30 cm) किन फसलों के लिए उपयुक्त है?||दलहन||सब्जियाँ, कपास, गन्ना||घास||धान नर्सरी||B||गहरी जड़ वाली फसलें जैसे सब्जियाँ, कपास और गन्ने के लिए deep tillage।
+Echard किसे कहते हैं?||पौधों को उपलब्ध जल||पौधों द्वारा अवशोषित न किया जा सकने वाला जल||कुल जल||वर्षा जल||B||Echard = वह जल जो पौधे नहीं ले सकते, जैसे hygroscopic और रासायनिक रूप से बंधा जल।
+Aridisols किस प्रकार की जलवायु में बनती है?||ठंडी और नम||शुष्क (arid)||उष्णकटिबंधीय नम||ज्वालामुखीय||B||Aridisols शुष्क क्षेत्रों की मृदा है जो अक्सर लवणीय/क्षारीय होती है।
+Spodosols की पहचान किस horizon से होती है?||Mollic||Spodic||Argillic||Oxic||B||Spodosols ठंडे, नम, रेतीले, शंकुधारी वन क्षेत्रों में spodic horizon वाली मृदा है।
+Mollisols मृदा मुख्यतः किस वनस्पति के नीचे बनती है?||शंकुधारी वन||घास के मैदान (grassland)||रेगिस्तानी झाड़ियाँ||उष्णकटिबंधीय वर्षा वन||B||Mollisols घास के मैदानों में बनने वाली गहरी, काली, उपजाऊ (mollic) मृदा है।

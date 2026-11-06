@@ -1,0 +1,51 @@
+TITLE|Test 2 - Extension, Jam-Jelly, Germination, N-Fixation, Soil Genesis, Horticulture Schemes
+Wilson और Gallup के अनुसार teaching-learning process के चरणों का सही क्रम कौन सा है?||Attention, Interest, Desire, Conviction, Action, Satisfaction||Interest, Attention, Desire, Action, Conviction, Satisfaction||Awareness, Interest, Evaluation, Trial, Adoption, Satisfaction||Attention, Desire, Interest, Action, Conviction, Satisfaction||A||Wilson और Gallup का क्रम AIDCAS है: Attention - Interest - Desire - Conviction - Action - Satisfaction।
+Double hedge row planting system किन फसलों में अपनाया जाता है?||धान और गेहूं||चाय और अनानास||गन्ना और कपास||आम और अमरूद||B||Double hedge row system चाय (Tea) और अनानास (Pineapple) में अपनाया जाता है।
+National Demonstration (ND) Programme कब शुरू हुआ?||1965||1974||1979||1952||A||National Demonstration 1965 में शुरू हुआ; इसका उद्देश्य प्रति इकाई क्षेत्र और समय उत्पादकता बढ़ाना था।
+Training and Visit (T&V) system भारत में पहली बार कहाँ लागू हुआ?||पंजाब और हरियाणा||राजस्थान canal area और मध्य प्रदेश का चंबल क्षेत्र||तमिलनाडु और केरल||बिहार और उत्तर प्रदेश||B||Benor और Baxter का T&V system 1974 में राजस्थान canal area और चंबल (MP) में शुरू हुआ।
+Lab to Land Programme कब शुरू किया गया?||16 July 1979||1965||1 April 1974||2 Oct 1952||A||ICAR का Lab to Land Programme 16 July 1979 को शुरू हुआ।
+Agricultural Census के अनुसार Small farmer की जोत कितनी होती है?||< 1 ha||1 - 2 ha||2 - 4 ha||4 - 10 ha||B||Marginal < 1 ha, Small 1 - 2 ha, Semi-medium 2 - 4 ha, Medium 4 - 10 ha और Large > 10 ha।
+भारत में Marginal और Small किसानों का कुल हिस्सा लगभग कितना है?||56%||70%||86%||95%||C||Agricultural Census के अनुसार Marginal + Small किसान लगभग 86% हैं।
+Large farmer की जोत का आकार क्या है?||> 4 ha||> 10 ha||2 - 4 ha||4 - 10 ha||B||Large farmer > 10 ha; medium 4 - 10 ha।
+कच्चे फल में pectin किस रूप में होता है?||Pectic acid||Protopectin||Pectinic acid||Calcium oxalate||B||कच्चे फल में protopectin, पके फल में pectin और अधिक पके फल में pectic acid होता है।
+Jam में TSS (Total Soluble Solids) कितना होना चाहिए?||45° Brix||55° Brix||65° Brix||68° Brix||D||Jam का TSS 68° Brix और jelly का 65° Brix होता है।
+Jelly बनाने के लिए pectin की मात्रा लगभग कितनी चाहिए?||0.1 - 0.2%||0.5 - 1.0%||3 - 5%||10%||B||Jelly बनने (gelling) के लिए 0.5 - 1.0% pectin जरूरी है।
+Jelly का उचित pH लगभग कितना होता है?||2.0||3.2||5.5||7.0||B||Jelly के लिए pH लगभग 3.2 सबसे उपयुक्त होता है।
+Fruit Products Order (FPO) किस वर्ष आया था?||1954||1955||1973||2006||B||FPO 1955 में आया; अब यह FSS Act 2006 में शामिल हो गया है।
+राजमा में किस प्रकार का अंकुरण (germination) होता है?||Hypogeal||Epigeal||Vivipary||Hypogeal और Epigeal दोनों||B||राजमा (रबी दलहन) में epigeal अंकुरण होता है, जबकि मटर, चना, मसूर में hypogeal।
+एकबीजपत्री होते हुए भी किस फसल में epigeal अंकुरण होता है?||मक्का||गेहूं||प्याज||धान||C||प्याज monocot है फिर भी उसमें epigeal अंकुरण होता है।
+निम्न में से किस दलहन में hypogeal अंकुरण होता है?||मूंग||उड़द||मटर||लोबिया||C||मटर, चना, मसूर और अरहर में hypogeal; मूंग, उड़द, लोबिया में epigeal।
+पहला commercial biofertilizer 'Nitragin' किसने लॉन्च किया?||Beijerinck||Nobbe और Hiltner||Hellriegel और Wilfarth||Winogradsky||B||Nobbe और Hiltner ने 1895 में Nitragin (Rhizobium culture) लॉन्च किया।
+Biological nitrogen fixation की खोज किसने की?||Hellriegel और Wilfarth||Liebig||Frank||Waksman||A||जर्मन वैज्ञानिक Hermann Hellriegel और Hermann Wilfarth ने legumes में BNF की खोज की।
+Rhizobium जीवाणु को पहली बार (1888) किसने अलग किया?||Frank||Martinus Beijerinck||Nobbe||Fleming||B||Beijerinck ने 1888 में Rhizobium अलग किया; "Rhizobium" नाम Frank ने 1889 में दिया।
+Azotobacter की खोज किसने की?||Beijerinck (1901)||Frank (1889)||Winogradsky (1890)||Waksman (1943)||A||Dutch वैज्ञानिक Martinus Beijerinck ने 1901 में Azotobacter खोजा।
+"Mycorrhiza" शब्द किसने दिया?||Beijerinck||Frank||Hiltner||Haberlandt||B||A.B. Frank ने 1885 में mycorrhiza शब्द दिया।
+Father of Virology किसे कहा जाता है?||Louis Pasteur||Martinus Beijerinck||Robert Koch||Ivanovsky||B||Martinus Beijerinck को Father of Virology कहा जाता है।
+Green lacewing (Chrysoperla carnea) के larva को किस नाम से जाना जाता है?||Aphid lion||Ladybird||Assassin bug||Wriggler||A||Chrysoperla का larva soft-bodied कीटों का शिकारी है, इसलिए "Aphid lion" कहलाता है।
+Diamondback moth (DBM) का larval parasitoid कौन सा है?||Trichogramma||Cotesia plutellae||Chrysoperla||Bracon hebetor||B||Cotesia plutellae DBM का विशिष्ट larval parasitoid है।
+पत्तागोभी में DBM के लिए Indian mustard को trap crop के रूप में किस अनुपात में लगाते हैं?||10 : 1||25 : 2||5 : 1||1 : 1||B||हर 25 rows cabbage के बाद 2 rows Indian mustard (25 : 2) लगाते हैं।
+Sugarcane Breeding Institute (SBI), कोयम्बटूर की स्थापना कब हुई?||1912||1918||1933||1905||A||SBI 1912 में कोयम्बटूर में बना; पहले सरकारी sugarcane expert C.A. Barber थे।
+Saccharum officinarum को किस नाम से जाना जाता है?||Wild cane||Noble cane||Indian cane||Chinese cane||B||S. officinarum को Noble cane कहते हैं।
+Co 419 गन्ना किस्म (1933) किसने विकसित की?||C.A. Barber||T.S. Venkatraman||Parthasarathy||E.J. Butler||B||Co 419 (wonder cane) T.S. Venkatraman ने SBI में विकसित की।
+मेथी और lucerne में कौन सी Rhizobium प्रजाति nodule बनाती है?||Rhizobium meliloti||Rhizobium trifolii||Rhizobium phaseoli||Bradyrhizobium japonicum||A||R. meliloti (Sinorhizobium meliloti) lucerne, मेथी और Melilotus में nodule बनाती है।
+बरसीम में nodule बनाने वाली Rhizobium प्रजाति कौन सी है?||R. leguminosarum||R. trifolii||R. lupini||R. meliloti||B||Rhizobium trifolii बरसीम (clover) में nodule बनाती है।
+Azotobacter chroococcum किस प्रकार का जीवाणु है?||Symbiotic, anaerobic||Free living, aerobic||Symbiotic, aerobic||Free living, anaerobic||B||Azotobacter free living aerobic N-fixer है और neutral से क्षारीय मिट्टी में मिलता है।
+Weather शब्द किस भाषा से लिया गया है?||Greek||Latin||Old English||Sanskrit||C||Weather Old English शब्द है; Meteorology, Climate, Atmosphere Greek मूल के हैं।
+मृदा के किस horizon में silicate clay सबसे अधिक जमा होती है?||A horizon||E horizon||B horizon||C horizon||C||B horizon illuviation zone है जहाँ silicate clay, Fe आदि जमा होते हैं (argillic horizon)।
+Hans Jenny (1941) के मृदा निर्माण समीकरण S = f (Cl, O, R, P, T) में passive factors कौन से हैं?||Climate, Organism||Parent material, Relief, Time||Climate, Relief||Organism, Time||B||Parent material, Relief और Time passive factors हैं; Climate और Organism active factors।
+Gleization (gleying) किस अवस्था में होता है?||अच्छी जल निकासी (aerobic)||जलभराव (anaerobic)||शुष्क क्षेत्र||रेगिस्तान||B||Waterlogging से anaerobic अवस्था बनती है और Fe का reduction होकर grey-blue-green रंग आता है।
+"Glei" शब्द किस भाषा का है?||Greek||Latin||Russian||German||C||Glei रूसी शब्द है जिसका अर्थ नीली-धूसर-हरी चिकनी मिट्टी है।
+चट्टानों पर उगने वाले पौधे क्या कहलाते हैं?||Hydrophytes||Lithophytes / Petrophytes||Halophytes||Xerophytes||B||चट्टानों पर उगने वाले पौधे lithophytes या petrophytes कहलाते हैं।
+मृदा में fungi किस pH range में सबसे अधिक सक्रिय रहते हैं?||4.5 - 6.5||6.5 - 8.0||7.5 - 9.0||8.5 - 10||A||Fungi अम्लीय pH (4.5 - 6.5), bacteria 5.5 - 7.5 और actinomycetes 6 - 8 pH पर सक्रिय।
+अमरूद का Meadow orchard system किस संस्थान ने विकसित किया?||IIHR बेंगलुरु||CISH लखनऊ||IARI नई दिल्ली||NRC Litchi||B||Meadow orchard system CISH, लखनऊ ने विकसित किया।
+Meadow orchard (2 × 1 m) में अमरूद के प्रति हेक्टेयर कितने पौधे लगते हैं?||277||1,111||5,000||20,000||C||2 m × 1 m spacing पर 5,000 पौधे/ha; सामान्य 6 × 6 m पर 277 पौधे।
+Bacillus thuringiensis (Bt) कौन सा विष (toxin) बनाता है?||Exotoxin||δ-endotoxin (Cry protein)||Aflatoxin||Mycotoxin||B||Bt crystal δ-endotoxin (Cry protein) बनाता है जो कीटों की आंत को नष्ट करता है।
+CHAMAN योजना किस केंद्र द्वारा लागू की गई?||NRSC||Mahalanobis National Crop Forecast Centre||IMD||NHB||B||CHAMAN (Geoinformatics से बागवानी आकलन) MNCFC द्वारा लागू, 100% केंद्रीय योजना।
+Horticulture Cluster Development Programme (HCDP) कब शुरू हुआ?||31 May 2021||1 April 2016||April 1984||15 Aug 2019||A||HCDP 31 May 2021 को शुरू हुआ (100% केंद्र प्रायोजित)।
+National Horticulture Board (NHB) की स्थापना कब हुई?||April 1984||1965||2005||1990||A||NHB अप्रैल 1984 में स्थापित हुआ।
+चना (chickpea) का chromosome number (2n) क्या है?||14||16||22||24||B||चना 2n = 16; अन्य रबी दलहन (मटर, मसूर) 14 और खरीफ दलहन 22।
+मानव द्वारा बनाया गया पहला अनाज (man-made cereal) कौन सा है?||Triticale||Raphanobrassica||Pomato||Tritordeum||A||Triticale (गेहूं × राई) पहला man-made cereal है; Rimpau ने 1888 में पहला fertile triticale बनाया।
+Hexaploid triticale का genome क्या है?||AABBDD||AABBRR||AABBDDRR||AARR||B||Hexaploid triticale = AABBRR (durum × rye); octaploid = AABBDDRR।
+आम की किस्म Arka Suprabhat किस संकरण से बनी?||Amrapali × Arka Anmol||Neelum × Alphonso||Dashehari × Neelum||Banganpalli × Alphonso||A||Arka Suprabhat = Amrapali × Arka Anmol।
+Thornthwaite moisture index के अनुसार Arid climate का moisture index क्या है?||> 100||0 से +20||-33.3 से 0||< -66.7||D||MI < -66.7 arid, -66.7 से -33.3 semi-arid, -33.3 से 0 dry sub-humid, 0 से 20 moist sub-humid, 20 से 100 humid, ≥ 100 per-humid।
+पहले commercial biofertilizer 'Nitragin' में किस जीवाणु का culture था?||Azotobacter||Rhizobium||Azospirillum||PSB||B||Nitragin पहला commercial biofertilizer था जिसमें Rhizobium का culture था।

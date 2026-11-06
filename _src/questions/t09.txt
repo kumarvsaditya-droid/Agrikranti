@@ -1,0 +1,51 @@
+TITLE|Test 9 - Media, Breeding Terms, Seed Tests, Soil Minerals, Clays, Animal Husbandry, Extension
+भारत का पहला कृषि टीवी कार्यक्रम "कृषि दर्शन" कब शुरू हुआ?||26 January 1967||15 Sep 1959||26 May 2015||1 Feb 2004||A||कृषि दर्शन 26 जनवरी 1967 को दूरदर्शन पर शुरू हुआ।
+DD Kisan चैनल कब शुरू हुआ?||26 May 2015||26 Jan 1967||2004||2019||A||DD Kisan 26 मई 2015 को शुरू हुआ।
+ऑल इंडिया रेडियो का "किसानवाणी" कार्यक्रम कब शुरू हुआ?||फरवरी 2004||1966||1936||2015||A||किसानवाणी फरवरी 2004 में शुरू हुआ।
+भारत में पहला रेडियो प्रसारण (1923) किसने किया?||Indian Broadcasting Company||Radio Club of Bombay||All India Radio||Doordarshan||B||1923 में Radio Club of Bombay ने पहला प्रसारण किया; IBC 1927 में बनी।
+Indian State Broadcasting Service (ISBS) का नाम All India Radio कब हुआ?||1927||8 June 1936||1947||1956||B||8 जून 1936 को ISBS का नाम AIR हुआ; 1956 में आकाशवाणी नाम अपनाया गया।
+Clone के एक सदस्य को क्या कहते हैं?||Ramet||Genet||Somaclone||Ortet||A||Clone का एक व्यक्तिगत सदस्य ramet कहलाता है।
+Pure line की आनुवंशिक संरचना कैसी होती है?||Heterozygous और heterogeneous||Homozygous और homogeneous||Heterozygous और homogeneous||Homozygous और heterogeneous||B||Pure line = homozygous और homogeneous।
+F1 hybrid की आनुवंशिक संरचना कैसी होती है?||Homozygous और homogeneous||Heterozygous और homogeneous||Heterozygous और heterogeneous||Homozygous और heterogeneous||B||F1 hybrid के सभी पौधे heterozygous पर एक जैसे (homogeneous) होते हैं।
+Multiline variety की आनुवंशिक संरचना कैसी होती है?||Homozygous और heterogeneous||Heterozygous और homogeneous||Homozygous और homogeneous||Heterozygous और heterogeneous||A||Multiline अनेक isolines का मिश्रण है: homozygous लेकिन heterogeneous।
+Synthetic और composite किस्में कैसी होती हैं?||Homozygous, homogeneous||Heterozygous, heterogeneous||Homozygous, heterogeneous||Heterozygous, homogeneous||B||Synthetic, composite और mass selection की किस्में heterozygous और heterogeneous होती हैं।
+बीज पानी किस प्रक्रिया से सोखता है?||Osmosis||Imbibition||Diffusion||Transpiration||B||सूखे बीज imbibition से पानी सोखते हैं।
+अम्लीय मृदा के संकेतक (indicator) खरपतवार कौन से हैं?||Rumex acetosella और Spergula arvensis||Argemone mexicana||Cynodon dactylon||Parthenium||A||Sheep sorrel (Rumex acetosella) और Spergula arvensis अम्लीय मृदा के संकेतक हैं।
+बौने गेहूं (Rht1, Rht2) का स्रोत Norin-10 किसने विकसित की?||Gonjiro Inazuka (1935)||Norman Borlaug||Orville Vogel||M.S. Swaminathan||A||जापान के Gonjiro Inazuka ने 1935 में Norin-10 विकसित की।
+World Trade Organization (WTO) कब बना?||1 Jan 1995||16 Oct 1945||23 Mar 1950||7 Apr 1948||A||WTO 1 जनवरी 1995 को बना; FAO 1945, WMO 1950, WHO 1948।
+FAO का मुख्यालय कहाँ है?||जिनेवा||रोम||न्यूयॉर्क||पेरिस||B||FAO (16 Oct 1945) का मुख्यालय रोम, इटली में है।
+FSSAI लाइसेंस नंबर कितने अंकों का होता है?||10||12||14||16||C||FSSAI license नंबर 14 अंकों का होता है।
+National Food Security Act कब लागू हुआ?||2007||10 September 2013||2006||2016||B||NFSA 10 सितंबर 2013 को लागू हुआ; NFSM 2007 में शुरू हुआ।
+पौधों में virus का पता लगाने के लिए कौन सा परीक्षण उपयोग होता है?||Tetrazolium test||ELISA||Germination test||Ferric chloride test||B||ELISA (serological test) से virus का पता लगाया जाता है।
+Tetrazolium (TZ) test में जीवित बीज का रंग कैसा हो जाता है?||नीला||गुलाबी / लाल||हरा||काला||B||Dehydrogenase enzyme रंगहीन TZ को लाल formazan में बदलता है, इसलिए जीवित ऊतक गुलाबी/लाल होता है।
+Tetrazolium test किसने विकसित किया?||Georg Lakon (जर्मनी)||Ellis||Roberts||Harrington||A||Georg Lakon (1940s) ने topographical tetrazolium test विकसित किया।
+Seed viability equation किसने दी?||Roberts (और Ellis)||Lakon||Harrington||Delouche||A||Seed viability equation E.H. Roberts (Ellis और Roberts) ने दी।
+Castor (अरंडी) के बीज में कौन सा विषैला पदार्थ होता है?||Linamarin||Ricin||Gossypol||Solanine||B||अरंडी में ricin; अलसी में linamarin (cyanogenic glucoside)।
+PPVFR Act के अनुसार पेड़ों और बेलों (trees and vines) की किस्म का protection कितने वर्ष का होता है?||10 वर्ष||15 वर्ष||18 वर्ष||20 वर्ष||C||Trees और vines के लिए 18 वर्ष, अन्य फसलों के लिए 15 वर्ष।
+Malt quality के लिए प्रसिद्ध ऑस्ट्रेलियाई जौ (barley) किस्म कौन सी है?||Clipper||Jyoti||Ratna||Karan||A||Clipper ऑस्ट्रेलिया की malt quality जौ किस्म है।
+सोयाबीन में protein लगभग कितना होता है?||20%||40 - 42%||10%||60%||B||सोयाबीन में लगभग 40 - 42% protein होता है, जो दलहन-तिलहन में सबसे अधिक है।
+Hydrolytic acidity (total acidity) निकालने की विधि किसने दी?||Kappen||Bray||Olsen||Jackson||A||Kappen की विधि से hydrolytic acidity निकाली जाती है।
+Indian Institute of Maize Research (IIMR) कहाँ स्थित है?||हैदराबाद||लुधियाना||करनाल||कोयम्बटूर||B||ICAR-IIMR लुधियाना, पंजाब में है।
+Directorate of Weed Research (DWR) कहाँ है?||जबलपुर||भोपाल||रायपुर||धारवाड़||A||ICAR-DWR जबलपुर, मध्य प्रदेश में है।
+Indian Institute of Farming Systems Research (IIFSR) कहाँ है?||मोदीपुरम (मेरठ, UP)||लखनऊ||वाराणसी||झांसी||A||IIFSR मोदीपुरम, उत्तर प्रदेश में है।
+Indian Institute of Soil Science (IISS), भोपाल की स्थापना कब हुई?||16 April 1988||1976||1929||2005||A||IISS 16 अप्रैल 1988 को भोपाल में स्थापित हुआ।
+NBPGR और NBSS&LUP दोनों की स्थापना किस वर्ष हुई?||1976||1988||1965||1996||A||NBPGR (नई दिल्ली) और NBSS&LUP (नागपुर) दोनों 1976 में बने।
+दुनिया का सबसे महंगा मशरूम कौन सा है (हिमालय में मिलता है)?||Button||Gucchi (Morchella)||Oyster||Milky||B||गुच्छी (Morchella) सबसे महंगा मशरूम है।
+अपक्षय (weathering) के प्रति सबसे अधिक प्रतिरोधी खनिज कौन सा है?||Olivine||Quartz||Calcite||Biotite||B||Quartz सबसे प्रतिरोधी; olivine, augite, hornblende, calcite आसानी से अपक्षयित होते हैं।
+Apatite खनिज किस पोषक तत्व का स्रोत है?||K||P||Ca||Mg||B||Apatite फॉस्फोरस का मुख्य खनिज स्रोत है।
+Tourmaline खनिज किस पोषक तत्व का स्रोत है?||Zn||B (Boron)||Mn||Cu||B||Tourmaline बोरॉन का स्रोत है।
+Sphalerite खनिज किस तत्व का स्रोत है?||Zn||Mn||Fe||Cu||A||Sphalerite (ZnS) जिंक का स्रोत है; pyrolusite Mn का।
+अम्लीय मृदा में किन तत्वों की विषाक्तता (toxicity) होती है?||Ca और Mg||Al, Fe और Mn||Na और Mo||N और P||B||अम्लीय मृदा में Al, Fe, Mn विषाक्त और Ca, Mg, P, Mo की कमी होती है।
+Granite और Rhyolite किस प्रकार की चट्टानें हैं (silica के आधार पर)?||Basic||Acid (> 65% SiO2)||Intermediate||Ultrabasic||B||Acid rocks में 65% से अधिक silica होता है।
+Basalt और Gabbro किस प्रकार की चट्टानें हैं?||Acid||Intermediate||Basic||Sedimentary||C||Basalt और gabbro basic चट्टानें हैं (silica लगभग 40 - 55%)।
+Limestone के रूपांतरण से कौन सी metamorphic चट्टान बनती है?||Quartzite||Marble||Slate||Gneiss||B||Limestone → marble, sandstone → quartzite, shale → slate।
+जलभराव वाली (reduced) मृदा का रंग कैसा होता है?||लाल||धूसर / नीला-हरा (gley)||पीला||काला||B||Reduced Fe के कारण gley मृदा धूसर-नीली-हरी होती है।
+Flash card विधि से एक प्रस्तुति (talk) में लगभग कितने flash cards उपयोग किए जाते हैं?||2 - 3||10 - 12||25 - 30||50||B||Notes के अनुसार लगभग 10 - 12 flash cards उपयोग किए जाते हैं।
+किस clay mineral का specific surface area सबसे अधिक होता है?||Kaolinite||Montmorillonite||Illite||Chlorite||B||Humus के बाद montmorillonite (700 - 800 m2/g) का SSA सबसे अधिक; kaolinite का सबसे कम।
+Vermiculite का CEC लगभग कितना होता है?||3 - 15 cmol/kg||15 - 40 cmol/kg||100 - 160 cmol/kg||500 cmol/kg||C||Vermiculite का CEC 100 - 160 cmol/kg, montmorillonite 80 - 120 और kaolinite 3 - 15।
+Permanent wilting point की अवधारणा किसने दी?||Briggs और Shantz (1912)||Veihmeyer और Hendrickson||Richards||Bouyoucos||A||Briggs और Shantz ने 1912 में wilting coefficient / PWP दिया।
+Redox potential (Eh) किस इलेक्ट्रोड से मापा जाता है?||Glass electrode||Platinum electrode||Calomel only||Copper electrode||B||Eh platinum electrode से millivolts में मापा जाता है; positive मान ऑक्सीकृत और negative अपचयित अवस्था दर्शाता है।
+भारत में पहला कृत्रिम गर्भाधान (AI) कब और कहाँ हुआ?||1939, पैलेस डेयरी फार्म, मैसूर||1950, करनाल||1965, आनंद||1928, पूसा||A||1939 में मैसूर में डॉ. सम्पत कुमारन ने पहला AI किया।
+Semen को लंबे समय तक संरक्षित करने के लिए liquid nitrogen का तापमान कितना होता है?||-79°C||-196°C||-20°C||-269°C||B||Liquid N2 = -196°C (-320°F); dry ice लगभग -79°C।
+मुर्गियों में perosis रोग किस तत्व की कमी से होता है?||Mg||Mn (मैंगनीज)||Zn||Ca||B||Perosis (slipped tendon) Mn (और choline) की कमी से होता है।
+भैंस की मुर्रा नस्ल में पहली बार ब्याने की उम्र (age at first calving) लगभग कितनी होती है?||12 - 18 माह||24 माह||42 - 48 माह||72 माह||C||Notes के अनुसार मुर्रा भैंस में पहली बार ब्याने की उम्र लगभग 42 - 48 माह होती है।

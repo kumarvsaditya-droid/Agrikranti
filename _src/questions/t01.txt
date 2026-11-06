@@ -1,0 +1,51 @@
+TITLE|Test 1 - Biofertilizer, IMD, Irrigation, Pollination, PGR, Millets, Disorders
+FCO के अनुसार Rhizobium biofertilizer (carrier based) में न्यूनतम viable cell count कितना होना चाहिए?||1 × 10^6 cells/g||5 × 10^7 cells/g||1 × 10^9 cells/g||5 × 10^5 cells/g||B||FCO 1985 के अनुसार carrier based Rhizobium में न्यूनतम 5 × 10^7 CFU/g और liquid में 1 × 10^8 cells/ml होना चाहिए।
+Fertilizer Control Order (FCO) पहली बार किस वर्ष आया था?||1955||1957||1985||1983||B||FCO पहली बार 1957 में आया और 1985 में संशोधित (नया) FCO लागू हुआ। ECA 1955 और Seed Control Order 1983 का है।
+Rhizobium biofertilizer का standard pH range क्या है?||5.5 - 6.5||6.5 - 7.5||7.5 - 8.5||4.5 - 5.5||B||FCO standard के अनुसार Rhizobium carrier का pH 6.5 - 7.5 होना चाहिए।
+Carrier based biofertilizer में moisture प्रतिशत कितना निर्धारित है?||10 - 20%||20 - 25%||30 - 40%||50 - 60%||C||Carrier based biofertilizer में moisture 30 - 40% होनी चाहिए ताकि जीवाणु जीवित रहें।
+10 kg बीज के उपचार के लिए biofertilizer की कितनी मात्रा (packet) प्रयोग होती है?||50 g||100 g||200 g||500 g||C||एक packet 200 g का होता है जो 10 kg बीज के लिए पर्याप्त है, यानी 1 kg बीज के लिए 20 g।
+Soil treatment के लिए 1 hectare में biofertilizer के कितने packet डाले जाते हैं?||2 packet||5 packet||10 packet (2 kg)||20 packet||C||Soil application में 1 hectare के लिए 10 packet यानी 2 kg biofertilizer की सिफारिश है।
+India Meteorological Department (IMD) की स्थापना 1875 में कहाँ हुई थी?||Shimla||Pune||Kolkata||New Delhi||C||IMD 1875 में Kolkata में बना, फिर 1905 Shimla, 1928 Pune और 1944 से New Delhi मुख्यालय है।
+IMD का मुख्यालय वर्तमान में कहाँ है?||Pune||Kolkata||New Delhi||Noida||C||1944 से IMD का मुख्यालय New Delhi में है। Central Meteorological Laboratory और agromet division Pune में हैं।
+Indian Institute of Tropical Meteorology (IITM) की स्थापना कब हुई?||17 Nov 1962||15 Aug 1947||1 Apr 1975||26 Jan 1950||A||IITM, Pune की स्थापना 17 नवंबर 1962 को हुई थी।
+IMD ने Agromet Advisory Services (AAS) राज्य स्तर पर कब शुरू की?||1945||1977||2008||2012||B||AAS जुलाई 1977 में (Madras से) शुरू हुई; 2008 में district level IAAS और बाद में GKMS बनी।
+Farmers' Weather Bulletin किस वर्ष से प्रसारित होना शुरू हुआ?||1932||1945||1962||1977||B||Farmers' Weather Bulletin 1945 से जारी होना शुरू हुआ।
+GKMS (Gramin Krishi Mausam Seva) किन संस्थाओं के सहयोग से चलती है?||NABARD, SFAC, IMD||ICAR, KVK, IMD||ISRO, IMD, FCI||NHB, ICAR, NAFED||B||GKMS में IMD मौसम पूर्वानुमान देता है और ICAR/SAU/KVK के District Agro-Met Units किसानों तक सलाह पहुँचाते हैं।
+किसानों को मौसम आधारित कृषि सलाह देने वाला मोबाइल ऐप कौन सा है?||Kisan Suvidha||Meghdoot||Mausam Mitra||Krishi Darpan||B||Meghdoot मोबाइल ऐप (2019) से किसानों को मौसम और फसल सलाह मिलती है।
+Culturable Command Area (CCA) के आधार पर Major irrigation project का CCA कितना होता है?||> 2,000 ha||> 5,000 ha||> 10,000 ha||> 50,000 ha||C||Major > 10,000 ha, Medium 2,000 - 10,000 ha और Minor < 2,000 ha CCA।
+PMKSY का "Per Drop More Crop" घटक किस मंत्रालय के अधीन है?||जल शक्ति मंत्रालय||कृषि एवं किसान कल्याण मंत्रालय||ग्रामीण विकास मंत्रालय||पर्यावरण मंत्रालय||B||PDMC कृषि एवं किसान कल्याण मंत्रालय का है; AIBP और HKKP जल शक्ति मंत्रालय के, WDC भूमि संसाधन विभाग का।
+PMKSY कब शुरू की गई थी?||1 July 2015||1 April 2016||15 Aug 2014||2 Oct 2019||A||प्रधानमंत्री कृषि सिंचाई योजना 1 July 2015 को शुरू हुई; अभी PMKSY 2.0 (2021-26) चल रहा है।
+PMKSY में सामान्य राज्यों के लिए केंद्र : राज्य funding ratio क्या है?||50 : 50||60 : 40||75 : 25||90 : 10||B||सामान्य राज्यों में 60 : 40 और North-East / हिमालयी (विशेष) राज्यों में 90 : 10।
+गेंदा (Marigold) की जड़ से निकलने वाला कौन सा रसायन root knot nematode को नियंत्रित करता है?||Nicotine||Alpha-terthienyl||Azadirachtin||Pyrethrin||B||Marigold की जड़ें alpha-terthienyl छोड़ती हैं जो nematicidal है।
+American bollworm के लिए repellent crop के रूप में क्या लगाते हैं?||भिंडी||लहसुन||लोबिया||सरसों||B||ABW के लिए गेंदा, अरंडी आदि trap crop और लहसुन repellent crop के रूप में लगाया जाता है।
+Spotted bollworm (Earias) के लिए trap crop कौन सी है?||भिंडी||अरंडी||गेंदा||मक्का||A||Spotted bollworm के लिए भिंडी trap crop है और लोबिया intercrop के रूप में लगाते हैं।
+मृदा में H, Al और Fe की विषाक्तता (toxicity) को कौन सा तत्व कम करता है?||Na||K||Ca||S||C||Ca (चूना) अम्लीय cations H, Al, Fe की विषाक्तता घटाता है।
+Saline soil में मुख्यतः कौन से लवण अधिक होते हैं?||Na2CO3 और NaHCO3||Na, Ca, Mg के Chloride और Sulphate||CaCO3 और MgCO3||Fe और Al के oxides||B||Saline soil में Na, Ca, Mg के घुलनशील chloride और sulphate अधिक होते हैं; Na2CO3 alkali (sodic) soil की पहचान है।
+Alkali (sodic) soil सुधार में gypsum डालने पर क्या होता है?||Ca की जगह Na आ जाता है||Clay complex पर Na की जगह Ca आ जाता है||pH बढ़ जाता है||Organic matter बढ़ता है||B||Gypsum का Ca exchange site से Na को हटाता है और Na2SO4 बनकर leaching से निकल जाता है।
+"Response Farming" की अवधारणा किसने दी?||Stewart (1988)||Hans Jenny||S.S. Baines||Haberlandt||A||Response Farming का concept J.I. Stewart (1988) ने दिया।
+Often cross pollinated फसलों में cross pollination का प्रतिशत कितना होता है?||< 5%||5 - 30%||30 - 50%||> 50%||B||Self < 5%, often cross 5 - 30% और cross pollinated > 30%।
+निम्न में से कौन सी फसल often cross pollinated है?||गेहूं||अरहर (Red gram)||चना||मटर||B||अरहर, ज्वार, कपास, भिंडी, बैंगन often cross pollinated हैं; अधिकांश दलहन self pollinated हैं।
+निम्न में से कौन सी फसल हवा (wind) द्वारा परागित होती है?||बरसीम||मक्का||सूरजमुखी||सरसों||B||मक्का, बाजरा, गन्ना, अरंडी wind pollinated हैं; बरसीम और lucerne bee pollinated हैं।
+E horizon को और किस नाम से जाना जाता है?||Argillic horizon||Albic horizon||Spodic horizon||Mollic horizon||B||E horizon (eluviation zone) albic horizon कहलाता है।
+e-NAM पोर्टल कब शुरू हुआ?||14 April 2016||1 July 2015||9 Sept 2003||26 Jan 2018||A||e-NAM 14 April 2016 को शुरू हुआ; इसे लागू करने की जिम्मेदारी SFAC की है।
+e-NAM को लागू करने वाली lead agency कौन सी है?||NAFED||FCI||SFAC||NABARD||C||Small Farmers Agribusiness Consortium (SFAC) e-NAM की lead implementing agency है।
+Model APMC Act (State Agricultural Produce Marketing (D&R) Act) कब आया?||2003||2016||2017||2020||A||Model APMC Act 2003 में आया; बाद में Model APLM Act 2017 आया।
+Auxin की खोज का प्रारंभिक प्रयोग किसने (1880) किया?||F.W. Went||Charles Darwin और Francis Darwin||Kogl और Haagen Smit||Skoog और Miller||B||1880 में Darwin पिता-पुत्र ने coleoptile पर phototropism प्रयोग किए; Went ने 1928 में auxin अलग किया।
+Auxin को Avena coleoptile से पहली बार किसने अलग (isolate) किया?||F.W. Went (1928)||Letham (1963)||Haberlandt (1902)||Kurosawa (1926)||A||F.W. Went ने 1928 में Avena coleoptile से auxin अलग किया।
+Auxin पौधे में किस दिशा में गति (movement) करता है?||Acropetal||Basipetal||Lateral only||Random||B||Auxin का polar transport basipetal (ऊपर से नीचे) होता है; cytokinin xylem से acropetal जाता है।
+Kinetin (cytokinin) की खोज किसने की?||Skoog और Miller||F.W. Went||Kogl||Letham||A||Miller और Skoog ने 1955 में tobacco pith culture पर kinetin खोजा; "cytokinin" नाम Letham (1963) ने दिया।
+Totipotency की अवधारणा किसने दी?||Haberlandt (1902)||Skoog||Steward||Morel||A||Gottlieb Haberlandt ने 1902 में totipotency का विचार दिया।
+बाजरा (Pearl millet) का chromosome number (2n) क्या है?||14||20||36||54||A||बाजरा 2n = 14; ज्वार 20, रागी 36, सांवा 54।
+Barnyard millet (सांवा/झंगोरा) का वैज्ञानिक नाम क्या है?||Setaria italica||Echinochloa frumentacea||Paspalum scrobiculatum||Panicum miliaceum||B||Barnyard millet = Echinochloa frumentacea (2n = 54)।
+Kodo millet का वैज्ञानिक नाम क्या है?||Paspalum scrobiculatum||Panicum sumatrense||Eleusine coracana||Brachiaria ramosa||A||Kodo millet = Paspalum scrobiculatum (2n = 40)।
+कुट्टू (Buckwheat) किस genus से संबंधित है?||Fagopyrum||Coix||Digitaria||Setaria||A||Buckwheat = Fagopyrum esculentum और F. tataricum।
+Foxtail millet (कंगनी/काकुन) का वैज्ञानिक नाम क्या है?||Setaria italica||Panicum miliaceum||Echinochloa esculenta||Eleusine coracana||A||Foxtail millet = Setaria italica (2n = 18)।
+आम में Black tip disorder किस कारण होता है?||Boron की कमी||ईंट भट्टे की गैसें (SO2, CO, ethylene)||Fungus||अधिक सिंचाई||B||Black tip ईंट भट्टों से निकलने वाली SO2, CO और ethylene जैसी गैसों से होता है।
+सेब (Apple) में Bitter pit किस पोषक तत्व की कमी से होता है?||Boron||Calcium||Zinc||Iron||B||Bitter pit Ca की कमी से होने वाला physiological disorder है।
+आंवला में internal necrosis (काला धब्बा) किस तत्व की कमी से होता है?||Boron||Calcium||Mn||Mo||A||आंवला का internal necrosis बोरॉन की कमी से होता है।
+Citrus में फल फटना मुख्यतः किस कारण से होता है?||Boron की कमी||Water imbalance (नमी का असंतुलन)||Zinc की अधिकता||Virus||B||Citrus में fruit cracking मिट्टी की नमी के असंतुलन से होता है।
+लीची में फल फटने (fruit cracking) के कारण हैं?||N की अधिकता||B और Ca की कमी तथा अधिक तापमान||Fe की कमी||Viral संक्रमण||B||लीची में B, Ca की कमी और गर्म शुष्क हवा से fruit cracking होता है।
+पोषक तत्वों का Critical level (critical range) की विधि किसने दी?||Cate और Nelson||Liebig||Mitscherlich||Bray||A||Cate और Nelson ने critical level निकालने की graphical विधि दी।
+Little millet (कुटकी) का वैज्ञानिक नाम क्या है?||Panicum sumatrense||Panicum miliaceum||Paspalum scrobiculatum||Coix lacryma-jobi||A||Little millet = Panicum sumatrense (2n = 36); Proso millet = Panicum miliaceum।
+Job's tears millet का वैज्ञानिक नाम क्या है?||Coix lacryma-jobi||Digitaria cruciata||Brachiaria ramosa||Echinochloa esculenta||A||Job's tears = Coix lacryma-jobi।
+PMKSY 2.0 में Watershed Development Component का नया घटक क्या है?||Drip irrigation||झरनों का कायाकल्प (Springshed development)||Canal lining||Solar pump||B||WDC-PMKSY 2.0 में springshed development (झरनों का कायाकल्प) नई गतिविधि है।

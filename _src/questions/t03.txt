@@ -1,0 +1,51 @@
+TITLE|Test 3 - Soil Particles, Marketing Surplus, Water Requirement, Minerals, Fats, Parasites
+ISSS (अब IUSS) प्रणाली के अनुसार clay कणों का आकार क्या है?||< 0.002 mm||0.002 - 0.02 mm||0.02 - 0.2 mm||0.2 - 2.0 mm||A||Clay < 0.002 mm (< 2 µm), silt 0.002 - 0.02 mm, fine sand 0.02 - 0.2 mm, coarse sand 0.2 - 2 mm।
+ISSS प्रणाली में silt का आकार कितना है?||< 0.002 mm||0.002 - 0.02 mm||0.02 - 0.2 mm||2 - 4 mm||B||ISSS के अनुसार silt 0.002 - 0.02 mm।
+International Society of Soil Science (ISSS) का नाम IUSS कब हुआ?||1924||1998||1975||2002||B||ISSS 1924 में बनी और 1998 में इसका नाम IUSS हुआ।
+4 - 64 mm आकार के चट्टानी टुकड़े क्या कहलाते हैं?||Gravel||Pebble||Cobble||Boulder||B||2 - 4 mm gravel, 4 - 64 mm pebble, 64 - 256 mm cobble और > 256 mm boulder।
+Soil colour chart (colour notation) किसने दिया?||Munsell||Jenny||Dokuchaev||Marbut||A||A.H. Munsell का colour system (hue, value, chroma) मृदा रंग के लिए उपयोग होता है।
+Self incompatibility को पहली बार किसने रिपोर्ट किया?||Koelreuter||Stout||Bateman||Mendel||A||Koelreuter ने 18वीं सदी में Verbascum phoeniceum में self incompatibility देखी।
+Sporophytic self incompatibility किस कुल में पाई जाती है?||Solanaceae||Brassicaceae||Rosaceae||Poaceae||B||Sporophytic SI Brassicaceae (और Asteraceae) में; gametophytic SI Solanaceae, Rosaceae में।
+Gametophytic self incompatibility किस पर निर्भर करती है?||मातृ पौधे के जीन||Pollen (gametophyte) के अपने जीन||Cytoplasm||पर्यावरण||B||Gametophytic SI में pollen का अपना S-allele उसकी compatibility तय करता है।
+मृदा में सबसे अधिक संख्या में कौन से सूक्ष्मजीव पाए जाते हैं?||Fungi||Bacteria||Actinomycetes||Protozoa||B||संख्या में bacteria > actinomycetes > fungi > protozoa।
+1 ग्राम उपजाऊ मृदा में bacteria की संख्या लगभग कितनी होती है?||10^2 - 10^3||10^4 - 10^5||10^8 - 10^10||10^15||C||1 g मृदा में लगभग 10^8 से 10^10 bacteria होते हैं।
+Marginal और small किसानों में marketed surplus, marketable surplus से अधिक क्यों होता है?||अधिक उत्पादन के कारण||Distress sale (मजबूरी में बिक्री) के कारण||भंडारण सुविधा के कारण||सरकारी खरीद के कारण||B||छोटे किसान नकदी की जरूरत में अपने उपभोग का हिस्सा भी बेच देते हैं, इसलिए marketed > marketable surplus।
+Large farmer के लिए marketed और marketable surplus का संबंध क्या होता है?||Marketed > Marketable||Marketed < Marketable||दोनों बराबर||कोई संबंध नहीं||B||बड़े किसान अच्छे दाम के लिए stock रोकते हैं, इसलिए marketed < marketable surplus।
+Day neutral पौधे क्या कहलाते हैं?||Photo-sensitive||Photo-insensitive||Thermo-insensitive||Short day plants||B||Day neutral पौधों पर दिन की लंबाई का असर नहीं होता, यानी photo-insensitive।
+जायद (गर्मी) मौसम में भिंडी की बीज दर कितनी होती है?||2.5 kg/ha||8 - 10 kg/ha||18 - 20 kg/ha||40 kg/ha||C||जायद में 18 - 20 kg/ha, खरीफ में 8 - 10 kg/ha।
+भिंडी की तुड़ाई फूल आने के कितने दिन बाद करनी चाहिए?||2 - 3 दिन||6 - 7 दिन||12 - 15 दिन||20 दिन||B||फूल आने के 6 - 7 दिन बाद 6 - 8 cm लंबी कोमल फलियाँ तोड़ना उत्तम है।
+Consumptive Use (CU) में मुख्य घटक क्या हैं?||Evaporation + Transpiration + metabolic water||केवल Runoff||Deep percolation||Seepage loss||A||CU = E + T + WP (पौधे के metabolism में उपयोग जल, < 1%); इसलिए CU ≈ ET।
+Water requirement का supply आधारित सूत्र क्या है?||WR = IR + ER + S||WR = ET - ER||WR = CU × 2||WR = E + R||A||WR = IR (सिंचाई) + ER (प्रभावी वर्षा) + S (मृदा प्रोफाइल से मिला जल)।
+निम्न में से किस सिंचाई विधि की application efficiency सबसे अधिक है?||Flood||Check basin||Border||Drip||D||Drip ~90%, sprinkler ~80%, border 50 - 60%, check basin 40 - 50%, flood 30 - 40%।
+Flood irrigation की application efficiency लगभग कितनी होती है?||30 - 40%||60 - 70%||80%||90%||A||Flood (अनियंत्रित) सिंचाई में efficiency केवल 30 - 40% होती है।
+पृथ्वी की पपड़ी (crust) में सबसे अधिक पाया जाने वाला खनिज समूह कौन सा है?||Quartz||Feldspar||Mica||Amphibole||B||Feldspar (plagioclase 39% + alkali feldspar 12%) सबसे अधिक, फिर quartz 12%।
+Earth's crust में quartz का प्रतिशत लगभग कितना है?||39%||12%||5%||25%||B||Quartz लगभग 12% के साथ दूसरे स्थान पर है।
+Clay minerals किस प्रकार के खनिज हैं?||Primary minerals||Secondary minerals||Non-silicates||Organic minerals||B||Clay minerals primary खनिजों के अपक्षय से बनने वाले secondary minerals हैं।
+निम्न में से किस तेल में saturated fat सबसे अधिक होता है?||सूरजमुखी||नारियल तेल||कुसुम||सोयाबीन||B||नारियल तेल और पशु वसा saturated fat से भरपूर होते हैं।
+कुसुम (safflower) तेल में linoleic acid (PUFA) लगभग कितना होता है?||25%||40%||55%||78%||D||कुसुम ~78%, सूरजमुखी ~68%, सोयाबीन ~55% linoleic acid।
+Indian mustard तेल में erucic acid लगभग कितना होता है?||< 2%||10%||44%||80%||C||सामान्य सरसों तेल में erucic acid लगभग 40 - 50% (औसत 44%) होता है।
+Canola quality सरसों में erucic acid कितना होना चाहिए?||< 2%||< 10%||< 20%||< 40%||A||Canola standard: erucic acid < 2% और glucosinolates < 30 µmol/g।
+भारत की पहली double zero (canola quality) सरसों किस्म कौन सी है?||Pusa Bold||Pusa Double Zero Mustard 31 (PDZ-31)||Varuna||Kranti||B||PDZ-31 (IARI) में erucic acid और glucosinolate दोनों कम हैं।
+Omega-3 fatty acid (alpha linolenic acid) का अच्छा स्रोत कौन सा है?||नारियल||अलसी (Linseed)||मूंगफली||ताड़ तेल||B||अलसी, अखरोट और मछली (टूना, सालमोन) omega-3 के अच्छे स्रोत हैं।
+Monopsony बाजार में क्या होता है?||एक विक्रेता, अनेक क्रेता||एक क्रेता, अनेक विक्रेता||कुछ विक्रेता||कुछ क्रेता||B||Monopsony = एक खरीदार और कई विक्रेता; Monopoly = एक विक्रेता।
+Oligopoly बाजार की पहचान क्या है?||अनेक विक्रेता||कुछ (few) विक्रेता||एक विक्रेता||एक क्रेता||B||Oligopoly में कुछ ही विक्रेता होते हैं।
+Phytoplasma (mycoplasma) जनित रोग मुख्यतः किस कीट से फैलते हैं?||Aphid||Leaf hopper||Thrips||Mite||B||अधिकांश phytoplasma रोग leaf hopper से फैलते हैं, जैसे तिल का phyllody।
+तिल के phyllody रोग का रोगकारक कौन सा है?||Virus||Phytoplasma||Fungus||Bacteria||B||तिल phyllody phytoplasma से होता है और leaf hopper (Orosius albicinctus) फैलाता है।
+Ratoon फसल किसे कहते हैं?||बीज से उगाई फसल||कटाई के बाद ठूंठ (stubble) से पुनः उगी फसल||मिश्रित फसल||रिले फसल||B||कटाई के बाद जड़ों/ठूंठ से दोबारा उगने वाली फसल ratoon है, जैसे गन्ना, केला, अनानास।
+Adsali गन्ना कब लगाया जाता है और फसल अवधि कितनी होती है?||Jan - Feb, 12 माह||July - Aug, 16 - 18 माह||Oct - Nov, 14 - 15 माह||Feb - Mar, 10 माह||B||Adsali (मुख्यतः महाराष्ट्र) July - Aug में लगता है और 16 - 18 माह की फसल है।
+Pre-seasonal गन्ना कब लगाया जाता है?||July - Aug||Oct - Nov||Jan - Feb||April - May||B||Pre-seasonal Oct - Nov में लगाते हैं, अवधि 14 - 15 माह।
+Orobanche (broomrape) किस प्रकार का परजीवी है?||Total (holo) root parasite||Partial root parasite||Total stem parasite||Partial stem parasite||A||Orobanche पूर्ण जड़ परजीवी है जो सरसों, तम्बाकू, टमाटर पर लगता है।
+Striga (witchweed) किस प्रकार का परजीवी है?||Total root parasite||Partial (semi) root parasite||Total stem parasite||Partial stem parasite||B||Striga आंशिक जड़ परजीवी है जो ज्वार, मक्का, बाजरा, गन्ने पर लगता है।
+Cuscuta (amarbel / dodder) किस प्रकार का परजीवी है?||Total stem parasite||Partial stem parasite||Total root parasite||Partial root parasite||A||Cuscuta पूर्ण तना परजीवी है, मुख्यतः lucerne और बरसीम पर।
+Loranthus (बांदा / mistletoe) किस प्रकार का परजीवी है?||Total root parasite||Partial stem parasite||Total stem parasite||Partial root parasite||B||Loranthus आंशिक तना परजीवी है जो आम आदि वृक्षों पर लगता है।
+Orobanche प्रतिरोधी सरसों की किस्म कौन सी है?||Varuna||Durgamani||Pusa Bold||Kranti||B||Durgamani सरसों Orobanche के प्रति प्रतिरोधी किस्म है।
+कपास की एक गांठ (bale) का भार कितना होता है?||100 kg||170 kg||180 kg||250 kg||B||कपास 1 bale = 170 kg; जूट 1 bale = 180 kg।
+जूट की एक गांठ (bale) का भार कितना होता है?||170 kg||180 kg||200 kg||60 kg||B||जूट और मेस्ता की एक bale लगभग 180 kg।
+अनाजों (cereals) में किस essential amino acid की मुख्य कमी होती है?||Methionine||Lysine||Leucine||Valine||B||अनाजों में lysine (मक्का में tryptophan भी) की कमी होती है।
+दलहनों में किस amino acid की कमी होती है?||Lysine||Methionine (sulphur amino acid)||Leucine||Arginine||B||दलहनों में methionine और cysteine (S-amino acids) कम होते हैं, lysine भरपूर।
+चावल का मुख्य protein कौन सा है?||Gliadin||Zein||Oryzenin (Glutelin)||Hordein||C||चावल में glutelin (oryzenin) मुख्य protein है; गेहूं में gliadin, मक्का में zein (prolamins)।
+मक्का का high lysine mutant gene कौन सा है?||Opaque-2||Rht-1||Sd-1||Vrn-1||A||Opaque-2 और Floury-2 मक्का के high lysine mutants हैं।
+बाजरा का प्रसिद्ध male sterile line कौन सी है?||Kafir 60||Tift 23A||IS 11167||Bil 3B||B||Tift 23A बाजरे की male sterile line है; ज्वार की CK-60 (Kafir 60)।
+फूल के पहली बार खिलने को क्या कहते हैं?||Pollination||Anthesis||Fertilization||Dehiscence||B||फूल खिलने की प्रक्रिया anthesis कहलाती है।
+Saline soil में किस आयन (ion) की अधिकता के कारण लवणता होती है?||Carbonate||Chloride और Sulphate||Nitrate||Phosphate||B||Saline soil में Na, Ca, Mg के chloride और sulphate जैसे घुलनशील लवण अधिक होते हैं।
+USDA प्रणाली में मृदा कणों को कितने वर्गों में बांटा गया है?||4||7||9||12||B||USDA में 7 वर्ग हैं: clay, silt और sand के पांच उपवर्ग (very fine से very coarse)।

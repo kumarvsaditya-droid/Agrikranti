@@ -1,0 +1,51 @@
+TITLE|Test 5 - Breeding, Weather Forecasting, Honey, Fibre, Horticulture History, Sex Forms, Heterosis
+Backcross method किसने दिया?||Harlan और Pope (1922)||Johannsen (1903)||Jensen (1952)||Shull (1914)||A||Backcross breeding Harlan और Pope (1922) ने दी।
+Backcross में वांछित जीन के साथ अवांछित जीन का भी आ जाना क्या कहलाता है?||Linkage drag||Epistasis||Heterosis||Pleiotropy||A||अवांछित linked जीनों के साथ आने को linkage drag कहते हैं।
+टमाटर की कौन सी किस्म ToLCV, bacterial wilt, early blight और late blight चारों के प्रति प्रतिरोधी है?||Arka Rakshak||Arka Samrat||Arka Abhed||Pusa Ruby||C||Arka Abhed चार रोगों के प्रति प्रतिरोधी है; Arka Rakshak और Samrat तीन के प्रति।
+National Centre for Medium Range Weather Forecasting (NCMRWF) कहाँ है?||पुणे||नोएडा||नई दिल्ली||हैदराबाद||B||NCMRWF नोएडा (उत्तर प्रदेश) में है।
+Medium range weather forecast कितने दिनों का होता है?||1 - 3 दिन||3 - 10 दिन||10 दिन से 1 मौसम||1 माह से अधिक||B||Short range 1 - 3 दिन, medium range 3 - 10 दिन, long range 10 दिन से पूरे मौसम तक।
+Agromet advisory bulletin सप्ताह में किन दिनों जारी होते हैं?||सोमवार और गुरुवार||मंगलवार और शुक्रवार||बुधवार और शनिवार||रविवार||B||Medium range forecast आधारित कृषि सलाह मंगलवार और शुक्रवार को जारी होती है।
+Long range weather forecast मुख्यतः किस काम आता है?||दैनिक सिंचाई||Cropping pattern / फसल योजना||कीटनाशक छिड़काव||कटाई का दिन||B||Long range (मौसमी) पूर्वानुमान फसल चक्र और cropping pattern की योजना में काम आता है।
+Agar-agar किस शैवाल (algae) से प्राप्त होता है?||Green algae||Red algae (Gelidium, Gracilaria)||Brown algae||Blue green algae||B||Agar लाल शैवाल जैसे Gelidium और Gracilaria से मिलता है।
+आलू का tuber moth (खेत और भंडारण दोनों का कीट) कौन सा है?||Phthorimaea operculella||Leptinotarsa decemlineata||Agrotis ipsilon||Myzus persicae||A||Potato tuber moth = Phthorimaea operculella।
+दुनिया में आलू का सबसे खतरनाक कीट Colorado beetle का वैज्ञानिक नाम क्या है?||Leptinotarsa decemlineata||Epilachna vigintioctopunctata||Agrotis segetum||Phthorimaea operculella||A||Colorado potato beetle = Leptinotarsa decemlineata।
+लाख कीट का पहला वैज्ञानिक विवरण किसने दिया?||James Kerr||Glover||Linnaeus||Fabricius||A||James Kerr (1782) ने लाख कीट का पहला scientific account दिया।
+धान में सूखा सहनशीलता (drought tolerance) से जुड़ा जीन कौन सा है?||Rab7 (OsRab7)||Sub1||Pi-ta||Xa21||A||OsRab7 जीन धान में सूखा सहनशीलता से जुड़ा है; Sub1 जलमग्नता सहनशीलता का।
+शहद में सबसे अधिक मात्रा में कौन सी शर्करा होती है?||Sucrose||Fructose||Glucose||Maltose||B||शहद में fructose (~38%) सबसे अधिक, फिर glucose (~31 - 32%)।
+मधुमक्खी nectar के sucrose को किस enzyme से fructose और glucose में बदलती है?||Amylase||Invertase||Lipase||Protease||B||Invertase sucrose को glucose और fructose में तोड़ता है।
+जूट, सनई, अलसी (flax) किस प्रकार के रेशे हैं?||Leaf (hard) fibre||Bast (soft) fibre||Seed fibre||Fruit fibre||B||ये तने के secondary phloem से मिलने वाले bast (soft) fibres हैं।
+Sisal (Agave) किस प्रकार का रेशा है?||Bast fibre||Leaf (hard) fibre||Seed fibre||Lint||B||Agave, अनानास और केला (abaca) पत्ती से मिलने वाले hard fibres हैं।
+कपास किस प्रकार का रेशा है?||Bast fibre||Leaf fibre||Seed (lint) fibre||Root fibre||C||कपास बीज के बालों से मिलने वाला lint (seed) fibre है।
+L.H. Bailey को किसका जनक माना जाता है?||American Horticulture||Pomology||Olericulture||Floriculture||A||Liberty Hyde Bailey को Father of (American) Horticulture कहा जाता है।
+फलों में कृत्रिम संकरण (artificial hybridization) सबसे पहले किसने किया?||Thomas Andrew Knight||Mendel||Burbank||Downing||A||Thomas Andrew Knight ने लगभग 1800 में फलों में कृत्रिम संकरण किया।
+"Horticulture" शब्द का पहली बार उपयोग किसने किया?||Peter Lauremberg||Edward Phillips||L.H. Bailey||Columella||A||Peter Lauremberg ने horticulture शब्द पहली बार उपयोग किया; Edward Phillips (1678) ने अंग्रेजी शब्दकोश में।
+Father of Indian Modern Horticulture किसे कहा जाता है?||M.S. Randhawa||Dr. K.L. Chadha||M.S. Swaminathan||B.P. Pal||B||Dr. K.L. Chadha; जबकि M.S. Randhawa को भारतीय सजावटी बागवानी का जनक कहा जाता है।
+बीज उपचार में Trichoderma की सामान्य मात्रा कितनी होती है?||1 g/kg||4 - 10 g/kg||50 g/kg||100 g/kg||B||Trichoderma 4 - 10 g/kg बीज; Thiram, Captan आदि 2 - 3 g/kg।
+सरसों की किस्म Pusa Jai Kisan (Bio-902) किस विधि से विकसित हुई?||Mutation breeding||Somaclonal variation||Backcross||Pure line selection||B||Pusa Jai Kisan somaclonal variation (tissue culture) से विकसित पहली किस्मों में है।
+भारत में सबसे अधिक रेशम (कुल और mulberry silk) किस राज्य में होता है?||असम||कर्नाटक||पश्चिम बंगाल||झारखंड||B||कर्नाटक mulberry और कुल रेशम में पहले स्थान पर है; मूगा रेशम असम में।
+Muga silk किस राज्य की विशेषता है?||कर्नाटक||असम||बिहार||ओडिशा||B||मूगा रेशम असम का विशेष रेशम है।
+मृदा अम्लता में potential (reserve) acidity किससे बनती है?||केवल active acidity||Exchangeable + Residual acidity||केवल soil solution का H+||Organic acids||B||Potential acidity = exchangeable + residual; यही मृदा की buffer capacity तय करती है।
+Lime requirement निकालने की SMP buffer method किसने दी?||Shoemaker, McLean और Pratt||Walkley और Black||Bray और Kurtz||Olsen||A||SMP = Shoemaker, McLean और Pratt की buffer विधि।
+Monoecious पौधा किसे कहते हैं?||नर और मादा फूल अलग-अलग पौधों पर||नर और मादा फूल एक ही पौधे पर||केवल द्विलिंगी फूल||केवल नर फूल||B||Monoecious में नर और मादा फूल एक ही पौधे पर होते हैं, जैसे मक्का, अरंडी, कद्दू वर्गीय।
+निम्न में से कौन सा पौधा dioecious है?||अरंडी||पपीता||मक्का||आम||B||पपीता, खजूर, परवल, कुंदरू, पालक dioecious हैं।
+आम में किस प्रकार का sex form पाया जाता है?||Monoecious||Andromonoecious (नर + द्विलिंगी फूल)||Dioecious||Gynodioecious||B||आम और काजू andromonoecious हैं।
+Dioecious फसलों जैसे परवल में नर और मादा पौधों का सामान्य अनुपात कितना रखा जाता है?||1 : 1||1 : 9 (नर : मादा)||9 : 1 (नर : मादा)||1 : 50||B||लगभग 10% नर और 90% मादा पौधे (1 : 9) रखे जाते हैं।
+आम की किस किस्म में द्विलिंगी (hermaphrodite) फूल सबसे अधिक होते हैं?||Dashehari||Amrapali||Langra||Chausa||B||Amrapali में द्विलिंगी फूलों का प्रतिशत सबसे अधिक होता है।
+UPOV का पूरा नाम क्या है?||International Union for the Protection of New Varieties of Plants||United Plant Organisation for Varieties||Union of Plant Owners and Varieties||Universal Protection of Varieties||A||UPOV 1961 में Paris convention से बना; मुख्यालय Geneva।
+भारत में PPVFR Act किस वर्ष पारित हुआ?||1999||2001||2005||2008||B||PPVFR Act 2001 में पारित हुआ और PPVFR Authority 2005 में बनी।
+आम फल मक्खी (mango fruit fly) का नया नाम क्या है?||Bactrocera dorsalis||Dacus cucurbitae||Ceratitis capitata||Anastrepha ludens||A||Mango fruit fly = Bactrocera dorsalis।
+अंगूर का downy mildew किस मौसम में अधिक होता है?||गर्म और शुष्क||ठंडा और अधिक नमी (high RH)||गर्म और कम नमी||ठंडा और शुष्क||B||Downy mildew ठंडे-नम मौसम में, जबकि powdery mildew गर्म और कम नमी में अधिक होता है।
+India OECD Seed Scheme का सदस्य कब बना?||1961||2008||2016||1999||B||भारत OECD का सदस्य नहीं है, लेकिन 2008 में OECD Seed Schemes में शामिल हुआ।
+"Heterosis" शब्द किसने दिया?||G.H. Shull (1914)||East (1908)||Davenport (1908)||Jones (1917)||A||G.H. Shull ने 1914 में heterosis शब्द दिया।
+जब F1 अपने बेहतर (better) parent से अधिक उपज दे, तो उसे क्या कहते हैं?||Mid parent heterosis||Heterobeltiosis||Standard heterosis||Luxuriance||B||Better parent heterosis को heterobeltiosis कहते हैं।
+F1 hybrid की उपज क्षेत्र की सर्वश्रेष्ठ standard check किस्म से अधिक होना क्या कहलाता है?||Heterobeltiosis||Standard (economic) heterosis||Mid parent heterosis||Inbreeding depression||B||Standard या economic heterosis व्यावहारिक रूप से सबसे उपयोगी है।
+Heterosis का dominance hypothesis किसने दिया?||Davenport (1908)||East और Shull (1908)||Jones (1918)||Hull||A||Dominance hypothesis Davenport (1908) ने दी; overdominance East और Shull (1908) ने।
+संकर में आकार तो बढ़े पर उपज या प्रजनन क्षमता न बढ़े, इसे क्या कहते हैं?||Luxuriance||Heterobeltiosis||Hybrid vigour||Apomixis||A||Luxuriance heterosis का एक प्रकार है जिसमें केवल vegetative वृद्धि होती है।
+Rice bran (चोकर) में तेल लगभग कितना होता है?||2 - 5%||15 - 20%||40%||60%||B||Rice bran में लगभग 15 - 20% तेल होता है।
+धान की milling recovery (चावल) लगभग कितनी होती है?||40 - 50%||65 - 70%||85 - 90%||95%||B||धान से लगभग 65 - 70% चावल मिलता है; छिलका (husk) लगभग 20%।
+DELLA proteins का पौधे में क्या कार्य है?||Gibberellin बनाना||Growth को रोकना (GA signalling के repressor)||Ethylene बनाना||Auxin परिवहन||B||DELLA proteins वृद्धि रोकते हैं; GA आने पर ये degrade होते हैं और वृद्धि होती है।
+पौधों में Triple response किस hormone के कारण होता है?||Auxin||Ethylene||Cytokinin||ABA||B||Ethylene से hypocotyl छोटा व मोटा होता है और apical hook अधिक मुड़ता है।
+Father of Super Rice किसे कहा जाता है?||G.S. Khush||Yuan Longping||Potrykus||Siddiq||A||Gurdev Singh Khush (IRRI) को father of super rice कहा जाता है।
+Edward Phillips ने "horticulture" शब्द किस पुस्तक (1678) में उपयोग किया?||The New World of English Words||Origin of Species||Cyclopedia of Horticulture||Systema Naturae||A||Edward Phillips ने अपनी पुस्तक "The New World of English Words" में इसका उपयोग किया।
+Rhizobium की धीमी बढ़ने वाली प्रजाति (Bradyrhizobium) प्रयोगशाला माध्यम पर कैसी अभिक्रिया देती है?||अम्लीय||क्षारीय (alkaline)||उदासीन||कोई नहीं||B||Bradyrhizobium क्षारीय और तेज बढ़ने वाला Rhizobium अम्लीय अभिक्रिया देता है।
+Backcross breeding में लगभग 6 backcross के बाद recurrent parent का कितना genome वापस आ जाता है?||50%||75%||लगभग 99%||25%||C||हर backcross में recurrent parent का हिस्सा आधा-आधा बढ़ता है; 6 backcross के बाद लगभग 99% genome वापस आ जाता है।

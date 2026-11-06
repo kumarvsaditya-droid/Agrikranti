@@ -1,0 +1,51 @@
+TITLE|Test 4 - FCI, Marketing, Bioherbicides, Fungicides, Hybrids, FSSAI, KVK, Soil Physics
+Food Corporation of India (FCI) की स्थापना कब हुई?||14 Jan 1965||2 Oct 1958||1 Jan 1965||31 July 1970||A||FCI, Food Corporations Act 1964 के तहत 14 जनवरी 1965 को स्थापित हुआ।
+दलहन और तिलहन की MSP पर खरीद (procurement) कौन करता है?||FCI||NAFED||CCI||SFAC||B||NAFED दलहन-तिलहन की खरीद करता है; अनाज FCI और कपास CCI।
+NAFED की स्थापना कब हुई?||2 Oct 1958||14 Jan 1965||1970||1988||A||NAFED 2 अक्टूबर 1958 को स्थापित हुआ।
+मक्का में Push-Pull तकनीक में "Pull" (trap) फसल के रूप में क्या लगाते हैं?||Desmodium||Napier grass||Sudan grass||लोबिया||B||खेत के किनारे Napier grass (pull) और मक्का की rows के बीच Desmodium (push) लगाते हैं।
+Push-Pull तकनीक में "Push" के लिए कौन सी फसल लगाई जाती है?||Napier grass||Desmodium||सरसों||गेंदा||B||Desmodium (legume) stem borer को दूर भगाता है और Striga भी दबाता है।
+दुनिया का पहला bioherbicide (mycoherbicide) कौन सा है?||Collego||DeVine||BioMal||Phytalix||B||DeVine (Phytophthora palmivora, 1981, USA) पहला mycoherbicide है।
+Collego bioherbicide किस fungus से बनाया गया है?||Phytophthora palmivora||Colletotrichum gloeosporioides f. sp. aeschynomene||Fusarium oxysporum||Trichoderma viride||B||Collego (1982) Colletotrichum gloeosporioides f. sp. aeschynomene से बना, जो northern jointvetch खरपतवार को नियंत्रित करता है।
+Directorate of Marketing and Inspection (DMI) का मुख्यालय कहाँ है?||नई दिल्ली||फरीदाबाद||नागपुर||जयपुर||B||DMI (1935) का मुख्यालय फरीदाबाद (हरियाणा) में है।
+Central AGMARK Laboratory कहाँ स्थित है?||फरीदाबाद||नागपुर||मुंबई||कोलकाता||B||Central AGMARK Lab नागपुर में है; AGMARK 1937 से है।
+Agricultural Produce (Grading and Marking) Act यानी AGMARK किस वर्ष आया?||1935||1937||1955||1964||B||AGMARK Act 1937 में आया (1986 में संशोधित)।
+CCS National Institute of Agricultural Marketing (NIAM) कहाँ है?||हैदराबाद||जयपुर||फरीदाबाद||लखनऊ||B||CCS NIAM 1988 में जयपुर में स्थापित हुआ।
+Cold Storage Order किस वर्ष जारी हुआ था?||1955||1964||1980||1997||B||Cold Storage Order 1964 में Essential Commodities Act के तहत आया और 1997 में समाप्त हुआ।
+Mughal garden किस प्रकार का उद्यान है?||Informal||Formal||Wild||Japanese||B||Mughal, Persian, Italian, French उद्यान formal; Japanese, English informal।
+Wild garden के जनक (father) कौन माने जाते हैं?||William Robinson||L.H. Bailey||Charles Downing||Thomas Knight||A||William Robinson को wild garden का जनक माना जाता है।
+उर्वरकों के लिए Retention Price Scheme कब शुरू हुई?||1977||1991||2010||2018||A||Retention Price Scheme 1977 में शुरू हुई।
+Nutrient Based Subsidy (NBS) scheme कब लागू हुई?||1 April 2010||1 Nov 1977||2018||1992||A||NBS 1 April 2010 से P और K उर्वरकों पर लागू है।
+भारत का पहला उर्वरक (SSP) कारखाना कहाँ और कब शुरू हुआ?||सिंदरी, 1951||रानीपेट (तमिलनाडु), 1906||नंगल, 1961||ट्रॉम्बे, 1965||B||पहला SSP कारखाना 1906 में रानीपेट, तमिलनाडु में शुरू हुआ।
+आलू की किस्म Kufri Gaurav किस गुण के लिए जानी जाती है?||Late blight resistance||High nitrogen use efficiency||Processing quality||Frost tolerance||B||Kufri Gaurav अधिक nitrogen use efficiency वाली किस्म है।
+Bordeaux mixture में CuSO4 : चूना : पानी का अनुपात क्या है?||1 : 1 : 10||4 : 4 : 50||2 : 2 : 100||5 : 5 : 50||B||Bordeaux mixture 4 : 4 : 50 (1%); Bordeaux paste 1 : 1 : 10।
+Bordeaux mixture की खोज किसने की?||P.M.A. Millardet||H.H. Flor||Alexander Fleming||Prevost||A||Millardet ने 1882 में Bordeaux mixture खोजा और 1885 में प्रकाशित किया।
+अनानास का mealybug wilt किससे होता है?||Fungus||Virus (mealybug से फैलता है)||Bacteria||Nematode||B||Pineapple mealybug wilt virus से होता है जिसे mealybug फैलाता है।
+Grafting/budding के लिए rootstock की उम्र सामान्यतः कितनी होती है?||1 - 2 माह||9 - 12 माह||3 वर्ष||5 वर्ष||B||9 - 12 माह पुराना, 0.5 - 1.0 cm मोटा rootstock उपयुक्त होता है।
+Grafting मुख्यतः द्विबीजपत्री (dicot) पौधों में ही क्यों सफल होती है?||Dicots में vascular cambium होता है||Dicots में जड़ें नहीं होतीं||Monocots में पत्ती नहीं होती||Dicots में cell wall नहीं होती||A||Graft union के लिए cambium जरूरी है जो monocots में नहीं होता।
+भारत का पहला बाजरा hybrid HB-1 किसने विकसित किया?||M.S. Swaminathan||Dr. D.S. Athwal||G.S. Khush||E.A. Siddiq||B||HB-1 (Tift 23A × Bil 3B) 1965 में PAU लुधियाना से Dr. D.S. Athwal ने दिया।
+Golden rice के जनक कौन हैं?||G.S. Khush||Ingo Potrykus||Norman Borlaug||Yuan Longping||B||Ingo Potrykus (और Peter Beyer) Golden rice के जनक हैं।
+Golden rice में beta-carotene का जीन मूल रूप से किस पौधे से लिया गया था?||मक्का||Daffodil||गाजर||टमाटर||B||पहले Golden rice में phytoene synthase जीन daffodil से लिया गया था।
+भारतीय hybrid rice के जनक किसे कहा जाता है?||E.A. Siddiq||G.S. Khush||M.S. Swaminathan||S.K. Sinha||A||E.A. Siddiq को Father of Indian Hybrid Rice कहा जाता है।
+पहला hybrid basmati धान कौन सा है?||Pusa Basmati 1||Pusa RH-10||CORH-1||KRH-2||B||Pusa RH-10 (IARI) पहला hybrid basmati है।
+Artificial (synthetic) seed में encapsulation के लिए क्या उपयोग होता है?||Sodium alginate + Calcium chloride||Agar + Sucrose||Gelatin + NaCl||Starch + Urea||A||Somatic embryos को sodium alginate और CaCl2 से बने hydrogel में लपेटा जाता है।
+Artificial seed बनाने में किसका उपयोग होता है?||Zygotic embryo||Somatic embryo||Pollen||Endosperm||B||Synseeds somatic embryos को encapsulate करके बनाए जाते हैं।
+Food Safety and Standards Act किस वर्ष आया?||1954||2006||2011||2008||B||FSS Act 2006 में आया; FSS Rules 2011 और FSSAI 2008 में बना।
+"Eat Right India" अभियान FSSAI ने कब शुरू किया?||10 July 2018||5 Sep 2008||2011||2 Oct 2019||A||Eat Right India 10 July 2018 को शुरू हुआ।
+Auxin (IAA) का precursor कौन सा amino acid है?||Methionine||Tryptophan||Adenine||Glycine||B||IAA tryptophan से बनता है; इसके लिए Zn जरूरी है।
+Ethylene का precursor क्या है?||Tryptophan||Methionine||Mevalonic acid||Carotenoid||B||Ethylene methionine से (SAM → ACC → ethylene) बनता है।
+Abscisic acid (ABA) किससे बनता है?||Tryptophan||Carotenoids (C40)||Adenine||Methionine||B||ABA carotenoids (violaxanthin, neoxanthin) से बनता है।
+Buzz pollination कौन कर सकता है?||Honey bee (Apis mellifera)||Bumblebee (Bombus)||Butterfly||Housefly||B||Bumblebees और कुछ solitary bees buzz pollination करती हैं; honey bee नहीं कर सकती।
+Hypertrophy का अर्थ क्या है?||कोशिका संख्या में वृद्धि||कोशिका के आकार में वृद्धि||कोशिका का मरना||कोशिका विभाजन रुकना||B||Hypertrophy = cell size बढ़ना; Hyperplasia = cell number बढ़ना।
+KVK की Scientific Advisory Committee (SAC) की बैठक वर्ष में कितनी बार होती है?||एक बार||दो बार||चार बार||हर माह||B||SAC KVK के कार्य की समीक्षा वर्ष में दो बार करती है।
+सबसे अधिक KVK किसके अधीन हैं?||ICAR संस्थान||राज्य कृषि विश्वविद्यालय (SAUs)||NGOs||राज्य सरकार||B||देश के 731 KVK में से लगभग 506 SAUs के अधीन हैं।
+National Commission on Farmers (स्वामीनाथन आयोग) कब बना?||18 Nov 2004||1970||4 Oct 2006||2010||A||NCF 18 Nov 2004 को बना और अंतिम (5वीं) रिपोर्ट 4 Oct 2006 को दी।
+National Commission on Agriculture (1970) ने अंतिम रिपोर्ट कब दी?||1972||1976||1980||1985||B||NCA 1970 में बना और अंतिम रिपोर्ट 1976 में आई।
+Tensiometer का पहला प्रस्ताव (1908) किसने दिया?||Burton E. Livingston||L.A. Richards||Bouyoucos||Briggs||A||1908 में Burton E. Livingston ने soil moisture मापने की विधि दी, जिसे पहला tensiometer प्रस्ताव माना जाता है।
+Gypsum block (electrical resistance) विधि किसने दी?||Bouyoucos और Mick||Gardner||Richards||Veihmeyer||A||Bouyoucos और Mick ने 1940 में gypsum block विधि दी।
+Neutron probe किस प्रकार की मृदा नमी नहीं माप पाता?||गहरी परतों (2 - 3 m) की||सतह के पास (~20 cm) की||मध्यम गहराई की||Clay soil की||B||Neutron probe सतह के पास (लगभग 20 cm) की नमी ठीक से नहीं माप पाता।
+वृक्षायुर्वेद ग्रंथ किसने लिखा?||पराशर||सुरपाल||वराहमिहिर||कौटिल्य||B||वृक्षायुर्वेद सुरपाल ने लिखा, जिसमें पौधों के रोग और बीज उपचार का वर्णन है।
+बृहत् संहिता (मौसम पूर्वानुमान) किसकी रचना है?||वराहमिहिर||सुरपाल||पराशर||चरक||A||बृहत् संहिता वराहमिहिर की रचना है।
+"यव" शब्द किस फसल के लिए उपयोग होता था?||गेहूं||जौ||धान||चना||B||वैदिक साहित्य में यव का अर्थ जौ (barley) है।
+खनिज मृदा का औसत particle density कितना होता है?||1.33 g/cm3||2.65 g/cm3||1.0 g/cm3||3.5 g/cm3||B||औसत PD 2.65 g/cm3 और औसत BD लगभग 1.33 g/cm3।
+किस मृदा का bulk density सबसे अधिक होता है?||Clay||Sand||Silt loam||Organic soil||B||Sandy soil का BD सबसे अधिक (~1.6) और clay का कम (~1.1 - 1.3)।
+Bulk density निकालते समय क्या शामिल किया जाता है?||केवल ठोस कण||ठोस कण और रंध्र (pores) दोनों||केवल पानी||केवल हवा||B||BD में कुल आयतन (ठोस + रंध्र) लिया जाता है; PD में केवल ठोस कणों का आयतन।

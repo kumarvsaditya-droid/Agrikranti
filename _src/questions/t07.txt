@@ -1,0 +1,51 @@
+TITLE|Test 7 - Plant Quarantine, Viruses, ESP-SAR, Survey, Institutes, Milk, Fungicides, Disease History
+Insecticides Act किस वर्ष पारित हुआ?||1964||1968||1971||1985||B||Insecticides Act 1968 में और Insecticides Rules 1971 में आए।
+Central Insecticides Board and Registration Committee (CIB&RC) कहाँ स्थित है?||नई दिल्ली||फरीदाबाद||नागपुर||हैदराबाद||B||CIB&RC (1970) और DPPQS दोनों फरीदाबाद, हरियाणा में हैं।
+भारत का पहला plant quarantine कानून कौन सा है?||Plant Quarantine Order 2003||Destructive Insects and Pests (DIP) Act 1914||Insecticides Act 1968||Seeds Act 1966||B||DIP Act 1914 भारत का पहला quarantine कानून है।
+विश्व का पहला Plant Quarantine Act किस देश में (1912) बना?||इंग्लैंड||USA||जर्मनी||फ्रांस||B||USA का Plant Quarantine Act 1912 विश्व का पहला माना जाता है।
+भारत में आयात हेतु plant quarantine अभी किस आदेश से नियंत्रित है?||PQ Order 1989||PQ (Regulation of Import into India) Order 2003||Seed Control Order 1983||FCO 1985||B||PQ Order 2003, DIP Act 1914 के तहत लागू है।
+अपने स्तर पर पहला quarantine कानून (1919) किस राज्य ने बनाया?||बंगाल||मद्रास (तमिलनाडु)||बंबई||पंजाब||B||मद्रास Agricultural Pests and Diseases Act 1919 राज्य स्तर का पहला कानून था।
+खजूर के फल की कौन सी अवस्था "डोका" कहलाती है?||Hababauk||Kimri||Khalal||Tamr||C||खजूर की अवस्थाएँ: Hababauk, Kimri, Khalal (डोका), Rutab (डेंग), Tamr (पिंड)।
+Nitrogen उर्वरक की use efficiency सामान्यतः कितनी होती है?||5 - 10%||30 - 40%||60 - 70%||90%||B||N 30 - 40%, P 15 - 20%, K 60 - 70%, S 8 - 10%, सूक्ष्म पोषक 1 - 2%।
+किस पोषक तत्व की use efficiency सबसे अधिक होती है?||N||P||K||Zn||C||K की efficiency 60 - 70% सबसे अधिक; सूक्ष्म पोषक तत्वों की सबसे कम (1 - 2%)।
+Phosphorus उर्वरक की use efficiency लगभग कितनी है?||15 - 20%||40 - 50%||60 - 70%||80%||A||P का fixation अधिक होने से इसकी efficiency केवल 15 - 20% होती है।
+Geminiviridae कुल के virus में किस प्रकार का genome होता है?||dsDNA||ssDNA||dsRNA||ssRNA||B||Gemini viruses (जैसे bean golden mosaic, maize streak) ssDNA virus हैं।
+Cauliflower mosaic virus (CaMV) किस प्रकार का virus है?||ssDNA||dsDNA||ssRNA||dsRNA||B||CaMV dsDNA virus है (Caulimoviridae)।
+Tobacco mosaic virus (TMV) मुख्यतः कैसे फैलता है?||Aphid||Mechanical (रस / sap) से||Whitefly||Seed से||B||TMV यांत्रिक रूप से (हाथ, औजार, रस) बहुत आसानी से फैलता है।
+मूंग और उड़द का yellow mosaic virus किस कीट से फैलता है?||Aphid||Whitefly (सफेद मक्खी)||Thrips||Leaf hopper||B||Yellow mosaic (MYMV) और भिंडी का YVMV whitefly से फैलते हैं।
+अरहर का sterility mosaic किससे फैलता है?||Whitefly||Eriophyid mite||Aphid||Nematode||B||Pigeonpea sterility mosaic eriophyid mite (Aceria cajani) से फैलता है।
+Potato leaf roll virus किस कीट से फैलता है?||Whitefly||Aphid||Thrips||Mite||B||Potato leaf roll virus aphid से फैलता है।
+"Giffen goods" की अवधारणा किससे जुड़ी है?||Adam Smith||Sir Robert Giffen||Keynes||Ricardo||B||Giffen goods Sir Robert Giffen के नाम पर हैं; Alfred Marshall ने यह नाम दिया।
+Wildlife Institute of India (WII) कहाँ स्थित है?||भोपाल||देहरादून||चेन्नई||हैदराबाद||B||WII, ICFRE और FRI तीनों देहरादून में हैं।
+National Biodiversity Authority (NBA) का मुख्यालय कहाँ है?||नई दिल्ली||चेन्नई||देहरादून||बेंगलुरु||B||NBA का मुख्यालय चेन्नई में है।
+Forest Research Institute (FRI), देहरादून की स्थापना कब हुई?||1906||1947||1878||1986||A||FRI 1906 में स्थापित हुआ।
+उपजाऊ मृदा का percent base saturation कितना होना चाहिए?||10 - 20%||30 - 40%||60 - 80%||100%||C||उपजाऊ मृदा में base saturation लगभग 60 - 80% होता है।
+Exchangeable Sodium Percentage (ESP) का सूत्र क्या है?||ESP = Exchangeable Na / CEC × 100||ESP = CEC / Na × 100||ESP = Na / (Ca + Mg)||ESP = Na × CEC||A||ESP = विनिमेय Na / CEC × 100।
+Sodic (alkali) soil का ESP कितना होता है?||< 5||5 - 10||> 15||ESP का कोई महत्व नहीं||C||ESP 15 से अधिक होने पर मृदा sodic मानी जाती है।
+Sodium Adsorption Ratio (SAR) का सूत्र क्या है?||Na / √((Ca + Mg) / 2)||(Ca + Mg) / Na||Na / CEC × 100||Na × (Ca + Mg)||A||SAR = Na / √((Ca + Mg)/2), सभी meq/L में।
+सामान्य मृदा के exchange complex पर किस cation का हिस्सा सबसे अधिक होता है?||Na||K||Mg||Ca||D||Base saturation में Ca ~68%, Mg 12 - 15%, K 3.5 - 5%, Na 0.5 - 1.5%।
+Gunter's chain की लंबाई कितनी होती है?||33 feet||66 feet||100 feet||20 m||B||Gunter's chain 66 feet (100 links); revenue chain 33 feet (16 links); engineer's chain 100 feet।
+Revenue chain में कितनी कड़ियाँ (links) होती हैं?||16||100||150||50||A||Revenue chain 33 feet लंबी, 16 links वाली होती है।
+कितनी Gunter's chain मिलकर 1 furlong बनाती हैं?||8||10||22||80||B||10 chains = 1 furlong और 80 chains = 1 mile।
+कितनी Gunter's chain मिलकर 1 mile बनाती हैं?||10||22||80||100||C||80 Gunter's chains = 1 mile; 10 वर्ग chain = 1 acre।
+Chain survey किस सिद्धांत पर आधारित है?||Traversing||Triangulation||Levelling||Radiation||B||Chain survey का मूल सिद्धांत triangulation है।
+National Institute of Biotic Stress Management (NIBSM) कहाँ है?||मोहाली||बरोंडा, रायपुर (छत्तीसगढ़)||नागपुर||भोपाल||B||NIBSM बरोंडा, रायपुर में है।
+National Agri-Food Biotechnology Institute (NABI) कहाँ स्थित है?||मोहाली, पंजाब||हैदराबाद||करनाल||बेंगलुरु||A||NABI मोहाली, पंजाब में है।
+Commission for Agricultural Costs and Prices (CACP) पहले किस नाम से था?||Agricultural Prices Commission (APC)||Food Price Board||MSP Commission||Price Control Board||A||APC 1965 में बना और मार्च 1985 में इसका नाम CACP हुआ।
+APC (1965) किस समिति की सिफारिश पर बना?||L.K. Jha (Foodgrains Prices Committee)||Swaminathan Committee||Shanta Kumar Committee||Ashok Dalwai||A||L.K. Jha की Foodgrains Prices Committee की सिफारिश पर।
+Cotton Corporation of India (CCI) की स्थापना कब हुई?||31 July 1970||14 Jan 1965||2 Oct 1958||1985||A||CCI 31 July 1970 को मुंबई में स्थापित हुआ।
+MANAGE (हैदराबाद) की स्थापना कब हुई?||1987||1975||1995||2005||A||MANAGE 11 June 1987 को स्थापित हुआ।
+गुरुत्व (gravity) से ढलान पर जमा मृदा पदार्थ क्या कहलाता है?||Alluvium||Colluvium||Aeolian||Lacustrine||B||Colluvium = gravity; alluvium = बहता पानी; aeolian = हवा; lacustrine = झील।
+हवा द्वारा लाकर जमा किए गए पदार्थ को क्या कहते हैं?||Alluvium||Colluvium||Aeolian||Outwash||C||हवा से जमा पदार्थ aeolian (जैसे loess) कहलाता है।
+किस पशु के दूध में वसा (fat) सबसे अधिक होती है?||गाय||भैंस||बकरी||भेड़||D||भेड़ (~7.9%) और भैंस (~7.4%) के दूध में वसा सबसे अधिक; गाय ~4.1%।
+मानव दूध में किस घटक की मात्रा सबसे अधिक होती है?||Protein||Lactose||Fat||Minerals||B||मानव दूध में lactose (~7%) अधिक और protein (~1.6%) कम होता है।
+दुनिया का पहला systemic fungicide कौन सा है?||Bordeaux mixture||Carboxin (Vitavax)||Mancozeb||Sulphur||B||Carboxin (Vitavax) पहला systemic fungicide है, जिसे von Schmeling और Kulka (1966) ने खोजा।
+Gene-for-gene hypothesis किसने दी?||H.H. Flor||Van der Plank||Biffen||Stakman||A||H.H. Flor ने flax rust पर gene-for-gene hypothesis दी।
+विश्व की पहली antibiotic कौन सी है?||Streptomycin||Penicillin||Aureomycin||Tetracycline||B||Penicillin (Fleming, 1928) पहली antibiotic है; streptomycin TB के विरुद्ध पहली।
+Aureomycin (पहली tetracycline) किसने खोजी?||Benjamin Duggar (Y. Subbarow के निर्देशन में)||Waksman||Fleming||Florey||A||Benjamin Minge Duggar ने 1945 में Yellapragada Subbarow के मार्गदर्शन में खोजी।
+Metalaxyl fungicide किस प्रक्रिया को रोकता है?||Sterol biosynthesis||RNA synthesis||Mitochondrial respiration||Chitin synthesis||B||Metalaxyl (Oomycetes के विरुद्ध) RNA polymerase / RNA synthesis रोकता है।
+Strobilurin fungicides किस प्रक्रिया को रोकते हैं?||Sterol synthesis||Mitochondrial respiration (complex III)||Cell wall||Protein synthesis||B||Strobilurins (QoI) mitochondrial respiration रोकते हैं।
+Triazole fungicides (जैसे propiconazole) किस प्रक्रिया को रोकते हैं?||Sterol (ergosterol) biosynthesis||RNA synthesis||Respiration||Mitosis||A||Triazoles DMI fungicides हैं जो ergosterol biosynthesis रोकते हैं।
+Onion में cytoplasmic-genetic male sterility की खोज किसने की?||Jones और Davis (1944)||Rhoades||Stephens||Shull||A||Jones और Davis (1944) ने प्याज में CMS खोजी।
+Recurrent selection की अवधारणा किसने दी?||Hayes और Garber||Jenkins||Comstock||Shull||A||Hayes और Garber (1919) ने recurrent selection का विचार दिया।
+Irish famine (1845 - 46) किस रोग के कारण हुआ?||गेहूं का rust||आलू का late blight||धान का brown spot||कॉफी rust||B||आलू के late blight (Phytophthora infestans) से आयरलैंड में अकाल पड़ा।

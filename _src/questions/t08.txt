@@ -1,0 +1,51 @@
+TITLE|Test 8 - Disease History, Allelochemicals, Nematodes, Weeders, Invasive Weeds, Seed Testing, Organic Farming
+तम्बाकू का damping off किस रोगकारक से होता है?||Pythium aphanidermatum||Phytophthora nicotianae||Fusarium oxysporum||Rhizoctonia solani||A||Tobacco damping off Pythium aphanidermatum से होता है; इसे पहली बार Hesse (1874) ने बताया।
+Multiline variety की अवधारणा (oats में) किसने दी?||Jensen||Borlaug||Johannsen||Shull||A||Jensen (1952) ने oats में multiline दी; Borlaug ने गेहूं में इसका व्यावसायिक उपयोग किया।
+Pure line theory किसने दी?||Johannsen||Jensen||Mendel||Harlan||A||W. Johannsen (1903) ने सेम (bean) पर pure line theory दी।
+भारत का पहला सहकारी कानून (Cooperative Credit Societies Act) कब आया?||1904||1912||1919||2002||A||Cooperative Credit Societies Act 1904 में और Co-operative Societies Act 1912 में आया।
+जो रसायन केवल छोड़ने वाले (releaser) जीव को लाभ दे, उसे क्या कहते हैं?||Kairomone||Allomone||Synomone||Pheromone||B||Allomone releaser को, kairomone receiver को और synomone दोनों को लाभ देता है।
+जो रसायन receiver को लाभ दे पर releaser को नुकसान पहुँचाए, उसे क्या कहते हैं?||Allomone||Kairomone||Synomone||Antimone||B||Kairomone से receiver (जैसे परजीवी) को अपना host खोजने में मदद मिलती है।
+जो allelochemical दोनों (releaser और receiver) को लाभ दे, वह क्या कहलाता है?||Allomone||Kairomone||Synomone||Antimone||C||Synomone दोनों के लिए लाभदायक है, जैसे फूलों की गंध से परागण।
+धान के brown spot रोगकारक का नया (anamorph) नाम क्या है?||Pyricularia oryzae||Bipolaris oryzae||Xanthomonas oryzae||Rhizoctonia solani||B||Brown spot = Bipolaris oryzae; इसकी sexual अवस्था Cochliobolus miyabeanus है।
+भारत में धान का brown spot पहली बार (1919, मद्रास) किसने रिपोर्ट किया?||E.J. Butler||Sundararaman||C.A. Barber||K.C. Mehta||B||Sundararaman ने 1919 में मद्रास में brown spot रिपोर्ट किया।
+Bengal famine (1943) किस रोग के कारण पड़ा?||Rice blast||Rice brown spot||Wheat rust||Late blight||B||1943 का बंगाल अकाल धान के brown spot रोग से जुड़ा है।
+कॉफी rust का प्रकोप श्रीलंका में किस वर्ष हुआ?||1845||1867||1943||1956||B||श्रीलंका में 1867 और दक्षिण भारत में 1869 में कॉफी rust का प्रकोप हुआ।
+गन्ने के red rot का रोगकारक कौन सा है?||Colletotrichum falcatum||Ustilago scitaminea||Fusarium moniliforme||Puccinia erianthi||A||Red rot = Colletotrichum falcatum।
+गन्ने का red rot सबसे पहले (1893) कहाँ रिपोर्ट हुआ?||भारत (गोदावरी डेल्टा)||जावा (इंडोनेशिया)||क्यूबा||ब्राजील||B||F.A. Went ने 1893 में जावा में red rot रिपोर्ट किया।
+भारत में गन्ने का red rot सबसे पहले (1901) किसने रिपोर्ट किया?||E.J. Butler||C.A. Barber||Sundararaman||Venkatraman||B||C.A. Barber ने 1901 में आंध्र प्रदेश के गोदावरी डेल्टा में रिपोर्ट किया।
+तमिलनाडु में अंगूर में "forward pruning" कब की जाती है?||April - May||Sept - Oct||Dec - Jan||June - July||B||Back pruning (vegetative) April - May में और forward (fruit) pruning Sept - Oct में।
+मृदा consistency limits (liquid, plastic limit) किसने दिए?||Atterberg (1911)||Casagrande||Munsell||Bouyoucos||A||Atterberg (1911) ने consistency limits दिए।
+Plasticity Index का सूत्र क्या है?||PI = LL - PL||PI = PL - SL||PI = LL + PL||PI = LL / PL||A||Plasticity Index = Liquid Limit - Plastic Limit।
+Liquid limit किस उपकरण से निकाली जाती है?||Casagrande apparatus||Tensiometer||Penetrometer only||Hydrometer||A||Liquid limit Casagrande apparatus (या cone penetrometer) से; plastic limit glass plate पर धागा बनाकर।
+तिल के phyllody रोग की पहली रिपोर्ट (1924, बर्मा) किसने दी?||McGibbon||Butler||Sundararaman||Mehta||A||McGibbon (1924) ने बर्मा में phyllody की पहली रिपोर्ट दी।
+भारत में चाय का सबसे अधिक उत्पादन किस राज्य में होता है?||पश्चिम बंगाल||असम||केरल||तमिलनाडु||B||चाय: असम; रबर: केरल; कॉफी: कर्नाटक।
+भारत में कॉफी का सबसे अधिक उत्पादन किस राज्य में होता है?||केरल||कर्नाटक||तमिलनाडु||असम||B||कर्नाटक देश की लगभग 70% कॉफी पैदा करता है।
+WIFEX (Winter Fog Experiment) कब शुरू हुआ?||2010||2015||2020||2005||B||WIFEX 2015 में दिल्ली हवाई अड्डे पर घने कोहरे के अध्ययन के लिए शुरू हुआ।
+सबसे पहले खोजा गया plant parasitic nematode कौन सा है?||Anguina tritici||Meloidogyne incognita||Heterodera avenae||Tylenchulus semipenetrans||A||Needham (1743) ने गेहूं की बाली में Anguina tritici (ear cockle) देखा।
+भारत में Anguina tritici सबसे पहले (1919) किसने रिपोर्ट किया?||Milne||Thomas||Barber||Butler||A||Milne ने 1919 में पंजाब से रिपोर्ट किया।
+Cono weeder किस फसल में उपयोग होता है?||मूंगफली||धान (SRI)||कपास||चाय||B||Cono weeder धान की SRI और line sowing में उपयोग होता है।
+Sweep / duck foot weeder किन फसलों में उपयोग होता है?||धान||कपास, मक्का, ज्वार||चाय||सब्जियों की नर्सरी||B||Duck foot (sweep) weeder पंक्तिबद्ध कपास, मक्का, ज्वार में।
+Law of the Minimum किसने दिया?||Liebig (1840)||Mitscherlich||Blackman||Wollny||A||Justus von Liebig ने 1840 में Law of Minimum दिया।
+Leaf Area Index (LAI) की अवधारणा किसने दी?||D.J. Watson (1947)||Blackman||Monteith||Gregory||A||D.J. Watson ने 1947 में LAI दिया।
+Leaf Area Index का सूत्र क्या है?||Leaf area / Ground area||Leaf dry weight / Leaf area||Leaf area / Leaf dry weight||Ground area / Leaf area||A||LAI = कुल पत्ती क्षेत्र / भूमि क्षेत्र (इकाई रहित, m2/m2)।
+Specific Leaf Area (SLA) का सूत्र क्या है?||Leaf area / Leaf dry weight||Leaf dry weight / Leaf area||Leaf area / Ground area||Total dry weight / Leaf area||A||SLA = पत्ती क्षेत्र / पत्ती का शुष्क भार (m2/kg)।
+रंध्रों (stomata) के खुलने-बंद होने में मुख्य भूमिका किस तत्व की है? (इसे "traffic police" भी कहते हैं)||N||P||K||Ca||C||K guard cells का turgor नियंत्रित करता है, इसलिए stomata का "traffic police" कहलाता है।
+Lantana camara भारत में कब और कैसे आया?||1809, अंग्रेजों द्वारा सजावटी पौधे के रूप में||1955, PL-480 गेहूं के साथ||1896, जलमार्ग से||1960, हरित क्रांति के दौरान||A||Lantana लगभग 1807 - 1809 में ornamental के रूप में लाया गया।
+Parthenium (गाजर घास) भारत में कैसे आया?||सजावटी पौधे के रूप में||PL-480 के तहत आयातित गेहूं के साथ (1955 - 56)||हवाई पट्टियाँ छिपाने के लिए||Aquarium से||B||Parthenium 1955 - 56 में अमेरिका से PL-480 गेहूं के साथ आया।
+गेहूं का मामा (Phalaris minor) भारत में कब फैला?||19वीं सदी||हरित क्रांति (1960s) में आयातित गेहूं के साथ||1990s||2010||B||Phalaris minor हरित क्रांति के दौरान आयातित गेहूं बीज के साथ आया।
+Mikania micrantha (mile-a-minute) भारत में क्यों लाया गया?||चारे के लिए||द्वितीय विश्व युद्ध में हवाई पट्टियाँ छिपाने के लिए||दवा के लिए||मृदा संरक्षण के लिए||B||Mikania 1940s में airfields को camouflage करने के लिए लाया गया।
+ISTA के अनुसार high constant temperature oven method में तापमान कितना रखा जाता है?||103 ± 2°C||130 - 133°C||80°C||150°C||B||High constant 130 - 133°C (अनाज 2 घंटे, मक्का 4 घंटे); low constant 103 ± 2°C, 17 ± 1 घंटे।
+तेल वाले बीज (oilseeds) और मसालों में नमी किस विधि से निकाली जाती है?||High constant temperature method||Low constant temperature method (103 ± 2°C, 17 घंटे)||Toluene distillation||Karl Fischer||B||Oilseeds, मसाले और कुछ सब्जियों में low constant temperature विधि उपयोग होती है।
+International Seed Testing Association (ISTA) की स्थापना कब हुई?||1924||1961||1950||2008||A||ISTA 1924 में (Cambridge congress) बनी; मुख्यालय Bassersdorf, स्विट्ज़रलैंड।
+Seed pelleting में binder के रूप में क्या उपयोग होता है?||Talc||Gum arabic / Methyl cellulose||Lime||Bentonite||B||Binder (गोंद अरबी, जिलेटिन, methyl cellulose) परत चिपकाता है; talc, lime, bentonite filler हैं।
+Self pollinated फसलों के लिए Seed Replacement Rate (SRR) का लक्ष्य कितना है?||10%||33%||50%||100%||B||Notes के अनुसार self-pollinated 33%, cross-pollinated 50% और hybrids 100% SRR।
+Bulk breeding method किसने दी?||Nilsson-Ehle (1908)||Johannsen||Jensen||Harlan||A||Bulk method Nilsson-Ehle (1908) ने दी।
+"Self incompatibility" शब्द किसने दिया?||Stout (1917)||Koelreuter||Bateman||East||A||Stout (1917) ने self incompatibility शब्द दिया।
+"Agroforestry" शब्द किसने दिया?||John Bene (1977)||Nair||King||Steiner||A||John Bene (कनाडा, IDRC) ने 1977 में agroforestry शब्द दिया।
+Biodynamic farming किसने दी?||Rudolf Steiner (1924)||Masanobu Fukuoka||Albert Howard||Bill Mollison||A||Rudolf Steiner ने 1924 में Koberwitz में दिए lectures से biodynamic farming दी।
+भारत का पहला पूर्ण जैविक (organic) राज्य कौन सा है?||उत्तराखंड||सिक्किम||मेघालय||केरल||B||सिक्किम 18 जनवरी 2016 को पूर्ण जैविक राज्य घोषित हुआ।
+जैविक खेती के क्षेत्रफल में भारत में पहला राज्य कौन सा है?||सिक्किम||मध्य प्रदेश||महाराष्ट्र||राजस्थान||B||क्षेत्रफल में मध्य प्रदेश पहले, महाराष्ट्र दूसरे और राजस्थान तीसरे स्थान पर है।
+National Organic Farming Research Institute (NOFRI) कहाँ है?||गाजियाबाद||गंगटोक (सिक्किम)||मोदीपुरम||देहरादून||B||ICAR-NOFRI गंगटोक, सिक्किम में है।
+Hydroponics के जनक (father) कौन हैं?||William Frederick Gericke||Richard Stoner||Bill Mollison||Liebig||A||W.F. Gericke को hydroponics का जनक कहा जाता है; Richard Stoner modern aeroponics के।
+Permaculture शब्द किसने दिया?||Bill Mollison और David Holmgren||Rudolf Steiner||Fukuoka||Albert Howard||A||Permaculture शब्द Bill Mollison और David Holmgren ने दिया।
+Minimum tillage की अवधारणा किससे जुड़ी है?||E.H. Faulkner||Jethro Tull||Liebig||Hans Jenny||A||E.H. Faulkner (Plowman's Folly, 1943) से minimum tillage की अवधारणा जुड़ी है।
