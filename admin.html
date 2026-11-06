@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#0e1410">
+<title>Agrikranti Admin</title>
+<link rel="icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Mukta:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#0e1410;--card:#18231c;--card2:#1f2c23;--line:#2b3b30;--ink:#eef4ee;--muted:#9fb3a5;--green:#3fcf5e;--gold:#f2b705;--bad:#ff6b6b;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Mukta','Noto Sans Devanagari',system-ui,sans-serif;font-size:15px;line-height:1.45}
+header{position:sticky;top:0;z-index:5;background:rgba(14,20,16,.95);border-bottom:1px solid var(--line)}
+header .in{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;align-items:center;gap:10px}
+header img{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold)}
+header b{font-family:'Teko',sans-serif;font-size:26px;color:var(--gold);line-height:1}
+header .sp{flex:1}
+.tabs{max-width:860px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:0 16px 10px}
+.tabs button{flex:none;background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:6px 14px;font:inherit;font-weight:700;cursor:pointer}
+.tabs button.on{background:var(--gold);color:#111;border-color:var(--gold)}
+main{max-width:860px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+h2{margin:0 0 6px;font-size:20px}
+h3{margin:0 0 6px;font-size:16px;color:var(--gold)}
+label{display:block;font-size:13px;font-weight:700;color:var(--muted);margin:8px 0 3px}
+input,textarea,select{width:100%;background:#0b110d;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:9px 10px;font:inherit}
+textarea{min-height:70px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+@media(max-width:560px){.grid2{grid-template-columns:1fr}}
+.btn{white-space:nowrap;background:var(--green);color:#06210e;border:0;border-radius:10px;padding:9px 16px;font:inherit;font-weight:800;cursor:pointer}
+.btn.gold{background:var(--gold);color:#111}.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}.btn.red{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.btn:disabled{opacity:.5}
+.muted{color:var(--muted)}.small{font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.stat{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px;text-align:center}
+.stat b{display:block;font-family:'Teko',sans-serif;font-size:38px;color:var(--gold);line-height:1}
+.stat span{font-size:13px;color:var(--muted)}
+.item{background:var(--card2);border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:10px}
+.qlist .q{border-top:1px solid var(--line);padding:8px 0;display:flex;gap:8px;align-items:flex-start}
+.qlist .q div{flex:1;min-width:0}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#111;border:1px solid var(--gold);color:var(--ink);padding:10px 16px;border-radius:12px;z-index:50;max-width:92vw;display:none}
+.warn{background:#2a2205;border:1px solid #5a4700;border-radius:10px;padding:8px 10px;font-size:13px}
+ol{padding-left:20px;margin:6px 0}
+.bars{display:flex;align-items:flex-end;gap:4px;height:120px;margin-top:8px}
+.bars div{flex:1;background:var(--green);border-radius:4px 4px 0 0;position:relative;min-height:2px}
+.bars div span{position:absolute;top:-17px;left:0;right:0;text-align:center;font-size:11px;color:var(--muted)}
+.blabels{display:flex;gap:4px}.blabels span{flex:1;text-align:center;font-size:10px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header><div class="in"><img src="icons/logo.png" alt=""><div><b>Agrikranti Admin</b><div class="muted small">सिर्फ आपके लिए</div></div><div class="sp"></div><a class="btn ghost small" href="./" target="_blank" style="text-decoration:none">App खोलें</a><button class="btn ghost small" id="logout" hidden>Logout</button></div>
+<nav class="tabs" id="tabs" hidden></nav></header>
+<main id="main"></main>
+<div class="toast" id="toast"></div>
+
+<script>
+var OWNER='kumarvsaditya-droid', REPO='Agrikranti', BRANCHES=['main','gh-pages'];
+var STATS_NS='agrikranti1928-app', STATS_API='https://abacus.jasoncameron.dev';
+var TOKEN=null, C=null, TESTS=null, TAB='stats';
+var M=document.getElementById('main');
+
+function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){ return null; } }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function toast(t,ms){ var x=document.getElementById('toast'); x.textContent=t; x.style.display='block'; clearTimeout(x._t); x._t=setTimeout(function(){ x.style.display='none'; },ms||3500); }
+function b64(str){ var bytes=new TextEncoder().encode(str), bin=''; for(var i=0;i<bytes.length;i+=8192) bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+8192)); return btoa(bin); }
+function unb64(s){ var bin=atob(s.replace(/\n/g,'')), a=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++) a[i]=bin.charCodeAt(i); return new TextDecoder().decode(a); }
+
+/* ---------- GitHub ---------- */
+function gh(path,opt){
+  opt=opt||{}; opt.headers=Object.assign({'Authorization':'Bearer '+TOKEN,'Accept':'application/vnd.github+json'},opt.headers||{});
+  return fetch('https://api.github.com/repos/'+OWNER+'/'+REPO+path,opt).then(function(r){
+    if(r.status===404) return null;
+    return r.json().then(function(j){ if(!r.ok) throw new Error(j.message||('Error '+r.status)); return j; });
+  });
+}
+function readFile(path){ return gh('/contents/'+path+'?ref=main&t='+Date.now()).then(function(j){ return j?unb64(j.content):null; }); }
+function putOne(path,contentB64,msg,branch){
+  return gh('/contents/'+path+'?ref='+branch+'&t='+Date.now()).then(function(cur){
+    var body={message:msg,content:contentB64,branch:branch}; if(cur&&cur.sha) body.sha=cur.sha;
+    return gh('/contents/'+path,{method:'PUT',body:JSON.stringify(body)});
+  });
+}
+function putFile(path,contentB64,msg){
+  return BRANCHES.reduce(function(p,br){ return p.then(function(){ return putOne(path,contentB64,msg,br); }); },Promise.resolve());
+}
+function saveContent(msg){
+  toast('Save हो रहा है...',20000);
+  return putFile('content.json',b64(JSON.stringify(C,null,1)),'Admin: '+msg).then(function(){ toast('✅ Save हो गया। 1 - 2 मिनट में पूरे app में दिखेगा।',6000); })
+    .catch(function(e){ toast('❌ Save नहीं हुआ: '+e.message,8000); });
+}
+function saveTests(msg){
+  toast('Tests save हो रहे हैं...',20000);
+  var js='/* Agrikranti - Test Series data (Admin panel se update) */\nwindow.TESTS = '+JSON.stringify(TESTS)+';\n';
+  return putFile('tests.js',b64(js),'Admin: '+msg).then(function(){ toast('✅ Tests save हो गए। 1 - 2 मिनट में app में दिखेंगे।',6000); })
+    .catch(function(e){ toast('❌ Save नहीं हुआ: '+e.message,8000); });
+}
+function uploadPdf(file,folder){
+  return new Promise(function(res,rej){
+    if(!file) return res(null);
+    if(file.size>45*1024*1024) return rej(new Error('PDF 45 MB से छोटी होनी चाहिए'));
+    var safe=file.name.replace(/[^A-Za-z0-9._-]+/g,'_'), path=folder+'/'+safe, fr=new FileReader();
+    fr.onload=function(){ var b=fr.result.split(',')[1]; toast('PDF upload हो रही है... ('+Math.round(file.size/1024)+' KB)',60000);
+      putFile(path,b,'Admin: upload '+safe).then(function(){ res(path); }).catch(rej); };
+    fr.onerror=function(){ rej(new Error('File पढ़ी नहीं जा सकी')); };
+    fr.readAsDataURL(file);
+  });
+}
+
+/* ---------- Login ---------- */
+function loginView(msg){
+  document.getElementById('tabs').hidden=true; document.getElementById('logout').hidden=true;
+  M.innerHTML='<div class="card"><h2>Admin Login</h2><p class="muted small">यह पेज सिर्फ आपके लिए है। GitHub का "Access Token" एक बार डालें, यह इसी फोन/browser में याद रहेगा।</p>'
+   +(msg?'<div class="warn" style="border-color:var(--bad)">'+esc(msg)+'</div>':'')
+   +'<label>GitHub Access Token</label><input id="tk" type="password" placeholder="github_pat_..." autocomplete="off"><div class="row" style="margin-top:10px"><button class="btn" id="go">Login</button></div></div>'
+   +'<div class="card"><h3>Token कैसे बनाएं (सिर्फ एक बार)</h3><ol class="small">'
+   +'<li>Chrome में <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> खोलें (अपने GitHub account से login रहें)।</li>'
+   +'<li><b>Token name:</b> Agrikranti Admin. <b>Expiration:</b> 1 year (या No expiration)।</li>'
+   +'<li><b>Repository access:</b> "Only select repositories" चुनें → <b>Agrikranti</b> चुनें।</li>'
+   +'<li><b>Permissions</b> → Repository permissions → <b>Contents</b> को "Read and write" करें।</li>'
+   +'<li>नीचे <b>Generate token</b> दबाएं, जो token दिखे (github_pat_ से शुरू) उसे copy करके ऊपर डालें।</li></ol>'
+   +'<p class="muted small">Token किसी को न भेजें। फोन खो जाए तो GitHub में जाकर token delete कर दें।</p></div>';
+  document.getElementById('go').onclick=function(){ var t=document.getElementById('tk').value.trim(); if(!t) return; TOKEN=t; boot(true); };
+}
+function boot(fresh){
+  M.innerHTML='<div class="card muted">लोड हो रहा है...</div>';
+  gh('').then(function(repo){
+    if(!repo) throw new Error('Repository नहीं मिली। Token में Agrikranti repo चुनी है?');
+    if(repo.permissions && !repo.permissions.push) throw new Error('Token में "Contents: Read and write" permission नहीं है।');
+    return Promise.all([readFile('content.json'),readFile('tests.js')]);
+  }).then(function(r){
+    C=JSON.parse(r[0]); var t=r[1]; TESTS=JSON.parse(t.slice(t.indexOf('['),t.lastIndexOf(']')+1));
+    if(fresh) ls('ak_admin_token',TOKEN);
+    document.getElementById('tabs').hidden=false; document.getElementById('logout').hidden=false;
+    renderTabs(); show(TAB);
+  }).catch(function(e){ ls('ak_admin_token',null); TOKEN=null; loginView('Login नहीं हुआ: '+e.message); });
+}
+document.getElementById('logout').onclick=function(){ ls('ak_admin_token',null); TOKEN=null; loginView(); };
+
+/* ---------- Tabs ---------- */
+var TABS=[['stats','📊 Stats'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['settings','⚙️ Links / Settings']];
+function renderTabs(){ var n=document.getElementById('tabs'); n.innerHTML=TABS.map(function(t){ return '<button data-t="'+t[0]+'" class="'+(t[0]===TAB?'on':'')+'">'+t[1]+'</button>'; }).join('');
+  n.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ TAB=b.getAttribute('data-t'); renderTabs(); show(TAB); }; }); }
+function show(t){ window.scrollTo(0,0); ({stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
+
+/* ---------- Stats ---------- */
+function getCount(key){ return fetch(STATS_API+'/get/'+STATS_NS+'/'+key).then(function(r){ return r.ok?r.json():{value:0}; }).then(function(j){ return j.value||0; }).catch(function(){ return null; }); }
+function statsView(){
+  var keys=[['users','कुल लोग (अलग-अलग फोन)'],['installs','App Install किया'],['opens','App कितनी बार खुला'],['tests-submitted','Test submit हुए'],['pdf-opens','PDF खोली / download'],['buy-clicks','eBook "खरीदें" दबाया']];
+  var days=[]; for(var i=13;i>=0;i--){ var d=new Date(Date.now()-i*864e5); days.push(d.toISOString().slice(0,10)); }
+  M.innerHTML='<div class="card"><h2>App Stats</h2><div class="stats" id="st">'+keys.map(function(k){ return '<div class="stat"><b id="s-'+k[0]+'">…</b><span>'+k[1]+'</span></div>'; }).join('')+'</div>'
+   +'<h3 style="margin-top:14px">पिछले 14 दिन - रोज़ कितने लोगों ने app खोला</h3><div class="bars" id="bars"></div><div class="blabels">'+days.map(function(d){ return '<span>'+d.slice(8)+'</span>'; }).join('')+'</div>'
+   +'<div class="row" style="margin-top:12px"><button class="btn ghost" id="rf">Refresh</button></div>'
+   +'<p class="muted small">गिनती इस update (6 Nov 2026) के बाद से शुरू हुई है। एक फोन एक बार ही "कुल लोग" में गिना जाता है (browser data साफ करने पर दोबारा गिना जा सकता है)। "Install" तब गिना जाता है जब student app को home screen पर install करके खोलता है।</p></div>';
+  keys.forEach(function(k){ getCount(k[0]).then(function(v){ document.getElementById('s-'+k[0]).textContent=v==null?'-':v; }); });
+  Promise.all(days.map(function(d){ return getCount('day-'+d); })).then(function(v){ var mx=Math.max.apply(null,v.map(function(x){return x||0;}).concat([1]));
+    document.getElementById('bars').innerHTML=v.map(function(x){ x=x||0; return '<div style="height:'+Math.round(x/mx*100)+'%"><span>'+x+'</span></div>'; }).join(''); });
+  document.getElementById('rf').onclick=statsView;
+}
+
+/* ---------- Notice ---------- */
+function noticeView(){
+  var n=C.notice||{};
+  M.innerHTML='<div class="card"><h2>Home पर सूचना (Notice)</h2><p class="muted small">यहाँ लिखा संदेश app के Home page पर सबसे ऊपर दिखेगा। खाली छोड़ें तो नहीं दिखेगा।</p>'
+   +'<label>संदेश</label><textarea id="nt" placeholder="जैसे: नया Test 11 आ गया है! / Semester exam 20 Nov से">'+esc(n.text)+'</textarea>'
+   +'<div class="grid2"><div><label>Button link (optional)</label><input id="nl" value="'+esc(n.link)+'" placeholder="https://..."></div><div><label>Button का नाम</label><input id="nb" value="'+esc(n.linkText)+'" placeholder="जैसे: Join करें"></div></div>'
+   +'<div class="row" style="margin-top:10px"><button class="btn gold" id="sv">Save करें</button><button class="btn red" id="cl">सूचना हटाएं</button></div></div>';
+  document.getElementById('sv').onclick=function(){ C.notice={text:document.getElementById('nt').value.trim(),link:document.getElementById('nl').value.trim(),linkText:document.getElementById('nb').value.trim()}; saveContent('notice update'); };
+  document.getElementById('cl').onclick=function(){ C.notice={text:'',link:'',linkText:''}; saveContent('notice removed').then(noticeView); };
+}
+
+/* ---------- Semester ---------- */
+function semView(){
+  var h='<div class="card"><h2>B.Sc. Agriculture Semester Papers</h2><p class="muted small">हर semester में subject जोड़ें, question paper और solution की PDF upload करें।</p></div>';
+  C.semester.forEach(function(g,gi){
+    h+='<div class="card"><div class="row" style="justify-content:space-between"><h3>'+esc(g.title)+'</h3><button class="btn red small" data-dg="'+gi+'">Semester हटाएं</button></div>';
+    g.papers.forEach(function(x,pi){
+      h+='<div class="item"><b>'+esc(x.code)+' - '+esc(x.subject)+'</b><div class="muted small">'+esc(x.info)+'</div><div class="small" style="margin:4px 0">📄 <a href="'+esc(x.paper)+'" target="_blank">Question Paper</a> · ✅ <a href="'+esc(x.solution)+'" target="_blank">Solution</a></div><div class="row"><button class="btn ghost small" data-ep="'+gi+'-'+pi+'">Edit</button><button class="btn red small" data-dp="'+gi+'-'+pi+'">हटाएं</button></div></div>';
+    });
+    h+='<button class="btn small" style="margin-top:10px" data-ap="'+gi+'">+ नया Subject Paper जोड़ें</button></div>';
+  });
+  h+='<div class="card"><h3>नया Semester जोड़ें</h3><div class="grid2"><div><label>Semester नंबर</label><input id="gs" type="number" min="1" max="8" value="'+(C.semester.length+1)+'"></div><div><label>नाम</label><input id="gt" placeholder="B.Sc. Agriculture - 2nd Semester"></div></div><div class="row" style="margin-top:10px"><button class="btn" id="ag">Semester जोड़ें</button></div></div>';
+  M.innerHTML=h;
+  M.querySelectorAll('[data-dg]').forEach(function(b){ b.onclick=function(){ if(!confirm('यह पूरा semester हटाएं?')) return; C.semester.splice(+b.getAttribute('data-dg'),1); saveContent('semester removed').then(semView); }; });
+  M.querySelectorAll('[data-dp]').forEach(function(b){ b.onclick=function(){ var a=b.getAttribute('data-dp').split('-'); if(!confirm('यह paper हटाएं?')) return; C.semester[+a[0]].papers.splice(+a[1],1); saveContent('paper removed').then(semView); }; });
+  M.querySelectorAll('[data-ap]').forEach(function(b){ b.onclick=function(){ paperForm(+b.getAttribute('data-ap'),-1); }; });
+  M.querySelectorAll('[data-ep]').forEach(function(b){ b.onclick=function(){ var a=b.getAttribute('data-ep').split('-'); paperForm(+a[0],+a[1]); }; });
+  document.getElementById('ag').onclick=function(){ var s=+document.getElementById('gs').value||1, t=document.getElementById('gt').value.trim()||('B.Sc. Agriculture - Semester '+s); C.semester.push({sem:s,title:t,papers:[]}); C.semester.sort(function(a,b){return a.sem-b.sem;}); saveContent('semester added').then(semView); };
+}
+function paperForm(gi,pi){
+  var g=C.semester[gi], x=pi>=0?g.papers[pi]:{code:'',subject:'',info:'Model Paper (Previous Year Pattern) · 50 अंक',paper:'',solution:'',pages:''};
+  M.innerHTML='<div class="card"><h2>'+(pi>=0?'Paper Edit करें':'नया Paper')+' - '+esc(g.title)+'</h2>'
+   +'<div class="grid2"><div><label>Course code</label><input id="pc" value="'+esc(x.code)+'" placeholder="AGR-101"></div><div><label>Subject का नाम</label><input id="ps" value="'+esc(x.subject)+'" placeholder="Fundamentals of Agronomy"></div></div>'
+   +'<label>जानकारी (छोटी लाइन)</label><input id="pi" value="'+esc(x.info)+'">'
+   +'<label>Solution के पेज</label><input id="pp" type="number" value="'+esc(x.pages)+'">'
+   +'<label>Question Paper PDF '+(x.paper?'(अभी: '+esc(x.paper)+' - बदलना हो तो नई चुनें)':'')+'</label><input id="fq" type="file" accept="application/pdf">'
+   +'<label>Solution PDF '+(x.solution?'(अभी: '+esc(x.solution)+' - बदलना हो तो नई चुनें)':'')+'</label><input id="fs" type="file" accept="application/pdf">'
+   +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sv">Save करें</button><button class="btn ghost" id="bk">वापस</button></div></div>';
+  document.getElementById('bk').onclick=semView;
+  document.getElementById('sv').onclick=function(){
+    var btn=this; btn.disabled=true;
+    var y={code:document.getElementById('pc').value.trim(),subject:document.getElementById('ps').value.trim(),info:document.getElementById('pi').value.trim(),pages:+document.getElementById('pp').value||0,paper:x.paper,solution:x.solution};
+    if(!y.code||!y.subject){ toast('Code और Subject भरें'); btn.disabled=false; return; }
+    uploadPdf(document.getElementById('fq').files[0],'papers').then(function(p){ if(p) y.paper=p; return uploadPdf(document.getElementById('fs').files[0],'papers'); })
+     .then(function(p){ if(p) y.solution=p; if(!y.paper||!y.solution) throw new Error('दोनों PDF (paper + solution) ज़रूरी हैं');
+       if(pi>=0) g.papers[pi]=y; else g.papers.push(y); return saveContent('paper '+y.code); })
+     .then(semView).catch(function(e){ toast('❌ '+e.message,8000); btn.disabled=false; });
+  };
+}
+
+/* ---------- eBooks ---------- */
+function ebookView(){
+  var h='<div class="card"><h2>eBooks</h2><div class="warn">⚠️ <b>Paid eBook की PDF यहाँ upload न करें</b> - app public है, कोई भी link से खोल लेगा। Paid book की PDF payment के बाद Telegram पर भेजें। यहाँ सिर्फ free PDF upload करें।</div></div>';
+  C.ebooks.forEach(function(b,i){
+    h+='<div class="card"><b>'+esc(b.title)+'</b> <span class="muted small">'+(b.price?'₹'+b.price:'Free')+' · '+b.pages+' पेज</span><div class="muted small">'+esc(b.sub)+'</div><div class="row" style="margin-top:8px"><button class="btn ghost small" data-e="'+i+'">Edit</button><button class="btn red small" data-d="'+i+'">हटाएं</button></div></div>';
+  });
+  h+='<button class="btn" id="add">+ नई eBook जोड़ें</button>';
+  M.innerHTML=h;
+  M.querySelectorAll('[data-e]').forEach(function(b){ b.onclick=function(){ ebookForm(+b.getAttribute('data-e')); }; });
+  M.querySelectorAll('[data-d]').forEach(function(b){ b.onclick=function(){ if(!confirm('यह eBook हटाएं?')) return; C.ebooks.splice(+b.getAttribute('data-d'),1); saveContent('ebook removed').then(ebookView); }; });
+  document.getElementById('add').onclick=function(){ ebookForm(-1); };
+}
+function ebookForm(i){
+  var b=i>=0?C.ebooks[i]:{id:'book'+Date.now().toString(36),title:'',sub:'',pages:'',price:0,cover:'NEW<br>BOOK'};
+  M.innerHTML='<div class="card"><h2>'+(i>=0?'eBook Edit':'नई eBook')+'</h2>'
+   +'<label>नाम</label><input id="bt" value="'+esc(b.title)+'"><label>छोटी जानकारी</label><input id="bs" value="'+esc(b.sub)+'">'
+   +'<div class="grid2"><div><label>कीमत ₹ (0 = Free)</label><input id="bp" type="number" min="0" value="'+esc(b.price)+'"></div><div><label>पेज</label><input id="bg" type="number" value="'+esc(b.pages)+'"></div></div>'
+   +'<label>Cover पर लिखा (2 शब्द)</label><input id="bc" value="'+esc(String(b.cover||'').replace(/<br>/g,' '))+'">'
+   +'<label>PDF (सिर्फ Free book के लिए) '+(b.file?'(अभी: '+esc(b.file)+')':'')+'</label><input id="bf" type="file" accept="application/pdf">'
+   +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sv">Save करें</button><button class="btn ghost" id="bk">वापस</button></div></div>';
+  document.getElementById('bk').onclick=ebookView;
+  document.getElementById('sv').onclick=function(){
+    var btn=this; btn.disabled=true;
+    var w=document.getElementById('bc').value.trim().split(/\s+/);
+    var y=Object.assign({},b,{title:document.getElementById('bt').value.trim(),sub:document.getElementById('bs').value.trim(),price:+document.getElementById('bp').value||0,pages:+document.getElementById('bg').value||0,cover:w.slice(0,1).join(' ')+(w.length>1?'<br>'+w.slice(1).join(' '):'')});
+    var f=document.getElementById('bf').files[0];
+    if(f && y.price>0){ toast('Paid book की PDF upload नहीं होगी, Telegram से भेजें।',7000); btn.disabled=false; return; }
+    if(y.price>0) delete y.file;
+    uploadPdf(f,'ebooks').then(function(p){ if(p) y.file=p; if(!y.price && !y.file) throw new Error('Free book के लिए PDF चुनें');
+      if(i>=0) C.ebooks[i]=y; else C.ebooks.push(y); return saveContent('ebook '+y.title); }).then(ebookView).catch(function(e){ toast('❌ '+e.message,8000); btn.disabled=false; });
+  };
+}
+
+/* ---------- Tests ---------- */
+var TI=0;
+function testsView(){
+  var t=TESTS[TI];
+  var h='<div class="card"><h2>Test Series</h2><div class="row"><select id="ts" style="flex:1">'+TESTS.map(function(x,i){ return '<option value="'+i+'"'+(i===TI?' selected':'')+'>'+esc(x.title)+' ('+x.questions.length+' Q)</option>'; }).join('')+'</select><button class="btn small" id="nt">+ नया Test</button></div></div>';
+  if(t){
+    h+='<div class="card"><label>Test का नाम</label><div class="row"><input id="tt" value="'+esc(t.title)+'" style="flex:1"><button class="btn ghost small" id="rn">नाम Save</button><button class="btn red small" id="dt">Test हटाएं</button></div>'
+     +'<div class="row" style="margin-top:10px"><button class="btn gold" id="aq">+ नया प्रश्न जोड़ें</button><span class="muted small">'+t.questions.length+' प्रश्न × '+(C.config.marksPerQ||2)+' अंक</span></div>'
+     +'<div class="qlist" style="margin-top:8px">'+t.questions.map(function(q,i){ return '<div class="q"><b>'+(i+1)+'.</b><div>'+esc(q.q)+'<div class="muted small">✔ '+esc(q.o[q.a])+'</div></div><button class="btn ghost small" data-eq="'+i+'">Edit</button><button class="btn red small" data-dq="'+i+'">✕</button></div>'; }).join('')+'</div></div>';
+  }
+  M.innerHTML=h;
+  document.getElementById('ts').onchange=function(e){ TI=+e.target.value; testsView(); };
+  document.getElementById('nt').onclick=function(){ var n=TESTS.length+1, id='T'+n; while(TESTS.some(function(x){return x.id===id;})) id='T'+(++n); TESTS.push({id:id,title:'Test '+n+' - नया टेस्ट',questions:[]}); TI=TESTS.length-1; testsView(); toast('नया test बना। प्रश्न जोड़कर Save करें।'); };
+  if(!t) return;
+  document.getElementById('rn').onclick=function(){ t.title=document.getElementById('tt').value.trim()||t.title; saveTests('rename '+t.id).then(testsView); };
+  document.getElementById('dt').onclick=function(){ if(!confirm('पूरा "'+t.title+'" हटाएं? यह वापस नहीं आएगा।')) return; TESTS.splice(TI,1); TI=0; saveTests('delete test').then(testsView); };
+  document.getElementById('aq').onclick=function(){ qForm(-1); };
+  M.querySelectorAll('[data-eq]').forEach(function(b){ b.onclick=function(){ qForm(+b.getAttribute('data-eq')); }; });
+  M.querySelectorAll('[data-dq]').forEach(function(b){ b.onclick=function(){ if(!confirm('यह प्रश्न हटाएं?')) return; t.questions.splice(+b.getAttribute('data-dq'),1); saveTests('delete question').then(testsView); }; });
+}
+function qForm(i){
+  var t=TESTS[TI], q=i>=0?t.questions[i]:{q:'',o:['','','',''],a:0,e:''};
+  M.innerHTML='<div class="card"><h2>'+(i>=0?'प्रश्न '+(i+1)+' Edit':'नया प्रश्न')+' - '+esc(t.title.split(' - ')[0])+'</h2>'
+   +'<label>प्रश्न</label><textarea id="qq">'+esc(q.q)+'</textarea>'
+   +q.o.map(function(o,k){ return '<label>विकल्प '+'ABCD'[k]+'</label><input id="o'+k+'" value="'+esc(o)+'">'; }).join('')
+   +'<label>सही उत्तर</label><select id="qa">'+[0,1,2,3].map(function(k){ return '<option value="'+k+'"'+(k===q.a?' selected':'')+'>'+'ABCD'[k]+'</option>'; }).join('')+'</select>'
+   +'<label>व्याख्या (explanation)</label><textarea id="qe">'+esc(q.e)+'</textarea>'
+   +'<p class="muted small">Power लिखने के लिए ^ लगाएं, जैसे 10^6</p>'
+   +'<div class="row" style="margin-top:10px"><button class="btn gold" id="sv">Save करें</button><button class="btn ghost" id="bk">वापस</button></div></div>';
+  document.getElementById('bk').onclick=testsView;
+  document.getElementById('sv').onclick=function(){
+    var y={q:document.getElementById('qq').value.trim(),o:[0,1,2,3].map(function(k){ return document.getElementById('o'+k).value.trim(); }),a:+document.getElementById('qa').value,e:document.getElementById('qe').value.trim()};
+    if(!y.q||y.o.some(function(o){return !o;})){ toast('प्रश्न और चारों विकल्प भरें'); return; }
+    if(i>=0) t.questions[i]=y; else t.questions.push(y);
+    this.disabled=true; saveTests('question '+(i>=0?'edit':'add')+' '+t.id).then(testsView);
+  };
+}
+
+/* ---------- Settings ---------- */
+function settingsView(){
+  var c=C.config, F=[['tagline','Home पर tagline'],['youtube','YouTube link'],['instagram','Instagram link'],['whatsapp','WhatsApp group link'],['telegram','Telegram link'],['telegramName','Telegram username (जैसे @Agrikranti_Aditya_Kumar)'],['upiId','UPI ID'],['payeeName','Payment में नाम']];
+  M.innerHTML='<div class="card"><h2>Links और Settings</h2>'+F.map(function(f){ return '<label>'+f[1]+'</label><input id="c-'+f[0]+'" value="'+esc(c[f[0]])+'">'; }).join('')
+   +'<div class="grid2"><div><label>प्रति प्रश्न अंक</label><input id="c-marksPerQ" type="number" value="'+esc(c.marksPerQ)+'"></div><div><label>Negative marking (जैसे 0.5, नहीं तो 0)</label><input id="c-negative" type="number" step="0.25" value="'+esc(c.negative)+'"></div></div>'
+   +'<label>Test का समय (मिनट)</label><input id="c-durationMin" type="number" value="'+esc(c.durationMin)+'">'
+   +'<div class="warn" style="margin-top:10px">UPI ID बदलने पर QR फोटो पुराना ही रहेगा। नया QR लगाना हो तो Claude से कहें।</div>'
+   +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sv">Save करें</button></div></div>';
+  document.getElementById('sv').onclick=function(){
+    F.forEach(function(f){ c[f[0]]=document.getElementById('c-'+f[0]).value.trim(); });
+    ['marksPerQ','negative','durationMin'].forEach(function(k){ c[k]=Number(document.getElementById('c-'+k).value)||0; });
+    if(!c.marksPerQ) c.marksPerQ=2; if(!c.durationMin) c.durationMin=60;
+    saveContent('settings update');
+  };
+}
+
+/* ---------- start ---------- */
+TOKEN=ls('ak_admin_token'); if(TOKEN) boot(false); else loginView();
+</script>
+</body>
+</html>

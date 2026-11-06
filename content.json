@@ -1,0 +1,55 @@
+{
+ "config": {
+  "tagline": "Agriculture exam ki taiyari - Test Series, eBooks aur Notes",
+  "youtube": "https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG",
+  "instagram": "https://www.instagram.com/agrikranti1928",
+  "whatsapp": "https://chat.whatsapp.com/FP6cEJLOWLyK5Rt31PJGMA?s=cl&p=a&iam=2",
+  "telegram": "https://t.me/Agrikranti_Aditya_Kumar",
+  "telegramName": "@Agrikranti_Aditya_Kumar",
+  "upiId": "kumarvsaditya1@ibl",
+  "payeeName": "ADITYA KUMAR",
+  "marksPerQ": 2,
+  "negative": 0,
+  "durationMin": 60
+ },
+ "notice": {
+  "text": "",
+  "link": "",
+  "linkText": ""
+ },
+ "ebooks": [
+  {
+   "id": "notes1",
+   "title": "Agriculture Complete Notes (Full)",
+   "sub": "Lecture 1 - 36 + extra notes · Agronomy, Soil Science, Horticulture, Breeding, Plant Protection, Extension, Animal Science",
+   "pages": 60,
+   "price": 99,
+   "cover": "FULL<br>NOTES"
+  },
+  {
+   "id": "sample1",
+   "title": "Free Sample - Agriculture Notes",
+   "sub": "Full notes ke pehle 10 pages, pehle padhkar dekhein",
+   "pages": 10,
+   "price": 0,
+   "file": "ebooks/Agrikranti_Notes_Free_Sample.pdf",
+   "cover": "FREE<br>SAMPLE"
+  }
+ ],
+ "semester": [
+  {
+   "sem": 1,
+   "title": "B.Sc. Agriculture - 1st Semester",
+   "papers": [
+    {
+     "code": "SSC-101",
+     "subject": "Fundamentals of Soil Science",
+     "info": "Model Paper (Previous Year Pattern) · 50 अंक · Q.1 अनिवार्य + Section A (4×5) + Section B (2×10)",
+     "paper": "papers/BSc_Sem1_SSC101_Question_Paper.pdf",
+     "solution": "papers/BSc_Sem1_SSC101_Solved_Paper.pdf",
+     "pages": 14
+    }
+   ]
+  }
+ ]
+}

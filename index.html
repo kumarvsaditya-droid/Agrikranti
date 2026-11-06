@@ -173,6 +173,37 @@ var SEMESTER = [
   ]}
 ];
 
+/* ===== Live content: admin panel se badla gaya content.json yahan load hota hai ===== */
+var NOTICE=null;
+function applyContent(c){
+  if(!c) return;
+  if(c.config) Object.keys(c.config).forEach(function(k){ if(c.config[k]!==''&&c.config[k]!=null) CONFIG[k]=c.config[k]; });
+  if(c.ebooks) EBOOKS=c.ebooks;
+  if(c.semester) SEMESTER=c.semester;
+  NOTICE=(c.notice&&c.notice.text)?c.notice:null;
+}
+function loadContent(){
+  var done=false;
+  return new Promise(function(res){
+    var t=setTimeout(function(){ if(!done){ done=true; res(); } },3500);
+    fetch('content.json?v='+Date.now(),{cache:'no-store'}).then(function(r){ return r.ok?r.json():null; })
+      .then(function(c){ applyContent(c); }).catch(function(){})
+      .then(function(){ if(!done){ done=true; clearTimeout(t); res(); } });
+  });
+}
+/* ===== Ginti (stats): kitne log app khol rahe / install kar rahe - admin panel mein dikhta hai ===== */
+var STATS_NS='agrikranti1928-app';
+function hit(key){ try{ fetch('https://abacus.jasoncameron.dev/hit/'+STATS_NS+'/'+key,{mode:'cors'}).catch(function(){}); }catch(e){} }
+function trackOpen(){
+  hit('opens');
+  if(!get('counted',0)){ set('counted',1); hit('users'); }
+  var standalone=(window.matchMedia&&window.matchMedia('(display-mode: standalone)').matches)||navigator.standalone;
+  if(standalone && !get('inst',0)){ set('inst',1); hit('installs'); }
+  var d=new Date().toISOString().slice(0,10); if(get('day','')!==d){ set('day',d); hit('day-'+d); }
+}
+window.addEventListener('appinstalled',function(){ if(!get('inst',0)){ set('inst',1); hit('installs'); } });
+document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href$=".pdf"]'); if(a) hit('pdf-opens'); });
+
 /* ================= helpers ================= */
 var app = document.getElementById('app');
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
@@ -253,6 +284,7 @@ function home(){
   var next = TESTS.filter(function(t){ return !done[t.id]; })[0] || TESTS[0];
   var h=topbar(installBtnHtml())+'<main class="page">';
   h+='<section class="hero"><img src="icons/logo.png" alt="Agrikranti logo"><div><h1>'+(p?'नमस्ते, '+esc(p.name.split(' ')[0]):'Agrikranti में स्वागत है')+'</h1><p>'+esc(CONFIG.tagline)+'</p></div></section>';
+  if(NOTICE) h+='<div class="card" style="border-color:var(--gold);background:#2a2205"><b style="color:var(--gold)">📢 सूचना</b><div style="margin-top:4px;white-space:pre-line">'+esc(NOTICE.text)+'</div>'+(NOTICE.link?'<a class="btn gold" style="margin-top:8px;display:inline-block;text-decoration:none" target="_blank" rel="noopener" href="'+esc(NOTICE.link)+'">'+esc(NOTICE.linkText||'खोलें')+'</a>':'')+'</div>';
   h+='<div class="stats4"><div class="stat"><b>'+TESTS.length+'</b><span>Test Series</span></div><div class="stat"><b>'+Object.keys(done).length+'</b><span>दिए गए टेस्ट</span></div><div class="stat"><b>'+avg+'%</b><span>औसत अंक</span></div><div class="stat"><b>'+EBOOKS.length+'</b><span>eBooks</span></div></div>';
   var prog=get('progress',null);
   if(prog && testById(prog.testId)){
@@ -363,7 +395,7 @@ function submit(auto){
   var p=profile();
   var res={id:Date.now(),testId:t.id,title:t.title,name:p.name,mobile:p.mobile,score:Math.round((c*CONFIG.marksPerQ-w*CONFIG.negative)*100)/100,max:maxMarks(t),correct:c,wrong:w,skipped:s,
     timeTaken:Math.round((Date.now()-S.start)/1000),when:now(),answers:S.answers,auto:!!auto};
-  var at=attempts(); at.push(res); if(at.length>200) at=at.slice(-200); set('attempts',at); del('progress');
+  var at=attempts(); at.push(res); if(at.length>200) at=at.slice(-200); set('attempts',at); del('progress'); hit('tests-submitted');
   setNav(true); review(res, true);
   if(CONFIG.backendUrl){
     api({action:'submit'},{testId:t.id,title:t.title,name:p.name,mobile:p.mobile,score:res.score,max:res.max,correct:c,wrong:w,skipped:s,timeTaken:res.timeTaken,answers:S.answers})
@@ -410,6 +442,7 @@ function bindBooks(){
   app.querySelectorAll('[data-code]').forEach(function(x){ x.onclick=function(){ codeBox(x.getAttribute('data-code')); }; });
 }
 function buyBook(id){
+  hit('buy-clicks');
   var b=EBOOKS.filter(function(e){return e.id===id;})[0], p=profile()||{};
   var msg='नमस्ते सर, मैंने Agrikranti eBook "'+b.title+'" के लिए ₹'+b.price+' का payment किया है।\nनाम: '+(p.name||'')+'\nमोबाइल: '+(p.mobile||'')+'\n(Payment screenshot साथ में भेज रहा/रही हूँ)';
   var o=document.createElement('div'); o.className='overlay';
@@ -551,7 +584,7 @@ function doInstall(){ var p=window.__deferredPrompt; if(!p) return; p.prompt(); 
 if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
 
 /* start */
-if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home');
+loadContent().then(function(){ if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); trackOpen(); });
 </script>
 </body>
 </html>
