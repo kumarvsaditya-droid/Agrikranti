@@ -1,6 +1,6 @@
 /* Agrikranti service worker - app ko offline bhi chalata hai */
-var CACHE = 'agrikranti-v3';
-var CORE = ['./', 'index.html', 'tests.js', 'manifest.webmanifest', 'icons/logo.png', 'icons/icon-192.png', 'icons/icon-512.png', 'img/phonepe-qr.png'];
+var CACHE = 'agrikranti-v4';
+var CORE = ['./', 'index.html', 'tests.js', 'manifest.webmanifest', 'icons/logo.png', 'icons/icon-192.png', 'icons/icon-512.png', 'img/upi-qr.png'];
 self.addEventListener('install', function (e) { e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE); })); self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (ks) { return Promise.all(ks.filter(function (k) { return k !== CACHE; }).map(function (k) { return caches.delete(k); })); }));

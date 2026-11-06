@@ -411,16 +411,16 @@ function bindBooks(){
 }
 function buyBook(id){
   var b=EBOOKS.filter(function(e){return e.id===id;})[0], p=profile()||{};
-  var upi='upi://pay?pa='+encodeURIComponent(CONFIG.upiId)+'&pn='+encodeURIComponent(CONFIG.payeeName)+'&am='+b.price+'&cu=INR&tn='+encodeURIComponent('Agrikranti eBook '+b.id);
   var msg='नमस्ते सर, मैंने Agrikranti eBook "'+b.title+'" के लिए ₹'+b.price+' का payment किया है।\nनाम: '+(p.name||'')+'\nमोबाइल: '+(p.mobile||'')+'\n(Payment screenshot साथ में भेज रहा/रही हूँ)';
   var o=document.createElement('div'); o.className='overlay';
   o.innerHTML='<div class="card" style="display:flex;flex-direction:column;gap:10px;max-height:92vh;overflow:auto"><div class="row" style="justify-content:space-between"><b>eBook खरीदें - ₹'+b.price+'</b><button class="iconbtn" id="x">✕</button></div>'
     +'<div class="muted small">'+esc(b.title)+'</div>'
-    +'<a class="btn gold block" style="text-align:center;text-decoration:none" href="'+upi+'">UPI app से ₹'+b.price+' Pay करें</a>'
-    +'<div class="muted small" style="text-align:center">या नीचे दिया QR दूसरे फोन से स्कैन करें / screenshot लेकर UPI app में खोलें</div>'
-    +'<img src="img/phonepe-qr.png" alt="PhonePe QR - '+esc(CONFIG.payeeName)+'" style="width:100%;border-radius:12px;background:#0a0a0a">'
+    +'<div class="small" style="text-align:center;background:#3a2f05;border-radius:10px;padding:8px">Amount: <b style="color:var(--gold);font-size:18px">₹'+b.price+'</b> (UPI app में यह amount खुद डालें)</div>'
+    +'<img src="img/upi-qr.png" alt="UPI QR - '+esc(CONFIG.payeeName)+'" style="width:100%;border-radius:12px;background:#fff">'
+    +'<a class="btn gold block" style="text-align:center;text-decoration:none" href="img/upi-qr.png" download="Agrikranti_UPI_QR.png">QR फोटो Download करें</a>'
+    +'<div class="muted small">इसी फोन से pay करना है? QR download करें → PhonePe / GPay / Paytm खोलें → Scan में "Gallery / Upload QR" से यह फोटो चुनें → ₹'+b.price+' डालकर pay करें। दूसरे फोन से सीधे scan भी कर सकते हैं।</div>'
     +'<div class="small" style="text-align:center">UPI ID: <b id="upiid">'+esc(CONFIG.upiId)+'</b> <button class="iconbtn" id="cpy" style="padding:2px 8px">Copy</button></div>'
-    +'<ol class="rules" style="color:var(--ink)"><li>ऊपर से ₹'+b.price+' का payment करें।</li><li>Payment का screenshot Telegram पर <b>'+esc(CONFIG.telegramName)+'</b> को भेजें।</li><li>'+(b.chk?'आपको एक <b>Unlock Code</b> मिलेगा, उसे यहाँ "Code डालें" में लिखें। Book हमेशा के लिए खुल जाएगी।':'Payment जाँचने के बाद पूरी <b>PDF आपको Telegram पर भेज दी जाएगी</b>।')+'</li></ol>'
+    +'<ol class="rules" style="color:var(--ink)"><li>QR scan करके या UPI ID पर ₹'+b.price+' का payment करें।</li><li>Payment का screenshot Telegram पर <b>'+esc(CONFIG.telegramName)+'</b> को भेजें।</li><li>'+(b.chk?'आपको एक <b>Unlock Code</b> मिलेगा, उसे यहाँ "Code डालें" में लिखें। Book हमेशा के लिए खुल जाएगी।':'Payment जाँचने के बाद पूरी <b>PDF आपको Telegram पर भेज दी जाएगी</b>।')+'</li></ol>'
     +'<a class="btn block" style="text-align:center;text-decoration:none;background:#2aa1da;color:#fff" target="_blank" rel="noopener" href="'+esc(CONFIG.telegram)+'">Telegram पर screenshot भेजें</a>'
     +'<a class="btn ghost block" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(msg)+'">WhatsApp पर संदेश भेजें</a>'
     +(b.chk?'<button class="btn ghost block" id="havecode">मेरे पास Code है</button>':'')+'<div class="okmsg" id="cpm"></div></div>';
@@ -442,9 +442,9 @@ function codeBox(id){
 }
 function ebooks(){
   activeTab('ebooks');
-  var h=topbar()+'<main class="page"><h2 class="sec">e<span>Books</span></h2><p class="muted small" style="margin:0">Free sample तुरंत पढ़ें। Full book खरीदने के लिए PhonePe / किसी भी UPI app से payment करें।</p>';
+  var h=topbar()+'<main class="page"><h2 class="sec">e<span>Books</span></h2><p class="muted small" style="margin:0">Free sample तुरंत पढ़ें। Full book खरीदने के लिए QR scan करके PhonePe / GPay / Paytm किसी भी UPI app से payment करें।</p>';
   EBOOKS.forEach(function(b){ h+=ebookCard(b); });
-  h+='<div class="card"><b>Payment के लिए</b><div class="muted small" style="margin:4px 0 8px">'+esc(CONFIG.payeeName)+' · UPI: '+esc(CONFIG.upiId)+'</div><img src="img/phonepe-qr.png" alt="PhonePe QR" style="width:100%;max-width:320px;border-radius:12px;display:block;margin:0 auto;background:#0a0a0a"></div>';
+  h+='<div class="card"><b>Payment के लिए</b><div class="muted small" style="margin:4px 0 8px">'+esc(CONFIG.payeeName)+' · UPI: '+esc(CONFIG.upiId)+'</div><img src="img/upi-qr.png" alt="UPI QR" style="width:100%;max-width:320px;border-radius:12px;display:block;margin:0 auto;background:#fff"><a class="btn ghost block" style="text-align:center;text-decoration:none;margin-top:8px" href="img/upi-qr.png" download="Agrikranti_UPI_QR.png">QR Download करें</a></div>';
   h+='<div class="card empty">और eBooks जल्द आ रही हैं। अपडेट के लिए Telegram / WhatsApp से जुड़ें।</div></main>';
   app.innerHTML=h; bindBooks();
 }
