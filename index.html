@@ -188,7 +188,8 @@ function api(params, body){
   var opt=body?{method:'POST',body:JSON.stringify(body),headers:{'Content-Type':'text/plain;charset=utf-8'}}:{};
   return fetch(url,opt).then(function(r){return r.json();}).then(function(j){ if(j.error) throw new Error(j.error); return j; });
 }
-function topbar(extra){ return '<header class="topbar"><div class="in"><img src="icons/logo.png" alt=""><div class="brand">'+esc(CONFIG.appName)+'<small>1928 · Agri Exam Prep</small></div><div class="sp"></div>'+(extra||'')+'</div></header>'; }
+function topbar(extra){ return '<header class="topbar"><div class="in"><img src="icons/logo.png" alt=""><div class="brand">'+esc(CONFIG.appName)+'<small>1928 · Agri Exam Prep</small></div><div class="sp"></div>'+(extra||'')+'<button class="iconbtn" data-share="1" aria-label="ऐप शेयर करें"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="vertical-align:-3px"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg> Share</button></div></header>'; }
+document.addEventListener('click',function(e){ var t=e.target.closest && e.target.closest('[data-share]'); if(t){ e.preventDefault(); shareApp(); } });
 function setNav(on){ document.getElementById('nav').hidden=!on; }
 function activeTab(t){ document.querySelectorAll('.nav button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go')===t); }); }
 var ICON={
@@ -203,6 +204,26 @@ function socialCards(){
    + '<a class="card link" href="'+esc(CONFIG.telegram)+'" target="_blank" rel="noopener"><span class="ic tg">'+ICON.tg+'</span><span><b>Telegram - '+esc(CONFIG.telegramName)+'</b><span class="muted small">PDF notes, updates aur doubt</span></span></a>'
    + '<a class="card link" href="'+esc(CONFIG.instagram)+'" target="_blank" rel="noopener"><span class="ic ig">'+ICON.ig+'</span><span><b>Instagram - @agrikranti1928</b><span class="muted small">Daily agri facts aur short notes</span></span></a>';
 }
+
+/* ================= Share app ================= */
+var APP_URL='https://kumarvsaditya-droid.github.io/Agrikranti/';
+var SHARE_TEXT='🌾 Agrikranti App - Agriculture exam की तैयारी के लिए 10 Free Test Series (100 अंक), हर प्रश्न की व्याख्या और eBooks। ICAR, UPCATET, AGTA, JRF के लिए उपयोगी। अभी खोलें:';
+function shareApp(){
+  if(navigator.share){ navigator.share({title:'Agrikranti App',text:SHARE_TEXT,url:APP_URL}).catch(function(){}); return; }
+  shareSheet();
+}
+function shareSheet(){
+  var full=SHARE_TEXT+' '+APP_URL, o=document.createElement('div'); o.className='overlay';
+  o.innerHTML='<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="row" style="justify-content:space-between"><b>Agrikranti App शेयर करें</b><button class="iconbtn" id="sx">✕</button></div>'
+   +'<a class="btn block" style="text-align:center;text-decoration:none;background:#1fae54;color:#fff" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(full)+'">WhatsApp पर भेजें</a>'
+   +'<a class="btn block" style="text-align:center;text-decoration:none;background:#2aa1da;color:#fff" target="_blank" rel="noopener" href="https://t.me/share/url?url='+encodeURIComponent(APP_URL)+'&text='+encodeURIComponent(SHARE_TEXT)+'">Telegram पर भेजें</a>'
+   +'<button class="btn ghost block" id="scp">Link कॉपी करें</button><input id="slink" readonly value="'+APP_URL+'" style="font-size:14px"><div class="okmsg" id="smsg"></div></div>';
+  document.body.appendChild(o);
+  o.querySelector('#sx').onclick=function(){ o.remove(); };
+  o.querySelector('#scp').onclick=function(){ var m=o.querySelector('#smsg'), i=o.querySelector('#slink');
+    try{ navigator.clipboard.writeText(full).then(function(){ m.textContent='Link कॉपी हो गया, अब दोस्तों को भेजें।'; }).catch(function(){ i.select(); m.textContent='Link select हो गया, कॉपी करके भेजें।'; }); }catch(e){ i.select(); } };
+}
+function shareCard(){ return '<div class="card" style="display:flex;gap:12px;align-items:center;background:radial-gradient(120% 140% at 100% 0%,#3a2f05 0%,var(--card) 60%)"><div style="flex:1;min-width:0"><b>ऐप अच्छा लगा?</b><div class="muted small">अपने दोस्तों के साथ शेयर करें, सब मिलकर तैयारी करें।</div></div><button class="btn gold" data-share="1">शेयर करें</button></div>'; }
 
 /* ================= router ================= */
 var S={ test:null, order:[], optOrder:{}, answers:{}, marks:{}, cur:0, start:0, timer:null };
@@ -229,6 +250,7 @@ function home(){
     h+='<div class="card"><b>अधूरा टेस्ट: '+esc(shortTitle(testById(prog.testId)))+'</b><p class="muted small" style="margin:4px 0 10px">जहाँ छोड़ा था वहीं से जारी रखें।</p><div class="row"><button class="btn gold" id="resume">जारी रखें</button><button class="btn ghost" id="discard">छोड़ दें</button></div></div>';
   }
   h+='<h2 class="sec">अगला <span>टेस्ट</span></h2>'+testCard(next);
+  h+=shareCard();
   h+='<button class="btn ghost block" data-go2="tests">सभी '+TESTS.length+' टेस्ट देखें</button>';
   h+='<h2 class="sec">पढ़ाई के लिए <span>eBooks</span></h2>'+EBOOKS.map(ebookCard).join('');
   h+='<h2 class="sec">हमसे <span>जुड़ें</span></h2>'+socialCards();
@@ -348,8 +370,9 @@ function review(res, fresh){
   var msg = pct>=80?'शानदार! आप टॉपर्स की लिस्ट में हैं।':pct>=60?'बहुत अच्छा! थोड़ी और मेहनत से टॉप पर पहुँचेंगे।':pct>=40?'ठीक है, गलत प्रश्नों को ध्यान से दोहराएँ।':'घबराएँ नहीं, eBook पढ़कर दोबारा कोशिश करें।';
   var h=topbar()+'<main class="page"><div class="card" style="display:flex;flex-direction:column;gap:12px"><div class="score"><div class="ring" style="--p:'+Math.max(0,pct)+'"><div><span><b>'+res.score+'</b><small>/ '+res.max+'</small></span></div></div><div style="flex:1;min-width:160px"><b>'+esc(shortTitle(t))+' · '+esc(res.name)+'</b><div class="muted small">'+esc(res.when)+' · समय '+mmss(res.timeTaken)+'</div><div id="rank" class="small" style="margin-top:4px">'+(CONFIG.backendUrl&&fresh?'<span class="muted">Rank निकाली जा रही है...</span>':'')+'</div><p style="margin:6px 0 0">'+msg+'</p></div></div>'
     +'<div class="stats4"><div class="stat"><b style="color:var(--ok)">'+res.correct+'</b><span>सही</span></div><div class="stat"><b style="color:var(--bad)">'+res.wrong+'</b><span>गलत</span></div><div class="stat"><b style="color:var(--warn)">'+res.skipped+'</b><span>छोड़े</span></div><div class="stat"><b>'+acc+'%</b><span>Accuracy</span></div></div>'
-    +'<div class="grid2"><a class="btn" style="text-align:center;text-decoration:none;display:grid;place-items:center" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent('🌾 Agrikranti '+shortTitle(t)+'\nनाम: '+res.name+'\nअंक: '+res.score+'/'+res.max+' ('+pct+'%)\nसही '+res.correct+' | गलत '+res.wrong+' | छोड़े '+res.skipped+'\nसमय: '+mmss(res.timeTaken)+'\n\nAgrikranti पर टेस्ट दें: '+location.href.split('#')[0])+'">WhatsApp पर भेजें</a>'
+    +'<div class="grid2"><a class="btn" style="text-align:center;text-decoration:none;display:grid;place-items:center" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent('🌾 Agrikranti '+shortTitle(t)+'\nनाम: '+res.name+'\nअंक: '+res.score+'/'+res.max+' ('+pct+'%)\nसही '+res.correct+' | गलत '+res.wrong+' | छोड़े '+res.skipped+'\nसमय: '+mmss(res.timeTaken)+'\n\nAgrikranti पर टेस्ट दें: '+APP_URL)+'">WhatsApp पर भेजें</a>'
     +(CONFIG.backendUrl?'<button class="btn gold" data-lb="'+t.id+'">Leaderboard</button>':'<button class="btn gold" data-start="'+t.id+'">फिर से दें</button>')+'</div></div>';
+  h+=shareCard();
   h+='<h2 class="sec">उत्तर और <span>व्याख्या</span></h2>';
   t.questions.forEach(function(q,i){
     var a=res.answers[i], ch=(a===undefined||a===null)?null:Number(a), cls=ch===null?'skip':(ch===q.a?'ok':'bad'), tag=ch===null?'छोड़ा':(ch===q.a?'सही':'गलत');
@@ -458,6 +481,7 @@ function profilePage(){
   var p=profile()||{name:'',mobile:''};
   var h=topbar()+'<main class="page"><h2 class="sec">मेरी <span>Profile</span></h2><form class="card" id="pf" novalidate style="display:flex;flex-direction:column;gap:12px"><div><label for="pn">नाम</label><input id="pn" maxlength="40" value="'+esc(p.name)+'"></div><div><label for="pm">मोबाइल नंबर</label><input id="pm" inputmode="numeric" maxlength="10" value="'+esc(p.mobile)+'"></div><div class="err" id="pe"></div><button class="btn" type="submit">सेव करें</button></form>';
   h+='<div class="card"><b>Agrikranti ऐप फोन में इंस्टॉल करें</b><ul class="rules" style="margin-top:6px"><li>Chrome में यह पेज खोलें।</li><li>ऊपर दाईं ओर ⋮ मेनू → <b>"Add to Home screen" / "Install app"</b> दबाएँ।</li><li>होम स्क्रीन पर Agrikranti का आइकन आ जाएगा, ऐप की तरह खुलेगा।</li></ul>'+(window.__deferredPrompt?'<button class="btn gold block" id="installBtn2" style="margin-top:10px">अभी इंस्टॉल करें</button>':'')+'</div>';
+  h+=shareCard();
   h+='<h2 class="sec">हमसे <span>जुड़ें</span></h2>'+socialCards();
   h+='<div class="card small muted">Agrikranti 1928 · Agriculture competitive exams (ICAR, UPCATET, AGTA, Sugarcane Supervisor, JRF आदि) की तैयारी।<br>आपका डेटा (नाम, नंबर, results) आपके फोन में सुरक्षित रहता है।</div>';
   if(CONFIG.backendUrl) h+='<button class="btn ghost block" id="adm">Admin</button>';
