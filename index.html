@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0e1410">
+<meta name="description" content="Agrikranti 1928 - Agriculture competitive exam test series, eBooks aur notes">
+<title>Agrikranti</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Mukta:wght@400;500;700;800&display=swap">
+<style>
+/* Agrikranti brand: field-night black, crop green, harvest gold (taken from the channel logo) */
+:root{
+  --bg:#0e1410; --bg2:#141d17; --card:#18231c; --card2:#1f2c23; --line:#2b3b30;
+  --ink:#eef4ee; --muted:#9fb3a5; --green:#3fcf5e; --green-d:#1f8f3a; --gold:#f2b705; --gold-d:#c48f00;
+  --ok:#4fd36a; --bad:#ff6b6b; --warn:#f2b705;
+  --display:'Teko','Mukta',system-ui,sans-serif; --body:'Mukta','Noto Sans Devanagari',system-ui,sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
+a{color:var(--gold)}
+button{font:inherit}
+.app{min-height:100%;padding-bottom:calc(76px + env(safe-area-inset-bottom,0px))}
+.page{max-width:720px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-left,0px)) 24px max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:14px}
+/* top bar */
+.topbar{position:sticky;top:0;z-index:10;background:rgba(14,20,16,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.topbar .in{max-width:720px;margin:0 auto;padding:10px max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:10px}
+.topbar img{width:38px;height:38px;border-radius:50%;border:2px solid var(--gold)}
+.brand{font-family:var(--display);font-size:28px;line-height:1;letter-spacing:.5px;color:var(--gold)}
+.brand small{display:block;font-family:var(--body);font-size:11px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}
+.topbar .sp{flex:1}
+.iconbtn{background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:6px 10px;cursor:pointer;font-weight:700;font-size:14px}
+/* bottom nav */
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--bg2);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
+.nav button{background:none;border:0;color:var(--muted);padding:8px 0 10px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:700;cursor:pointer}
+.nav button svg{width:24px;height:24px}
+.nav button.on{color:var(--gold)}
+/* blocks */
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px}
+.hero{background:radial-gradient(120% 140% at 0% 0%,#1d3a22 0%,var(--card) 55%);border:1px solid var(--line);border-radius:18px;padding:18px;display:flex;gap:14px;align-items:center}
+.hero img{width:86px;height:86px;border-radius:50%;flex:none;box-shadow:0 0 0 3px var(--gold),0 0 22px rgba(63,207,94,.35)}
+.hero h1{font-family:var(--display);font-size:34px;line-height:.95;margin:0;color:var(--gold);letter-spacing:.5px}
+.hero p{margin:4px 0 0;color:var(--muted);font-size:14px}
+h2.sec{font-family:var(--display);font-size:26px;line-height:1;margin:6px 0 0;letter-spacing:.4px}
+h2.sec span{color:var(--green)}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{appearance:none;border:0;border-radius:12px;padding:11px 16px;font-weight:800;cursor:pointer;min-height:46px;background:var(--green);color:#06210e}
+.btn.gold{background:var(--gold);color:#241a00}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn:focus-visible,.nav button:focus-visible,.opt:focus-visible,.pal button:focus-visible,input:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.stat{background:var(--card2);border-radius:12px;padding:10px;text-align:center}
+.stat b{display:block;font-family:var(--display);font-size:30px;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--muted)}
+.stats4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.tcard{display:flex;gap:12px;align-items:flex-start}
+.tnum{flex:none;width:52px;height:52px;border-radius:12px;background:var(--card2);border:1px solid var(--line);display:grid;place-items:center;font-family:var(--display);font-size:30px;color:var(--gold);line-height:1}
+.tcard h3{margin:0;font-size:16px;line-height:1.35}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 10px}
+.chip{background:var(--card2);color:var(--muted);border-radius:99px;padding:1px 10px;font-size:12px;font-weight:700}
+.chip.done{background:rgba(63,207,94,.15);color:var(--green)}
+.link{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--ink)}
+.link .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none}
+.link b{display:block}
+.yt{background:#ff0033}.tg{background:#2aa1da}.wa{background:#1fae54}.ig{background:linear-gradient(45deg,#f9a825,#e91e63,#7b1fa2)}
+label{display:block;font-weight:700;font-size:14px;margin-bottom:4px}
+input{width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg2);color:var(--ink);font:inherit}
+.err{color:var(--bad);font-weight:700;font-size:14px;min-height:1.2em}
+.okmsg{color:var(--ok);font-weight:700;font-size:14px}
+ul.rules{margin:0;padding-left:18px;color:var(--muted);font-size:14px}
+/* quiz */
+.qbar{position:sticky;top:0;z-index:12;background:var(--bg2);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.qbar .in{max-width:720px;margin:0 auto;padding:8px max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:10px;justify-content:space-between}
+.timer{font-family:var(--display);font-size:28px;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums;background:var(--card);padding:4px 12px 0;border-radius:10px;border:1px solid var(--line)}
+.timer.low{color:#fff;background:var(--bad);border-color:var(--bad)}
+.prog{height:4px;background:var(--line)}.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold))}
+.qtext{font-size:18px;font-weight:700;line-height:1.45;margin:6px 0 14px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card2);color:var(--ink);border-radius:12px;padding:12px;cursor:pointer}
+.opt b{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font-size:14px}
+.opt.sel{border-color:var(--green);background:rgba(63,207,94,.12)}
+.opt.sel b{background:var(--green);color:#06210e}
+.qnav{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
+.pal button{height:40px;border-radius:9px;border:1.5px solid var(--line);background:var(--card2);color:var(--ink);font-weight:800;cursor:pointer}
+.pal button.ans{background:var(--green-d);border-color:var(--green-d)}
+.pal button.mark{background:var(--gold);border-color:var(--gold);color:#241a00}
+.pal button.cur{outline:3px solid var(--gold);outline-offset:1px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px;background:var(--c)}
+/* result */
+.score{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.ring{--p:0;width:110px;height:110px;border-radius:50%;background:conic-gradient(var(--green) calc(var(--p)*1%),var(--line) 0);display:grid;place-items:center;flex:none}
+.ring div{width:88px;height:88px;border-radius:50%;background:var(--card);display:grid;place-items:center;text-align:center;line-height:1}
+.ring b{font-family:var(--display);font-size:38px;color:var(--gold)}
+.ring small{display:block;color:var(--muted);font-size:12px}
+.rv{border:1px solid var(--line);border-left:4px solid var(--line);border-radius:0 12px 12px 0;padding:10px 12px;background:var(--card)}
+.rv.ok{border-left-color:var(--ok)}.rv.bad{border-left-color:var(--bad)}.rv.skip{border-left-color:var(--warn)}
+.rv p{margin:4px 0}
+.rv .exp{background:var(--card2);border-radius:10px;padding:8px 10px;font-size:15px}
+.tag{font-weight:800;font-size:13px}.tag.ok{color:var(--ok)}.tag.bad{color:var(--bad)}.tag.skip{color:var(--warn)}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid var(--line);white-space:nowrap}
+th{background:var(--card2);color:var(--gold)}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+tr.me td{background:rgba(63,207,94,.12);font-weight:800}
+.overlay{position:fixed;inset:0;z-index:30;background:rgba(0,0,0,.6);display:grid;place-items:center;padding:16px}
+.overlay .card{max-width:420px;width:100%}
+.ebook{display:flex;gap:14px;align-items:flex-start}
+.cover{flex:none;width:76px;height:104px;border-radius:8px;background:linear-gradient(160deg,#1f5f3a,#0e1410);border:1px solid var(--gold-d);display:flex;flex-direction:column;justify-content:space-between;padding:7px;font-family:var(--display);color:var(--gold);line-height:1}
+.cover span{font-size:15px;word-break:break-word}.cover small{font-family:var(--body);font-size:9px;color:var(--muted)}
+.empty{text-align:center;padding:24px 12px;color:var(--muted)}
+sup{font-size:.7em}
+@media (max-width:420px){.stats4{grid-template-columns:repeat(2,1fr)}.qtext{font-size:17px}.hero h1{font-size:30px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<div class="app" id="app"></div>
+<nav class="nav" id="nav"><div class="in">
+  <button data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+  <button data-go="tests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h10M9 12h10M9 19h10"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Tests</button>
+  <button data-go="ebooks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg>eBooks</button>
+  <button data-go="results"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Results</button>
+  <button data-go="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile</button>
+</div></nav>
+
+<script src="tests.js"></script>
+<script>
+/* ================= SETTINGS (yahin badlein) ================= */
+var CONFIG = {
+  appName: 'Agrikranti',
+  tagline: 'Agriculture exam ki taiyari - Test Series, eBooks aur Notes',
+  marksPerQ: 2,
+  negative: 0,              // galat jawab par minus (jaise 0.5)
+  durationMin: 60,
+  youtube: 'https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG',
+  instagram: 'https://www.instagram.com/agrikranti1928',
+  whatsapp: 'https://chat.whatsapp.com/FP6cEJLOWLyK5Rt31PJGMA?s=cl&p=a&iam=2',
+  telegram: 'https://t.me/Agrikranti_Aditya_Kumar',
+  telegramName: '@Agrikranti_Aditya_Kumar',
+  upiId: 'kumarvsaditya1@ibl',       // PhonePe scanner ka UPI ID
+  payeeName: 'ADITYA KUMAR',
+  // Leaderboard + admin data ke liye Google Apps Script ka URL (BACKEND_SETUP.txt dekhein). Khali = offline mode.
+  backendUrl: ''
+};
+/* eBooks: free = seedha khulegi; paid = payment ke baad unlock code se khulegi */
+var EBOOKS = [
+  { id: 'notes1', title: 'Agriculture Complete Notes (Full)', sub: 'Lecture 1 - 36 + extra notes · Agronomy, Soil Science, Horticulture, Breeding, Plant Protection, Extension, Animal Science', pages: 60,
+    price: 99, cover: 'FULL<br>NOTES' },
+  { id: 'sample1', title: 'Free Sample - Agriculture Notes', sub: 'Full notes ke pehle 10 pages, pehle padhkar dekhein', pages: 10,
+    price: 0, file: 'ebooks/Agrikranti_Notes_Free_Sample.pdf', cover: 'FREE<br>SAMPLE' }
+];
+
+/* ================= helpers ================= */
+var app = document.getElementById('app');
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function fmt(s){ return esc(s).replace(/(\d+)\^(\d+)/g,'$1<sup>$2</sup>'); }
+function get(k,d){ try{ var v=JSON.parse(localStorage.getItem('ak_'+k)); return v==null?d:v; }catch(e){ return d; } }
+function set(k,v){ try{ localStorage.setItem('ak_'+k,JSON.stringify(v)); }catch(e){} }
+function del(k){ try{ localStorage.removeItem('ak_'+k); }catch(e){} }
+function mmss(t){ t=Math.max(0,Math.round(t)); return Math.floor(t/60)+':'+('0'+(t%60)).slice(-2); }
+function hash(str){ var h=7; for(var i=0;i<str.length;i++) h=(h*31+str.charCodeAt(i))%2147483647; return h; }
+function shuffle(arr,seed){ var a=arr.slice(),s=seed||1; for(var i=a.length-1;i>0;i--){ s=(s*9301+49297)%233280; var j=Math.floor(s/233280*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+function now(){ var d=new Date(); return ('0'+d.getDate()).slice(-2)+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+d.getFullYear()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); }
+function testById(id){ return TESTS.filter(function(t){return t.id===id;})[0]; }
+function maxMarks(t){ return t.questions.length*CONFIG.marksPerQ; }
+function shortTitle(t){ return t.title.split(' - ')[0]; }
+function topicOf(t){ return t.title.split(' - ').slice(1).join(' - '); }
+function profile(){ return get('profile',null); }
+function attempts(){ return get('attempts',[]); }
+function bestFor(id){ var b=null; attempts().forEach(function(a){ if(a.testId===id && (!b||a.score>b.score)) b=a; }); return b; }
+function lastFor(id){ var l=null; attempts().forEach(function(a){ if(a.testId===id) l=a; }); return l; }
+function api(params, body){
+  var url=CONFIG.backendUrl+'?'+Object.keys(params).map(function(k){return k+'='+encodeURIComponent(params[k]);}).join('&');
+  var opt=body?{method:'POST',body:JSON.stringify(body),headers:{'Content-Type':'text/plain;charset=utf-8'}}:{};
+  return fetch(url,opt).then(function(r){return r.json();}).then(function(j){ if(j.error) throw new Error(j.error); return j; });
+}
+function topbar(extra){ return '<header class="topbar"><div class="in"><img src="icons/logo.png" alt=""><div class="brand">'+esc(CONFIG.appName)+'<small>1928 · Agri Exam Prep</small></div><div class="sp"></div>'+(extra||'')+'</div></header>'; }
+function setNav(on){ document.getElementById('nav').hidden=!on; }
+function activeTab(t){ document.querySelectorAll('.nav button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go')===t); }); }
+var ICON={
+  yt:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M10 15.5v-7l6 3.5z"/></svg>',
+  wa:'<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>',
+  tg:'<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M21.5 4.2 2.9 11.4c-1.3.5-1.2 1.2-.2 1.5l4.8 1.5 1.8 5.6c.2.7.4.9.9.9.4 0 .6-.2.9-.5l2.3-2.2 4.8 3.5c.9.5 1.5.2 1.7-.8l3.1-14.6c.3-1.3-.5-1.8-1.5-1.4zM9 14.2l9-5.7-6.9 6.9-.3 3.1z"/></svg>',
+  ig:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="#fff"/></svg>'
+};
+function socialCards(){
+  return '<a class="card link" href="'+esc(CONFIG.youtube)+'" target="_blank" rel="noopener"><span class="ic yt">'+ICON.yt+'</span><span><b>YouTube - Agrikranti 1928</b><span class="muted small">Free classes, MCQ discussion aur exam updates</span></span></a>'
+   + '<a class="card link" href="'+esc(CONFIG.whatsapp)+'" target="_blank" rel="noopener"><span class="ic wa">'+ICON.wa+'</span><span><b>WhatsApp Group join karein</b><span class="muted small">Naye test aur notes ki jaankari sabse pehle</span></span></a>'
+   + '<a class="card link" href="'+esc(CONFIG.telegram)+'" target="_blank" rel="noopener"><span class="ic tg">'+ICON.tg+'</span><span><b>Telegram - '+esc(CONFIG.telegramName)+'</b><span class="muted small">PDF notes, updates aur doubt</span></span></a>'
+   + '<a class="card link" href="'+esc(CONFIG.instagram)+'" target="_blank" rel="noopener"><span class="ic ig">'+ICON.ig+'</span><span><b>Instagram - @agrikranti1928</b><span class="muted small">Daily agri facts aur short notes</span></span></a>';
+}
+
+/* ================= router ================= */
+var S={ test:null, order:[], optOrder:{}, answers:{}, marks:{}, cur:0, start:0, timer:null };
+function go(view, arg){
+  clearInterval(S.timer);
+  window.scrollTo(0,0);
+  if(view!=='quiz') setNav(true);
+  ({home:home, tests:tests, ebooks:ebooks, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
+}
+document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ go(b.getAttribute('data-go')); }; });
+
+/* ================= Home ================= */
+function home(){
+  activeTab('home');
+  var p=profile(), at=attempts(), done={};
+  at.forEach(function(a){ done[a.testId]=1; });
+  var avg = at.length ? Math.round(at.reduce(function(s,a){return s+a.score/a.max*100;},0)/at.length) : 0;
+  var next = TESTS.filter(function(t){ return !done[t.id]; })[0] || TESTS[0];
+  var h=topbar(installBtnHtml())+'<main class="page">';
+  h+='<section class="hero"><img src="icons/logo.png" alt="Agrikranti logo"><div><h1>'+(p?'नमस्ते, '+esc(p.name.split(' ')[0]):'Agrikranti में स्वागत है')+'</h1><p>'+esc(CONFIG.tagline)+'</p></div></section>';
+  h+='<div class="stats4"><div class="stat"><b>'+TESTS.length+'</b><span>Test Series</span></div><div class="stat"><b>'+Object.keys(done).length+'</b><span>दिए गए टेस्ट</span></div><div class="stat"><b>'+avg+'%</b><span>औसत अंक</span></div><div class="stat"><b>'+EBOOKS.length+'</b><span>eBooks</span></div></div>';
+  var prog=get('progress',null);
+  if(prog && testById(prog.testId)){
+    h+='<div class="card"><b>अधूरा टेस्ट: '+esc(shortTitle(testById(prog.testId)))+'</b><p class="muted small" style="margin:4px 0 10px">जहाँ छोड़ा था वहीं से जारी रखें।</p><div class="row"><button class="btn gold" id="resume">जारी रखें</button><button class="btn ghost" id="discard">छोड़ दें</button></div></div>';
+  }
+  h+='<h2 class="sec">अगला <span>टेस्ट</span></h2>'+testCard(next);
+  h+='<button class="btn ghost block" data-go2="tests">सभी '+TESTS.length+' टेस्ट देखें</button>';
+  h+='<h2 class="sec">पढ़ाई के लिए <span>eBooks</span></h2>'+EBOOKS.map(ebookCard).join('');
+  h+='<h2 class="sec">हमसे <span>जुड़ें</span></h2>'+socialCards();
+  h+='</main>';
+  app.innerHTML=h; bindCommon(); bindBooks();
+  var r=document.getElementById('resume'); if(r) r.onclick=function(){ go('quiz',{testId:prog.testId,resume:prog}); };
+  var d=document.getElementById('discard'); if(d) d.onclick=function(){ del('progress'); home(); };
+}
+
+/* ================= Tests ================= */
+function testCard(t){
+  var b=bestFor(t.id), n=t.id.replace('T','');
+  return '<div class="card tcard"><div class="tnum">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(t))+'</h3><div class="chips"><span class="chip">'+t.questions.length+' प्रश्न</span><span class="chip">'+maxMarks(t)+' अंक</span><span class="chip">'+CONFIG.durationMin+' मिनट</span>'+(b?'<span class="chip done">Best '+b.score+'/'+b.max+'</span>':'')+'</div>'
+    +'<div class="row"><button class="btn" data-start="'+t.id+'">'+(b?'फिर से दें':'टेस्ट शुरू करें')+'</button>'+(b?'<button class="btn ghost" data-review="'+t.id+'">उत्तर देखें</button>':'')+(CONFIG.backendUrl?'<button class="btn ghost" data-lb="'+t.id+'">Leaderboard</button>':'')+'</div></div></div>';
+}
+function tests(){
+  activeTab('tests');
+  var h=topbar()+'<main class="page"><h2 class="sec">Test <span>Series</span></h2><p class="muted small" style="margin:0">हर टेस्ट: '+TESTS[0].questions.length+' प्रश्न × '+CONFIG.marksPerQ+' अंक = '+maxMarks(TESTS[0])+' अंक · '+CONFIG.durationMin+' मिनट · '+(CONFIG.negative?'गलत पर -'+CONFIG.negative:'कोई negative marking नहीं')+'</p>';
+  TESTS.forEach(function(t){ h+=testCard(t); });
+  h+='</main>'; app.innerHTML=h; bindCommon();
+}
+function bindCommon(){
+  app.querySelectorAll('[data-start]').forEach(function(b){ b.onclick=function(){ go('register',b.getAttribute('data-start')); }; });
+  app.querySelectorAll('[data-review]').forEach(function(b){ b.onclick=function(){ go('review',lastFor(b.getAttribute('data-review'))); }; });
+  app.querySelectorAll('[data-lb]').forEach(function(b){ b.onclick=function(){ go('leaderboard',b.getAttribute('data-lb')); }; });
+  app.querySelectorAll('[data-go2]').forEach(function(b){ b.onclick=function(){ go(b.getAttribute('data-go2')); }; });
+  var ib=document.getElementById('installBtn'); if(ib) ib.onclick=doInstall;
+}
+
+/* ================= Register ================= */
+function register(testId){
+  var t=testById(testId), p=profile();
+  if(p){ return rules(t); }
+  var h=topbar()+'<main class="page"><form class="card" id="reg" novalidate style="display:flex;flex-direction:column;gap:12px"><h2 class="sec" style="margin:0">अपनी <span>जानकारी</span></h2><p class="muted small" style="margin:0">एक बार भरें, अगली बार अपने आप भर जाएगी।</p>'
+    +'<div><label for="nm">आपका नाम</label><input id="nm" autocomplete="name" maxlength="40" placeholder="जैसे: Rahul Kumar"></div>'
+    +'<div><label for="mb">मोबाइल नंबर</label><input id="mb" inputmode="numeric" maxlength="10" placeholder="10 अंकों का नंबर"></div>'
+    +'<div class="err" id="er"></div><button class="btn block" type="submit">आगे बढ़ें</button></form></main>';
+  app.innerHTML=h;
+  document.getElementById('reg').onsubmit=function(e){ e.preventDefault();
+    var name=document.getElementById('nm').value.replace(/\s+/g,' ').trim(), mob=document.getElementById('mb').value.replace(/\D/g,''), er=document.getElementById('er');
+    if(name.length<2){ er.textContent='कृपया अपना नाम लिखें।'; return; }
+    if(!/^[6-9]\d{9}$/.test(mob)){ er.textContent='कृपया 10 अंकों का सही मोबाइल नंबर लिखें।'; return; }
+    set('profile',{name:name,mobile:mob}); rules(t); };
+}
+function rules(t){
+  var p=profile();
+  var h=topbar()+'<main class="page"><div class="card" style="display:flex;flex-direction:column;gap:12px"><div class="row"><div class="tnum">'+t.id.replace('T','')+'</div><div style="flex:1;min-width:0"><b>'+esc(topicOf(t))+'</b><div class="muted small">'+esc(p.name)+' · '+esc(p.mobile)+'</div></div></div>'
+    +'<ul class="rules"><li>'+t.questions.length+' प्रश्न, कुल '+maxMarks(t)+' अंक, समय '+CONFIG.durationMin+' मिनट।</li><li>हर सही उत्तर पर '+CONFIG.marksPerQ+' अंक'+(CONFIG.negative?', गलत पर -'+CONFIG.negative:', गलत पर कोई कटौती नहीं')+'।</li><li>प्रश्न और विकल्प हर बार अलग क्रम में आएँगे।</li><li>समय पूरा होते ही टेस्ट अपने आप submit होगा। बीच में ऐप बंद हो जाए तो वहीं से जारी रख सकते हैं।</li></ul>'
+    +'<button class="btn gold block" id="go">टेस्ट शुरू करें</button><button class="btn ghost block" id="bk">वापस</button></div></main>';
+  app.innerHTML=h;
+  document.getElementById('go').onclick=function(){ go('quiz',{testId:t.id}); };
+  document.getElementById('bk').onclick=function(){ go('tests'); };
+}
+
+/* ================= Quiz ================= */
+function startQuiz(o){
+  setNav(false);
+  var t=testById(o.testId), p=profile(), seed=hash((p?p.mobile:'x')+t.id+(o.resume?o.resume.seed:Date.now()));
+  if(o.resume) seed=o.resume.seed;
+  S.test=t; S.seed=seed;
+  S.order=shuffle(t.questions.map(function(q,i){return i;}),seed);
+  S.optOrder={}; t.questions.forEach(function(q,i){ S.optOrder[i]=shuffle([0,1,2,3],seed+i*13+1); });
+  S.answers=o.resume?o.resume.answers:{}; S.marks=o.resume?o.resume.marks:{};
+  S.cur=o.resume?o.resume.cur:0; S.start=o.resume?o.resume.start:Date.now();
+  save(); renderQ(); clearInterval(S.timer); S.timer=setInterval(tick,1000);
+}
+function save(){ set('progress',{testId:S.test.id,answers:S.answers,marks:S.marks,cur:S.cur,start:S.start,seed:S.seed}); }
+function remaining(){ return CONFIG.durationMin*60-(Date.now()-S.start)/1000; }
+function tick(){ var r=remaining(), el=document.getElementById('tm'); if(el){ el.textContent=mmss(r); el.classList.toggle('low',r<300);} if(r<=0){ clearInterval(S.timer); submit(true);} }
+function renderQ(){
+  var n=S.order.length, qi=S.order[S.cur], q=S.test.questions[qi], done=Object.keys(S.answers).length;
+  var h='<div class="qbar"><div class="in"><b>'+esc(shortTitle(S.test))+'</b><span class="timer" id="tm">'+mmss(remaining())+'</span><button class="btn gold" id="sub" style="min-height:38px;padding:6px 14px">Submit</button></div><div class="prog"><i style="width:'+(done/n*100)+'%"></i></div></div>';
+  h+='<main class="page"><div class="card"><div class="muted small" style="font-weight:700">प्रश्न '+(S.cur+1)+' / '+n+' · '+done+' हल किए</div><div class="qtext">'+fmt(q.q)+'</div><div class="opts">';
+  S.optOrder[qi].forEach(function(oi,k){ h+='<button class="opt'+(S.answers[qi]===oi?' sel':'')+'" data-o="'+oi+'"><b>'+'ABCD'[k]+'</b><span>'+fmt(q.o[oi])+'</span></button>'; });
+  h+='</div><div class="qnav"><button class="btn ghost" id="pv"'+(S.cur===0?' disabled':'')+'>पिछला</button><button class="btn ghost" id="mk">'+(S.marks[qi]?'Unmark':'Review')+'</button><button class="btn" id="nx">'+(S.cur===n-1?'अंतिम':'अगला')+'</button></div>'
+    +'<div class="row" style="margin-top:8px"><button class="btn ghost" id="cl" style="min-height:38px;padding:6px 12px">उत्तर हटाएं</button></div></div>';
+  h+='<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="legend"><span style="--c:var(--green-d)">हल किया</span><span style="--c:var(--gold)">Review</span><span style="--c:var(--line)">बाकी</span></div><div class="pal">';
+  S.order.forEach(function(qq,k){ h+='<button data-g="'+k+'" class="'+(S.answers[qq]!==undefined?'ans ':'')+(S.marks[qq]?'mark ':'')+(k===S.cur?'cur':'')+'">'+(k+1)+'</button>'; });
+  h+='</div></div></main>';
+  app.innerHTML=h;
+  app.querySelectorAll('.opt').forEach(function(b){ b.onclick=function(){ S.answers[qi]=Number(b.getAttribute('data-o')); save(); renderQ(); }; });
+  app.querySelectorAll('[data-g]').forEach(function(b){ b.onclick=function(){ S.cur=Number(b.getAttribute('data-g')); save(); renderQ(); window.scrollTo(0,0); }; });
+  document.getElementById('pv').onclick=function(){ if(S.cur>0){S.cur--; save(); renderQ(); window.scrollTo(0,0);} };
+  document.getElementById('nx').onclick=function(){ if(S.cur<n-1){S.cur++; save(); renderQ(); window.scrollTo(0,0);} else confirmSubmit(); };
+  document.getElementById('mk').onclick=function(){ S.marks[qi]=!S.marks[qi]; save(); renderQ(); };
+  document.getElementById('cl').onclick=function(){ delete S.answers[qi]; save(); renderQ(); };
+  document.getElementById('sub').onclick=confirmSubmit;
+}
+function confirmSubmit(){
+  var n=S.order.length, done=Object.keys(S.answers).length, o=document.createElement('div'); o.className='overlay';
+  o.innerHTML='<div class="card" style="display:flex;flex-direction:column;gap:12px"><b>टेस्ट submit करें?</b><p style="margin:0" class="muted">आपने '+done+' / '+n+' प्रश्न हल किए हैं। '+(n-done)+' बाकी हैं।</p><div class="row"><button class="btn gold" id="cY">हाँ, submit करें</button><button class="btn ghost" id="cN">वापस</button></div></div>';
+  document.body.appendChild(o);
+  o.querySelector('#cN').onclick=function(){ o.remove(); };
+  o.querySelector('#cY').onclick=function(){ o.remove(); submit(false); };
+}
+function submit(auto){
+  clearInterval(S.timer);
+  var t=S.test, c=0,w=0,s=0;
+  t.questions.forEach(function(q,i){ var a=S.answers[i]; if(a===undefined||a===null) s++; else if(Number(a)===q.a) c++; else w++; });
+  var p=profile();
+  var res={id:Date.now(),testId:t.id,title:t.title,name:p.name,mobile:p.mobile,score:Math.round((c*CONFIG.marksPerQ-w*CONFIG.negative)*100)/100,max:maxMarks(t),correct:c,wrong:w,skipped:s,
+    timeTaken:Math.round((Date.now()-S.start)/1000),when:now(),answers:S.answers,auto:!!auto};
+  var at=attempts(); at.push(res); if(at.length>200) at=at.slice(-200); set('attempts',at); del('progress');
+  setNav(true); review(res, true);
+  if(CONFIG.backendUrl){
+    api({action:'submit'},{testId:t.id,title:t.title,name:p.name,mobile:p.mobile,score:res.score,max:res.max,correct:c,wrong:w,skipped:s,timeTaken:res.timeTaken,answers:S.answers})
+      .then(function(r){ var el=document.getElementById('rank'); if(el && r.rank) el.innerHTML='<b style="color:var(--gold)">Rank '+r.rank+' / '+r.total+'</b>'+(r.attemptNo>1?' <span class="muted small">(leaderboard में पहला attempt गिना जाता है)</span>':''); })
+      .catch(function(){ var el=document.getElementById('rank'); if(el) el.innerHTML='<span class="muted small">Leaderboard अभी अपडेट नहीं हो पाया, बाद में देखें।</span>'; });
+  }
+}
+
+/* ================= Result + Review ================= */
+function review(res, fresh){
+  activeTab('tests');
+  if(!res){ return tests(); }
+  var t=testById(res.testId), pct=Math.round(res.score/res.max*100), acc=(res.correct+res.wrong)?Math.round(res.correct/(res.correct+res.wrong)*100):0;
+  var msg = pct>=80?'शानदार! आप टॉपर्स की लिस्ट में हैं।':pct>=60?'बहुत अच्छा! थोड़ी और मेहनत से टॉप पर पहुँचेंगे।':pct>=40?'ठीक है, गलत प्रश्नों को ध्यान से दोहराएँ।':'घबराएँ नहीं, eBook पढ़कर दोबारा कोशिश करें।';
+  var h=topbar()+'<main class="page"><div class="card" style="display:flex;flex-direction:column;gap:12px"><div class="score"><div class="ring" style="--p:'+Math.max(0,pct)+'"><div><span><b>'+res.score+'</b><small>/ '+res.max+'</small></span></div></div><div style="flex:1;min-width:160px"><b>'+esc(shortTitle(t))+' · '+esc(res.name)+'</b><div class="muted small">'+esc(res.when)+' · समय '+mmss(res.timeTaken)+'</div><div id="rank" class="small" style="margin-top:4px">'+(CONFIG.backendUrl&&fresh?'<span class="muted">Rank निकाली जा रही है...</span>':'')+'</div><p style="margin:6px 0 0">'+msg+'</p></div></div>'
+    +'<div class="stats4"><div class="stat"><b style="color:var(--ok)">'+res.correct+'</b><span>सही</span></div><div class="stat"><b style="color:var(--bad)">'+res.wrong+'</b><span>गलत</span></div><div class="stat"><b style="color:var(--warn)">'+res.skipped+'</b><span>छोड़े</span></div><div class="stat"><b>'+acc+'%</b><span>Accuracy</span></div></div>'
+    +'<div class="grid2"><a class="btn" style="text-align:center;text-decoration:none;display:grid;place-items:center" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent('🌾 Agrikranti '+shortTitle(t)+'\nनाम: '+res.name+'\nअंक: '+res.score+'/'+res.max+' ('+pct+'%)\nसही '+res.correct+' | गलत '+res.wrong+' | छोड़े '+res.skipped+'\nसमय: '+mmss(res.timeTaken)+'\n\nAgrikranti पर टेस्ट दें: '+location.href.split('#')[0])+'">WhatsApp पर भेजें</a>'
+    +(CONFIG.backendUrl?'<button class="btn gold" data-lb="'+t.id+'">Leaderboard</button>':'<button class="btn gold" data-start="'+t.id+'">फिर से दें</button>')+'</div></div>';
+  h+='<h2 class="sec">उत्तर और <span>व्याख्या</span></h2>';
+  t.questions.forEach(function(q,i){
+    var a=res.answers[i], ch=(a===undefined||a===null)?null:Number(a), cls=ch===null?'skip':(ch===q.a?'ok':'bad'), tag=ch===null?'छोड़ा':(ch===q.a?'सही':'गलत');
+    h+='<div class="rv '+cls+'"><p><span class="tag '+cls+'">Q'+(i+1)+' · '+tag+'</span></p><p><b>'+fmt(q.q)+'</b></p>'+(ch!==null&&ch!==q.a?'<p>आपका उत्तर: <span style="color:var(--bad)">'+fmt(q.o[ch])+'</span></p>':'')
+      +'<p>सही उत्तर: <b style="color:var(--ok)">'+fmt(q.o[q.a])+'</b></p><p class="exp">'+fmt(q.e)+'</p></div>';
+  });
+  h+='<button class="btn ghost block" data-go2="tests">सभी टेस्ट</button></main>';
+  app.innerHTML=h; bindCommon();
+}
+
+/* ================= eBooks ================= */
+function unlocked(){ return get('unlocked',{}); }
+function sha256hex(t){ if(!(window.crypto&&crypto.subtle)) return Promise.reject(new Error('nosubtle'));
+  return crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)).then(function(b){ return Array.from(new Uint8Array(b)).map(function(x){return ('0'+x.toString(16)).slice(-2);}).join(''); }); }
+function bookFile(b){ if(!b.price) return Promise.resolve(b.file); var code=unlocked()[b.id]; if(!code) return Promise.resolve(null);
+  return sha256hex(code+b.id).then(function(h){ return 'ebooks/'+h.slice(0,20)+'.pdf'; }); }
+function ebookCard(b){
+  var open=!b.price || unlocked()[b.id];
+  return '<div class="card ebook"><div class="cover"><span>'+b.cover+'</span><small>Agrikranti</small></div><div style="flex:1;min-width:0"><b>'+esc(b.title)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(b.sub)+' · '+b.pages+' पेज</div>'
+    +'<div class="chips">'+(b.price?(open?'<span class="chip done">Unlocked</span>':'<span class="chip" style="color:var(--gold)">₹'+b.price+'</span>'):'<span class="chip done">Free</span>')+'</div>'
+    +'<div class="row">'+(open?'<a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(b.price?unlocked()[b.id].file:b.file)+'">पढ़ें / डाउनलोड</a>':'<button class="btn gold" data-buy="'+b.id+'">₹'+b.price+' में खरीदें</button>'+(b.chk?'<button class="btn ghost" data-code="'+b.id+'">Code डालें</button>':''))+'</div></div></div>';
+}
+function bindBooks(){
+  app.querySelectorAll('[data-buy]').forEach(function(x){ x.onclick=function(){ buyBook(x.getAttribute('data-buy')); }; });
+  app.querySelectorAll('[data-code]').forEach(function(x){ x.onclick=function(){ codeBox(x.getAttribute('data-code')); }; });
+}
+function buyBook(id){
+  var b=EBOOKS.filter(function(e){return e.id===id;})[0], p=profile()||{};
+  var upi='upi://pay?pa='+encodeURIComponent(CONFIG.upiId)+'&pn='+encodeURIComponent(CONFIG.payeeName)+'&am='+b.price+'&cu=INR&tn='+encodeURIComponent('Agrikranti eBook '+b.id);
+  var msg='नमस्ते सर, मैंने Agrikranti eBook "'+b.title+'" के लिए ₹'+b.price+' का payment किया है।\nनाम: '+(p.name||'')+'\nमोबाइल: '+(p.mobile||'')+'\n(Payment screenshot साथ में भेज रहा/रही हूँ)';
+  var o=document.createElement('div'); o.className='overlay';
+  o.innerHTML='<div class="card" style="display:flex;flex-direction:column;gap:10px;max-height:92vh;overflow:auto"><div class="row" style="justify-content:space-between"><b>eBook खरीदें - ₹'+b.price+'</b><button class="iconbtn" id="x">✕</button></div>'
+    +'<div class="muted small">'+esc(b.title)+'</div>'
+    +'<a class="btn gold block" style="text-align:center;text-decoration:none" href="'+upi+'">UPI app से ₹'+b.price+' Pay करें</a>'
+    +'<div class="muted small" style="text-align:center">या नीचे दिया QR दूसरे फोन से स्कैन करें / screenshot लेकर UPI app में खोलें</div>'
+    +'<img src="img/phonepe-qr.png" alt="PhonePe QR - '+esc(CONFIG.payeeName)+'" style="width:100%;border-radius:12px;background:#0a0a0a">'
+    +'<div class="small" style="text-align:center">UPI ID: <b id="upiid">'+esc(CONFIG.upiId)+'</b> <button class="iconbtn" id="cpy" style="padding:2px 8px">Copy</button></div>'
+    +'<ol class="rules" style="color:var(--ink)"><li>ऊपर से ₹'+b.price+' का payment करें।</li><li>Payment का screenshot Telegram पर <b>'+esc(CONFIG.telegramName)+'</b> को भेजें।</li><li>'+(b.chk?'आपको एक <b>Unlock Code</b> मिलेगा, उसे यहाँ "Code डालें" में लिखें। Book हमेशा के लिए खुल जाएगी।':'Payment जाँचने के बाद पूरी <b>PDF आपको Telegram पर भेज दी जाएगी</b>।')+'</li></ol>'
+    +'<a class="btn block" style="text-align:center;text-decoration:none;background:#2aa1da;color:#fff" target="_blank" rel="noopener" href="'+esc(CONFIG.telegram)+'">Telegram पर screenshot भेजें</a>'
+    +'<a class="btn ghost block" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(msg)+'">WhatsApp पर संदेश भेजें</a>'
+    +(b.chk?'<button class="btn ghost block" id="havecode">मेरे पास Code है</button>':'')+'<div class="okmsg" id="cpm"></div></div>';
+  document.body.appendChild(o);
+  o.querySelector('#x').onclick=function(){ o.remove(); };
+  var hc=o.querySelector('#havecode'); if(hc) hc.onclick=function(){ o.remove(); codeBox(id); };
+  o.querySelector('#cpy').onclick=function(){ try{ navigator.clipboard.writeText(CONFIG.upiId).then(function(){ o.querySelector('#cpm').textContent='UPI ID कॉपी हो गई।'; }); }catch(e){} };
+}
+function codeBox(id){
+  var b=EBOOKS.filter(function(e){return e.id===id;})[0];
+  var o=document.createElement('div'); o.className='overlay';
+  o.innerHTML='<form class="card" id="cf" style="display:flex;flex-direction:column;gap:10px"><b>Unlock Code डालें</b><div class="muted small">'+esc(b.title)+'</div><input id="cc" autocomplete="off" placeholder="जैसे: AK123456" style="text-transform:uppercase"><div class="err" id="ce"></div><div class="row"><button class="btn" type="submit">Unlock करें</button><button class="btn ghost" type="button" id="cx">रद्द करें</button></div></form>';
+  document.body.appendChild(o);
+  o.querySelector('#cx').onclick=function(){ o.remove(); };
+  o.querySelector('#cf').onsubmit=function(e){ e.preventDefault(); var c=o.querySelector('#cc').value.trim().toUpperCase().replace(/\s+/g,''), er=o.querySelector('#ce');
+    sha256hex('chk'+c+b.id).then(function(h){ if(h!==b.chk){ er.textContent='Code गलत है। कृपया दोबारा जाँचें।'; return; }
+      return sha256hex(c+b.id).then(function(f){ var u=unlocked(); u[b.id]={code:c,file:'ebooks/'+f.slice(0,20)+'.pdf'}; set('unlocked',u); o.remove(); ebooks(); }); })
+      .catch(function(){ er.textContent='यह फोन code जाँच नहीं पा रहा। Chrome का नया version इस्तेमाल करें।'; }); };
+}
+function ebooks(){
+  activeTab('ebooks');
+  var h=topbar()+'<main class="page"><h2 class="sec">e<span>Books</span></h2><p class="muted small" style="margin:0">Free sample तुरंत पढ़ें। Full book खरीदने के लिए PhonePe / किसी भी UPI app से payment करें।</p>';
+  EBOOKS.forEach(function(b){ h+=ebookCard(b); });
+  h+='<div class="card"><b>Payment के लिए</b><div class="muted small" style="margin:4px 0 8px">'+esc(CONFIG.payeeName)+' · UPI: '+esc(CONFIG.upiId)+'</div><img src="img/phonepe-qr.png" alt="PhonePe QR" style="width:100%;max-width:320px;border-radius:12px;display:block;margin:0 auto;background:#0a0a0a"></div>';
+  h+='<div class="card empty">और eBooks जल्द आ रही हैं। अपडेट के लिए Telegram / WhatsApp से जुड़ें।</div></main>';
+  app.innerHTML=h; bindBooks();
+}
+
+/* ================= Results ================= */
+function results(){
+  activeTab('results');
+  var at=attempts().slice().reverse();
+  var h=topbar()+'<main class="page"><h2 class="sec">मेरे <span>Results</span></h2>';
+  if(!at.length){ h+='<div class="card empty">अभी तक कोई टेस्ट नहीं दिया है।<br><br><button class="btn" data-go2="tests">पहला टेस्ट दें</button></div>'; }
+  else{
+    var best={}; at.forEach(function(a){ if(!best[a.testId]||a.score>best[a.testId].score) best[a.testId]=a; });
+    h+='<div class="card"><b>Test-wise सर्वश्रेष्ठ अंक</b><div style="display:flex;flex-direction:column;gap:8px;margin-top:10px">';
+    TESTS.forEach(function(t){ var b=best[t.id], p=b?Math.round(b.score/b.max*100):0;
+      h+='<div><div class="row" style="justify-content:space-between"><span class="small">'+esc(shortTitle(t))+'</span><span class="small" style="font-variant-numeric:tabular-nums">'+(b?b.score+'/'+b.max:'-')+'</span></div><div style="height:8px;background:var(--line);border-radius:9px;overflow:hidden"><i style="display:block;height:100%;width:'+p+'%;background:linear-gradient(90deg,var(--green),var(--gold))"></i></div></div>'; });
+    h+='</div></div><div class="tbl"><table><thead><tr><th>Test</th><th>अंक</th><th>सही</th><th>गलत</th><th>समय</th><th>तारीख</th></tr></thead><tbody>';
+    at.forEach(function(a,i){ h+='<tr data-rv="'+a.id+'" style="cursor:pointer"><td>'+esc(a.testId)+'</td><td class="num">'+a.score+'/'+a.max+'</td><td class="num">'+a.correct+'</td><td class="num">'+a.wrong+'</td><td class="num">'+mmss(a.timeTaken)+'</td><td>'+esc(a.when)+'</td></tr>'; });
+    h+='</tbody></table></div><p class="muted small" style="margin:0">किसी पंक्ति पर टैप करके उस टेस्ट के उत्तर देखें।</p>';
+  }
+  h+='</main>'; app.innerHTML=h; bindCommon();
+  app.querySelectorAll('[data-rv]').forEach(function(r){ r.onclick=function(){ var id=Number(r.getAttribute('data-rv')); go('review',attempts().filter(function(a){return a.id===id;})[0]); }; });
+}
+
+/* ================= Leaderboard (backend) ================= */
+function leaderboard(testId){
+  activeTab('tests');
+  var t=testById(testId);
+  app.innerHTML=topbar()+'<main class="page"><h2 class="sec">Leader<span>board</span></h2><p class="muted" style="margin:0">'+esc(shortTitle(t))+'</p><div class="card empty">लोड हो रहा है...</div></main>';
+  api({action:'leaderboard',test:testId}).then(function(lb){
+    var p=profile()||{}, mm=p.mobile?p.mobile.slice(0,2)+'******'+p.mobile.slice(8):'';
+    var h=topbar()+'<main class="page"><h2 class="sec">Leader<span>board</span></h2><div class="row"><span class="chip">'+esc(shortTitle(t))+'</span><span class="chip">'+lb.total+' छात्र</span></div>';
+    if(!lb.rows.length) h+='<div class="card empty">अभी तक किसी ने यह टेस्ट नहीं दिया। पहले बनकर टॉप पर आएँ!</div>';
+    else{ h+='<div class="tbl"><table><thead><tr><th>#</th><th>नाम</th><th>मोबाइल</th><th>अंक</th><th>समय</th></tr></thead><tbody>';
+      lb.rows.forEach(function(x){ var me=x.mobile===mm && x.name===p.name; h+='<tr'+(me?' class="me"':'')+'><td>'+(x.rank<=3?['🥇','🥈','🥉'][x.rank-1]:x.rank)+'</td><td>'+esc(x.name)+(me?' (आप)':'')+'</td><td>'+esc(x.mobile)+'</td><td class="num">'+x.score+'</td><td class="num">'+mmss(x.time)+'</td></tr>'; });
+      h+='</tbody></table></div><p class="muted small" style="margin:0">हर मोबाइल नंबर का केवल पहला attempt गिना जाता है।</p>'; }
+    h+='<div class="row"><button class="btn" id="rf">Refresh</button><button class="btn ghost" data-go2="tests">सभी टेस्ट</button></div></main>';
+    app.innerHTML=h; bindCommon(); document.getElementById('rf').onclick=function(){ leaderboard(testId); };
+  }).catch(function(e){ app.innerHTML=topbar()+'<main class="page"><div class="card"><b>Leaderboard लोड नहीं हुआ</b><p class="muted">इंटरनेट जाँचें और दोबारा कोशिश करें।</p><button class="btn" data-go2="tests">वापस</button></div></main>'; bindCommon(); });
+}
+
+/* ================= Profile ================= */
+function profilePage(){
+  activeTab('profile');
+  var p=profile()||{name:'',mobile:''};
+  var h=topbar()+'<main class="page"><h2 class="sec">मेरी <span>Profile</span></h2><form class="card" id="pf" novalidate style="display:flex;flex-direction:column;gap:12px"><div><label for="pn">नाम</label><input id="pn" maxlength="40" value="'+esc(p.name)+'"></div><div><label for="pm">मोबाइल नंबर</label><input id="pm" inputmode="numeric" maxlength="10" value="'+esc(p.mobile)+'"></div><div class="err" id="pe"></div><button class="btn" type="submit">सेव करें</button></form>';
+  h+='<div class="card"><b>Agrikranti ऐप फोन में इंस्टॉल करें</b><ul class="rules" style="margin-top:6px"><li>Chrome में यह पेज खोलें।</li><li>ऊपर दाईं ओर ⋮ मेनू → <b>"Add to Home screen" / "Install app"</b> दबाएँ।</li><li>होम स्क्रीन पर Agrikranti का आइकन आ जाएगा, ऐप की तरह खुलेगा।</li></ul>'+(window.__deferredPrompt?'<button class="btn gold block" id="installBtn2" style="margin-top:10px">अभी इंस्टॉल करें</button>':'')+'</div>';
+  h+='<h2 class="sec">हमसे <span>जुड़ें</span></h2>'+socialCards();
+  h+='<div class="card small muted">Agrikranti 1928 · Agriculture competitive exams (ICAR, UPCATET, AGTA, Sugarcane Supervisor, JRF आदि) की तैयारी।<br>आपका डेटा (नाम, नंबर, results) आपके फोन में सुरक्षित रहता है।</div>';
+  if(CONFIG.backendUrl) h+='<button class="btn ghost block" id="adm">Admin</button>';
+  h+='</main>'; app.innerHTML=h;
+  document.getElementById('pf').onsubmit=function(e){ e.preventDefault(); var n=document.getElementById('pn').value.replace(/\s+/g,' ').trim(), m=document.getElementById('pm').value.replace(/\D/g,''), er=document.getElementById('pe');
+    if(n.length<2){ er.className='err'; er.textContent='कृपया नाम लिखें।'; return; } if(!/^[6-9]\d{9}$/.test(m)){ er.className='err'; er.textContent='सही 10 अंकों का नंबर लिखें।'; return; }
+    set('profile',{name:n,mobile:m}); er.className='okmsg'; er.textContent='Profile सेव हो गई।'; };
+  var i2=document.getElementById('installBtn2'); if(i2) i2.onclick=doInstall;
+  var a=document.getElementById('adm'); if(a) a.onclick=function(){ go('admin'); };
+}
+
+/* ================= Admin (backend) ================= */
+function adminLogin(){
+  setNav(true);
+  app.innerHTML=topbar()+'<main class="page"><form class="card" id="af" style="display:flex;flex-direction:column;gap:12px"><h2 class="sec" style="margin:0">Admin <span>Panel</span></h2><div><label for="ak">Admin password</label><input id="ak" type="password"></div><div class="err" id="ae"></div><button class="btn" type="submit">Login</button></form></main>';
+  document.getElementById('af').onsubmit=function(e){ e.preventDefault(); var k=document.getElementById('ak').value;
+    api({action:'admin',key:k}).then(function(d){ adminView(d,k); }).catch(function(m){ document.getElementById('ae').textContent=m.message||'Login नहीं हुआ'; }); };
+}
+function adminView(d,key){
+  var filt='',q='';
+  function draw(){
+    var rows=d.rows.filter(function(r){ return (!filt||r.testId===filt)&&(!q||(r.name+' '+r.mobile).toLowerCase().indexOf(q)>=0); });
+    var st={}; rows.forEach(function(r){ st[r.mobile]=1; });
+    var avg=rows.length?(rows.reduce(function(s,r){return s+Number(r.score);},0)/rows.length).toFixed(1):0;
+    var h='<div class="stats4"><div class="stat"><b>'+rows.length+'</b><span>Attempts</span></div><div class="stat"><b>'+Object.keys(st).length+'</b><span>छात्र</span></div><div class="stat"><b>'+avg+'</b><span>औसत</span></div><div class="stat"><b>'+(rows.length?Math.max.apply(null,rows.map(function(r){return Number(r.score);})):0)+'</b><span>Top</span></div></div><div class="tbl"><table><thead><tr><th>समय</th><th>Test</th><th>नाम</th><th>मोबाइल</th><th>अंक</th><th>सही</th><th>गलत</th><th>समय</th><th>#</th></tr></thead><tbody>';
+    rows.forEach(function(r){ h+='<tr><td>'+esc(r.ts)+'</td><td>'+esc(r.testId)+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.mobile)+'</td><td class="num">'+r.score+'/'+r.max+'</td><td class="num">'+r.correct+'</td><td class="num">'+r.wrong+'</td><td class="num">'+mmss(r.time)+'</td><td class="num">'+r.attempt+'</td></tr>'; });
+    document.getElementById('out').innerHTML=h+'</tbody></table></div>';
+  }
+  var opts='<option value="">सभी टेस्ट</option>'+TESTS.map(function(t){return '<option value="'+t.id+'">'+esc(shortTitle(t))+'</option>';}).join('');
+  app.innerHTML=topbar()+'<main class="page"><h2 class="sec">Admin <span>Panel</span></h2><div class="grid2"><select id="ft" style="padding:12px;border-radius:12px;background:var(--bg2);color:var(--ink);border:1.5px solid var(--line);font:inherit">'+opts+'</select><input id="sq" placeholder="नाम / मोबाइल खोजें"></div><div id="out" style="display:flex;flex-direction:column;gap:12px"></div><button class="btn ghost" id="rl">Refresh</button><p class="muted small">पूरा डेटा Google Sheet "Results" में भी है।</p></main>';
+  document.getElementById('ft').onchange=function(e){ filt=e.target.value; draw(); };
+  document.getElementById('sq').oninput=function(e){ q=e.target.value.toLowerCase(); draw(); };
+  document.getElementById('rl').onclick=function(){ api({action:'admin',key:key}).then(function(nd){ d=nd; draw(); }); };
+  draw();
+}
+
+/* ================= PWA install ================= */
+window.__deferredPrompt=null;
+window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); window.__deferredPrompt=e; var b=document.getElementById('installBtn'); if(!b && document.querySelector('.topbar .in')) home(); });
+function installBtnHtml(){ return window.__deferredPrompt?'<button class="iconbtn" id="installBtn">⬇ Install</button>':''; }
+function doInstall(){ var p=window.__deferredPrompt; if(!p) return; p.prompt(); p.userChoice.then(function(){ window.__deferredPrompt=null; }); }
+if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
+
+/* start */
+if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home');
+</script>
+</body>
+</html>
