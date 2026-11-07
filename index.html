@@ -192,6 +192,11 @@ sup{font-size:.7em}
 .rpage{flex:none;background:#fff;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.4);overflow:hidden}
 .rpage canvas{display:block;pointer-events:none}
 @media print{body *{display:none!important}}
+.pills{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.pills::-webkit-scrollbar{display:none}
+.pill{flex:none;background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:99px;padding:8px 16px;font:inherit;font-weight:700;font-size:14px;cursor:pointer}
+.pill.on{background:var(--ink);color:#0e1410;border-color:var(--ink)}
+.pill i{font-style:normal;background:var(--gold);color:#111;border-radius:99px;padding:0 7px;font-size:12px;margin-left:4px}
 </style>
 </head>
 <body>
@@ -261,6 +266,7 @@ function applyContent(c){
   NOTICE=(c.notice&&c.notice.text)?c.notice:null;
   window.BANNERS=(c.banners||[]).filter(function(b){return b&&b.img;});
   window.LIC=c.licenses||{};
+  if(c.series&&c.series.length) SERIES=c.series;
 }
 function loadContent(){
   var done=false;
@@ -284,6 +290,7 @@ function trackOpen(){
 window.addEventListener('appinstalled',function(){ if(!get('inst',0)){ set('inst',1); hit('installs'); } });
 document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href$=".pdf"]'); if(a) hit('pdf-opens'); });
 
+var SERIES=[{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}];
 /* ================= helpers ================= */
 var app = document.getElementById('app');
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
@@ -416,7 +423,7 @@ var TI_SVG={
  sem:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>',
  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>'};
 function tilesFor(cat){
-  var T={tests:['Sugarcane Supervisor Test Series','test','tests'],ebooks:['E-Books','book','ebooks'],sem:['Semester Papers','sem','semester'],pyq:['Previous Year Paper','pdf','semester'],ai:['Ask AI','ai','ask'],res:['My Results','res','results'],upd:['Exam Updates','upd','updates'],links:['Links','link','links'],share:['Share App','share','share'],prof:['My Profile','user','profile']};
+  var T={tests:['Test Series','test','tests'],ebooks:['E-Books','book','ebooks'],sem:['Semester Papers','sem','semester'],pyq:['Previous Year Paper','pdf','semester'],ai:['Ask AI','ai','ask'],res:['My Results','res','results'],upd:['Exam Updates','upd','updates'],links:['Links','link','links'],share:['Share App','share','share'],prof:['My Profile','user','profile']};
   var order=cat==='sem'?['sem','pyq','ai','ebooks','tests','upd','res','links','share','prof']:['tests','ebooks','ai','res','sem','upd','links','share','prof','pyq'];
   return order.slice(0,10).map(function(k,i){ var t=T[k]; return '<button class="tile t'+(i%8+1)+'" data-goto="'+t[2]+'">'+TI_SVG[t[1]]+'<span>'+t[0]+'</span></button>'; }).join('');
 }
@@ -510,11 +517,18 @@ function testCard(t){
   return '<div class="card tcard"><div class="tnum">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(t))+'</h3><div class="chips"><span class="chip">'+t.questions.length+' प्रश्न</span><span class="chip">'+maxMarks(t)+' अंक</span><span class="chip">'+CONFIG.durationMin+' मिनट</span>'+(b?'<span class="chip done">Best '+b.score+'/'+b.max+'</span>':'')+'</div>'
     +'<div class="row"><button class="btn" data-start="'+t.id+'">'+(b?'फिर से दें':'टेस्ट शुरू करें')+'</button>'+(b?'<button class="btn ghost" data-review="'+t.id+'">उत्तर देखें</button>':'')+(CONFIG.backendUrl?'<button class="btn ghost" data-lb="'+t.id+'">Leaderboard</button>':'')+'</div></div></div>';
 }
-function tests(){
+function seriesOf(t){ return t.series||(SERIES[0]&&SERIES[0].id); }
+function tests(sid){
   activeTab('tests');
-  var h=topbar()+'<main class="page"><h2 class="sec">Sugarcane Supervisor <span>Test Series</span></h2><p class="muted small" style="margin:0">UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी</p><p class="muted small" style="margin:0">हर टेस्ट: '+TESTS[0].questions.length+' प्रश्न × '+CONFIG.marksPerQ+' अंक = '+maxMarks(TESTS[0])+' अंक · '+CONFIG.durationMin+' मिनट · '+(CONFIG.negative?'गलत पर -'+CONFIG.negative:'कोई negative marking नहीं')+'</p>';
-  TESTS.forEach(function(t){ h+=testCard(t); });
+  var cur=sid||get('series',SERIES[0].id); if(!SERIES.some(function(x){return x.id===cur;})) cur=SERIES[0].id;
+  var list=TESTS.filter(function(t){ return seriesOf(t)===cur; }), sr=SERIES.filter(function(x){return x.id===cur;})[0];
+  var h=topbar()+'<main class="page"><h2 class="sec">Test <span>Series</span></h2>';
+  h+='<div class="pills">'+SERIES.map(function(x){ var n=TESTS.filter(function(t){return seriesOf(t)===x.id;}).length; return '<button class="pill'+(x.id===cur?' on':'')+'" data-sr="'+esc(x.id)+'">'+esc(x.name)+' <i>'+n+'</i></button>'; }).join('')+'</div>';
+  h+='<div class="card" style="padding:12px 14px;background:radial-gradient(120% 140% at 100% 0%,#1d3a22 0%,var(--card) 60%)"><b style="color:var(--gold)">'+esc(sr.name)+'</b><div class="muted small">'+(cur==='sugarcane'?'UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी · ':'')+(list[0]?'हर टेस्ट: '+list[0].questions.length+' प्रश्न × '+CONFIG.marksPerQ+' अंक = '+maxMarks(list[0])+' अंक · '+CONFIG.durationMin+' मिनट':'')+'</div></div>';
+  if(!list.length) h+='<div class="card empty">इस series के test जल्द आ रहे हैं।</div>';
+  list.forEach(function(t){ h+=testCard(t); });
   h+='</main>'; app.innerHTML=h; bindCommon();
+  app.querySelectorAll('[data-sr]').forEach(function(b){ b.onclick=function(){ set('series',b.getAttribute('data-sr')); tests(b.getAttribute('data-sr')); }; });
 }
 function bindCommon(){
   app.querySelectorAll('[data-start]').forEach(function(b){ b.onclick=function(){ go('register',b.getAttribute('data-start')); }; });

@@ -75,5 +75,11 @@
     "w": "V3Vk3g28TeDNWlthzKyaNDJVhUSLMj8o03wTV32t3aHtY0AcxXfCpiVx91lq2Ug7XF2Et7oKhoe4grlc"
    }
   }
- }
+ },
+ "series": [
+  {
+   "id": "sugarcane",
+   "name": "Sugarcane Supervisor Test Series"
+  }
+ ]
 }

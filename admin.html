@@ -260,14 +260,18 @@ function testsView(){
   var t=TESTS[TI];
   var h='<div class="card"><h2>Test Series</h2><div class="row"><select id="ts" style="flex:1">'+TESTS.map(function(x,i){ return '<option value="'+i+'"'+(i===TI?' selected':'')+'>'+esc(x.title)+' ('+x.questions.length+' Q)</option>'; }).join('')+'</select><button class="btn small" id="nt">+ नया Test</button></div></div>';
   if(t){
+    var SR=C.series||[{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}]; h+='<div class="card"><label>किस Test Series (tab) में</label><div class="row"><select id="tsr" style="flex:1">'+SR.map(function(x){ return '<option value="'+esc(x.id)+'"'+((t.series||SR[0].id)===x.id?' selected':'')+'>'+esc(x.name)+'</option>'; }).join('')+'<option value="__new">+ नई Test Series बनाएं</option></select></div></div>';
     h+='<div class="card"><label>Test का नाम</label><div class="row"><input id="tt" value="'+esc(t.title)+'" style="flex:1"><button class="btn ghost small" id="rn">नाम Save</button><button class="btn red small" id="dt">Test हटाएं</button></div>'
      +'<div class="row" style="margin-top:10px"><button class="btn gold" id="aq">+ नया प्रश्न जोड़ें</button><span class="muted small">'+t.questions.length+' प्रश्न × '+(C.config.marksPerQ||2)+' अंक</span></div>'
      +'<div class="qlist" style="margin-top:8px">'+t.questions.map(function(q,i){ return '<div class="q"><b>'+(i+1)+'.</b><div>'+esc(q.q)+'<div class="muted small">✔ '+esc(q.o[q.a])+'</div></div><button class="btn ghost small" data-eq="'+i+'">Edit</button><button class="btn red small" data-dq="'+i+'">✕</button></div>'; }).join('')+'</div></div>';
   }
   M.innerHTML=h;
   document.getElementById('ts').onchange=function(e){ TI=+e.target.value; testsView(); };
-  document.getElementById('nt').onclick=function(){ var n=TESTS.length+1, id='T'+n; while(TESTS.some(function(x){return x.id===id;})) id='T'+(++n); TESTS.push({id:id,title:'Test '+n+' - नया टेस्ट',questions:[]}); TI=TESTS.length-1; testsView(); toast('नया test बना। प्रश्न जोड़कर Save करें।'); };
+  document.getElementById('nt').onclick=function(){ var n=TESTS.length+1, id='T'+n; while(TESTS.some(function(x){return x.id===id;})) id='T'+(++n); TESTS.push({id:id,title:'Test '+n+' - नया टेस्ट',series:(TESTS[TI]&&TESTS[TI].series)||'sugarcane',questions:[]}); TI=TESTS.length-1; testsView(); toast('नया test बना। प्रश्न जोड़कर Save करें।'); };
   if(!t) return;
+  document.getElementById('tsr').onchange=function(e){ var v=e.target.value;
+    if(v==='__new'){ var nm=prompt('नई Test Series का नाम (जैसे: UPSSSC AGTA Test Series)'); if(!nm){ testsView(); return; } v=nm.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||('s'+Date.now()); C.series=C.series||[{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}]; if(!C.series.some(function(x){return x.id===v;})) C.series.push({id:v,name:nm.trim()}); t.series=v; saveContent('new series').then(function(){ return saveTests('series '+t.id); }).then(testsView); return; }
+    t.series=v; saveTests('series '+t.id).then(testsView); };
   document.getElementById('rn').onclick=function(){ t.title=document.getElementById('tt').value.trim()||t.title; saveTests('rename '+t.id).then(testsView); };
   document.getElementById('dt').onclick=function(){ if(!confirm('पूरा "'+t.title+'" हटाएं? यह वापस नहीं आएगा।')) return; TESTS.splice(TI,1); TI=0; saveTests('delete test').then(testsView); };
   document.getElementById('aq').onclick=function(){ qForm(-1); };
