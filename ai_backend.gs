@@ -1,14 +1,13 @@
 /**
- * Agrikranti AI - Ask AI backend (Google Apps Script)
- * ChatGPT (OpenAI) se chalta hai. Students ko sirf "Agrikranti AI" dikhta hai.
- * Steps: script.new par yeh pura code paste karein, neeche OPENAI_KEY mein apni key daalein,
+ * Agrikranti AI - Ask AI backend (Google Apps Script + Google Gemini, FREE)
+ * Students ko sirf "Agrikranti AI" dikhta hai.
+ * Steps: script.new par yeh pura code paste karein, neeche GEMINI_KEY mein apni key daalein,
  * Deploy > New deployment > Web app > Execute as: Me, Who has access: Anyone.
- * (Free Gemini chahiye to OPENAI_KEY khali chhodkar GEMINI_KEY bharein.)
  */
-var OPENAI_KEY = 'PASTE_YOUR_OPENAI_KEY';                  // sk-... (platform.openai.com/api-keys)
-var OPENAI_MODELS = ['gpt-4o-mini', 'gpt-4.1-mini'];      // sasta aur tez; pehla na chale to agla
-var GEMINI_KEY = '';                                        // optional free backup (aistudio.google.com/apikey)
-var MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest'];
+var GEMINI_KEY = 'PASTE_YOUR_GEMINI_KEY';                 // aistudio.google.com/apikey se (free)
+var MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite'];  // pehla na chale to agla
+var OPENAI_KEY = '';                                        // optional (paid). Khali chhod dein.
+var OPENAI_MODELS = ['gpt-4o-mini', 'gpt-4.1-mini'];
 var DAILY_LIMIT = 1500;   // ek din mein kul itne prashn (free quota bachane ke liye)
 
 var SYSTEM = [
@@ -43,7 +42,19 @@ function doPost(e) {
     contents.push({ role: 'user', parts: [{ text: (ctx ? 'Agrikranti notes से तथ्य (संदर्भ के लिए):\n' + ctx + '\n\n' : '') + 'प्रश्न: ' + q }] });
 
     var lastErr = '';
-    var hasOpenAI = OPENAI_KEY && OPENAI_KEY.indexOf('PASTE_') !== 0;
+    if (GEMINI_KEY && GEMINI_KEY.indexOf('PASTE_') !== 0) {
+      var payload = { systemInstruction: { parts: [{ text: SYSTEM }] }, contents: contents, generationConfig: { temperature: 0.4, maxOutputTokens: 900 } };
+      for (var i = 0; i < MODELS.length; i++) {
+        var res = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + MODELS[i] + ':generateContent?key=' + GEMINI_KEY,
+          { method: 'post', contentType: 'application/json', payload: JSON.stringify(payload), muteHttpExceptions: true });
+        var j = JSON.parse(res.getContentText() || '{}');
+        var txt = j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts
+          ? j.candidates[0].content.parts.map(function (p) { return p.text || ''; }).join('') : '';
+        if (txt) return out({ answer: txt });
+        lastErr = (j.error && j.error.message) || ('HTTP ' + res.getResponseCode());
+      }
+    }
+    var hasOpenAI = !!OPENAI_KEY && OPENAI_KEY.indexOf('PASTE_') !== 0;
     if (hasOpenAI) {
       var msgs = [{ role: 'system', content: SYSTEM }].concat(contents.map(function (c) { return { role: c.role === 'model' ? 'assistant' : 'user', content: c.parts[0].text }; }));
       for (var m = 0; m < OPENAI_MODELS.length; m++) {
@@ -56,18 +67,6 @@ function doPost(e) {
         var ot = oj.choices && oj.choices[0] && oj.choices[0].message ? oj.choices[0].message.content : '';
         if (ot) return out({ answer: ot });
         lastErr = (oj.error && oj.error.message) || ('HTTP ' + r.getResponseCode());
-      }
-    }
-    if (GEMINI_KEY && GEMINI_KEY.indexOf('PASTE_') !== 0) {
-      var payload = { systemInstruction: { parts: [{ text: SYSTEM }] }, contents: contents, generationConfig: { temperature: 0.4, maxOutputTokens: 900 } };
-      for (var i = 0; i < MODELS.length; i++) {
-        var res = UrlFetchApp.fetch('https://generativelanguage.googleapis.com/v1beta/models/' + MODELS[i] + ':generateContent?key=' + GEMINI_KEY,
-          { method: 'post', contentType: 'application/json', payload: JSON.stringify(payload), muteHttpExceptions: true });
-        var j = JSON.parse(res.getContentText() || '{}');
-        var txt = j.candidates && j.candidates[0] && j.candidates[0].content && j.candidates[0].content.parts
-          ? j.candidates[0].content.parts.map(function (p) { return p.text || ''; }).join('') : '';
-        if (txt) return out({ answer: txt });
-        lastErr = (j.error && j.error.message) || ('HTTP ' + res.getResponseCode());
       }
     }
     if (!lastErr) lastErr = 'API key nahi daali gayi';
