@@ -354,12 +354,52 @@ function shareCard(){ return '<div class="card" style="display:flex;gap:12px;ali
 var S={ test:null, order:[], optOrder:{}, answers:{}, marks:{}, cur:0, start:0, timer:null };
 function go(view, arg){
   clearInterval(S.timer);
+  if(!profile()) return loginPage();
   window.scrollTo(0,0);
   if(view!=='quiz') setNav(true);
   var f=document.getElementById('fab'); if(f) f.hidden=(view==='quiz'||view==='ask'||view==='register');
   ({home:home, tests:tests, ebooks:ebooks, semester:semester, ask:askAI, cats:catsPage, updates:updatesPage, links:linksPage, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
 }
 document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ var v=b.getAttribute('data-go'); if(v==='wa'){ window.open(CONFIG.whatsapp,'_blank','noopener'); return; } go(v); }; });
+
+/* ===== Login / Logout ===== */
+function devId(){ var d=get('dev',''); if(!d){ d=Date.now().toString(36)+Math.random().toString(36).slice(2,10); set('dev',d); } return d; }
+function hasServer(){ return !!CONFIG.payUrl; }
+var USER_KEYS=['attempts','unlocked','progress','aichat'];
+function logout(msg){
+  var p=profile(); if(p){ var st={}; USER_KEYS.forEach(function(k){ st[k]=get(k,null); }); set('u_'+p.mobile,st); }
+  USER_KEYS.forEach(del); del('profile'); del('sess'); loginPage(msg);
+}
+function restoreUser(m){ var st=get('u_'+m,null); if(st){ USER_KEYS.forEach(function(k){ if(st[k]!=null) set(k,st[k]); }); del('u_'+m); } }
+function loginPage(msg){
+  clearInterval(S.timer); setNav(false); window.scrollTo(0,0);
+  app.innerHTML='<main class="page" style="min-height:100vh;justify-content:center;padding-bottom:40px">'
+   +'<div style="text-align:center"><img src="icons/logo.png" alt="" style="width:110px;height:110px;border-radius:50%;box-shadow:0 0 0 3px var(--gold),0 0 26px rgba(63,207,94,.35)"><h1 style="font-family:var(--display);color:var(--gold);font-size:40px;margin:12px 0 0;line-height:1">AGRIKRANTI 1928</h1><p class="muted small" style="margin:4px 0 0">'+esc(CONFIG.tagline)+'</p></div>'
+   +(msg?'<div class="card" style="border-color:var(--bad);color:var(--bad)">'+esc(msg)+'</div>':'')
+   +'<form class="card" id="lg" novalidate style="display:flex;flex-direction:column;gap:12px"><h2 class="sec" style="margin:0">Login / <span>Register</span></h2>'
+   +'<div><label for="ln">आपका नाम</label><input id="ln" autocomplete="name" maxlength="40" placeholder="जैसे: Rahul Kumar"></div>'
+   +'<div><label for="lm">मोबाइल नंबर</label><input id="lm" inputmode="numeric" maxlength="10" placeholder="10 अंकों का नंबर"></div>'
+   +(hasServer()?'<div><label for="lp">4 अंकों का PIN</label><input id="lp" type="password" inputmode="numeric" maxlength="4" placeholder="नए हैं तो अपना PIN बनाएं"><div class="muted small">पहली बार: जो PIN डालेंगे वही आपका PIN बन जाएगा। इसे याद रखें।</div></div>':'')
+   +'<div class="err" id="le"></div><button class="btn block" type="submit" id="lb">Login करें</button>'
+   +(hasServer()?'<div class="muted small" style="text-align:center">एक ID एक समय में एक ही फोन पर चलेगी।</div>':'')+'</form></main>';
+  document.getElementById('lg').onsubmit=function(e){ e.preventDefault();
+    var n=document.getElementById('ln').value.replace(/\s+/g,' ').trim(), m=document.getElementById('lm').value.replace(/\D/g,''), pe=document.getElementById('lp'), pin=pe?pe.value.replace(/\D/g,''):'', er=document.getElementById('le'), btn=document.getElementById('lb');
+    if(n.length<2){ er.textContent='कृपया अपना नाम लिखें।'; return; }
+    if(!/^[6-9]\d{9}$/.test(m)){ er.textContent='कृपया 10 अंकों का सही मोबाइल नंबर लिखें।'; return; }
+    if(pe && pin.length!==4){ er.textContent='4 अंकों का PIN लिखें।'; return; }
+    var done=function(name){ set('profile',{name:name||n,mobile:m}); restoreUser(m); set('sess',devId()); hit('logins'); go('home'); };
+    if(!hasServer()) return done(n);
+    btn.disabled=true; er.className='muted small'; er.textContent='Login हो रहा है...';
+    payApi({action:'login',mobile:m,name:n,pin:pin,device:devId()}).then(function(r){
+      if(r.ok) return done(r.name); btn.disabled=false; er.className='err';
+      er.textContent=r.error==='pin'?'PIN गलत है। सही PIN डालें (भूल गए हों तो Telegram पर संपर्क करें)।':'Login नहीं हुआ, दोबारा कोशिश करें।';
+    }).catch(function(){ btn.disabled=false; er.className='err'; er.textContent='इंटरनेट जाँचकर दोबारा कोशिश करें।'; });
+  };
+}
+function sessionCheck(){
+  var p=profile(); if(!p||!hasServer()) return;
+  payApi({action:'check',mobile:p.mobile,device:devId()}).then(function(r){ if(r && r.ok===false && r.reason==='other') logout('आपकी ID किसी दूसरे फोन पर login हुई है, इसलिए यहाँ से logout हो गया। दोबारा login करें।'); }).catch(function(){});
+}
 
 /* ================= Home ================= */
 var TI_SVG={
@@ -429,12 +469,12 @@ function openDrawer(){
     +I('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>','Home','home')+I(TI_SVG.res,'My Results','results')+I(TI_SVG.user,'Profile / Settings','profile')
     +I(TI_SVG.sem,'Semester Papers','semester')+I(TI_SVG.ai,'Ask AI','ask')+I(TI_SVG.upd,'Exam Updates','updates')
     +I('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>','Chat (Telegram)','tg')
-    +I(TI_SVG.share,'Share App','share')+I(TI_SVG.link,'Links','links')
+    +I(TI_SVG.share,'Share App','share')+I(TI_SVG.link,'Links','links')+I('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3"/></svg>','Logout','logout')
     +'<div class="fol"><b>Follow us</b><div class="row">'
     +'<a class="ic yt" href="'+esc(CONFIG.youtube)+'" target="_blank" rel="noopener">'+ICON.yt+'</a><a class="ic wa" href="'+esc(CONFIG.whatsapp)+'" target="_blank" rel="noopener">'+ICON.wa+'</a><a class="ic tg" href="'+esc(CONFIG.telegram)+'" target="_blank" rel="noopener">'+ICON.tg+'</a><a class="ic ig" href="'+esc(CONFIG.instagram)+'" target="_blank" rel="noopener">'+ICON.ig+'</a></div></div></div><div style="flex:1" data-dact="close"></div>';
   document.body.appendChild(o);
   o.addEventListener('click',function(e){ var b=e.target.closest('[data-dact]'); if(!b) return; var a=b.getAttribute('data-dact'); o.remove();
-    if(a==='close') return; if(a==='share') return shareApp(); if(a==='tg') return window.open(CONFIG.telegram,'_blank','noopener'); go(a); });
+    if(a==='close') return; if(a==='logout'){ if(confirm('Logout करें?')) logout(); return; } if(a==='share') return shareApp(); if(a==='tg') return window.open(CONFIG.telegram,'_blank','noopener'); go(a); });
 }
 /* ===== Category select ===== */
 function catsPage(){
@@ -898,8 +938,9 @@ function leaderboard(testId){
 function profilePage(){
   activeTab('profile');
   var p=profile()||{name:'',mobile:''};
-  var h=topbar()+'<main class="page"><h2 class="sec">मेरी <span>Profile</span></h2><form class="card" id="pf" novalidate style="display:flex;flex-direction:column;gap:12px"><div><label for="pn">नाम</label><input id="pn" maxlength="40" value="'+esc(p.name)+'"></div><div><label for="pm">मोबाइल नंबर</label><input id="pm" inputmode="numeric" maxlength="10" value="'+esc(p.mobile)+'"></div><div class="err" id="pe"></div><button class="btn" type="submit">सेव करें</button></form>';
+  var h=topbar()+'<main class="page"><h2 class="sec">मेरी <span>Profile</span></h2><form class="card" id="pf" novalidate style="display:flex;flex-direction:column;gap:12px"><div><label for="pn">नाम</label><input id="pn" maxlength="40" value="'+esc(p.name)+'"></div><div><label for="pm">मोबाइल नंबर</label><input id="pm" inputmode="numeric" maxlength="10" value="'+esc(p.mobile)+'" readonly style="opacity:.7"><div class="muted small">मोबाइल नंबर बदलने के लिए Logout करके नए नंबर से Login करें।</div></div><div class="err" id="pe"></div><button class="btn" type="submit">सेव करें</button></form>';
   h+='<div class="card"><b>Agrikranti ऐप फोन में इंस्टॉल करें</b><ul class="rules" style="margin-top:6px"><li>Chrome में यह पेज खोलें।</li><li>ऊपर दाईं ओर ⋮ मेनू → <b>"Add to Home screen" / "Install app"</b> दबाएँ।</li><li>होम स्क्रीन पर Agrikranti का आइकन आ जाएगा, ऐप की तरह खुलेगा।</li></ul>'+(window.__deferredPrompt?'<button class="btn gold block" id="installBtn2" style="margin-top:10px">अभी इंस्टॉल करें</button>':'')+'</div>';
+  h+='<button class="btn ghost block" id="lo" style="border-color:var(--bad);color:var(--bad)">🚪 Logout</button>';
   h+=shareCard();
   h+='<h2 class="sec">हमसे <span>जुड़ें</span></h2>'+socialCards();
   h+='<div class="card small muted">Agrikranti 1928 · Agriculture competitive exams (ICAR, UPCATET, AGTA, Sugarcane Supervisor, JRF आदि) की तैयारी।<br>आपका डेटा (नाम, नंबर, results) आपके फोन में सुरक्षित रहता है।</div>';
@@ -910,6 +951,7 @@ function profilePage(){
     set('profile',{name:n,mobile:m}); er.className='okmsg'; er.textContent='Profile सेव हो गई।'; };
   var i2=document.getElementById('installBtn2'); if(i2) i2.onclick=doInstall;
   var a=document.getElementById('adm'); if(a) a.onclick=function(){ go('admin'); };
+  document.getElementById('lo').onclick=function(){ if(confirm('Logout करें? आपके results और खरीदी book इसी नंबर से दोबारा login करने पर वापस मिल जाएंगे।')) logout(); };
 }
 
 /* ================= Admin (backend) ================= */
@@ -945,7 +987,8 @@ function doInstall(){ var p=window.__deferredPrompt; if(!p) return; p.prompt(); 
 if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
 
 /* start */
-loadContent().then(function(){ if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); trackOpen(); });
+loadContent().then(function(){ trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); sessionCheck(); });
+document.addEventListener('visibilitychange',function(){ if(!document.hidden) sessionCheck(); });
 </script>
 </body>
 </html>

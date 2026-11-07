@@ -1,5 +1,5 @@
 /**
- * Agrikranti - Automatic eBook payment (Razorpay) backend - Google Apps Script
+ * Agrikranti backend - Automatic eBook payment (Razorpay) + Student login (ek ID ek phone) - Google Apps Script
  * Student pay karta hai -> yeh script Razorpay se payment verify karti hai -> book ki chaabi app ko deti hai
  * -> har bikri Google Sheet "Agrikranti eBook Sales" mein likhi jati hai aur aapko email aata hai.
  *
@@ -21,10 +21,12 @@ function doGet() { return out({ ok: true, name: 'Agrikranti Pay' }); }
 function doPost(e) {
   try {
     var b = JSON.parse(e.postData.contents || '{}');
-    var book = BOOKS[b.book];
-    if (!book) return out({ error: 'book not found' });
     var mobile = String(b.mobile || '').replace(/\D/g, '').slice(-10);
     if (!/^[6-9]\d{9}$/.test(mobile)) return out({ error: 'mobile' });
+    if (b.action === 'login') return login(mobile, b);
+    if (b.action === 'check') return check(mobile, b);
+    var book = BOOKS[b.book];
+    if (!book) return out({ error: 'book not found' });
 
     if (b.action === 'order') {
       var r = rzp('post', '/orders', { amount: book.price * 100, currency: 'INR', receipt: b.book + '-' + mobile + '-' + Date.now(),
@@ -81,6 +83,35 @@ function record(book, mobile, name, amount, pid, oid) {
   sh.appendRow([Utilities.formatDate(new Date(), 'Asia/Kolkata', 'dd-MM-yyyy HH:mm'), name, "'" + mobile, book, amount, pid, oid]);
   try { MailApp.sendEmail(NOTIFY_EMAIL || Session.getEffectiveUser().getEmail(), 'Agrikranti: नई eBook बिक्री ₹' + amount,
     'Book: ' + book + '\nनाम: ' + name + '\nमोबाइल: ' + mobile + '\nPayment ID: ' + pid + '\n\nBook student के app में अपने आप खुल गई है।'); } catch (e) {}
+}
+/* ---- Student login: ek ID ek samay mein ek hi phone par ---- */
+function users() {
+  var ss = sheet().getParent(), sh = ss.getSheetByName('Users');
+  if (!sh) { sh = ss.insertSheet('Users'); sh.appendRow(['Mobile', 'Name', 'PIN hash', 'Device', 'Last login', 'Logins']); }
+  return sh;
+}
+function pinHash(m, pin) { return hex(Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, 'agk|' + m + '|' + pin)); }
+function login(m, b) {
+  var pin = String(b.pin || '').replace(/\D/g, ''); if (pin.length !== 4) return out({ error: 'pin' });
+  var lock = LockService.getScriptLock(); lock.waitLock(10000);
+  try {
+    var sh = users(), rows = sh.getDataRange().getValues(), now = Utilities.formatDate(new Date(), 'Asia/Kolkata', 'dd-MM-yyyy HH:mm');
+    for (var i = 1; i < rows.length; i++) {
+      if (String(rows[i][0]).replace(/\D/g, '').slice(-10) === m) {
+        if (rows[i][2] !== pinHash(m, pin)) return out({ error: 'pin' });
+        sh.getRange(i + 1, 4, 1, 3).setValues([[String(b.device || ''), now, Number(rows[i][5] || 0) + 1]]);
+        return out({ ok: true, name: rows[i][1] });
+      }
+    }
+    sh.appendRow(["'" + m, String(b.name || '').slice(0, 60), pinHash(m, pin), String(b.device || ''), now, 1]);
+    return out({ ok: true, name: String(b.name || ''), created: true });
+  } finally { lock.releaseLock(); }
+}
+function check(m, b) {
+  var rows = users().getDataRange().getValues();
+  for (var i = 1; i < rows.length; i++) if (String(rows[i][0]).replace(/\D/g, '').slice(-10) === m)
+    return out({ ok: String(rows[i][3]) === String(b.device || ''), reason: String(rows[i][3]) === String(b.device || '') ? '' : 'other' });
+  return out({ ok: true });
 }
 function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
