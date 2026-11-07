@@ -158,6 +158,7 @@ sup{font-size:.7em}
 .slide h3{font-family:var(--display);font-size:32px;line-height:.95;margin:0;color:var(--gold);letter-spacing:.5px}
 .slide p{margin:6px 0 0;font-size:13px;color:#dfe9e1}
 .slide .tag{display:inline-block;margin-top:8px;background:var(--gold);color:#111;font-weight:800;font-size:12px;border-radius:99px;padding:2px 10px}
+.slide.teach{padding:0;align-items:stretch;overflow:hidden;gap:0}.slide.teach .tpic{width:46%;max-width:220px;object-fit:cover;object-position:top;align-self:flex-end;height:100%;min-height:168px;-webkit-mask-image:linear-gradient(to left,#000 70%,transparent);mask-image:linear-gradient(to left,#000 70%,transparent)}
 .slide.imgs{padding:0}.slide.imgs img{width:100%;display:block}
 .dots2{position:absolute;bottom:7px;left:0;right:0;display:flex;justify-content:center;gap:5px}
 .dots2 b{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.35);transition:.2s}
@@ -453,6 +454,7 @@ function tilesFor(cat){
 function bannerSlides(){
   var sl=[];
   if(window.BANNERS && BANNERS.length) BANNERS.forEach(function(b){ sl.push('<a class="slide imgs" '+(b.link?'href="'+esc(b.link)+'" target="_blank" rel="noopener"':'')+'><img src="'+esc(b.img)+'" alt=""></a>'); });
+  sl.push('<div class="slide teach" style="background:radial-gradient(120% 160% at 100% 100%,#1d3a22 0%,#0b0f0c 60%)"><div style="flex:1;min-width:0;padding:16px 0 16px 16px;z-index:1"><span class="tag" style="margin:0 0 8px">आपके Teacher</span><h3>Aditya Kumar</h3><p style="margin-top:6px"><b style="color:var(--gold)">M.Sc. (Ag.) Soil Science</b><br>Gold Medalist · DDUGU Gorakhpur</p><p>Agrikranti 1928 के साथ तैयारी करें</p></div><img src="img/aditya.jpg" alt="Aditya Kumar" class="tpic"></div>');
   sl.push('<div class="slide" style="background:radial-gradient(120% 140% at 0% 0%,#1d3a22 0%,#121a14 60%)"><img class="lg" src="icons/logo.png" alt=""><div><h3>AGRIKRANTI 1928</h3><p>'+esc(CONFIG.tagline)+'</p><span class="tag">Sugarcane Supervisor · '+TESTS.length+' Free Tests</span></div></div>');
   sl.push('<div class="slide" data-goto="ask" style="background:radial-gradient(120% 140% at 100% 0%,#4a3a05 0%,#141a10 65%)"><div style="font-size:64px;line-height:1">✨</div><div><h3>Agrikranti AI</h3><p>Agriculture का कोई भी doubt पूछें, आसान हिंदी में तुरंत जवाब।</p><span class="tag">अभी पूछें</span></div></div>');
   sl.push('<div class="slide" data-goto="semester" style="background:radial-gradient(120% 140% at 0% 100%,#0f4c45 0%,#121a14 65%)"><div style="font-size:60px;line-height:1">🎓</div><div><h3>Semester Papers</h3><p>B.Sc. Agriculture model paper + gold-medalist style पूरा solution।</p><span class="tag">Free PDF</span></div></div>');
