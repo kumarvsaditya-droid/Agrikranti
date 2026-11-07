@@ -308,7 +308,7 @@ function api(params, body){
   var opt=body?{method:'POST',body:JSON.stringify(body),headers:{'Content-Type':'text/plain;charset=utf-8'}}:{};
   return fetch(url,opt).then(function(r){return r.json();}).then(function(j){ if(j.error) throw new Error(j.error); return j; });
 }
-var CATS=[{id:'comp',name:'Competitive Exam',ic:'🎯',sub:'ICAR, UPCATET, AGTA, JRF, Sugarcane Supervisor की तैयारी'},{id:'sem',name:'Semester Exam',ic:'🎓',sub:'B.Sc. Agriculture semester papers + solution'}];
+var CATS=[{id:'comp',name:'Entrance Exam',ic:'🎯',sub:'Sugarcane Supervisor (UPSSSC) Test Series, eBooks और Ask AI'},{id:'sem',name:'Semester Exam',ic:'🎓',sub:'B.Sc. Agriculture semester papers + solution'}];
 function curCat(){ var c=get('cat','comp'); return CATS.filter(function(x){return x.id===c;})[0]||CATS[0]; }
 var SV={menu:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h11"/></svg>',
  bell:'<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.8V3.5a1.5 1.5 0 0 0-3 0v.7A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>'};
@@ -334,7 +334,7 @@ function socialCards(){
 
 /* ================= Share app ================= */
 var APP_URL='https://kumarvsaditya-droid.github.io/Agrikranti/';
-var SHARE_TEXT='🌾 Agrikranti App - Agriculture exam की तैयारी के लिए 10 Free Test Series (100 अंक), Ask AI, Semester papers, हर प्रश्न की व्याख्या और eBooks। ICAR, UPCATET, AGTA, JRF के लिए उपयोगी। अभी खोलें:';
+var SHARE_TEXT='🌾 Agrikranti App - Agriculture exam की तैयारी के लिए Sugarcane Supervisor की 10 Free Test Series (100 अंक), Ask AI, Semester papers, हर प्रश्न की व्याख्या और eBooks। ICAR, UPCATET, AGTA, JRF के लिए उपयोगी। अभी खोलें:';
 function shareApp(){
   if(navigator.share){ navigator.share({title:'Agrikranti App',text:SHARE_TEXT,url:APP_URL}).catch(function(){}); return; }
   shareSheet();
@@ -416,14 +416,14 @@ var TI_SVG={
  sem:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>',
  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>'};
 function tilesFor(cat){
-  var T={tests:['Test Series','test','tests'],ebooks:['E-Books','book','ebooks'],sem:['Semester Papers','sem','semester'],pyq:['Previous Year Paper','pdf','semester'],ai:['Ask AI','ai','ask'],res:['My Results','res','results'],upd:['Exam Updates','upd','updates'],links:['Links','link','links'],share:['Share App','share','share'],prof:['My Profile','user','profile']};
+  var T={tests:['Sugarcane Supervisor Test Series','test','tests'],ebooks:['E-Books','book','ebooks'],sem:['Semester Papers','sem','semester'],pyq:['Previous Year Paper','pdf','semester'],ai:['Ask AI','ai','ask'],res:['My Results','res','results'],upd:['Exam Updates','upd','updates'],links:['Links','link','links'],share:['Share App','share','share'],prof:['My Profile','user','profile']};
   var order=cat==='sem'?['sem','pyq','ai','ebooks','tests','upd','res','links','share','prof']:['tests','ebooks','ai','res','sem','upd','links','share','prof','pyq'];
   return order.slice(0,10).map(function(k,i){ var t=T[k]; return '<button class="tile t'+(i%8+1)+'" data-goto="'+t[2]+'">'+TI_SVG[t[1]]+'<span>'+t[0]+'</span></button>'; }).join('');
 }
 function bannerSlides(){
   var sl=[];
   if(window.BANNERS && BANNERS.length) BANNERS.forEach(function(b){ sl.push('<a class="slide imgs" '+(b.link?'href="'+esc(b.link)+'" target="_blank" rel="noopener"':'')+'><img src="'+esc(b.img)+'" alt=""></a>'); });
-  sl.push('<div class="slide" style="background:radial-gradient(120% 140% at 0% 0%,#1d3a22 0%,#121a14 60%)"><img class="lg" src="icons/logo.png" alt=""><div><h3>AGRIKRANTI 1928</h3><p>'+esc(CONFIG.tagline)+'</p><span class="tag">'+TESTS.length+' Free Test Series</span></div></div>');
+  sl.push('<div class="slide" style="background:radial-gradient(120% 140% at 0% 0%,#1d3a22 0%,#121a14 60%)"><img class="lg" src="icons/logo.png" alt=""><div><h3>AGRIKRANTI 1928</h3><p>'+esc(CONFIG.tagline)+'</p><span class="tag">Sugarcane Supervisor · '+TESTS.length+' Free Tests</span></div></div>');
   sl.push('<div class="slide" data-goto="ask" style="background:radial-gradient(120% 140% at 100% 0%,#4a3a05 0%,#141a10 65%)"><div style="font-size:64px;line-height:1">✨</div><div><h3>Agrikranti AI</h3><p>Agriculture का कोई भी doubt पूछें, आसान हिंदी में तुरंत जवाब।</p><span class="tag">अभी पूछें</span></div></div>');
   sl.push('<div class="slide" data-goto="semester" style="background:radial-gradient(120% 140% at 0% 100%,#0f4c45 0%,#121a14 65%)"><div style="font-size:60px;line-height:1">🎓</div><div><h3>Semester Papers</h3><p>B.Sc. Agriculture model paper + gold-medalist style पूरा solution।</p><span class="tag">Free PDF</span></div></div>');
   var paid=EBOOKS.filter(function(b){return b.price;})[0];
@@ -512,7 +512,7 @@ function testCard(t){
 }
 function tests(){
   activeTab('tests');
-  var h=topbar()+'<main class="page"><h2 class="sec">Test <span>Series</span></h2><p class="muted small" style="margin:0">हर टेस्ट: '+TESTS[0].questions.length+' प्रश्न × '+CONFIG.marksPerQ+' अंक = '+maxMarks(TESTS[0])+' अंक · '+CONFIG.durationMin+' मिनट · '+(CONFIG.negative?'गलत पर -'+CONFIG.negative:'कोई negative marking नहीं')+'</p>';
+  var h=topbar()+'<main class="page"><h2 class="sec">Sugarcane Supervisor <span>Test Series</span></h2><p class="muted small" style="margin:0">UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी</p><p class="muted small" style="margin:0">हर टेस्ट: '+TESTS[0].questions.length+' प्रश्न × '+CONFIG.marksPerQ+' अंक = '+maxMarks(TESTS[0])+' अंक · '+CONFIG.durationMin+' मिनट · '+(CONFIG.negative?'गलत पर -'+CONFIG.negative:'कोई negative marking नहीं')+'</p>';
   TESTS.forEach(function(t){ h+=testCard(t); });
   h+='</main>'; app.innerHTML=h; bindCommon();
 }
