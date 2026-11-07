@@ -556,7 +556,7 @@ function askAI(){
     function finish(html){ wait.innerHTML=html; hist.push({r:'a',h:html}); if(hist.length>40) hist=hist.slice(-40); set('aichat',hist); wait.scrollIntoView({block:'end',behavior:'smooth'}); }
     var fh=facts.length?'<div class="muted small" style="margin-top:8px"><b>📘 Agrikranti प्रश्नों से जुड़े तथ्य:</b></div>'+factsHtml(facts):'';
     if(!CONFIG.aiUrl){
-      finish(facts.length?'<b>आपके प्रश्न से जुड़े तथ्य (Agrikranti notes से):</b>'+factsHtml(facts):'इस प्रश्न से जुड़ा तथ्य अभी app के प्रश्नों में नहीं मिला। प्रश्न में मुख्य शब्द (जैसे फसल, तत्व, वैज्ञानिक का नाम) लिखकर दोबारा पूछें, या Telegram पर अपना doubt भेजें।');
+      finish((facts.length?'<b>आपके प्रश्न से जुड़े तथ्य (Agrikranti notes से):</b>'+factsHtml(facts):'इस प्रश्न से जुड़ा तथ्य अभी app के प्रश्नों में नहीं मिला।')+'<div class="muted small" style="margin-top:8px">🔧 Agrikranti AI का पूरा जवाब वाला feature जल्द चालू हो रहा है। तब तक doubt Telegram पर भेजें।</div>');
       return;
     }
     var past=hist.slice(-7,-1).map(function(m){ return {role:m.r==='u'?'user':'model',text:m.r==='u'?m.t:String(m.h).replace(/<[^>]+>/g,' ').slice(0,600)}; });
