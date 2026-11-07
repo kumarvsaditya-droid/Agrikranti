@@ -540,16 +540,41 @@ function mdLite(t){ return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(
 function factsHtml(fs){ return fs.map(function(f){ return '<div class="fact">'+fmt(f.q)+'<br><span class="ans">✔ '+fmt(f.a)+'</span><div class="muted small">'+fmt(f.e)+'</div></div>'; }).join(''); }
 var AI_SYS='आप "Agrikranti AI" हैं, जिसे Agrikranti 1928 (Aditya Kumar, M.Sc. Soil Science, Gold Medalist) ने agriculture छात्रों के लिए बनाया है। छात्र B.Sc. Agriculture, ICAR UG/PG/JRF, UPCATET, UPSSSC AGTA, Sugarcane Supervisor जैसी परीक्षाओं की तैयारी कर रहे हैं। जवाब आसान हिंदी (देवनागरी) में दें, तकनीकी शब्द English में रखें। पहले सीधा उत्तर, फिर 3 - 6 बुलेट में मुख्य बिंदु (वैज्ञानिक, वर्ष, संख्या जहाँ उपयोगी)। सिर्फ **bold** और - बुलेट इस्तेमाल करें, तालिका नहीं। पक्का न हो तो लिखें "इसे किताब से मिला लें", कुछ भी गढ़ें नहीं। दिए गए "Agrikranti notes के तथ्य" प्रश्न से जुड़े हों तो उन्हें प्राथमिकता दें। पढ़ाई/agriculture से बाहर के प्रश्न पर विनम्रता से मना करें। अपने बारे में पूछने पर बस बताएं कि आप Agrikranti AI हैं; किसी company, model, Google या Gemini का नाम न लें।';
 var AI_MODELS=['gemini-2.5-flash','gemini-2.0-flash','gemini-flash-latest','gemini-2.5-flash-lite'];
-function callGemini(q,past,ctx,i){
-  i=i||0; if(i>=AI_MODELS.length) return Promise.reject(new Error('no model'));
+var AI_LASTERR='', AI_GOOD=null;
+function gFetch(url,body){
+  // pehle header se key, na chale to ?key= se
+  var opt=function(h){ return {method:body?'POST':'GET',headers:h,body:body?JSON.stringify(body):undefined}; };
+  return fetch(url,opt(body?{'Content-Type':'application/json','x-goog-api-key':CONFIG.geminiKey}:{'x-goog-api-key':CONFIG.geminiKey}))
+    .then(function(r){ return r.json(); })
+    .catch(function(e){ return fetch(url+(url.indexOf('?')<0?'?':'&')+'key='+encodeURIComponent(CONFIG.geminiKey),opt(body?{'Content-Type':'application/json'}:{})).then(function(r){ return r.json(); }); });
+}
+function aiModelList(){
+  if(AI_GOOD) return Promise.resolve([AI_GOOD].concat(AI_MODELS));
+  return gFetch('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200').then(function(j){
+    if(j.error){ AI_LASTERR=(j.error.status||'')+' '+(j.error.message||''); }
+    var names=(j.models||[]).filter(function(m){ return (m.supportedGenerationMethods||[]).indexOf('generateContent')>=0 && /flash/.test(m.name) && !/image|tts|audio|live|thinking|embedding/.test(m.name); })
+      .map(function(m){ return m.name.replace('models/',''); });
+    names.sort(function(a,b){ var sa=(/lite/.test(a)?1:0)+(/preview|exp/.test(a)?2:0), sb=(/lite/.test(b)?1:0)+(/preview|exp/.test(b)?2:0); return sa-sb || b.localeCompare(a); });
+    var all=(names.length?names.filter(function(n){ return AI_MODELS.indexOf(n)>=0; }).concat(names):[]).concat(AI_MODELS); return all.filter(function(x,k){ return all.indexOf(x)===k; });
+  }).catch(function(){ return AI_MODELS; });
+}
+function callGemini(q,past,ctx){
   var contents=past.map(function(m){ return {role:m.role,parts:[{text:m.text}]}; });
   contents.push({role:'user',parts:[{text:(ctx?'Agrikranti notes के तथ्य (संदर्भ):\n'+ctx+'\n\n':'')+'प्रश्न: '+q}]});
-  return fetch('https://generativelanguage.googleapis.com/v1beta/models/'+AI_MODELS[i]+':generateContent',
-    {method:'POST',headers:{'Content-Type':'application/json','x-goog-api-key':CONFIG.geminiKey},body:JSON.stringify({systemInstruction:{parts:[{text:AI_SYS}]},contents:contents,generationConfig:{temperature:0.4,maxOutputTokens:900}})})
-    .then(function(r){ return r.json(); }).then(function(j){
-      var t=j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts?j.candidates[0].content.parts.map(function(p){return p.text||'';}).join(''):'';
-      if(t) return t; var code=j.error&&j.error.code; if(code===429&&i===AI_MODELS.length-1) throw new Error('busy'); return callGemini(q,past,ctx,i+1);
-    });
+  var body={systemInstruction:{parts:[{text:AI_SYS}]},contents:contents,generationConfig:{temperature:0.4,maxOutputTokens:1200}};
+  return aiModelList().then(function(models){
+    function tryM(k){
+      if(k>=models.length||k>=8) return Promise.reject(new Error(AI_LASTERR||'no model'));
+      return gFetch('https://generativelanguage.googleapis.com/v1beta/models/'+models[k]+':generateContent',body).then(function(j){
+        var t=j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts?j.candidates[0].content.parts.map(function(p){return p.text||'';}).join(''):'';
+        if(t){ AI_GOOD=models[k]; return t; }
+        AI_LASTERR=j.error?((j.error.status||j.error.code||'')+' '+(j.error.message||'')):'empty answer ('+models[k]+')';
+        if(j.error&&(j.error.code===400||j.error.code===401||j.error.code===403)&&/key|API_KEY|permission|PERMISSION/i.test(AI_LASTERR)) return Promise.reject(new Error(AI_LASTERR));
+        return tryM(k+1);
+      }).catch(function(e){ if(!AI_LASTERR) AI_LASTERR=String(e&&e.message||e); return /key|permission/i.test(AI_LASTERR)?Promise.reject(e):tryM(k+1); });
+    }
+    return tryM(0);
+  });
 }
 function askAI(){
   activeTab('');
@@ -579,7 +604,7 @@ function askAI(){
     var ctx=facts.map(function(f){ return 'Q: '+f.q+' | उत्तर: '+f.a+' | '+f.e; }).join('\n');
     if(!CONFIG.aiUrl){
       callGemini(q,past,ctx).then(function(t){ finish(mdLite(t)+fh); })
-        .catch(function(){ finish('AI अभी जवाब नहीं दे पाया (इंटरनेट या सर्वर व्यस्त)। '+(facts.length?'तब तक ये तथ्य देखें:'+factsHtml(facts):'थोड़ी देर बाद दोबारा पूछें।')); });
+        .catch(function(e){ var why=String(e&&e.message||AI_LASTERR||'').slice(0,160); finish('AI अभी जवाब नहीं दे पाया। '+(facts.length?'तब तक ये तथ्य देखें:'+factsHtml(facts):'थोड़ी देर बाद दोबारा पूछें।')+'<div class="muted small" style="margin-top:6px;font-size:11px">कोड: '+esc(why||'network')+'</div>'); });
       return;
     }
     var ctl=new AbortController(), to=setTimeout(function(){ ctl.abort(); },30000);
