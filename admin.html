@@ -283,11 +283,12 @@ function qForm(i){
 
 /* ---------- Settings ---------- */
 function settingsView(){
-  var c=C.config, F=[['tagline','Home पर tagline'],['youtube','YouTube link'],['instagram','Instagram link'],['whatsapp','WhatsApp group link'],['telegram','Telegram link'],['telegramName','Telegram username (जैसे @Agrikranti_Aditya_Kumar)'],['upiId','UPI ID'],['payeeName','Payment में नाम'],['aiUrl','Ask AI का URL (Google Apps Script - नीचे steps देखें)']];
+  var c=C.config, F=[['tagline','Home पर tagline'],['youtube','YouTube link'],['instagram','Instagram link'],['whatsapp','WhatsApp group link'],['telegram','Telegram link'],['telegramName','Telegram username (जैसे @Agrikranti_Aditya_Kumar)'],['upiId','UPI ID'],['payeeName','Payment में नाम'],['geminiKey','Ask AI - Gemini API key (AIza...) - सबसे आसान, नीचे देखें'],['aiUrl','Ask AI का Script URL (optional, advanced)']];
   M.innerHTML='<div class="card"><h2>Links और Settings</h2>'+F.map(function(f){ return '<label>'+f[1]+'</label><input id="c-'+f[0]+'" value="'+esc(c[f[0]])+'">'; }).join('')
    +'<div class="grid2"><div><label>प्रति प्रश्न अंक</label><input id="c-marksPerQ" type="number" value="'+esc(c.marksPerQ)+'"></div><div><label>Negative marking (जैसे 0.5, नहीं तो 0)</label><input id="c-negative" type="number" step="0.25" value="'+esc(c.negative)+'"></div></div>'
    +'<label>Test का समय (मिनट)</label><input id="c-durationMin" type="number" value="'+esc(c.durationMin)+'">'
-   +'<details class="warn" style="margin-top:10px"><summary><b>Ask AI (Google Gemini - FREE) चालू करने के steps - एक बार</b></summary><ol class="small">'
+   +'<div class="warn" style="margin-top:10px"><b>Ask AI चालू करने का आसान तरीका (फोन से भी, 1 मिनट):</b><ol class="small"><li><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> खोलें (Gmail से login) → <b>Create API key</b> → key copy करें (AIza... से शुरू)।</li><li>ऊपर "Gemini API key" वाले खाने में paste करें → Save। बस!</li></ol><span class="small muted">यह free key है। उस Google Cloud project में billing चालू न करें, तो कभी कोई पैसा नहीं कटेगा।</span></div>'
+   +'<details class="warn" style="margin-top:10px"><summary><b>Advanced: Script वाला तरीका (Google Gemini - FREE) चालू करने के steps - एक बार</b></summary><ol class="small">'
    +'<li><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> खोलें (अपने Gmail से login) → <b>Create API key</b> → key (AIza...) copy करें। यह free है, कोई payment नहीं।</li>'
    +'<li><a href="https://script.new" target="_blank" rel="noopener">script.new</a> खोलें → पुराना code हटाकर <a href="ai_backend.gs" target="_blank">यह पूरा code</a> paste करें → <b>PASTE_YOUR_GEMINI_KEY</b> की जगह अपनी key डालें → Save (💾)।</li>'
    +'<li>ऊपर function में <b>testAI</b> चुनकर <b>Run</b> दबाएं → Review permissions → अपना account → Advanced → Go to (unsafe) → Allow। नीचे Execution log में हिंदी जवाब दिखना चाहिए।</li>'

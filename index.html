@@ -174,7 +174,9 @@ var CONFIG = {
   // Leaderboard + admin data ke liye Google Apps Script ka URL (BACKEND_SETUP.txt dekhein). Khali = offline mode.
   backendUrl: '',
   // Ask AI: Google Apps Script (Gemini) ka URL - admin panel ke Settings mein daalein. Khali = sirf app ke notes/prashnon se jawab.
-  aiUrl: ''
+  aiUrl: '',
+  // Free Gemini API key (aistudio.google.com/apikey) - admin panel se. Billing wala project na ho.
+  geminiKey: ''
 };
 /* eBooks: free = seedha khulegi; paid = payment ke baad unlock code se khulegi */
 var EBOOKS = [
@@ -535,6 +537,19 @@ function searchKB(query,n){
 }
 function mdLite(t){ return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/^#+\s*(.+)$/gm,'<b>$1</b>').replace(/^\s*[-*•]\s+(.+)$/gm,'• $1').replace(/(\d+)\^(\d+)/g,'$1<sup>$2</sup>').replace(/\n/g,'<br>'); }
 function factsHtml(fs){ return fs.map(function(f){ return '<div class="fact">'+fmt(f.q)+'<br><span class="ans">✔ '+fmt(f.a)+'</span><div class="muted small">'+fmt(f.e)+'</div></div>'; }).join(''); }
+var AI_SYS='आप "Agrikranti AI" हैं, जिसे Agrikranti 1928 (Aditya Kumar, M.Sc. Soil Science, Gold Medalist) ने agriculture छात्रों के लिए बनाया है। छात्र B.Sc. Agriculture, ICAR UG/PG/JRF, UPCATET, UPSSSC AGTA, Sugarcane Supervisor जैसी परीक्षाओं की तैयारी कर रहे हैं। जवाब आसान हिंदी (देवनागरी) में दें, तकनीकी शब्द English में रखें। पहले सीधा उत्तर, फिर 3 - 6 बुलेट में मुख्य बिंदु (वैज्ञानिक, वर्ष, संख्या जहाँ उपयोगी)। सिर्फ **bold** और - बुलेट इस्तेमाल करें, तालिका नहीं। पक्का न हो तो लिखें "इसे किताब से मिला लें", कुछ भी गढ़ें नहीं। दिए गए "Agrikranti notes के तथ्य" प्रश्न से जुड़े हों तो उन्हें प्राथमिकता दें। पढ़ाई/agriculture से बाहर के प्रश्न पर विनम्रता से मना करें। अपने बारे में पूछने पर बस बताएं कि आप Agrikranti AI हैं; किसी company, model, Google या Gemini का नाम न लें।';
+var AI_MODELS=['gemini-2.5-flash','gemini-2.0-flash','gemini-flash-latest','gemini-2.5-flash-lite'];
+function callGemini(q,past,ctx,i){
+  i=i||0; if(i>=AI_MODELS.length) return Promise.reject(new Error('no model'));
+  var contents=past.map(function(m){ return {role:m.role,parts:[{text:m.text}]}; });
+  contents.push({role:'user',parts:[{text:(ctx?'Agrikranti notes के तथ्य (संदर्भ):\n'+ctx+'\n\n':'')+'प्रश्न: '+q}]});
+  return fetch('https://generativelanguage.googleapis.com/v1beta/models/'+AI_MODELS[i]+':generateContent?key='+encodeURIComponent(CONFIG.geminiKey),
+    {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({systemInstruction:{parts:[{text:AI_SYS}]},contents:contents,generationConfig:{temperature:0.4,maxOutputTokens:900}})})
+    .then(function(r){ return r.json(); }).then(function(j){
+      var t=j.candidates&&j.candidates[0]&&j.candidates[0].content&&j.candidates[0].content.parts?j.candidates[0].content.parts.map(function(p){return p.text||'';}).join(''):'';
+      if(t) return t; var code=j.error&&j.error.code; if(code===429&&i===AI_MODELS.length-1) throw new Error('busy'); return callGemini(q,past,ctx,i+1);
+    });
+}
 function askAI(){
   activeTab('');
   var hist=get('aichat',[]);
@@ -542,7 +557,7 @@ function askAI(){
   h+='<div class="chat" id="chat"></div>';
   h+='<div class="sugg" id="sugg">'+['Vertisols की विशेषताएँ बताओ','Rhizobium के बारे में बताओ','Tetrazolium test क्या है?','Leaf Colour Chart','Land capability classes'].map(function(x){ return '<button>'+esc(x)+'</button>'; }).join('')+'</div>';
   h+='<form class="askbar" id="af"><textarea id="aq" placeholder="अपना प्रश्न यहाँ लिखें..." maxlength="600"></textarea><button class="btn gold" type="submit">भेजें</button></form>';
-  h+='<div class="row" style="justify-content:space-between"><span class="muted small">'+(CONFIG.aiUrl?'AI जवाब + app के प्रश्नों से तथ्य':'अभी app के 500+ प्रश्नों और व्याख्याओं से जवाब')+'</span><button class="iconbtn" id="clr">Chat साफ करें</button></div>';
+  h+='<div class="row" style="justify-content:space-between"><span class="muted small">'+((CONFIG.aiUrl||CONFIG.geminiKey)?'AI जवाब + app के प्रश्नों से तथ्य':'अभी app के 500+ प्रश्नों और व्याख्याओं से जवाब')+'</span><button class="iconbtn" id="clr">Chat साफ करें</button></div>';
   h+='<div class="muted small">AI गलती कर सकता है, ज़रूरी तथ्य किताब/notes से मिला लें।</div></main>';
   app.innerHTML=h; bindCommon();
   var chat=document.getElementById('chat');
@@ -555,12 +570,17 @@ function askAI(){
     var facts=searchKB(q,4), wait=add('ai','<span class="dots"><span></span><span></span><span></span></span>');
     function finish(html){ wait.innerHTML=html; hist.push({r:'a',h:html}); if(hist.length>40) hist=hist.slice(-40); set('aichat',hist); wait.scrollIntoView({block:'end',behavior:'smooth'}); }
     var fh=facts.length?'<div class="muted small" style="margin-top:8px"><b>📘 Agrikranti प्रश्नों से जुड़े तथ्य:</b></div>'+factsHtml(facts):'';
-    if(!CONFIG.aiUrl){
+    if(!CONFIG.aiUrl && !CONFIG.geminiKey){
       finish((facts.length?'<b>आपके प्रश्न से जुड़े तथ्य (Agrikranti notes से):</b>'+factsHtml(facts):'इस प्रश्न से जुड़ा तथ्य अभी app के प्रश्नों में नहीं मिला।')+'<div class="muted small" style="margin-top:8px">🔧 Agrikranti AI का पूरा जवाब वाला feature जल्द चालू हो रहा है। तब तक doubt Telegram पर भेजें।</div>');
       return;
     }
     var past=hist.slice(-7,-1).map(function(m){ return {role:m.r==='u'?'user':'model',text:m.r==='u'?m.t:String(m.h).replace(/<[^>]+>/g,' ').slice(0,600)}; });
     var ctx=facts.map(function(f){ return 'Q: '+f.q+' | उत्तर: '+f.a+' | '+f.e; }).join('\n');
+    if(!CONFIG.aiUrl){
+      callGemini(q,past,ctx).then(function(t){ finish(mdLite(t)+fh); })
+        .catch(function(){ finish('AI अभी जवाब नहीं दे पाया (इंटरनेट या सर्वर व्यस्त)। '+(facts.length?'तब तक ये तथ्य देखें:'+factsHtml(facts):'थोड़ी देर बाद दोबारा पूछें।')); });
+      return;
+    }
     var ctl=new AbortController(), to=setTimeout(function(){ ctl.abort(); },30000);
     fetch(CONFIG.aiUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({q:q,history:past,context:ctx}),signal:ctl.signal})
       .then(function(r){ return r.json(); }).then(function(j){ clearTimeout(to); if(!j.answer) throw new Error(j.error||'empty'); finish(mdLite(j.answer)+fh); })

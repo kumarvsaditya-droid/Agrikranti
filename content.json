@@ -11,7 +11,8 @@
   "marksPerQ": 2,
   "negative": 0,
   "durationMin": 60,
-  "aiUrl": ""
+  "aiUrl": "",
+  "geminiKey": ""
  },
  "notice": {
   "text": "",
