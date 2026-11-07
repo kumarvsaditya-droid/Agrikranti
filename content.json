@@ -61,6 +61,22 @@
      "paper": "papers/BSc_Sem1_AGR101_Question_Paper.pdf",
      "solution": "papers/BSc_Sem1_AGR101_Solved_Paper.pdf",
      "pages": 37
+    },
+    {
+     "code": "GPB-101",
+     "subject": "Fundamentals of Genetics - PYQ 2024 (Solved)",
+     "info": "Previous Year Paper 2024 (24/4202) · 50 अंक · Section A (5×2) + B (4×5) + C (2×10) · सभी 11 प्रश्न हल सहित",
+     "paper": "papers/BSc_Sem1_GPB101_PYQ2024_Question_Paper.pdf",
+     "solution": "papers/BSc_Sem1_GPB101_PYQ2024_Solved_Paper.pdf",
+     "pages": 12
+    },
+    {
+     "code": "GPB-101",
+     "subject": "Fundamentals of Genetics - Model Paper 1",
+     "info": "Model Paper (Previous Year Pattern) · 50 अंक · Section A (5×2) + B (4×5) + C (2×10)",
+     "paper": "papers/BSc_Sem1_GPB101_Model_Question_Paper.pdf",
+     "solution": "papers/BSc_Sem1_GPB101_Model_Solved_Paper.pdf",
+     "pages": 12
     }
    ]
   }
