@@ -37,7 +37,7 @@ button{font:inherit}
 .iconbtn{background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:6px 10px;cursor:pointer;font-weight:700;font-size:14px}
 /* bottom nav */
 .nav{position:fixed;left:0;right:0;bottom:0;z-index:10;background:var(--bg2);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
-.nav .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr)}
+.nav .in{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr)}
 .nav button{background:none;border:0;color:var(--muted);padding:8px 0 10px;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:12px;font-weight:700;cursor:pointer}
 .nav button svg{width:24px;height:24px}
 .nav button.on{color:var(--gold)}
@@ -141,6 +141,51 @@ sup{font-size:.7em}
 .dots span{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:var(--muted);animation:bl 1s infinite}
 .dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
 @keyframes bl{0%,100%{opacity:.2}50%{opacity:1}}
+/* ===== Gurukul-style layout ===== */
+.tb2 .in{gap:8px;padding-top:8px;padding-bottom:8px}
+.hb{background:none;border:0;color:var(--ink);padding:6px;cursor:pointer;display:grid;place-items:center}
+.catbtn{background:none;border:0;color:var(--ink);font:inherit;font-weight:800;font-size:18px;display:flex;align-items:center;gap:6px;cursor:pointer;padding:4px 2px;min-width:0}
+.catbtn img{width:30px;height:30px;border-radius:50%;border:2px solid var(--gold)}
+.catbtn span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bell{position:relative;background:none;border:0;color:var(--gold);padding:6px;cursor:pointer}
+.bell i{position:absolute;top:0;right:0;background:#e53935;color:#fff;font-style:normal;font-size:10px;font-weight:800;min-width:17px;height:17px;border-radius:9px;display:grid;place-items:center;padding:0 4px}
+.hello{font-size:20px;font-weight:700;margin:2px 0 -4px}
+.banner{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
+.slides{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.slides::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:start;min-height:168px;padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;text-decoration:none;color:var(--ink)}
+.slide img.lg{width:92px;height:92px;border-radius:50%;flex:none;box-shadow:0 0 0 3px var(--gold),0 0 22px rgba(63,207,94,.35)}
+.slide h3{font-family:var(--display);font-size:32px;line-height:.95;margin:0;color:var(--gold);letter-spacing:.5px}
+.slide p{margin:6px 0 0;font-size:13px;color:#dfe9e1}
+.slide .tag{display:inline-block;margin-top:8px;background:var(--gold);color:#111;font-weight:800;font-size:12px;border-radius:99px;padding:2px 10px}
+.slide.imgs{padding:0}.slide.imgs img{width:100%;display:block}
+.dots2{position:absolute;bottom:7px;left:0;right:0;display:flex;justify-content:center;gap:5px}
+.dots2 b{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.35);transition:.2s}
+.dots2 b.on{width:16px;background:var(--gold)}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{border:0;border-radius:12px;min-height:76px;padding:12px;display:flex;align-items:center;gap:12px;color:#fff;font:inherit;font-weight:800;font-size:15px;text-align:left;cursor:pointer;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+.tile svg{width:34px;height:34px;flex:none;opacity:.95}
+.t1{background:linear-gradient(120deg,#14532d,#1f8f3a)}.t2{background:linear-gradient(120deg,#7a5a00,#c48f00)}
+.t3{background:linear-gradient(120deg,#0f4c45,#1f8a7a)}.t4{background:linear-gradient(120deg,#3d4a12,#6b8e23)}
+.t5{background:linear-gradient(120deg,#5c3a00,#b8860b)}.t6{background:linear-gradient(120deg,#123524,#2e7d4f)}
+.t7{background:linear-gradient(120deg,#2b3b30,#4a6b52)}.t8{background:linear-gradient(120deg,#6b4e00,#e0a800)}
+.drawer{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.55);display:flex}
+.drawer .pn{width:min(82vw,320px);height:100%;background:var(--bg2);border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:auto;animation:sl .18s ease-out}
+@keyframes sl{from{transform:translateX(-100%)}to{transform:none}}
+.drawer .hd{padding:22px 18px 14px;border-bottom:1px solid var(--line)}
+.drawer .hd img{width:64px;height:64px;border-radius:12px;border:2px solid var(--gold)}
+.drawer .hd b{display:block;font-size:19px;margin-top:8px}
+.drawer .it{display:flex;align-items:center;gap:16px;padding:13px 20px;background:none;border:0;color:var(--ink);font:inherit;font-size:16px;text-align:left;cursor:pointer;text-decoration:none;width:100%}
+.drawer .it svg{width:22px;height:22px;color:var(--muted);flex:none}
+.drawer .it:active{background:var(--card)}
+.drawer .fol{border-top:1px solid var(--line);margin-top:6px;padding:14px 20px;text-align:center}
+.drawer .fol .row{justify-content:center;margin-top:8px}
+.drawer .fol a{width:38px;height:38px;border-radius:10px;display:grid;place-items:center}
+.catlist .c{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--card);cursor:pointer;margin-bottom:10px}
+.catlist .c.on{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold)}
+.catlist .c .ci{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--card2);font-size:22px;flex:none}
+.catlist .c b{display:block}
+.fab{display:none!important}
 </style>
 </head>
 <body>
@@ -148,11 +193,10 @@ sup{font-size:.7em}
 <button class="fab" id="fab" onclick="go('ask')" aria-label="Ask AI">✨ Ask AI</button>
 <nav class="nav" id="nav"><div class="in">
   <button data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
-  <button data-go="tests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h10M9 12h10M9 19h10"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Tests</button>
-  <button data-go="ebooks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg>eBooks</button>
-  <button data-go="semester"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>Semester</button>
-  <button data-go="results"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Results</button>
-  <button data-go="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Profile</button>
+  <button data-go="tests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h10M9 12h10M9 19h10"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>My Tests</button>
+  <button data-go="ebooks"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 8v7M9 12l3 3 3-3M8 18h8"/></svg>Downloads</button>
+  <button data-go="ask"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>Ask AI</button>
+  <button data-go="wa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20l1.3-4A8 8 0 1 1 8 18.7z"/><path d="M9 9.5c.3 2.2 2.3 4.2 4.5 4.6l1.2-1.2 2 .9c-.3 1.3-1.4 2-2.5 1.8A7.5 7.5 0 0 1 8.2 9.8c-.1-1.1.6-2.2 1.8-2.5l.9 2z"/></svg>WhatsApp</button>
 </div></nav>
 
 <script src="tests.js"></script>
@@ -203,6 +247,7 @@ function applyContent(c){
   if(c.ebooks) EBOOKS=c.ebooks;
   if(c.semester) SEMESTER=c.semester;
   NOTICE=(c.notice&&c.notice.text)?c.notice:null;
+  window.BANNERS=(c.banners||[]).filter(function(b){return b&&b.img;});
 }
 function loadContent(){
   var done=false;
@@ -250,10 +295,17 @@ function api(params, body){
   var opt=body?{method:'POST',body:JSON.stringify(body),headers:{'Content-Type':'text/plain;charset=utf-8'}}:{};
   return fetch(url,opt).then(function(r){return r.json();}).then(function(j){ if(j.error) throw new Error(j.error); return j; });
 }
-function topbar(extra){ return '<header class="topbar"><div class="in"><img src="icons/logo.png" alt=""><div class="brand">'+esc(CONFIG.appName)+'<small>1928 · Agri Exam Prep</small></div><div class="sp"></div>'+(extra||'')+'<button class="iconbtn" data-share="1" aria-label="ऐप शेयर करें"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" style="vertical-align:-3px"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg> Share</button></div></header>'; }
-document.addEventListener('click',function(e){ var t=e.target.closest && e.target.closest('[data-share]'); if(t){ e.preventDefault(); shareApp(); } });
+var CATS=[{id:'comp',name:'Competitive Exam',ic:'🎯',sub:'ICAR, UPCATET, AGTA, JRF, Sugarcane Supervisor की तैयारी'},{id:'sem',name:'Semester Exam',ic:'🎓',sub:'B.Sc. Agriculture semester papers + solution'}];
+function curCat(){ var c=get('cat','comp'); return CATS.filter(function(x){return x.id===c;})[0]||CATS[0]; }
+var SV={menu:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h11"/></svg>',
+ bell:'<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.8V3.5a1.5 1.5 0 0 0-3 0v.7A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>'};
+function topbar(extra){ var c=curCat(), n=NOTICE?1:0;
+  return '<header class="topbar tb2"><div class="in"><button class="hb" data-menu="1" aria-label="Menu">'+SV.menu+'</button><button class="catbtn" data-cat="1"><img src="icons/logo.png" alt=""><span>'+esc(c.name)+'</span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button><div class="sp"></div>'+(extra||'')+'<button class="bell" data-upd="1" aria-label="सूचनाएँ">'+SV.bell+(n?'<i>'+n+'</i>':'')+'</button></div></header>'; }
+document.addEventListener('click',function(e){ if(!e.target.closest) return; var t=e.target.closest('[data-share]'); if(t){ e.preventDefault(); shareApp(); return; }
+  if(e.target.closest('[data-menu]')){ openDrawer(); return; } if(e.target.closest('[data-cat]')){ go('cats'); return; } if(e.target.closest('[data-upd]')){ go('updates'); return; }
+  var g=e.target.closest('[data-goto]'); if(g){ e.preventDefault(); var v=g.getAttribute('data-goto'); if(v==='share') shareApp(); else go(v); } });
 function setNav(on){ document.getElementById('nav').hidden=!on; }
-function activeTab(t){ document.querySelectorAll('.nav button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go')===t); }); }
+function activeTab(t){ if(t==='semester'||t==='results'||t==='profile') t=''; document.querySelectorAll('.nav button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go')===t); }); }
 var ICON={
   yt:'<svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M10 15.5v-7l6 3.5z"/></svg>',
   wa:'<svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.5-3.9-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .5l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.3 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.1 1.3z"/></svg>',
@@ -294,36 +346,109 @@ function go(view, arg){
   window.scrollTo(0,0);
   if(view!=='quiz') setNav(true);
   var f=document.getElementById('fab'); if(f) f.hidden=(view==='quiz'||view==='ask'||view==='register');
-  ({home:home, tests:tests, ebooks:ebooks, semester:semester, ask:askAI, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
+  ({home:home, tests:tests, ebooks:ebooks, semester:semester, ask:askAI, cats:catsPage, updates:updatesPage, links:linksPage, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
 }
-document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ go(b.getAttribute('data-go')); }; });
+document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ var v=b.getAttribute('data-go'); if(v==='wa'){ window.open(CONFIG.whatsapp,'_blank','noopener'); return; } go(v); }; });
 
 /* ================= Home ================= */
+var TI_SVG={
+ test:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>',
+ book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5M9 7h6"/></svg>',
+ pdf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><text x="7" y="18" font-size="6" fill="currentColor" stroke="none" font-weight="700">PDF</text></svg>',
+ ai:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg>',
+ res:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>',
+ upd:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 9h10M7 13h6"/><circle cx="18" cy="18" r="3" fill="currentColor"/></svg>',
+ link:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>',
+ share:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>',
+ sem:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>',
+ user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>'};
+function tilesFor(cat){
+  var T={tests:['Test Series','test','tests'],ebooks:['E-Books','book','ebooks'],sem:['Semester Papers','sem','semester'],pyq:['Previous Year Paper','pdf','semester'],ai:['Ask AI','ai','ask'],res:['My Results','res','results'],upd:['Exam Updates','upd','updates'],links:['Links','link','links'],share:['Share App','share','share'],prof:['My Profile','user','profile']};
+  var order=cat==='sem'?['sem','pyq','ai','ebooks','tests','upd','res','links','share','prof']:['tests','ebooks','ai','res','sem','upd','links','share','prof','pyq'];
+  return order.slice(0,10).map(function(k,i){ var t=T[k]; return '<button class="tile t'+(i%8+1)+'" data-goto="'+t[2]+'">'+TI_SVG[t[1]]+'<span>'+t[0]+'</span></button>'; }).join('');
+}
+function bannerSlides(){
+  var sl=[];
+  if(window.BANNERS && BANNERS.length) BANNERS.forEach(function(b){ sl.push('<a class="slide imgs" '+(b.link?'href="'+esc(b.link)+'" target="_blank" rel="noopener"':'')+'><img src="'+esc(b.img)+'" alt=""></a>'); });
+  sl.push('<div class="slide" style="background:radial-gradient(120% 140% at 0% 0%,#1d3a22 0%,#121a14 60%)"><img class="lg" src="icons/logo.png" alt=""><div><h3>AGRIKRANTI 1928</h3><p>'+esc(CONFIG.tagline)+'</p><span class="tag">'+TESTS.length+' Free Test Series</span></div></div>');
+  sl.push('<div class="slide" data-goto="ask" style="background:radial-gradient(120% 140% at 100% 0%,#4a3a05 0%,#141a10 65%)"><div style="font-size:64px;line-height:1">✨</div><div><h3>Agrikranti AI</h3><p>Agriculture का कोई भी doubt पूछें, आसान हिंदी में तुरंत जवाब।</p><span class="tag">अभी पूछें</span></div></div>');
+  sl.push('<div class="slide" data-goto="semester" style="background:radial-gradient(120% 140% at 0% 100%,#0f4c45 0%,#121a14 65%)"><div style="font-size:60px;line-height:1">🎓</div><div><h3>Semester Papers</h3><p>B.Sc. Agriculture model paper + gold-medalist style पूरा solution।</p><span class="tag">Free PDF</span></div></div>');
+  var paid=EBOOKS.filter(function(b){return b.price;})[0];
+  if(paid) sl.push('<div class="slide" data-goto="ebooks" style="background:radial-gradient(120% 140% at 100% 100%,#5c3a00 0%,#141a10 65%)"><div style="font-size:60px;line-height:1">📚</div><div><h3>'+esc(paid.title)+'</h3><p>'+esc(paid.pages)+' पेज · सिर्फ ₹'+paid.price+'</p><span class="tag">अभी खरीदें</span></div></div>');
+  return sl;
+}
+function startBanner(){
+  var el=document.getElementById('slides'), dots=document.querySelectorAll('#dots2 b'); if(!el) return;
+  var n=dots.length, k=0;
+  el.onscroll=function(){ k=Math.round(el.scrollLeft/el.clientWidth); dots.forEach(function(d,i){ d.classList.toggle('on',i===k); }); };
+  clearInterval(window.__bn); window.__bn=setInterval(function(){ if(!document.body.contains(el)){ clearInterval(window.__bn); return; } k=(k+1)%n; el.scrollTo({left:k*el.clientWidth,behavior:'smooth'}); },4000);
+}
 function home(){
   activeTab('home');
-  var p=profile(), at=attempts(), done={};
+  var p=profile(), at=attempts(), done={}, cat=curCat().id;
   at.forEach(function(a){ done[a.testId]=1; });
-  var avg = at.length ? Math.round(at.reduce(function(s,a){return s+a.score/a.max*100;},0)/at.length) : 0;
   var next = TESTS.filter(function(t){ return !done[t.id]; })[0] || TESTS[0];
   var h=topbar(installBtnHtml())+'<main class="page">';
-  h+='<section class="hero"><img src="icons/logo.png" alt="Agrikranti logo"><div><h1>'+(p?'नमस्ते, '+esc(p.name.split(' ')[0]):'Agrikranti में स्वागत है')+'</h1><p>'+esc(CONFIG.tagline)+'</p></div></section>';
-  if(NOTICE) h+='<div class="card" style="border-color:var(--gold);background:#2a2205"><b style="color:var(--gold)">📢 सूचना</b><div style="margin-top:4px;white-space:pre-line">'+esc(NOTICE.text)+'</div>'+(NOTICE.link?'<a class="btn gold" style="margin-top:8px;display:inline-block;text-decoration:none" target="_blank" rel="noopener" href="'+esc(NOTICE.link)+'">'+esc(NOTICE.linkText||'खोलें')+'</a>':'')+'</div>';
-  h+='<div class="stats4"><div class="stat"><b>'+TESTS.length+'</b><span>Test Series</span></div><div class="stat"><b>'+Object.keys(done).length+'</b><span>दिए गए टेस्ट</span></div><div class="stat"><b>'+avg+'%</b><span>औसत अंक</span></div><div class="stat"><b>'+EBOOKS.length+'</b><span>eBooks</span></div></div>';
+  h+='<div class="hello">Hello, '+esc(p?p.name:'Student')+' 👋</div>';
+  var sl=bannerSlides();
+  h+='<div class="banner"><div class="slides" id="slides">'+sl.join('')+'</div><div class="dots2" id="dots2">'+sl.map(function(x,i){ return '<b class="'+(i?'':'on')+'"></b>'; }).join('')+'</div></div>';
+  if(NOTICE) h+='<div class="card" data-goto="updates" style="cursor:pointer;border-color:var(--gold);background:#2a2205;padding:12px 14px"><b style="color:var(--gold)">📢 '+esc(NOTICE.text.split('\n')[0].slice(0,90))+'</b></div>';
+  h+='<div class="tiles">'+tilesFor(cat)+'</div>';
   var prog=get('progress',null);
   if(prog && testById(prog.testId)){
     h+='<div class="card"><b>अधूरा टेस्ट: '+esc(shortTitle(testById(prog.testId)))+'</b><p class="muted small" style="margin:4px 0 10px">जहाँ छोड़ा था वहीं से जारी रखें।</p><div class="row"><button class="btn gold" id="resume">जारी रखें</button><button class="btn ghost" id="discard">छोड़ दें</button></div></div>';
   }
-  h+='<div class="card link" data-go2="ask" style="cursor:pointer;background:radial-gradient(120% 140% at 100% 0%,#3a2f05 0%,var(--card) 60%)"><span class="ic" style="background:#3a2f05;font-size:20px">✨</span><span><b>Ask AI - कोई भी प्रश्न पूछें</b><span class="muted small">Agriculture का कोई भी doubt, हिंदी में आसान जवाब</span></span></div>';
-  h+='<h2 class="sec">अगला <span>टेस्ट</span></h2>'+testCard(next);
+  if(cat==='sem'){
+    h+='<h2 class="sec">Semester <span>Papers</span></h2>';
+    SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+='<div class="card link" data-goto="semester" style="cursor:pointer"><span class="ic" style="background:#1f5f3a;font-family:var(--display);font-size:13px;color:var(--gold)">'+esc(x.code)+'</span><span><b>'+esc(x.subject)+'</b><span class="muted small">'+esc(g.title)+' · Paper + Solution</span></span></div>'; }); });
+  } else {
+    h+='<h2 class="sec">अगला <span>टेस्ट</span></h2>'+testCard(next);
+  }
   h+=shareCard();
-  h+='<button class="btn ghost block" data-go2="tests">सभी '+TESTS.length+' टेस्ट देखें</button>';
-  h+='<div class="card link" data-go2="semester" style="cursor:pointer"><span class="ic" style="background:#1f5f3a">🎓</span><span><b>B.Sc. Agriculture Semester Papers</b><span class="muted small">SSC-101 model paper + पूरा solution, free</span></span></div>';
-  h+='<h2 class="sec">पढ़ाई के लिए <span>eBooks</span></h2>'+EBOOKS.map(ebookCard).join('');
-  h+='<h2 class="sec">हमसे <span>जुड़ें</span></h2>'+socialCards();
   h+='</main>';
-  app.innerHTML=h; bindCommon(); bindBooks();
+  app.innerHTML=h; bindCommon(); bindBooks(); startBanner();
   var r=document.getElementById('resume'); if(r) r.onclick=function(){ go('quiz',{testId:prog.testId,resume:prog}); };
   var d=document.getElementById('discard'); if(d) d.onclick=function(){ del('progress'); home(); };
+}
+/* ===== Drawer (side menu) ===== */
+function openDrawer(){
+  var p=profile(), o=document.createElement('div'); o.className='drawer';
+  var I=function(svg,label,act){ return '<button class="it" data-dact="'+act+'">'+svg+'<span>'+label+'</span></button>'; };
+  o.innerHTML='<div class="pn"><div class="hd"><img src="icons/logo.png" alt=""><b>'+esc(p?p.name:'Student')+'</b><span class="muted small">'+(p?esc(p.mobile):'Profile बनाएँ')+'</span></div>'
+    +I('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>','Home','home')+I(TI_SVG.res,'My Results','results')+I(TI_SVG.user,'Profile / Settings','profile')
+    +I(TI_SVG.sem,'Semester Papers','semester')+I(TI_SVG.ai,'Ask AI','ask')+I(TI_SVG.upd,'Exam Updates','updates')
+    +I('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>','Chat (Telegram)','tg')
+    +I(TI_SVG.share,'Share App','share')+I(TI_SVG.link,'Links','links')
+    +'<div class="fol"><b>Follow us</b><div class="row">'
+    +'<a class="ic yt" href="'+esc(CONFIG.youtube)+'" target="_blank" rel="noopener">'+ICON.yt+'</a><a class="ic wa" href="'+esc(CONFIG.whatsapp)+'" target="_blank" rel="noopener">'+ICON.wa+'</a><a class="ic tg" href="'+esc(CONFIG.telegram)+'" target="_blank" rel="noopener">'+ICON.tg+'</a><a class="ic ig" href="'+esc(CONFIG.instagram)+'" target="_blank" rel="noopener">'+ICON.ig+'</a></div></div></div><div style="flex:1" data-dact="close"></div>';
+  document.body.appendChild(o);
+  o.addEventListener('click',function(e){ var b=e.target.closest('[data-dact]'); if(!b) return; var a=b.getAttribute('data-dact'); o.remove();
+    if(a==='close') return; if(a==='share') return shareApp(); if(a==='tg') return window.open(CONFIG.telegram,'_blank','noopener'); go(a); });
+}
+/* ===== Category select ===== */
+function catsPage(){
+  activeTab('');
+  var c=curCat().id, sel=c;
+  var h='<header class="topbar tb2"><div class="in"><button class="hb" id="cb" aria-label="वापस"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 5l-7 7 7 7"/></svg></button><b style="font-size:18px">Select Category</b></div></header><main class="page"><div class="catlist">'
+    +CATS.map(function(x){ return '<div class="c'+(x.id===c?' on':'')+'" data-c="'+x.id+'"><span class="ci">'+x.ic+'</span><span style="flex:1;min-width:0"><b>'+esc(x.name)+'</b><span class="muted small">'+esc(x.sub)+'</span></span><span class="muted">›</span></div>'; }).join('')
+    +'</div><button class="btn block" id="csv">Save</button></main>';
+  app.innerHTML=h;
+  document.querySelectorAll('.catlist .c').forEach(function(d){ d.onclick=function(){ sel=d.getAttribute('data-c'); document.querySelectorAll('.catlist .c').forEach(function(x){ x.classList.toggle('on',x===d); }); }; });
+  document.getElementById('csv').onclick=function(){ set('cat',sel); go('home'); };
+  document.getElementById('cb').onclick=function(){ go('home'); };
+}
+/* ===== Exam updates ===== */
+function updatesPage(){
+  activeTab('');
+  var h=topbar()+'<main class="page"><h2 class="sec">Exam <span>Updates</span></h2>';
+  if(NOTICE) h+='<div class="card" style="border-color:var(--gold);background:#2a2205"><b style="color:var(--gold)">📢 सूचना</b><div style="margin-top:4px;white-space:pre-line">'+esc(NOTICE.text)+'</div>'+(NOTICE.link?'<a class="btn gold" style="margin-top:8px;display:inline-block;text-decoration:none" target="_blank" rel="noopener" href="'+esc(NOTICE.link)+'">'+esc(NOTICE.linkText||'खोलें')+'</a>':'')+'</div>';
+  else h+='<div class="card empty">अभी कोई नई सूचना नहीं है।</div>';
+  h+='<div class="card small muted">Exam की हर नई जानकारी सबसे पहले पाने के लिए WhatsApp / Telegram से जुड़ें।</div>'+socialCards()+'</main>';
+  app.innerHTML=h; bindCommon();
+}
+function linksPage(){
+  activeTab('');
+  app.innerHTML=topbar()+'<main class="page"><h2 class="sec">हमसे <span>जुड़ें</span></h2>'+socialCards()+shareCard()+'</main>'; bindCommon();
 }
 
 /* ================= Tests ================= */
@@ -499,9 +624,11 @@ function codeBox(id){
 }
 function ebooks(){
   activeTab('ebooks');
-  var h=topbar()+'<main class="page"><h2 class="sec">e<span>Books</span></h2><p class="muted small" style="margin:0">Free sample तुरंत पढ़ें। Full book खरीदने के लिए QR scan करके PhonePe / GPay / Paytm किसी भी UPI app से payment करें।</p>';
+  var h=topbar()+'<main class="page"><h2 class="sec">Downloads / <span>eBooks</span></h2><p class="muted small" style="margin:0">Free sample तुरंत पढ़ें। Full book खरीदने के लिए QR scan करके PhonePe / GPay / Paytm किसी भी UPI app से payment करें।</p>';
   EBOOKS.forEach(function(b){ h+=ebookCard(b); });
   h+='<div class="card"><b>Payment के लिए</b><div class="muted small" style="margin:4px 0 8px">'+esc(CONFIG.payeeName)+' · UPI: '+esc(CONFIG.upiId)+'</div><img src="img/upi-qr.png" alt="UPI QR" style="width:100%;max-width:320px;border-radius:12px;display:block;margin:0 auto;background:#fff"><a class="btn ghost block" style="text-align:center;text-decoration:none;margin-top:8px" href="img/upi-qr.png" download="Agrikranti_UPI_QR.png">QR Download करें</a></div>';
+  h+='<h2 class="sec">Semester <span>Papers</span></h2>';
+  SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+='<div class="card ebook"><div class="cover"><span>'+esc(x.code)+'</span><small>Sem '+g.sem+'</small></div><div style="flex:1;min-width:0"><b>'+esc(x.subject)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(g.title)+'</div><div class="row"><a class="btn ghost" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(x.paper)+'">Question Paper</a><a class="btn gold" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(x.solution)+'">Solution</a></div></div></div>'; }); });
   h+='<div class="card empty">और eBooks जल्द आ रही हैं। अपडेट के लिए Telegram / WhatsApp से जुड़ें।</div></main>';
   app.innerHTML=h; bindBooks();
 }
