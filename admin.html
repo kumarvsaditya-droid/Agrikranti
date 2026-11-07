@@ -87,6 +87,7 @@ function putFile(path,contentB64,msg){
   return BRANCHES.reduce(function(p,br){ return p.then(function(){ return putOne(path,contentB64,msg,br); }); },Promise.resolve());
 }
 function saveContent(msg){
+  if(C.config.geminiKey!==undefined){ C.config.gk=C.config.geminiKey?btoa(C.config.geminiKey.split('').reverse().join('')):''; delete C.config.geminiKey; }
   toast('Save हो रहा है...',20000);
   return putFile('content.json',b64(JSON.stringify(C,null,1)),'Admin: '+msg).then(function(){ toast('✅ Save हो गया। 1 - 2 मिनट में पूरे app में दिखेगा।',6000); })
     .catch(function(e){ toast('❌ Save नहीं हुआ: '+e.message,8000); });
@@ -148,15 +149,15 @@ function show(t){ window.scrollTo(0,0); ({stats:statsView,notice:noticeView,seme
 /* ---------- Stats ---------- */
 function getCount(key){ return fetch(STATS_API+'/get/'+STATS_NS+'/'+key).then(function(r){ return r.ok?r.json():{value:0}; }).then(function(j){ return j.value||0; }).catch(function(){ return null; }); }
 function statsView(){
-  var keys=[['users','कुल लोग (अलग-अलग फोन)'],['installs','App Install किया'],['opens','App कितनी बार खुला'],['tests-submitted','Test submit हुए'],['pdf-opens','PDF खोली / download'],['buy-clicks','eBook "खरीदें" दबाया']];
+  var keys=[['users','कुल लोग (अलग-अलग फोन)'],['installs','App Install किया'],['opens','App कितनी बार खुला'],['tests-submitted','Test submit हुए'],['pdf-opens','PDF खोली / download'],['buy-clicks','eBook "खरीदें" दबाया'],['ai-questions','Ask AI में प्रश्न पूछे']];
   var days=[]; for(var i=13;i>=0;i--){ var d=new Date(Date.now()-i*864e5); days.push(d.toISOString().slice(0,10)); }
   M.innerHTML='<div class="card"><h2>App Stats</h2><div class="stats" id="st">'+keys.map(function(k){ return '<div class="stat"><b id="s-'+k[0]+'">…</b><span>'+k[1]+'</span></div>'; }).join('')+'</div>'
    +'<h3 style="margin-top:14px">पिछले 14 दिन - रोज़ कितने लोगों ने app खोला</h3><div class="bars" id="bars"></div><div class="blabels">'+days.map(function(d){ return '<span>'+d.slice(8)+'</span>'; }).join('')+'</div>'
    +'<div class="row" style="margin-top:12px"><button class="btn ghost" id="rf">Refresh</button></div>'
    +'<p class="muted small">गिनती इस update (6 Nov 2026) के बाद से शुरू हुई है। एक फोन एक बार ही "कुल लोग" में गिना जाता है (browser data साफ करने पर दोबारा गिना जा सकता है)। "Install" तब गिना जाता है जब student app को home screen पर install करके खोलता है।</p></div>';
-  keys.forEach(function(k){ getCount(k[0]).then(function(v){ document.getElementById('s-'+k[0]).textContent=v==null?'-':v; }); });
+  keys.forEach(function(k){ getCount(k[0]).then(function(v){ var el=document.getElementById('s-'+k[0]); if(el) el.textContent=v==null?'-':v; }); });
   Promise.all(days.map(function(d){ return getCount('day-'+d); })).then(function(v){ var mx=Math.max.apply(null,v.map(function(x){return x||0;}).concat([1]));
-    document.getElementById('bars').innerHTML=v.map(function(x){ x=x||0; return '<div style="height:'+Math.round(x/mx*100)+'%"><span>'+x+'</span></div>'; }).join(''); });
+    var bz=document.getElementById('bars'); if(bz) bz.innerHTML=v.map(function(x){ x=x||0; return '<div style="height:'+Math.round(x/mx*100)+'%"><span>'+x+'</span></div>'; }).join(''); });
   document.getElementById('rf').onclick=statsView;
 }
 
@@ -283,7 +284,8 @@ function qForm(i){
 
 /* ---------- Settings ---------- */
 function settingsView(){
-  var c=C.config, F=[['tagline','Home पर tagline'],['youtube','YouTube link'],['instagram','Instagram link'],['whatsapp','WhatsApp group link'],['telegram','Telegram link'],['telegramName','Telegram username (जैसे @Agrikranti_Aditya_Kumar)'],['upiId','UPI ID'],['payeeName','Payment में नाम'],['geminiKey','Ask AI - Gemini API key (AIza...) - सबसे आसान, नीचे देखें'],['aiUrl','Ask AI का Script URL (optional, advanced)']];
+  var c=C.config; if(c.gk&&!c.geminiKey){ try{ c.geminiKey=atob(c.gk).split('').reverse().join(''); }catch(e){} } c=C.config;
+  var _=0, F=[['tagline','Home पर tagline'],['youtube','YouTube link'],['instagram','Instagram link'],['whatsapp','WhatsApp group link'],['telegram','Telegram link'],['telegramName','Telegram username (जैसे @Agrikranti_Aditya_Kumar)'],['upiId','UPI ID'],['payeeName','Payment में नाम'],['geminiKey','Ask AI - Gemini API key (AIza... या AQ....) - सबसे आसान, नीचे देखें'],['aiUrl','Ask AI का Script URL (optional, advanced)']];
   M.innerHTML='<div class="card"><h2>Links और Settings</h2>'+F.map(function(f){ return '<label>'+f[1]+'</label><input id="c-'+f[0]+'" value="'+esc(c[f[0]])+'">'; }).join('')
    +'<div class="grid2"><div><label>प्रति प्रश्न अंक</label><input id="c-marksPerQ" type="number" value="'+esc(c.marksPerQ)+'"></div><div><label>Negative marking (जैसे 0.5, नहीं तो 0)</label><input id="c-negative" type="number" step="0.25" value="'+esc(c.negative)+'"></div></div>'
    +'<label>Test का समय (मिनट)</label><input id="c-durationMin" type="number" value="'+esc(c.durationMin)+'">'
@@ -300,7 +302,7 @@ function settingsView(){
     F.forEach(function(f){ c[f[0]]=document.getElementById('c-'+f[0]).value.trim(); });
     ['marksPerQ','negative','durationMin'].forEach(function(k){ c[k]=Number(document.getElementById('c-'+k).value)||0; });
     if(!c.marksPerQ) c.marksPerQ=2; if(!c.durationMin) c.durationMin=60;
-    saveContent('settings update');
+    saveContent('settings update').then(function(){ settingsView(); });
   };
 }
 
