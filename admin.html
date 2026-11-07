@@ -283,10 +283,16 @@ function qForm(i){
 
 /* ---------- Settings ---------- */
 function settingsView(){
-  var c=C.config, F=[['tagline','Home पर tagline'],['youtube','YouTube link'],['instagram','Instagram link'],['whatsapp','WhatsApp group link'],['telegram','Telegram link'],['telegramName','Telegram username (जैसे @Agrikranti_Aditya_Kumar)'],['upiId','UPI ID'],['payeeName','Payment में नाम']];
+  var c=C.config, F=[['tagline','Home पर tagline'],['youtube','YouTube link'],['instagram','Instagram link'],['whatsapp','WhatsApp group link'],['telegram','Telegram link'],['telegramName','Telegram username (जैसे @Agrikranti_Aditya_Kumar)'],['upiId','UPI ID'],['payeeName','Payment में नाम'],['aiUrl','Ask AI का URL (Google Apps Script - नीचे steps देखें)']];
   M.innerHTML='<div class="card"><h2>Links और Settings</h2>'+F.map(function(f){ return '<label>'+f[1]+'</label><input id="c-'+f[0]+'" value="'+esc(c[f[0]])+'">'; }).join('')
    +'<div class="grid2"><div><label>प्रति प्रश्न अंक</label><input id="c-marksPerQ" type="number" value="'+esc(c.marksPerQ)+'"></div><div><label>Negative marking (जैसे 0.5, नहीं तो 0)</label><input id="c-negative" type="number" step="0.25" value="'+esc(c.negative)+'"></div></div>'
    +'<label>Test का समय (मिनट)</label><input id="c-durationMin" type="number" value="'+esc(c.durationMin)+'">'
+   +'<details class="warn" style="margin-top:10px"><summary><b>Ask AI चालू करने के steps (एक बार, free)</b></summary><ol class="small">'
+   +'<li><a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">aistudio.google.com/apikey</a> खोलें (Gmail से login) → <b>Create API key</b> → key copy करें।</li>'
+   +'<li><a href="https://script.new" target="_blank" rel="noopener">script.new</a> खोलें → जो code है उसे हटाकर <a href="ai_backend.gs" target="_blank">यह पूरा code</a> paste करें।</li>'
+   +'<li>Code में सबसे ऊपर <b>PASTE_YOUR_GEMINI_KEY</b> की जगह अपनी key डालें → Save (Ctrl+S)।</li>'
+   +'<li>ऊपर <b>Deploy → New deployment</b> → ⚙️ में <b>Web app</b> चुनें → Execute as: <b>Me</b>, Who has access: <b>Anyone</b> → Deploy → Allow / Authorize करें।</li>'
+   +'<li>जो <b>Web app URL</b> (https://script.google.com/macros/s/.../exec) मिले, उसे ऊपर "Ask AI का URL" में डालकर Save करें। बस, AI चालू!</li></ol></details>'
    +'<div class="warn" style="margin-top:10px">UPI ID बदलने पर QR फोटो पुराना ही रहेगा। नया QR लगाना हो तो Claude से कहें।</div>'
    +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sv">Save करें</button></div></div>';
   document.getElementById('sv').onclick=function(){

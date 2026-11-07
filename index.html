@@ -125,10 +125,27 @@ sup{font-size:.7em}
 @media (max-width:420px){.stats4{grid-template-columns:repeat(2,1fr)}.qtext{font-size:17px}.hero h1{font-size:30px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 [hidden]{display:none!important}
+.fab{position:fixed;right:max(16px,calc(50% - 344px));bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:9;background:linear-gradient(135deg,var(--gold),#ffd54a);color:#111;border:0;border-radius:999px;padding:11px 16px;font:inherit;font-weight:800;box-shadow:0 6px 20px rgba(0,0,0,.45);display:flex;align-items:center;gap:6px;cursor:pointer}
+.chat{display:flex;flex-direction:column;gap:10px}
+.msg{max-width:92%;padding:10px 13px;border-radius:14px;white-space:normal;word-wrap:break-word}
+.msg.me{align-self:flex-end;background:var(--green-d);color:#fff;border-bottom-right-radius:4px}
+.msg.ai{align-self:flex-start;background:var(--card);border:1px solid var(--line);border-bottom-left-radius:4px}
+.msg.ai b{color:var(--gold)}
+.msg ul{margin:4px 0;padding-left:18px}
+.fact{border-top:1px dashed var(--line);padding-top:8px;margin-top:8px;font-size:14px}
+.fact .ans{color:var(--green);font-weight:700}
+.askbar{position:sticky;bottom:calc(70px + env(safe-area-inset-bottom,0px));display:flex;gap:8px;background:var(--bg);padding:8px 0}
+.askbar textarea{flex:1;min-height:46px;max-height:120px;resize:none;background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:12px;padding:10px;font:inherit}
+.sugg{display:flex;gap:6px;flex-wrap:wrap}
+.sugg button{background:var(--card2);border:1px solid var(--line);color:var(--ink);border-radius:99px;padding:5px 12px;font:inherit;font-size:13px;cursor:pointer}
+.dots span{display:inline-block;width:7px;height:7px;margin:0 2px;border-radius:50%;background:var(--muted);animation:bl 1s infinite}
+.dots span:nth-child(2){animation-delay:.2s}.dots span:nth-child(3){animation-delay:.4s}
+@keyframes bl{0%,100%{opacity:.2}50%{opacity:1}}
 </style>
 </head>
 <body>
 <div class="app" id="app"></div>
+<button class="fab" id="fab" onclick="go('ask')" aria-label="Ask AI">✨ Ask AI</button>
 <nav class="nav" id="nav"><div class="in">
   <button data-go="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</button>
   <button data-go="tests"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5h10M9 12h10M9 19h10"/><path d="M4 5l1 1 2-2M4 12l1 1 2-2M4 19l1 1 2-2"/></svg>Tests</button>
@@ -155,7 +172,9 @@ var CONFIG = {
   upiId: 'kumarvsaditya1@ibl',       // PhonePe scanner ka UPI ID
   payeeName: 'ADITYA KUMAR',
   // Leaderboard + admin data ke liye Google Apps Script ka URL (BACKEND_SETUP.txt dekhein). Khali = offline mode.
-  backendUrl: ''
+  backendUrl: '',
+  // Ask AI: Google Apps Script (Gemini) ka URL - admin panel ke Settings mein daalein. Khali = sirf app ke notes/prashnon se jawab.
+  aiUrl: ''
 };
 /* eBooks: free = seedha khulegi; paid = payment ke baad unlock code se khulegi */
 var EBOOKS = [
@@ -247,7 +266,7 @@ function socialCards(){
 
 /* ================= Share app ================= */
 var APP_URL='https://kumarvsaditya-droid.github.io/Agrikranti/';
-var SHARE_TEXT='🌾 Agrikranti App - Agriculture exam की तैयारी के लिए 10 Free Test Series (100 अंक), हर प्रश्न की व्याख्या और eBooks। ICAR, UPCATET, AGTA, JRF के लिए उपयोगी। अभी खोलें:';
+var SHARE_TEXT='🌾 Agrikranti App - Agriculture exam की तैयारी के लिए 10 Free Test Series (100 अंक), Ask AI, Semester papers, हर प्रश्न की व्याख्या और eBooks। ICAR, UPCATET, AGTA, JRF के लिए उपयोगी। अभी खोलें:';
 function shareApp(){
   if(navigator.share){ navigator.share({title:'Agrikranti App',text:SHARE_TEXT,url:APP_URL}).catch(function(){}); return; }
   shareSheet();
@@ -271,7 +290,8 @@ function go(view, arg){
   clearInterval(S.timer);
   window.scrollTo(0,0);
   if(view!=='quiz') setNav(true);
-  ({home:home, tests:tests, ebooks:ebooks, semester:semester, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
+  var f=document.getElementById('fab'); if(f) f.hidden=(view==='quiz'||view==='ask'||view==='register');
+  ({home:home, tests:tests, ebooks:ebooks, semester:semester, ask:askAI, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
 }
 document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ go(b.getAttribute('data-go')); }; });
 
@@ -290,6 +310,7 @@ function home(){
   if(prog && testById(prog.testId)){
     h+='<div class="card"><b>अधूरा टेस्ट: '+esc(shortTitle(testById(prog.testId)))+'</b><p class="muted small" style="margin:4px 0 10px">जहाँ छोड़ा था वहीं से जारी रखें।</p><div class="row"><button class="btn gold" id="resume">जारी रखें</button><button class="btn ghost" id="discard">छोड़ दें</button></div></div>';
   }
+  h+='<div class="card link" data-go2="ask" style="cursor:pointer;background:radial-gradient(120% 140% at 100% 0%,#3a2f05 0%,var(--card) 60%)"><span class="ic" style="background:#3a2f05;font-size:20px">✨</span><span><b>Ask AI - कोई भी प्रश्न पूछें</b><span class="muted small">Agriculture का कोई भी doubt, हिंदी में आसान जवाब</span></span></div>';
   h+='<h2 class="sec">अगला <span>टेस्ट</span></h2>'+testCard(next);
   h+=shareCard();
   h+='<button class="btn ghost block" data-go2="tests">सभी '+TESTS.length+' टेस्ट देखें</button>';
@@ -495,6 +516,60 @@ function semester(){
   });
   h+=shareCard()+'<div class="card empty">बाकी subjects के paper जल्द आ रहे हैं। अपडेट के लिए Telegram / WhatsApp से जुड़ें।</div></main>';
   app.innerHTML=h; bindCommon();
+}
+
+/* ================= Ask AI ================= */
+var KB=null;
+function normTxt(t){ return String(t||'').toLowerCase().replace(/\bc\s*:\s*n\b/g,' cnratio ').replace(/[^ऀ-ॿa-z0-9 ]+/g,' '); }
+var STOP={'क्या':1,'है':1,'हैं':1,'की':1,'का':1,'के':1,'में':1,'से':1,'को':1,'और':1,'कौन':1,'सा':1,'सी':1,'किस':1,'किसे':1,'कब':1,'कहाँ':1,'होता':1,'होती':1,'होते':1,'लिए':1,'पर':1,'एक':1,'यह':1,'वह':1,'भी':1,'तो':1,'कितना':1,'कितने':1,'कितनी':1,'जाता':1,'जाती':1,'कहते':1,'the':1,'is':1,'of':1,'in':1,'a':1,'an':1,'what':1,'which':1,'and':1,'to':1,'for':1,'who':1,'how':1,'kya':1,'hai':1,'ka':1,'ki':1,'ke':1,'me':1,'se':1,'बताओ':1,'बताइए':1,'बताएं':1,'बताये':1,'समझाओ':1,'समझाइए':1,'लिखो':1,'लिखिए':1,'विशेषता':1,'विशेषताएँ':1,'विशेषताएं':1,'गुण':1,'मुख्य':1,'प्रमुख':1,'कार्य':1,'महत्व':1,'उपयोग':1,'explain':1,'define':1,'meaning':1,'mean':1,'about':1,'tell':1,'me':1,'कैसे':1,'क्यों':1,'हुआ':1,'हुई':1,'था':1,'थी':1,'बारे':1,'मतलब':1};
+function toks(t){ return normTxt(t).split(/\s+/).filter(function(w){ return w.length>1 && !STOP[w]; }); }
+function buildKB(){
+  KB=[]; var df={};
+  TESTS.forEach(function(t){ t.questions.forEach(function(q){ var tk=toks(q.q+' '+q.o[q.a]+' '+q.e), u={}; tk.forEach(function(w){ u[w]=1; }); Object.keys(u).forEach(function(w){ df[w]=(df[w]||0)+1; }); KB.push({q:q.q,a:q.o[q.a],e:q.e,set:u,t:shortTitle(t)}); }); });
+  KB.df=df;
+}
+function searchKB(query,n){
+  if(!KB) buildKB(); var qt=toks(query), N=KB.length; if(!qt.length) return [];
+  return KB.map(function(k){ var sc=0, hitN=0; qt.forEach(function(w){ if(k.set[w]){ sc+=Math.log(1+N/(KB.df[w]||1)); hitN++; } else if(w.length>4){ for(var x in k.set){ if(x.length>4 && (x.indexOf(w)===0||w.indexOf(x)===0)){ sc+=0.5*Math.log(1+N/(KB.df[x]||1)); hitN+=0.5; break; } } } }); var cov=hitN/qt.length; return {k:k,s:sc*cov,c:cov}; })
+    .filter(function(r){ return r.s>1.5 && r.c>=(qt.length>1?0.6:1); }).sort(function(a,b){ return b.s-a.s; }).filter(function(r,i,arr){ return r.s>=arr[0].s*0.6; }).slice(0,n||4).map(function(r){ return r.k; });
+}
+function mdLite(t){ return esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>').replace(/^#+\s*(.+)$/gm,'<b>$1</b>').replace(/^\s*[-*•]\s+(.+)$/gm,'• $1').replace(/(\d+)\^(\d+)/g,'$1<sup>$2</sup>').replace(/\n/g,'<br>'); }
+function factsHtml(fs){ return fs.map(function(f){ return '<div class="fact">'+fmt(f.q)+'<br><span class="ans">✔ '+fmt(f.a)+'</span><div class="muted small">'+fmt(f.e)+'</div></div>'; }).join(''); }
+function askAI(){
+  activeTab('');
+  var hist=get('aichat',[]);
+  var h=topbar()+'<main class="page"><section class="hero" style="padding:14px"><div style="font-size:40px">✨</div><div><h1 style="font-size:30px">Agrikranti AI</h1><p>Agriculture का कोई भी प्रश्न पूछें - Soil, Agronomy, Horticulture, Breeding, Plant Protection, Schemes...</p></div></section>';
+  h+='<div class="chat" id="chat"></div>';
+  h+='<div class="sugg" id="sugg">'+['Vertisols की विशेषताएँ बताओ','Rhizobium के बारे में बताओ','Tetrazolium test क्या है?','Leaf Colour Chart','Land capability classes'].map(function(x){ return '<button>'+esc(x)+'</button>'; }).join('')+'</div>';
+  h+='<form class="askbar" id="af"><textarea id="aq" placeholder="अपना प्रश्न यहाँ लिखें..." maxlength="600"></textarea><button class="btn gold" type="submit">भेजें</button></form>';
+  h+='<div class="row" style="justify-content:space-between"><span class="muted small">'+(CONFIG.aiUrl?'AI जवाब + app के प्रश्नों से तथ्य':'अभी app के 500+ प्रश्नों और व्याख्याओं से जवाब')+'</span><button class="iconbtn" id="clr">Chat साफ करें</button></div>';
+  h+='<div class="muted small">AI गलती कर सकता है, ज़रूरी तथ्य किताब/notes से मिला लें।</div></main>';
+  app.innerHTML=h; bindCommon();
+  var chat=document.getElementById('chat');
+  function add(cls,html){ var d=document.createElement('div'); d.className='msg '+cls; d.innerHTML=html; chat.appendChild(d); d.scrollIntoView({block:'end',behavior:'smooth'}); return d; }
+  if(!hist.length) add('ai','नमस्ते! 🌾 मैं <b>Agrikranti AI</b> हूँ। Agriculture exam से जुड़ा कोई भी प्रश्न पूछिए, मैं आसान हिंदी में समझाऊँगा।');
+  hist.forEach(function(m){ add(m.r==='u'?'me':'ai', m.r==='u'?esc(m.t):m.h); });
+  function send(q){
+    q=q.trim(); if(!q) return; document.getElementById('aq').value=''; document.getElementById('sugg').hidden=true;
+    add('me',esc(q)); hist.push({r:'u',t:q}); hit('ai-questions');
+    var facts=searchKB(q,4), wait=add('ai','<span class="dots"><span></span><span></span><span></span></span>');
+    function finish(html){ wait.innerHTML=html; hist.push({r:'a',h:html}); if(hist.length>40) hist=hist.slice(-40); set('aichat',hist); wait.scrollIntoView({block:'end',behavior:'smooth'}); }
+    var fh=facts.length?'<div class="muted small" style="margin-top:8px"><b>📘 Agrikranti प्रश्नों से जुड़े तथ्य:</b></div>'+factsHtml(facts):'';
+    if(!CONFIG.aiUrl){
+      finish(facts.length?'<b>आपके प्रश्न से जुड़े तथ्य (Agrikranti notes से):</b>'+factsHtml(facts):'इस प्रश्न से जुड़ा तथ्य अभी app के प्रश्नों में नहीं मिला। प्रश्न में मुख्य शब्द (जैसे फसल, तत्व, वैज्ञानिक का नाम) लिखकर दोबारा पूछें, या Telegram पर अपना doubt भेजें।');
+      return;
+    }
+    var past=hist.slice(-7,-1).map(function(m){ return {role:m.r==='u'?'user':'model',text:m.r==='u'?m.t:String(m.h).replace(/<[^>]+>/g,' ').slice(0,600)}; });
+    var ctx=facts.map(function(f){ return 'Q: '+f.q+' | उत्तर: '+f.a+' | '+f.e; }).join('\n');
+    var ctl=new AbortController(), to=setTimeout(function(){ ctl.abort(); },30000);
+    fetch(CONFIG.aiUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({q:q,history:past,context:ctx}),signal:ctl.signal})
+      .then(function(r){ return r.json(); }).then(function(j){ clearTimeout(to); if(!j.answer) throw new Error(j.error||'empty'); finish(mdLite(j.answer)+fh); })
+      .catch(function(){ clearTimeout(to); finish('AI अभी जवाब नहीं दे पाया (इंटरनेट या सर्वर व्यस्त)। '+(facts.length?'तब तक ये तथ्य देखें:'+factsHtml(facts):'थोड़ी देर बाद दोबारा पूछें।')); });
+  }
+  document.getElementById('af').onsubmit=function(e){ e.preventDefault(); send(document.getElementById('aq').value); };
+  document.getElementById('aq').onkeydown=function(e){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send(this.value); } };
+  document.querySelectorAll('#sugg button').forEach(function(b){ b.onclick=function(){ send(b.textContent); }; });
+  document.getElementById('clr').onclick=function(){ del('aichat'); askAI(); };
 }
 
 /* ================= Results ================= */

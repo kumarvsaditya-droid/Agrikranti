@@ -10,7 +10,8 @@
   "payeeName": "ADITYA KUMAR",
   "marksPerQ": 2,
   "negative": 0,
-  "durationMin": 60
+  "durationMin": 60,
+  "aiUrl": ""
  },
  "notice": {
   "text": "",
