@@ -85,6 +85,22 @@
      "paper": "papers/BSc_Sem1_HOR101_PYQ2024_Question_Paper.pdf",
      "solution": "papers/BSc_Sem1_HOR101_PYQ2024_Solved_Paper.pdf",
      "pages": 28
+    },
+    {
+     "code": "MAT-101",
+     "subject": "Elementary Mathematics - PYQ 2021-22 (Solved)",
+     "info": "Previous Year Paper 2021-22 (639(A)) · 70 अंक · Section A (5×5) + B (3×15) · सभी 13 प्रश्न स्टेप-बाय-स्टेप हल",
+     "paper": "papers/BSc_Sem1_MAT101_PYQ2021-22_Question_Paper.pdf",
+     "solution": "papers/BSc_Sem1_MAT101_PYQ2021-22_Solved_Paper.pdf",
+     "pages": 20
+    },
+    {
+     "code": "MAT-101",
+     "subject": "Elementary Mathematics - Model Paper 1",
+     "info": "Model Paper (Previous Year Pattern) · 70 अंक · syllabus based · स्टेप-बाय-स्टेप हल",
+     "paper": "papers/BSc_Sem1_MAT101_Model_Question_Paper.pdf",
+     "solution": "papers/BSc_Sem1_MAT101_Model_Solved_Paper.pdf",
+     "pages": 18
     }
    ]
   }
