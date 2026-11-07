@@ -101,6 +101,22 @@
      "paper": "papers/BSc_Sem1_MAT101_Model_Question_Paper.pdf",
      "solution": "papers/BSc_Sem1_MAT101_Model_Solved_Paper.pdf",
      "pages": 18
+    },
+    {
+     "code": "BIO-101",
+     "subject": "Introductory Biology - PYQ Dec 2025 (Solved)",
+     "info": "Previous Year Paper Dec 2025 (CBCS-1373) · 50 अंक · Section A (5×3, अथवा सहित) + B (5×7) · सभी प्रश्न व विकल्प हल",
+     "paper": "papers/BSc_Sem1_BIO101_PYQ2025_Question_Paper.pdf",
+     "solution": "papers/BSc_Sem1_BIO101_PYQ2025_Solved_Paper.pdf",
+     "pages": 23
+    },
+    {
+     "code": "BIO-101",
+     "subject": "Introductory Biology - Model Paper 1",
+     "info": "Model Paper · 50 अंक · Section A (5×2) + B (4×5) + C (2×10) · सभी प्रश्न हल",
+     "paper": "papers/BSc_Sem1_BIO101_Model_Question_Paper.pdf",
+     "solution": "papers/BSc_Sem1_BIO101_Model_Solved_Paper.pdf",
+     "pages": 24
     }
    ]
   }
