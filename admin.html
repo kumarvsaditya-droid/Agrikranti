@@ -56,10 +56,11 @@ ol{padding-left:20px;margin:6px 0}
 <main id="main"></main>
 <div class="toast" id="toast"></div>
 
+<script src="akcrypto.js"></script>
 <script>
 var OWNER='kumarvsaditya-droid', REPO='Agrikranti', BRANCHES=['main','gh-pages'];
 var STATS_NS='agrikranti1928-app', STATS_API='https://abacus.jasoncameron.dev';
-var TOKEN=null, C=null, TESTS=null, TAB='stats';
+var TOKEN=null, C=null, TESTS=null, TAB='sales', PINK=null;
 var M=document.getElementById('main');
 
 function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){ return null; } }
@@ -141,10 +142,10 @@ function boot(fresh){
 document.getElementById('logout').onclick=function(){ ls('ak_admin_token',null); TOKEN=null; loginView(); };
 
 /* ---------- Tabs ---------- */
-var TABS=[['stats','📊 Stats'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['settings','⚙️ Links / Settings']];
+var TABS=[['sales','💰 eBook बिक्री'],['stats','📊 Stats'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['settings','⚙️ Links / Settings']];
 function renderTabs(){ var n=document.getElementById('tabs'); n.innerHTML=TABS.map(function(t){ return '<button data-t="'+t[0]+'" class="'+(t[0]===TAB?'on':'')+'">'+t[1]+'</button>'; }).join('');
   n.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ TAB=b.getAttribute('data-t'); renderTabs(); show(TAB); }; }); }
-function show(t){ window.scrollTo(0,0); ({stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
+function show(t){ window.scrollTo(0,0); ({sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
 
 /* ---------- Stats ---------- */
 function getCount(key){ return fetch(STATS_API+'/get/'+STATS_NS+'/'+key).then(function(r){ return r.ok?r.json():{value:0}; }).then(function(j){ return j.value||0; }).catch(function(){ return null; }); }
@@ -213,7 +214,7 @@ function paperForm(gi,pi){
 
 /* ---------- eBooks ---------- */
 function ebookView(){
-  var h='<div class="card"><h2>eBooks</h2><div class="warn">⚠️ <b>Paid eBook की PDF यहाँ upload न करें</b> - app public है, कोई भी link से खोल लेगा। Paid book की PDF payment के बाद Telegram पर भेजें। यहाँ सिर्फ free PDF upload करें।</div></div>';
+  var h='<div class="card"><h2>eBooks</h2><div class="warn">⚠️ <b>Paid eBook की PDF यहाँ upload करने पर वह अपने आप lock (encrypt) हो जाती है</b> - सिर्फ code वाले students ही app के अंदर पढ़ पाएंगे, download / share नहीं होगी। (पहले "💰 eBook बिक्री" में PIN डालें)</div></div>';
   C.ebooks.forEach(function(b,i){
     h+='<div class="card"><b>'+esc(b.title)+'</b> <span class="muted small">'+(b.price?'₹'+b.price:'Free')+' · '+b.pages+' पेज</span><div class="muted small">'+esc(b.sub)+'</div><div class="row" style="margin-top:8px"><button class="btn ghost small" data-e="'+i+'">Edit</button><button class="btn red small" data-d="'+i+'">हटाएं</button></div></div>';
   });
@@ -229,7 +230,7 @@ function ebookForm(i){
    +'<label>नाम</label><input id="bt" value="'+esc(b.title)+'"><label>छोटी जानकारी</label><input id="bs" value="'+esc(b.sub)+'">'
    +'<div class="grid2"><div><label>कीमत ₹ (0 = Free)</label><input id="bp" type="number" min="0" value="'+esc(b.price)+'"></div><div><label>पेज</label><input id="bg" type="number" value="'+esc(b.pages)+'"></div></div>'
    +'<label>Cover पर लिखा (2 शब्द)</label><input id="bc" value="'+esc(String(b.cover||'').replace(/<br>/g,' '))+'">'
-   +'<label>PDF (सिर्फ Free book के लिए) '+(b.file?'(अभी: '+esc(b.file)+')':'')+'</label><input id="bf" type="file" accept="application/pdf">'
+   +'<label>PDF (Free हो तो खुली, Paid हो तो lock होकर upload होगी) '+(b.file?'(अभी: '+esc(b.file)+')':'')+'</label><input id="bf" type="file" accept="application/pdf">'
    +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sv">Save करें</button><button class="btn ghost" id="bk">वापस</button></div></div>';
   document.getElementById('bk').onclick=ebookView;
   document.getElementById('sv').onclick=function(){
@@ -237,8 +238,17 @@ function ebookForm(i){
     var w=document.getElementById('bc').value.trim().split(/\s+/);
     var y=Object.assign({},b,{title:document.getElementById('bt').value.trim(),sub:document.getElementById('bs').value.trim(),price:+document.getElementById('bp').value||0,pages:+document.getElementById('bg').value||0,cover:w.slice(0,1).join(' ')+(w.length>1?'<br>'+w.slice(1).join(' '):'')});
     var f=document.getElementById('bf').files[0];
-    if(f && y.price>0){ toast('Paid book की PDF upload नहीं होगी, Telegram से भेजें।',7000); btn.disabled=false; return; }
-    if(y.price>0) delete y.file;
+    if(y.price>0){ delete y.file;
+      if(f){ if(!PINK){ toast('पहले "💰 eBook बिक्री" tab में Admin PIN डालें।',7000); btn.disabled=false; return; }
+        toast('PDF lock (encrypt) होकर upload हो रही है...',60000);
+        var K=AK.newKey();
+        f.arrayBuffer().then(function(buf){ return AK.rawKey(K).then(function(k){ return AK.aesEnc(k,new Uint8Array(buf)); }); })
+         .then(function(encd){ return putFile('ebooks/enc/'+y.id+'.bin',AK.b64e(encd),'Admin: locked ebook '+y.id); })
+         .then(function(){ return AK.aesEnc(PINK,K); }).then(function(w){ C.bookKeys=C.bookKeys||{}; C.bookKeys[y.id]=AK.b64e(w); C.licenses=C.licenses||{}; C.licenses[y.id]=C.licenses[y.id]||{}; y.enc='ebooks/enc/'+y.id+'.bin';
+           if(i>=0) C.ebooks[i]=y; else C.ebooks.push(y); return saveContent('locked ebook '+y.title); })
+         .then(ebookView).catch(function(e){ toast('❌ '+e.message,8000); btn.disabled=false; });
+        return; }
+    }
     uploadPdf(f,'ebooks').then(function(p){ if(p) y.file=p; if(!y.price && !y.file) throw new Error('Free book के लिए PDF चुनें');
       if(i>=0) C.ebooks[i]=y; else C.ebooks.push(y); return saveContent('ebook '+y.title); }).then(ebookView).catch(function(e){ toast('❌ '+e.message,8000); btn.disabled=false; });
   };
@@ -303,6 +313,60 @@ function settingsView(){
     ['marksPerQ','negative','durationMin'].forEach(function(k){ c[k]=Number(document.getElementById('c-'+k).value)||0; });
     if(!c.marksPerQ) c.marksPerQ=2; if(!c.durationMin) c.durationMin=60;
     saveContent('settings update').then(function(){ settingsView(); });
+  };
+}
+
+
+/* ---------- eBook बिक्री (unlock codes) ---------- */
+function pinUnlock(pin){
+  return AK.pinKey(pin).then(function(k){ var first=Object.keys(C.bookKeys||{})[0]; if(!first) return k; return AK.aesDec(k,AK.b64d(C.bookKeys[first])).then(function(){ return k; }); });
+}
+function getSales(){ if(!C.sales) return Promise.resolve([]); return AK.aesDec(PINK,AK.b64d(C.sales)).then(function(u){ return JSON.parse(new TextDecoder().decode(u)); }); }
+function putSales(list){ return AK.aesEnc(PINK,new TextEncoder().encode(JSON.stringify(list))).then(function(e){ C.sales=AK.b64e(e); }); }
+function waMsg(x,book){ return 'नमस्ते '+x.n+' 🙏\nAgrikranti eBook "'+book+'" का आपका Unlock Code:\n\n*'+x.c+'*\n\nमोबाइल नंबर: '+x.m+'\n\nApp खोलें → Downloads → "Code डालें" → यही मोबाइल नंबर और code लिखें। Book app में खुल जाएगी।\nApp: https://kumarvsaditya-droid.github.io/Agrikranti/\n(यह code सिर्फ आपके नंबर के लिए है, हर पेज पर आपका नाम-नंबर रहेगा।)'; }
+function bookTitle(id){ var b=(C.ebooks||[]).filter(function(e){return e.id===id;})[0]; return b?b.title:id; }
+function salesView(){
+  var paid=(C.ebooks||[]).filter(function(b){ return b.price>0 && b.enc; });
+  if(!PINK){
+    var saved=ls('ak_admin_pin');
+    if(saved){ M.innerHTML='<div class="card muted">PIN जाँच हो रहा है...</div>'; pinUnlock(saved).then(function(k){ PINK=k; salesView(); }).catch(function(){ ls('ak_admin_pin',null); salesView(); }); return; }
+    M.innerHTML='<div class="card"><h2>Admin PIN डालें</h2><p class="muted small">eBook के unlock code बनाने के लिए 6 अंकों का Admin PIN (जो Claude ने chat में दिया है)। एक बार डालने पर इसी फोन में याद रहेगा।</p><input id="pin" type="password" inputmode="numeric" maxlength="12" placeholder="Admin PIN"><div class="row" style="margin-top:10px"><button class="btn" id="pg">खोलें</button></div></div>';
+    document.getElementById('pg').onclick=function(){ var v=document.getElementById('pin').value.trim(); toast('जाँच...',20000); pinUnlock(v).then(function(k){ PINK=k; ls('ak_admin_pin',v); toast('✅ PIN सही है'); salesView(); }).catch(function(){ toast('❌ PIN गलत है'); }); };
+    return;
+  }
+  M.innerHTML='<div class="card"><h2>💰 eBook बेचें - Unlock Code बनाएं</h2><p class="muted small">Student का payment screenshot देखकर उसका नाम और मोबाइल नंबर डालें। Code बनेगा और WhatsApp पर भेजने का button आएगा। Code 2 - 3 मिनट में चालू होता है।</p>'
+   +(paid.length?'':'<div class="warn">अभी कोई locked (paid) eBook नहीं है।</div>')
+   +'<label>Book</label><select id="sb">'+paid.map(function(b){ return '<option value="'+esc(b.id)+'">'+esc(b.title)+' (₹'+b.price+')</option>'; }).join('')+'</select>'
+   +'<div class="grid2"><div><label>Student का नाम</label><input id="sn" placeholder="जैसे: Rahul Kumar"></div><div><label>Student का मोबाइल नंबर</label><input id="sm" inputmode="numeric" maxlength="10" placeholder="10 अंक"></div></div>'
+   +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sg">Code बनाएं और Save करें</button></div><div id="sres"></div></div>'
+   +'<div class="card"><h3>बिक्री की सूची</h3><div id="sl" class="muted small">लोड हो रहा है...</div></div>';
+  function drawList(){
+    getSales().then(function(list){
+      var el=document.getElementById('sl'); if(!el) return;
+      if(!list.length){ el.innerHTML='अभी तक कोई बिक्री नहीं।'; return; }
+      el.innerHTML='<div class="muted small" style="margin-bottom:6px">कुल '+list.length+' बिक्री</div>'+list.slice().reverse().map(function(x){ return '<div class="item"><b>'+esc(x.n)+'</b> · '+esc(x.m)+'<div class="muted small">'+esc(bookTitle(x.b))+' · Code: <b style="color:var(--gold)">'+esc(x.c)+'</b> · '+esc(x.d)+'</div><div class="row" style="margin-top:6px"><a class="btn small" style="text-decoration:none;background:#1fae54;color:#fff" target="_blank" rel="noopener" href="https://wa.me/91'+esc(x.m)+'?text='+encodeURIComponent(waMsg(x,bookTitle(x.b)))+'">WhatsApp पर भेजें</a><button class="btn red small" data-rv="'+esc(x.id)+'">Access हटाएं</button></div></div>'; }).join('');
+      el.querySelectorAll('[data-rv]').forEach(function(bt){ bt.onclick=function(){ if(!confirm('इस student का access हटाएं? Book उसके फोन पर नहीं खुलेगी।')) return;
+        var id=bt.getAttribute('data-rv'), x=list.filter(function(s){return s.id===id;})[0];
+        if(x && C.licenses[x.b]) delete C.licenses[x.b][x.id];
+        putSales(list.filter(function(s){return s.id!==id;})).then(function(){ return saveContent('revoke access'); }).then(drawList); }; });
+    }).catch(function(){ document.getElementById('sl').textContent='सूची नहीं खुली (PIN?)'; });
+  }
+  drawList();
+  document.getElementById('sg').onclick=function(){
+    var btn=this, bid=document.getElementById('sb').value, n=document.getElementById('sn').value.trim(), m=document.getElementById('sm').value.replace(/\D/g,'');
+    if(!bid){ toast('Book चुनें'); return; } if(n.length<2){ toast('नाम लिखें'); return; } if(!/^[6-9]\d{9}$/.test(m)){ toast('सही 10 अंकों का मोबाइल नंबर लिखें'); return; }
+    btn.disabled=true; toast('Code बन रहा है...',20000);
+    var code=AK.newCode(), K, rec;
+    AK.aesDec(PINK,AK.b64d(C.bookKeys[bid])).then(function(k){ K=k; return Promise.all([AK.licId(bid,m,code),AK.licWrap(K,bid,m,code)]); })
+     .then(function(r){ C.licenses=C.licenses||{}; C.licenses[bid]=C.licenses[bid]||{}; C.licenses[bid][r[0]]={w:r[1]};
+       var d=new Date(); rec={id:r[0],b:bid,n:n,m:m,c:code,d:('0'+d.getDate()).slice(-2)+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+d.getFullYear()};
+       return getSales(); })
+     .then(function(list){ list.push(rec); return putSales(list); })
+     .then(function(){ return saveContent('ebook sale '+bid); })
+     .then(function(){ btn.disabled=false; document.getElementById('sn').value=''; document.getElementById('sm').value='';
+       document.getElementById('sres').innerHTML='<div class="item" style="border-color:var(--gold)"><b>✅ Code बन गया: <span style="color:var(--gold);font-size:20px">'+rec.c+'</span></b><div class="muted small">'+esc(rec.n)+' · '+rec.m+'</div><a class="btn" style="display:inline-block;margin-top:8px;text-decoration:none;background:#1fae54;color:#fff" target="_blank" rel="noopener" href="https://wa.me/91'+rec.m+'?text='+encodeURIComponent(waMsg(rec,bookTitle(bid)))+'">WhatsApp पर student को भेजें</a></div>';
+       drawList(); })
+     .catch(function(e){ btn.disabled=false; toast('❌ '+e.message,8000); });
   };
 }
 

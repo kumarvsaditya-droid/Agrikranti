@@ -186,6 +186,12 @@ sup{font-size:.7em}
 .catlist .c .ci{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;background:var(--card2);font-size:22px;flex:none}
 .catlist .c b{display:block}
 .fab{display:none!important}
+.reader{position:fixed;inset:0;z-index:60;background:#2a2f2b;display:flex;flex-direction:column;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.rbar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--line);padding-top:calc(8px + env(safe-area-inset-top,0px))}
+.rbody{flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 8px 40px}
+.rpage{flex:none;background:#fff;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.4);overflow:hidden}
+.rpage canvas{display:block;pointer-events:none}
+@media print{body *{display:none!important}}
 </style>
 </head>
 <body>
@@ -200,6 +206,7 @@ sup{font-size:.7em}
 </div></nav>
 
 <script src="tests.js"></script>
+<script src="akcrypto.js"></script>
 <script>
 /* ================= SETTINGS (yahin badlein) ================= */
 var CONFIG = {
@@ -248,6 +255,7 @@ function applyContent(c){
   if(c.semester) SEMESTER=c.semester;
   NOTICE=(c.notice&&c.notice.text)?c.notice:null;
   window.BANNERS=(c.banners||[]).filter(function(b){return b&&b.img;});
+  window.LIC=c.licenses||{};
 }
 function loadContent(){
   var done=false;
@@ -578,17 +586,18 @@ function review(res, fresh){
 function unlocked(){ return get('unlocked',{}); }
 function sha256hex(t){ if(!(window.crypto&&crypto.subtle)) return Promise.reject(new Error('nosubtle'));
   return crypto.subtle.digest('SHA-256',new TextEncoder().encode(t)).then(function(b){ return Array.from(new Uint8Array(b)).map(function(x){return ('0'+x.toString(16)).slice(-2);}).join(''); }); }
-function bookFile(b){ if(!b.price) return Promise.resolve(b.file); var code=unlocked()[b.id]; if(!code) return Promise.resolve(null);
-  return sha256hex(code+b.id).then(function(h){ return 'ebooks/'+h.slice(0,20)+'.pdf'; }); }
+function isOpen(b){ var u=unlocked()[b.id]; return !b.price || (u && u.c); }
 function ebookCard(b){
-  var open=!b.price || unlocked()[b.id];
+  var open=isOpen(b);
+  var readBtn=b.price?'<button class="btn" data-read="'+b.id+'">📖 पढ़ें</button>':'<a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(b.file)+'">पढ़ें / डाउनलोड</a>';
   return '<div class="card ebook"><div class="cover"><span>'+b.cover+'</span><small>Agrikranti</small></div><div style="flex:1;min-width:0"><b>'+esc(b.title)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(b.sub)+' · '+b.pages+' पेज</div>'
-    +'<div class="chips">'+(b.price?(open?'<span class="chip done">Unlocked</span>':'<span class="chip" style="color:var(--gold)">₹'+b.price+'</span>'):'<span class="chip done">Free</span>')+'</div>'
-    +'<div class="row">'+(open?'<a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(b.price?unlocked()[b.id].file:b.file)+'">पढ़ें / डाउनलोड</a>':'<button class="btn gold" data-buy="'+b.id+'">₹'+b.price+' में खरीदें</button>'+(b.chk?'<button class="btn ghost" data-code="'+b.id+'">Code डालें</button>':''))+'</div></div></div>';
+    +'<div class="chips">'+(b.price?(open?'<span class="chip done">✔ खरीदी हुई</span>':'<span class="chip" style="color:var(--gold)">₹'+b.price+'</span>'):'<span class="chip done">Free</span>')+(b.price?'<span class="chip">🔒 सिर्फ App में पढ़ें</span>':'')+'</div>'
+    +'<div class="row">'+(open?readBtn:'<button class="btn gold" data-buy="'+b.id+'">₹'+b.price+' में खरीदें</button>'+(b.enc?'<button class="btn ghost" data-code="'+b.id+'">Code डालें</button>':''))+'</div></div></div>';
 }
 function bindBooks(){
   app.querySelectorAll('[data-buy]').forEach(function(x){ x.onclick=function(){ buyBook(x.getAttribute('data-buy')); }; });
   app.querySelectorAll('[data-code]').forEach(function(x){ x.onclick=function(){ codeBox(x.getAttribute('data-code')); }; });
+  app.querySelectorAll('[data-read]').forEach(function(x){ x.onclick=function(){ openReader(x.getAttribute('data-read')); }; });
 }
 function buyBook(id){
   hit('buy-clicks');
@@ -602,25 +611,73 @@ function buyBook(id){
     +'<a class="btn gold block" style="text-align:center;text-decoration:none" href="img/upi-qr.png" download="Agrikranti_UPI_QR.png">QR फोटो Download करें</a>'
     +'<div class="muted small">इसी फोन से pay करना है? QR download करें → PhonePe / GPay / Paytm खोलें → Scan में "Gallery / Upload QR" से यह फोटो चुनें → ₹'+b.price+' डालकर pay करें। दूसरे फोन से सीधे scan भी कर सकते हैं।</div>'
     +'<div class="small" style="text-align:center">UPI ID: <b id="upiid">'+esc(CONFIG.upiId)+'</b> <button class="iconbtn" id="cpy" style="padding:2px 8px">Copy</button></div>'
-    +'<ol class="rules" style="color:var(--ink)"><li>QR scan करके या UPI ID पर ₹'+b.price+' का payment करें।</li><li>Payment का screenshot Telegram पर <b>'+esc(CONFIG.telegramName)+'</b> को भेजें।</li><li>'+(b.chk?'आपको एक <b>Unlock Code</b> मिलेगा, उसे यहाँ "Code डालें" में लिखें। Book हमेशा के लिए खुल जाएगी।':'Payment जाँचने के बाद पूरी <b>PDF आपको Telegram पर भेज दी जाएगी</b>।')+'</li></ol>'
+    +'<ol class="rules" style="color:var(--ink)"><li>QR scan करके या UPI ID पर ₹'+b.price+' का payment करें।</li><li>Payment का screenshot Telegram पर <b>'+esc(CONFIG.telegramName)+'</b> को भेजें।</li><li>'+(b.enc?'Payment जाँचकर आपके WhatsApp पर एक <b>Unlock Code</b> भेजा जाएगा। उसे यहाँ "Code डालें" में लिखें, book इसी app में हमेशा के लिए खुल जाएगी।':'Payment जाँचने के बाद पूरी <b>PDF आपको Telegram पर भेज दी जाएगी</b>।')+'</li></ol>'
     +'<a class="btn block" style="text-align:center;text-decoration:none;background:#2aa1da;color:#fff" target="_blank" rel="noopener" href="'+esc(CONFIG.telegram)+'">Telegram पर screenshot भेजें</a>'
     +'<a class="btn ghost block" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(msg)+'">WhatsApp पर संदेश भेजें</a>'
-    +(b.chk?'<button class="btn ghost block" id="havecode">मेरे पास Code है</button>':'')+'<div class="okmsg" id="cpm"></div></div>';
+    +(b.enc?'<button class="btn ghost block" id="havecode">मेरे पास Code है</button>':'')+'<div class="okmsg" id="cpm"></div></div>';
   document.body.appendChild(o);
   o.querySelector('#x').onclick=function(){ o.remove(); };
   var hc=o.querySelector('#havecode'); if(hc) hc.onclick=function(){ o.remove(); codeBox(id); };
   o.querySelector('#cpy').onclick=function(){ try{ navigator.clipboard.writeText(CONFIG.upiId).then(function(){ o.querySelector('#cpm').textContent='UPI ID कॉपी हो गई।'; }); }catch(e){} };
 }
 function codeBox(id){
-  var b=EBOOKS.filter(function(e){return e.id===id;})[0];
+  var b=EBOOKS.filter(function(e){return e.id===id;})[0], p=profile()||{};
   var o=document.createElement('div'); o.className='overlay';
-  o.innerHTML='<form class="card" id="cf" style="display:flex;flex-direction:column;gap:10px"><b>Unlock Code डालें</b><div class="muted small">'+esc(b.title)+'</div><input id="cc" autocomplete="off" placeholder="जैसे: AK123456" style="text-transform:uppercase"><div class="err" id="ce"></div><div class="row"><button class="btn" type="submit">Unlock करें</button><button class="btn ghost" type="button" id="cx">रद्द करें</button></div></form>';
+  o.innerHTML='<form class="card" id="cf" style="display:flex;flex-direction:column;gap:10px"><b>Unlock Code डालें</b><div class="muted small">'+esc(b.title)+'</div>'
+   +'<label for="cm" class="small">जिस मोबाइल नंबर से खरीदा</label><input id="cm" inputmode="numeric" maxlength="10" value="'+esc(p.mobile||'')+'" placeholder="10 अंकों का मोबाइल नंबर">'
+   +'<label for="cc" class="small">Unlock Code (WhatsApp पर मिला)</label><input id="cc" autocomplete="off" placeholder="जैसे: AB12CD34" style="text-transform:uppercase">'
+   +'<div class="err" id="ce"></div><div class="row"><button class="btn" type="submit" id="cs">Unlock करें</button><button class="btn ghost" type="button" id="cx">रद्द करें</button></div></form>';
   document.body.appendChild(o);
   o.querySelector('#cx').onclick=function(){ o.remove(); };
-  o.querySelector('#cf').onsubmit=function(e){ e.preventDefault(); var c=o.querySelector('#cc').value.trim().toUpperCase().replace(/\s+/g,''), er=o.querySelector('#ce');
-    sha256hex('chk'+c+b.id).then(function(h){ if(h!==b.chk){ er.textContent='Code गलत है। कृपया दोबारा जाँचें।'; return; }
-      return sha256hex(c+b.id).then(function(f){ var u=unlocked(); u[b.id]={code:c,file:'ebooks/'+f.slice(0,20)+'.pdf'}; set('unlocked',u); o.remove(); ebooks(); }); })
-      .catch(function(){ er.textContent='यह फोन code जाँच नहीं पा रहा। Chrome का नया version इस्तेमाल करें।'; }); };
+  o.querySelector('#cf').onsubmit=function(e){ e.preventDefault();
+    var m=o.querySelector('#cm').value.replace(/\D/g,''), c=o.querySelector('#cc').value.toUpperCase().replace(/[^A-Z0-9]/g,''), er=o.querySelector('#ce'), btn=o.querySelector('#cs');
+    if(!/^[6-9]\d{9}$/.test(m)){ er.textContent='सही 10 अंकों का मोबाइल नंबर लिखें।'; return; }
+    if(c.length<6){ er.textContent='पूरा code लिखें।'; return; }
+    btn.disabled=true; er.className='muted small'; er.textContent='जाँच हो रही है...';
+    fetch('content.json?v='+Date.now(),{cache:'no-store'}).then(function(r){ return r.json(); }).then(function(cj){ window.LIC=cj.licenses||{}; }).catch(function(){})
+     .then(function(){ return AK.licId(b.id,m,c); })
+     .then(function(lid){ var w=(LIC[b.id]||{})[lid]; if(!w) throw new Error('nf'); return AK.licUnwrap(w.w||w,b.id,m,c); })
+     .then(function(){ var u=unlocked(); u[b.id]={m:m,c:c}; set('unlocked',u); hit('book-unlocks'); o.remove(); ebooks(); openReader(b.id); })
+     .catch(function(err){ btn.disabled=false; er.className='err'; er.textContent=(err&&err.message==='nf')?'यह code इस मोबाइल नंबर के लिए नहीं मिला। नंबर और code दोबारा जाँचें। (Code मिलने के 2 - 3 मिनट बाद काम करता है)':'यह फोन code जाँच नहीं पा रहा। Chrome का नया version इस्तेमाल करें।'; });
+  };
+}
+/* ===== Protected reader: PDF sirf app ke andar, bina download/share, watermark ke saath ===== */
+var PDFJS_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js', PDFJS_WORKER='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+function loadPdfJs(){ if(window.pdfjsLib) return Promise.resolve(); return new Promise(function(res,rej){ var sc=document.createElement('script'); sc.src=PDFJS_URL; sc.onload=function(){ pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS_WORKER; res(); }; sc.onerror=rej; document.head.appendChild(sc); }); }
+function openReader(id){
+  var b=EBOOKS.filter(function(e){return e.id===id;})[0], u=unlocked()[id], p=profile()||{};
+  if(!b||!u||!b.enc) return;
+  var ov=document.createElement('div'); ov.className='reader';
+  ov.innerHTML='<div class="rbar"><button class="iconbtn" id="rx">✕ बंद करें</button><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(b.title)+'</b><span class="muted small" id="rp"></span></div><div class="rbody" id="rb"><div class="card muted" style="margin:16px">Book खुल रही है... (पहली बार थोड़ा समय लगेगा)</div></div>';
+  document.body.appendChild(ov); document.body.style.overflow='hidden';
+  var stop=function(e){ e.preventDefault(); return false; };
+  ov.addEventListener('contextmenu',stop); ov.addEventListener('dragstart',stop); ov.addEventListener('selectstart',stop);
+  var keyBlock=function(e){ if((e.ctrlKey||e.metaKey)&&/^[psc]$/i.test(e.key)){ e.preventDefault(); } };
+  document.addEventListener('keydown',keyBlock);
+  var close=function(){ ov.remove(); document.body.style.overflow=''; document.removeEventListener('keydown',keyBlock); };
+  ov.querySelector('#rx').onclick=close;
+  var wm=(p.name?p.name+' · ':'')+u.m;
+  Promise.all([loadPdfJs(), fetch(b.enc).then(function(r){ if(!r.ok) throw new Error('dl'); return r.arrayBuffer(); }),
+    AK.licId(id,u.m,u.c).then(function(lid){ var w=(LIC[id]||{})[lid]; if(!w) throw new Error('lic'); return AK.licUnwrap(w.w||w,id,u.m,u.c); })])
+  .then(function(r){ return AK.rawKey(r[2]).then(function(k){ return AK.aesDec(k,new Uint8Array(r[1])); }); })
+  .then(function(bytes){ return pdfjsLib.getDocument({data:bytes,disableAutoFetch:true}).promise; })
+  .then(function(pdf){
+    var rb=ov.querySelector('#rb'); rb.innerHTML=''; ov.querySelector('#rp').textContent=pdf.numPages+' पेज';
+    var W=Math.min(rb.clientWidth-16,900);
+    var obs=new IntersectionObserver(function(es){ es.forEach(function(en){ var t=en.target; if(en.isIntersecting && !t.dataset.done){ t.dataset.done=1; draw(+t.dataset.p,t); } else if(!en.isIntersecting && t.dataset.done){ delete t.dataset.done; t.innerHTML=''; } }); },{root:rb,rootMargin:'1500px 0px'});
+    function draw(n,box){
+      pdf.getPage(n).then(function(pg){ var v0=pg.getViewport({scale:1}), sc=W/v0.width, dpr=Math.min(window.devicePixelRatio||1,2), v=pg.getViewport({scale:sc*dpr});
+        var cv=document.createElement('canvas'); cv.width=v.width; cv.height=v.height; cv.style.width=W+'px'; cv.style.height=(v.height/dpr)+'px';
+        var ctx=cv.getContext('2d');
+        pg.render({canvasContext:ctx,viewport:v}).promise.then(function(){
+          ctx.save(); ctx.globalAlpha=0.13; ctx.fillStyle='#b00020'; ctx.font='bold '+Math.round(22*dpr)+'px sans-serif'; ctx.translate(cv.width/2,cv.height/2); ctx.rotate(-Math.PI/5);
+          for(var y=-cv.height;y<cv.height;y+=170*dpr){ for(var x=-cv.width;x<cv.width;x+=420*dpr){ ctx.fillText(wm,x,y); } } ctx.restore();
+          ctx.globalAlpha=0.5; ctx.fillStyle='#444'; ctx.font=Math.round(10*dpr)+'px sans-serif'; ctx.fillText('Agrikranti 1928 · '+wm+' · Page '+n,10*dpr,cv.height-8*dpr);
+          box.innerHTML=''; box.appendChild(cv); });
+      });
+    }
+    for(var n=1;n<=pdf.numPages;n++){ var d=document.createElement('div'); d.className='rpage'; d.dataset.p=n; d.style.width=W+'px'; d.style.height=Math.round(W*1.414)+'px'; rb.appendChild(d); obs.observe(d); }
+  }).catch(function(e){ ov.querySelector('#rb').innerHTML='<div class="card" style="margin:16px"><b>Book नहीं खुल पाई</b><p class="muted small">'+(e&&e.message==='lic'?'आपका code अब मान्य नहीं है। Telegram पर संपर्क करें।':'इंटरनेट जाँचकर दोबारा खोलें।')+'</p></div>'; });
 }
 function ebooks(){
   activeTab('ebooks');

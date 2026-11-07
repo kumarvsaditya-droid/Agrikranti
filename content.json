@@ -26,7 +26,8 @@
    "sub": "Lecture 1 - 36 + extra notes · Agronomy, Soil Science, Horticulture, Breeding, Plant Protection, Extension, Animal Science",
    "pages": 60,
    "price": 99,
-   "cover": "FULL<br>NOTES"
+   "cover": "FULL<br>NOTES",
+   "enc": "ebooks/enc/notes1.bin"
   },
   {
    "id": "sample1",
@@ -53,5 +54,12 @@
     }
    ]
   }
- ]
+ ],
+ "bookKeys": {
+  "notes1": "wSiclV4IIDXWkVSvTiy6Z1wSaqPR2S9hLqMjoqmIYBhKAKrZ6whEvSpodWv9S0qD9YzvkfmNGHEaCGAP"
+ },
+ "sales": "RH6finxv7fFOymOeNDAoeCU+BevPRtDLu33I+o/F",
+ "licenses": {
+  "notes1": {}
+ }
 }
