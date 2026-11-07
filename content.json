@@ -58,8 +58,12 @@
  "bookKeys": {
   "notes1": "wSiclV4IIDXWkVSvTiy6Z1wSaqPR2S9hLqMjoqmIYBhKAKrZ6whEvSpodWv9S0qD9YzvkfmNGHEaCGAP"
  },
- "sales": "RH6finxv7fFOymOeNDAoeCU+BevPRtDLu33I+o/F",
+ "sales": "n2xEhKqMGRtLHg1UzWhnze/S5vTET0UGFoBE+IWIIRiowc3Al+1o+F926QDEJ7yVvPD0J4GnvF69qhrF2DNwDHcPnbbp4Mqk+cN3ABP1FmfJthxP8QoOm8XSZBEb/0PxDi7LobvMXG7gaVCWUX9HTpfbr0AMKWsGFx7fTxieTYAhMbZCE8BPTPkzvw==",
  "licenses": {
-  "notes1": {}
+  "notes1": {
+   "ccee73f4c2ee4473d50681d0": {
+    "w": "V3Vk3g28TeDNWlthzKyaNDJVhUSLMj8o03wTV32t3aHtY0AcxXfCpiVx91lq2Ug7XF2Et7oKhoe4grlc"
+   }
+  }
  }
 }

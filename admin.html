@@ -81,8 +81,8 @@ function readFile(path){ return gh('/contents/'+path+'?ref=main&t='+Date.now()).
 function putOne(path,contentB64,msg,branch){
   return gh('/contents/'+path+'?ref='+branch+'&t='+Date.now()).then(function(cur){
     var body={message:msg,content:contentB64,branch:branch}; if(cur&&cur.sha) body.sha=cur.sha;
-    return gh('/contents/'+path,{method:'PUT',body:JSON.stringify(body)});
-  });
+    return gh('/contents/'+path,{method:'PUT',body:JSON.stringify(body)}).then(function(r){ if(!r) throw new Error('Token में "Contents: Read and write" permission नहीं है (नया token बनाएं)'); return r; });
+  }).catch(function(e){ if(/not accessible|permission|403|Resource/i.test(e.message)) throw new Error('Token में "Contents: Read and write" permission नहीं है - GitHub में token edit करके Contents को Read and write करें'); throw e; });
 }
 function putFile(path,contentB64,msg){
   return BRANCHES.reduce(function(p,br){ return p.then(function(){ return putOne(path,contentB64,msg,br); }); },Promise.resolve());
@@ -91,7 +91,7 @@ function saveContent(msg){
   if(C.config.geminiKey!==undefined){ C.config.gk=C.config.geminiKey?btoa(C.config.geminiKey.split('').reverse().join('')):''; delete C.config.geminiKey; }
   toast('Save हो रहा है...',20000);
   return putFile('content.json',b64(JSON.stringify(C,null,1)),'Admin: '+msg).then(function(){ toast('✅ Save हो गया। 1 - 2 मिनट में पूरे app में दिखेगा।',6000); })
-    .catch(function(e){ toast('❌ Save नहीं हुआ: '+e.message,8000); });
+    .catch(function(e){ toast('❌ Save नहीं हुआ: '+e.message,12000); alert('Save नहीं हुआ: '+e.message); throw e; });
 }
 function saveTests(msg){
   toast('Tests save हो रहे हैं...',20000);
