@@ -382,26 +382,49 @@ function logout(msg){
 function restoreUser(m){ var st=get('u_'+m,null); if(st){ USER_KEYS.forEach(function(k){ if(st[k]!=null) set(k,st[k]); }); del('u_'+m); } }
 function loginPage(msg){
   clearInterval(S.timer); setNav(false); window.scrollTo(0,0);
+  var srv=hasServer();
   app.innerHTML='<main class="page" style="min-height:100vh;justify-content:center;padding-bottom:40px">'
    +'<div style="text-align:center"><img src="icons/logo.png" alt="" style="width:110px;height:110px;border-radius:50%;box-shadow:0 0 0 3px var(--gold),0 0 26px rgba(63,207,94,.35)"><h1 style="font-family:var(--display);color:var(--gold);font-size:40px;margin:12px 0 0;line-height:1">AGRIKRANTI 1928</h1><p class="muted small" style="margin:4px 0 0">'+esc(CONFIG.tagline)+'</p></div>'
    +(msg?'<div class="card" style="border-color:var(--bad);color:var(--bad)">'+esc(msg)+'</div>':'')
    +'<form class="card" id="lg" novalidate style="display:flex;flex-direction:column;gap:12px"><h2 class="sec" style="margin:0">Login / <span>Register</span></h2>'
-   +'<div><label for="ln">आपका नाम</label><input id="ln" autocomplete="name" maxlength="40" placeholder="जैसे: Rahul Kumar"></div>'
+   +'<div id="st1" style="display:flex;flex-direction:column;gap:12px"><div><label for="ln">आपका नाम</label><input id="ln" autocomplete="name" maxlength="40" placeholder="जैसे: Rahul Kumar"></div>'
    +'<div><label for="lm">मोबाइल नंबर</label><input id="lm" inputmode="numeric" maxlength="10" placeholder="10 अंकों का नंबर"></div>'
-   +(hasServer()?'<div><label for="lp">4 अंकों का PIN</label><input id="lp" type="password" inputmode="numeric" maxlength="4" placeholder="नए हैं तो अपना PIN बनाएं"><div class="muted small">पहली बार: जो PIN डालेंगे वही आपका PIN बन जाएगा। इसे याद रखें।</div></div>':'')
-   +'<div class="err" id="le"></div><button class="btn block" type="submit" id="lb">Login करें</button>'
-   +(hasServer()?'<div class="muted small" style="text-align:center">एक ID एक समय में एक ही फोन पर चलेगी।</div>':'')+'</form></main>';
+   +(srv?'<div><label for="le2">Email (Gmail)</label><input id="le2" type="email" autocomplete="email" placeholder="जैसे: rahul@gmail.com"><div class="muted small">Login का OTP इसी email पर आएगा। पहले से registered हैं तो पुराने email पर ही आएगा।</div></div>':'')+'</div>'
+   +(srv?'<div id="st2" hidden style="display:flex;flex-direction:column;gap:10px"><div class="muted small" id="otpto"></div><div><label for="lo2">6 अंकों का OTP</label><input id="lo2" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="OTP" style="font-size:22px;letter-spacing:6px;text-align:center"></div><div class="row" style="justify-content:space-between"><button class="iconbtn" type="button" id="chg">← नंबर बदलें</button><button class="iconbtn" type="button" id="rs" disabled>OTP दोबारा भेजें</button></div><div class="muted small">Email नहीं दिखा? Spam / Promotions folder भी देखें।</div></div>':'')
+   +'<div class="err" id="le"></div><button class="btn block" type="submit" id="lb">'+(srv?'OTP भेजें':'Login करें')+'</button>'
+   +(srv?'<div class="muted small" style="text-align:center">एक ID एक समय में एक ही फोन पर चलेगी।</div>':'')+'</form></main>';
+  var stage=1, n='', m='', er=document.getElementById('le'), btn=document.getElementById('lb'), timer=null;
+  var done=function(name){ set('profile',{name:name||n,mobile:m}); restoreUser(m); set('sess',devId()); hit('logins'); go('home'); };
+  function cooldown(){ var rs=document.getElementById('rs'), t=60; rs.disabled=true; clearInterval(timer); timer=setInterval(function(){ t--; rs.textContent=t>0?'दोबारा भेजें ('+t+')':'OTP दोबारा भेजें'; if(t<=0){ clearInterval(timer); rs.disabled=false; } },1000); }
+  function sendOtp(){
+    var em=document.getElementById('le2').value.trim();
+    btn.disabled=true; er.className='muted small'; er.textContent='OTP भेजा जा रहा है...';
+    return payApi({action:'otp',mobile:m,name:n,email:em}).then(function(r){
+      btn.disabled=false;
+      if(!r.ok){ er.className='err'; er.textContent=r.error==='email'?'सही email लिखें (जैसे name@gmail.com)।':r.error==='too many'?'बहुत बार OTP माँगा गया। 1 घंटे बाद कोशिश करें।':'OTP नहीं भेजा जा सका, दोबारा कोशिश करें।'; return; }
+      stage=2; document.getElementById('st1').hidden=true; document.getElementById('st2').hidden=false; document.getElementById('st2').style.display='flex';
+      document.getElementById('otpto').innerHTML='OTP भेजा गया: <b>'+esc(r.to)+'</b>'; btn.textContent='Login करें'; er.textContent=''; cooldown(); document.getElementById('lo2').focus();
+    }).catch(function(){ btn.disabled=false; er.className='err'; er.textContent='इंटरनेट जाँचकर दोबारा कोशिश करें।'; });
+  }
+  if(srv){
+    document.getElementById('rs').onclick=sendOtp;
+    document.getElementById('chg').onclick=function(){ stage=1; document.getElementById('st2').hidden=true; document.getElementById('st2').style.display='none'; document.getElementById('st1').hidden=false; btn.textContent='OTP भेजें'; er.textContent=''; };
+    document.getElementById('st2').style.display='none';
+  }
   document.getElementById('lg').onsubmit=function(e){ e.preventDefault();
-    var n=document.getElementById('ln').value.replace(/\s+/g,' ').trim(), m=document.getElementById('lm').value.replace(/\D/g,''), pe=document.getElementById('lp'), pin=pe?pe.value.replace(/\D/g,''):'', er=document.getElementById('le'), btn=document.getElementById('lb');
-    if(n.length<2){ er.textContent='कृपया अपना नाम लिखें।'; return; }
-    if(!/^[6-9]\d{9}$/.test(m)){ er.textContent='कृपया 10 अंकों का सही मोबाइल नंबर लिखें।'; return; }
-    if(pe && pin.length!==4){ er.textContent='4 अंकों का PIN लिखें।'; return; }
-    var done=function(name){ set('profile',{name:name||n,mobile:m}); restoreUser(m); set('sess',devId()); hit('logins'); go('home'); };
-    if(!hasServer()) return done(n);
-    btn.disabled=true; er.className='muted small'; er.textContent='Login हो रहा है...';
-    payApi({action:'login',mobile:m,name:n,pin:pin,device:devId()}).then(function(r){
-      if(r.ok) return done(r.name); btn.disabled=false; er.className='err';
-      er.textContent=r.error==='pin'?'PIN गलत है। सही PIN डालें (भूल गए हों तो Telegram पर संपर्क करें)।':'Login नहीं हुआ, दोबारा कोशिश करें।';
+    if(stage===1){
+      n=document.getElementById('ln').value.replace(/\s+/g,' ').trim(); m=document.getElementById('lm').value.replace(/\D/g,'');
+      if(n.length<2){ er.className='err'; er.textContent='कृपया अपना नाम लिखें।'; return; }
+      if(!/^[6-9]\d{9}$/.test(m)){ er.className='err'; er.textContent='कृपया 10 अंकों का सही मोबाइल नंबर लिखें।'; return; }
+      if(!srv) return done(n);
+      return sendOtp();
+    }
+    var otp=document.getElementById('lo2').value.replace(/\D/g,'');
+    if(otp.length!==6){ er.className='err'; er.textContent='6 अंकों का OTP लिखें।'; return; }
+    btn.disabled=true; er.className='muted small'; er.textContent='जाँच हो रही है...';
+    payApi({action:'login',mobile:m,name:n,otp:otp,device:devId()}).then(function(r){
+      if(r.ok){ clearInterval(timer); return done(r.name); } btn.disabled=false; er.className='err';
+      er.textContent=r.error==='otp'?'OTP गलत है। दोबारा जाँचें।':r.error==='expired'?'OTP की समय-सीमा खत्म हो गई। "OTP दोबारा भेजें" दबाएँ।':'Login नहीं हुआ, दोबारा कोशिश करें।';
     }).catch(function(){ btn.disabled=false; er.className='err'; er.textContent='इंटरनेट जाँचकर दोबारा कोशिश करें।'; });
   };
 }
