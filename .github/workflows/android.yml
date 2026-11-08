@@ -17,21 +17,7 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
       - name: Build TWA with Bubblewrap
-        run: |
-          set -x
-          npm i -g @bubblewrap/cli
-          mkdir -p ~/.bubblewrap
-          echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_SDK_ROOT\"}" > ~/.bubblewrap/config.json
-          yes | sdkmanager --licenses > /dev/null || true
-          mkdir -p work && cp android/twa-manifest.json work/ && cd work
-          keytool -genkeypair -keystore android.keystore -alias android -keyalg RSA -keysize 2048 -validity 10000 -storepass testpass123 -keypass testpass123 -dname "CN=Test"
-          (yes "" | bubblewrap update --skipVersionUpgrade) 2>&1 | tee ../update.log
-          chmod +x gradlew
-          ./gradlew bundleRelease assembleRelease --no-daemon 2>&1 | tail -40 | tee ../gradle.log
-          BT=$(ls -d $ANDROID_SDK_ROOT/build-tools/* | sort -V | tail -1)
-          $BT/zipalign -f -p 4 app/build/outputs/apk/release/app-release-unsigned.apk aligned.apk
-          $BT/apksigner sign --ks android.keystore --ks-pass pass:testpass123 --out ../Agrikranti-test.apk aligned.apk
-          cp app/build/outputs/bundle/release/app-release.aab ../Agrikranti-unsigned.aab
+        run: bash android/build.sh > build.log 2>&1 || (echo "BUILD FAILED" >> build.log)
       - name: Save outputs to android-build branch
         if: always()
         run: |
