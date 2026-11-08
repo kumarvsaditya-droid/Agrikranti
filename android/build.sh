@@ -1,6 +1,6 @@
 set -x
 echo "JAVA_HOME=$JAVA_HOME ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT ANDROID_HOME=$ANDROID_HOME"
-SDK="${ANDROID_SDK_ROOT:-$ANDROID_HOME}"
+SDK="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"; export PATH="$SDK/cmdline-tools/latest/bin:$(ls -d $SDK/cmdline-tools/*/bin | tail -1):$PATH"
 npm i -g @bubblewrap/cli || exit 1
 bubblewrap --version
 mkdir -p ~/.bubblewrap
