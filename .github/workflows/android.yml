@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['android/**', '.github/workflows/android.yml']
+    paths: ['android/**', 'android-admin/**', '.github/workflows/android.yml']
 permissions:
   contents: write
 jobs:
@@ -16,11 +16,13 @@ jobs:
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
       - name: Build TWA with Bubblewrap
-        run: bash android/build.sh > build.log 2>&1 || (echo "BUILD FAILED" >> build.log)
+        run: |
+          bash android/build.sh android Agrikranti > build.log 2>&1 || (echo "BUILD FAILED" >> build.log)
+          bash android/build.sh android-admin AgrikrantiAdmin > build-admin.log 2>&1 || (echo "BUILD FAILED" >> build-admin.log)
       - name: Save outputs to android-build branch
         if: always()
         run: |
-          mkdir -p /tmp/out && cp -f *.log Agrikranti-*.apk Agrikranti-*.aab /tmp/out/ 2>/dev/null || true
+          mkdir -p /tmp/out && cp -f *.log Agrikranti*.apk Agrikranti*.aab /tmp/out/ 2>/dev/null || true
           git config user.name "build-bot"; git config user.email "build-bot@users.noreply.github.com"
           git checkout --orphan android-build
           git rm -rf . > /dev/null 2>&1 || true
