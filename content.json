@@ -143,6 +143,10 @@
  },
  "series": [
   {
+   "id": "ganna10",
+   "name": "Sugarcane Supervisor - 10 Model Papers"
+  },
+  {
    "id": "sugarcane",
    "name": "Sugarcane Supervisor Test Series"
   }

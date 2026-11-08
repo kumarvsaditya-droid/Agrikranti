@@ -212,6 +212,7 @@ sup{font-size:.7em}
 </div></nav>
 
 <script src="tests.js"></script>
+<script src="tests-ganna.js"></script>
 <script src="akcrypto.js"></script>
 <script>
 /* ================= SETTINGS (yahin badlein) ================= */
@@ -312,7 +313,7 @@ var SERIES=[{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}];
 /* ================= helpers ================= */
 var app = document.getElementById('app');
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
-function fmt(s){ return esc(s).replace(/(\d+)\^(\d+)/g,'$1<sup>$2</sup>'); }
+function fmt(s){ return esc(s).replace(/(\d+)\^(\d+)/g,'$1<sup>$2</sup>').replace(/\n/g,'<br>'); }
 function get(k,d){ try{ var v=JSON.parse(localStorage.getItem('ak_'+k)); return v==null?d:v; }catch(e){ return d; } }
 function set(k,v){ try{ localStorage.setItem('ak_'+k,JSON.stringify(v)); }catch(e){} }
 function del(k){ try{ localStorage.removeItem('ak_'+k); }catch(e){} }
@@ -321,7 +322,10 @@ function hash(str){ var h=7; for(var i=0;i<str.length;i++) h=(h*31+str.charCodeA
 function shuffle(arr,seed){ var a=arr.slice(),s=seed||1; for(var i=a.length-1;i>0;i--){ s=(s*9301+49297)%233280; var j=Math.floor(s/233280*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
 function now(){ var d=new Date(); return ('0'+d.getDate()).slice(-2)+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+d.getFullYear()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); }
 function testById(id){ return TESTS.filter(function(t){return t.id===id;})[0]; }
-function maxMarks(t){ return t.questions.length*CONFIG.marksPerQ; }
+function TD(t){ return (t&&t.dur)||CONFIG.durationMin; }
+function TM(t){ return (t&&t.mpq)||CONFIG.marksPerQ; }
+function TN(t){ return (t&&t.neg!=null)?t.neg:CONFIG.negative; }
+function maxMarks(t){ return t.questions.length*TM(t); }
 function shortTitle(t){ return t.title.split(' - ')[0]; }
 function topicOf(t){ return t.title.split(' - ').slice(1).join(' - '); }
 function profile(){ return get('profile',null); }
@@ -567,8 +571,8 @@ function linksPage(){
 
 /* ================= Tests ================= */
 function testCard(t){
-  var b=bestFor(t.id), n=t.id.replace('T','');
-  return '<div class="card tcard"><div class="tnum">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(t))+'</h3><div class="chips"><span class="chip">'+t.questions.length+' प्रश्न</span><span class="chip">'+maxMarks(t)+' अंक</span><span class="chip">'+CONFIG.durationMin+' मिनट</span>'+(b?'<span class="chip done">Best '+b.score+'/'+b.max+'</span>':'')+'</div>'
+  var b=bestFor(t.id), n=t.id.replace(/^[A-Z]+/,'');
+  return '<div class="card tcard"><div class="tnum">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(t))+'</h3><div class="chips"><span class="chip">'+t.questions.length+' प्रश्न</span><span class="chip">'+maxMarks(t)+' अंक</span><span class="chip">'+TD(t)+' मिनट</span>'+(TN(t)?'<span class="chip">-'+TN(t)+' negative</span>':'')+(b?'<span class="chip done">Best '+b.score+'/'+b.max+'</span>':'')+'</div>'
     +'<div class="row"><button class="btn" data-start="'+t.id+'">'+(b?'फिर से दें':'टेस्ट शुरू करें')+'</button>'+(b?'<button class="btn ghost" data-review="'+t.id+'">उत्तर देखें</button>':'')+(CONFIG.backendUrl?'<button class="btn ghost" data-lb="'+t.id+'">Leaderboard</button>':'')+'</div></div></div>';
 }
 function seriesOf(t){ return t.series||(SERIES[0]&&SERIES[0].id); }
@@ -578,7 +582,7 @@ function tests(sid){
   var list=TESTS.filter(function(t){ return seriesOf(t)===cur; }), sr=SERIES.filter(function(x){return x.id===cur;})[0];
   var h=topbar()+'<main class="page"><h2 class="sec">Test <span>Series</span></h2>';
   h+='<div class="pills">'+SERIES.map(function(x){ var n=TESTS.filter(function(t){return seriesOf(t)===x.id;}).length; return '<button class="pill'+(x.id===cur?' on':'')+'" data-sr="'+esc(x.id)+'">'+esc(x.name)+' <i>'+n+'</i></button>'; }).join('')+'</div>';
-  h+='<div class="card" style="padding:12px 14px;background:radial-gradient(120% 140% at 100% 0%,#1d3a22 0%,var(--card) 60%)"><b style="color:var(--gold)">'+esc(sr.name)+'</b><div class="muted small">'+(cur==='sugarcane'?'UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी · ':'')+(list[0]?'हर टेस्ट: '+list[0].questions.length+' प्रश्न × '+CONFIG.marksPerQ+' अंक = '+maxMarks(list[0])+' अंक · '+CONFIG.durationMin+' मिनट':'')+'</div></div>';
+  h+='<div class="card" style="padding:12px 14px;background:radial-gradient(120% 140% at 100% 0%,#1d3a22 0%,var(--card) 60%)"><b style="color:var(--gold)">'+esc(sr.name)+'</b><div class="muted small">'+(cur==='sugarcane'?'UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी · ':'')+(list[0]?'हर टेस्ट: '+list[0].questions.length+' प्रश्न × '+TM(list[0])+' अंक = '+maxMarks(list[0])+' अंक · '+TD(list[0])+' मिनट':'')+'</div></div>';
   if(!list.length) h+='<div class="card empty">इस series के test जल्द आ रहे हैं।</div>';
   list.forEach(function(t){ h+=testCard(t); });
   h+='</main>'; app.innerHTML=h; bindCommon();
@@ -609,8 +613,8 @@ function register(testId){
 }
 function rules(t){
   var p=profile();
-  var h=topbar()+'<main class="page"><div class="card" style="display:flex;flex-direction:column;gap:12px"><div class="row"><div class="tnum">'+t.id.replace('T','')+'</div><div style="flex:1;min-width:0"><b>'+esc(topicOf(t))+'</b><div class="muted small">'+esc(p.name)+' · '+esc(p.mobile)+'</div></div></div>'
-    +'<ul class="rules"><li>'+t.questions.length+' प्रश्न, कुल '+maxMarks(t)+' अंक, समय '+CONFIG.durationMin+' मिनट।</li><li>हर सही उत्तर पर '+CONFIG.marksPerQ+' अंक'+(CONFIG.negative?', गलत पर -'+CONFIG.negative:', गलत पर कोई कटौती नहीं')+'।</li><li>प्रश्न और विकल्प हर बार अलग क्रम में आएँगे।</li><li>समय पूरा होते ही टेस्ट अपने आप submit होगा। बीच में ऐप बंद हो जाए तो वहीं से जारी रख सकते हैं।</li></ul>'
+  var h=topbar()+'<main class="page"><div class="card" style="display:flex;flex-direction:column;gap:12px"><div class="row"><div class="tnum">'+t.id.replace(/^[A-Z]+/,'')+'</div><div style="flex:1;min-width:0"><b>'+esc(topicOf(t))+'</b><div class="muted small">'+esc(p.name)+' · '+esc(p.mobile)+'</div></div></div>'
+    +'<ul class="rules"><li>'+t.questions.length+' प्रश्न, कुल '+maxMarks(t)+' अंक, समय '+TD(t)+' मिनट।</li><li>हर सही उत्तर पर '+TM(t)+' अंक'+(TN(t)?', गलत पर -'+TN(t):', गलत पर कोई कटौती नहीं')+'।</li>'+(t.fixed?'<li>प्रश्न असली परीक्षा की तरह विषय-क्रम में आएँगे।</li>':'<li>प्रश्न और विकल्प हर बार अलग क्रम में आएँगे।</li>')+'<li>समय पूरा होते ही टेस्ट अपने आप submit होगा। बीच में ऐप बंद हो जाए तो वहीं से जारी रख सकते हैं।</li></ul>'
     +'<button class="btn gold block" id="go">टेस्ट शुरू करें</button><button class="btn ghost block" id="bk">वापस</button></div></main>';
   app.innerHTML=h;
   document.getElementById('go').onclick=function(){ go('quiz',{testId:t.id}); };
@@ -623,20 +627,21 @@ function startQuiz(o){
   var t=testById(o.testId), p=profile(), seed=hash((p?p.mobile:'x')+t.id+(o.resume?o.resume.seed:Date.now()));
   if(o.resume) seed=o.resume.seed;
   S.test=t; S.seed=seed;
-  S.order=shuffle(t.questions.map(function(q,i){return i;}),seed);
-  S.optOrder={}; t.questions.forEach(function(q,i){ S.optOrder[i]=shuffle([0,1,2,3],seed+i*13+1); });
+  var idx=t.questions.map(function(q,i){return i;});
+  S.order=t.fixed?idx:shuffle(idx,seed);
+  S.optOrder={}; t.questions.forEach(function(q,i){ var oi=q.o.map(function(x,k){return k;}); S.optOrder[i]=t.fixed?oi:shuffle(oi,seed+i*13+1); });
   S.answers=o.resume?o.resume.answers:{}; S.marks=o.resume?o.resume.marks:{};
   S.cur=o.resume?o.resume.cur:0; S.start=o.resume?o.resume.start:Date.now();
   save(); renderQ(); clearInterval(S.timer); S.timer=setInterval(tick,1000);
 }
 function save(){ set('progress',{testId:S.test.id,answers:S.answers,marks:S.marks,cur:S.cur,start:S.start,seed:S.seed}); }
-function remaining(){ return CONFIG.durationMin*60-(Date.now()-S.start)/1000; }
+function remaining(){ return TD(S.test)*60-(Date.now()-S.start)/1000; }
 function tick(){ var r=remaining(), el=document.getElementById('tm'); if(el){ el.textContent=mmss(r); el.classList.toggle('low',r<300);} if(r<=0){ clearInterval(S.timer); submit(true);} }
 function renderQ(){
   var n=S.order.length, qi=S.order[S.cur], q=S.test.questions[qi], done=Object.keys(S.answers).length;
   var h='<div class="qbar"><div class="in"><b>'+esc(shortTitle(S.test))+'</b><span class="timer" id="tm">'+mmss(remaining())+'</span><button class="btn gold" id="sub" style="min-height:38px;padding:6px 14px">Submit</button></div><div class="prog"><i style="width:'+(done/n*100)+'%"></i></div></div>';
   h+='<main class="page"><div class="card"><div class="muted small" style="font-weight:700">प्रश्न '+(S.cur+1)+' / '+n+' · '+done+' हल किए</div><div class="qtext">'+fmt(q.q)+'</div><div class="opts">';
-  S.optOrder[qi].forEach(function(oi,k){ h+='<button class="opt'+(S.answers[qi]===oi?' sel':'')+'" data-o="'+oi+'"><b>'+'ABCD'[k]+'</b><span>'+fmt(q.o[oi])+'</span></button>'; });
+  S.optOrder[qi].forEach(function(oi,k){ h+='<button class="opt'+(S.answers[qi]===oi?' sel':'')+'" data-o="'+oi+'"><b>'+'ABCDE'[k]+'</b><span>'+fmt(q.o[oi])+'</span></button>'; });
   h+='</div><div class="qnav"><button class="btn ghost" id="pv"'+(S.cur===0?' disabled':'')+'>पिछला</button><button class="btn ghost" id="mk">'+(S.marks[qi]?'Unmark':'Review')+'</button><button class="btn" id="nx">'+(S.cur===n-1?'अंतिम':'अगला')+'</button></div>'
     +'<div class="row" style="margin-top:8px"><button class="btn ghost" id="cl" style="min-height:38px;padding:6px 12px">उत्तर हटाएं</button></div></div>';
   h+='<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="legend"><span style="--c:var(--green-d)">हल किया</span><span style="--c:var(--gold)">Review</span><span style="--c:var(--line)">बाकी</span></div><div class="pal">';
@@ -663,7 +668,7 @@ function submit(auto){
   var t=S.test, c=0,w=0,s=0;
   t.questions.forEach(function(q,i){ var a=S.answers[i]; if(a===undefined||a===null) s++; else if(Number(a)===q.a) c++; else w++; });
   var p=profile();
-  var res={id:Date.now(),testId:t.id,title:t.title,name:p.name,mobile:p.mobile,score:Math.round((c*CONFIG.marksPerQ-w*CONFIG.negative)*100)/100,max:maxMarks(t),correct:c,wrong:w,skipped:s,
+  var res={id:Date.now(),testId:t.id,title:t.title,name:p.name,mobile:p.mobile,score:Math.round((c*TM(t)-w*TN(t))*100)/100,max:maxMarks(t),correct:c,wrong:w,skipped:s,
     timeTaken:Math.round((Date.now()-S.start)/1000),when:now(),answers:S.answers,auto:!!auto};
   var at=attempts(); at.push(res); if(at.length>200) at=at.slice(-200); set('attempts',at); del('progress'); hit('tests-submitted');
   setNav(true); review(res, true);
