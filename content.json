@@ -145,5 +145,10 @@
    "id": "sugarcane",
    "name": "Sugarcane Supervisor Test Series"
   }
+ ],
+ "banners": [
+  {
+   "img": "img/banner-main.jpg"
+  }
  ]
 }
