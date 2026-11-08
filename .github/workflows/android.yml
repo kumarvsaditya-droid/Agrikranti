@@ -1,0 +1,44 @@
+name: Build Android (Play Store)
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['android/**', '.github/workflows/android.yml']
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - uses: android-actions/setup-android@v3
+      - uses: actions/setup-node@v4
+        with: { node-version: '20' }
+      - name: Build TWA with Bubblewrap
+        run: |
+          set -x
+          npm i -g @bubblewrap/cli
+          mkdir -p ~/.bubblewrap
+          echo "{\"jdkPath\":\"$JAVA_HOME\",\"androidSdkPath\":\"$ANDROID_SDK_ROOT\"}" > ~/.bubblewrap/config.json
+          yes | sdkmanager --licenses > /dev/null || true
+          mkdir -p work && cp android/twa-manifest.json work/ && cd work
+          keytool -genkeypair -keystore android.keystore -alias android -keyalg RSA -keysize 2048 -validity 10000 -storepass testpass123 -keypass testpass123 -dname "CN=Test"
+          (yes "" | bubblewrap update --skipVersionUpgrade) 2>&1 | tee ../update.log
+          chmod +x gradlew
+          ./gradlew bundleRelease assembleRelease --no-daemon 2>&1 | tail -40 | tee ../gradle.log
+          BT=$(ls -d $ANDROID_SDK_ROOT/build-tools/* | sort -V | tail -1)
+          $BT/zipalign -f -p 4 app/build/outputs/apk/release/app-release-unsigned.apk aligned.apk
+          $BT/apksigner sign --ks android.keystore --ks-pass pass:testpass123 --out ../Agrikranti-test.apk aligned.apk
+          cp app/build/outputs/bundle/release/app-release.aab ../Agrikranti-unsigned.aab
+      - name: Save outputs to android-build branch
+        if: always()
+        run: |
+          mkdir -p /tmp/out && cp -f *.log Agrikranti-*.apk Agrikranti-*.aab /tmp/out/ 2>/dev/null || true
+          git config user.name "build-bot"; git config user.email "build-bot@users.noreply.github.com"
+          git checkout --orphan android-build
+          git rm -rf . > /dev/null 2>&1 || true
+          cp /tmp/out/* . 2>/dev/null || true
+          echo "Built from ${GITHUB_SHA}" > BUILD.txt
+          git add -A && git commit -m "Android build ${GITHUB_SHA}" && git push -f origin android-build

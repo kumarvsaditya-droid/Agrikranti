@@ -931,7 +931,7 @@ function askAI(){
     q=q.trim(); if(!q) return; document.getElementById('aq').value=''; document.getElementById('sugg').hidden=true;
     add('me',esc(q)); hist.push({r:'u',t:q}); hit('ai-questions');
     var facts=searchKB(q,4), wait=add('ai','<span class="dots"><span></span><span></span><span></span></span>');
-    function finish(html){ wait.innerHTML=html; hist.push({r:'a',h:html}); if(hist.length>40) hist=hist.slice(-40); set('aichat',hist); wait.scrollIntoView({block:'end',behavior:'smooth'}); }
+    function finish(html){ html+='<div style="margin-top:6px;text-align:right"><a class="muted small" style="color:var(--muted)" target="_blank" rel="noopener" href="https://t.me/share/url?url='+encodeURIComponent(APP_URL)+'&text='+encodeURIComponent('Agrikranti AI का यह जवाब गलत / आपत्तिजनक है - प्रश्न: '+q)+'">⚑ गलत / आपत्तिजनक जवाब रिपोर्ट करें</a></div>'; wait.innerHTML=html; hist.push({r:'a',h:html}); if(hist.length>40) hist=hist.slice(-40); set('aichat',hist); wait.scrollIntoView({block:'end',behavior:'smooth'}); }
     var fh=facts.length?'<div class="muted small" style="margin-top:8px"><b>📘 Agrikranti प्रश्नों से जुड़े तथ्य:</b></div>'+factsHtml(facts):'';
     if(!CONFIG.aiUrl && !CONFIG.geminiKey){
       finish((facts.length?'<b>आपके प्रश्न से जुड़े तथ्य (Agrikranti notes से):</b>'+factsHtml(facts):'इस प्रश्न से जुड़ा तथ्य अभी app के प्रश्नों में नहीं मिला।')+'<div class="muted small" style="margin-top:8px">🔧 Agrikranti AI का पूरा जवाब वाला feature जल्द चालू हो रहा है। तब तक doubt Telegram पर भेजें।</div>');
@@ -998,6 +998,7 @@ function profilePage(){
   var h=topbar()+'<main class="page"><h2 class="sec">मेरी <span>Profile</span></h2><form class="card" id="pf" novalidate style="display:flex;flex-direction:column;gap:12px"><div><label for="pn">नाम</label><input id="pn" maxlength="40" value="'+esc(p.name)+'"></div><div><label for="pm">मोबाइल नंबर</label><input id="pm" inputmode="numeric" maxlength="10" value="'+esc(p.mobile)+'" readonly style="opacity:.7"><div class="muted small">मोबाइल नंबर बदलने के लिए Logout करके नए नंबर से Login करें।</div></div><div class="err" id="pe"></div><button class="btn" type="submit">सेव करें</button></form>';
   h+='<div class="card"><b>Agrikranti ऐप फोन में इंस्टॉल करें</b><ul class="rules" style="margin-top:6px"><li>Chrome में यह पेज खोलें।</li><li>ऊपर दाईं ओर ⋮ मेनू → <b>"Add to Home screen" / "Install app"</b> दबाएँ।</li><li>होम स्क्रीन पर Agrikranti का आइकन आ जाएगा, ऐप की तरह खुलेगा।</li></ul>'+(window.__deferredPrompt?'<button class="btn gold block" id="installBtn2" style="margin-top:10px">अभी इंस्टॉल करें</button>':'')+'</div>';
   h+='<button class="btn ghost block" id="lo" style="border-color:var(--bad);color:var(--bad)">🚪 Logout</button>';
+  h+='<div class="card small"><b>Privacy और Account</b><div class="muted" style="margin:4px 0 8px">आपका डेटा कैसे उपयोग होता है, पढ़ें या अपना account व डेटा हटाने का अनुरोध करें।</div><div class="row"><a class="btn ghost" style="text-decoration:none" href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a><button class="btn ghost" id="delacc" style="border-color:var(--bad);color:var(--bad)">Account delete करें</button></div></div>';
   h+=shareCard();
   h+='<h2 class="sec">हमसे <span>जुड़ें</span></h2>'+socialCards();
   h+='<div class="card small muted">Agrikranti 1928 · Agriculture competitive exams (ICAR, UPCATET, AGTA, Sugarcane Supervisor, JRF आदि) की तैयारी।<br>आपका डेटा (नाम, नंबर, results) आपके फोन में सुरक्षित रहता है।</div>';
@@ -1008,6 +1009,11 @@ function profilePage(){
     set('profile',{name:n,mobile:m}); er.className='okmsg'; er.textContent='Profile सेव हो गई।'; };
   var i2=document.getElementById('installBtn2'); if(i2) i2.onclick=doInstall;
   var a=document.getElementById('adm'); if(a) a.onclick=function(){ go('admin'); };
+  document.getElementById('delacc').onclick=function(){ if(!confirm('क्या आप अपना account व डेटा हटाना चाहते हैं? इस फोन से आपका सारा डेटा तुरंत हट जाएगा और सर्वर से डेटा हटाने का अनुरोध भेजा जाएगा।')) return;
+    var pp=profile()||{}; try{ if(hasServer()) payApi({action:'delete',mobile:pp.mobile,name:pp.name,device:devId()}).catch(function(){}); }catch(e){}
+    var msg='Account deletion request - Agrikranti App\nनाम: '+(pp.name||'')+'\nमोबाइल: '+(pp.mobile||'')+'\nकृपया मेरा account और डेटा हटा दें।';
+    try{ Object.keys(localStorage).forEach(function(k){ if(k.indexOf('ak_')===0 && k!=='ak_twa') localStorage.removeItem(k); }); }catch(e){}
+    window.open('https://t.me/share/url?url='+encodeURIComponent(APP_URL)+'&text='+encodeURIComponent(msg),'_blank','noopener'); location.href='delete-account.html'; };
   document.getElementById('lo').onclick=function(){ if(confirm('Logout करें? आपके results और खरीदी book इसी नंबर से दोबारा login करने पर वापस मिल जाएंगे।')) logout(); };
 }
 
@@ -1044,7 +1050,9 @@ function doInstall(){ var p=window.__deferredPrompt; if(!p) return; p.prompt(); 
 if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navigator.serviceWorker.register('sw.js').catch(function(){}); }
 
 /* start */
-loadContent().then(function(){ trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); sessionCheck(); });
+/* Play Store (TWA) mode: Google Play policy ke kaaran app ke andar paid eBook / payment nahi dikhte */
+var IS_TWA=(function(){ try{ if(/[?&]source=twa/.test(location.search)||document.referrer.indexOf('android-app://')===0) localStorage.setItem('ak_twa','1'); return localStorage.getItem('ak_twa')==='1'; }catch(e){ return /[?&]source=twa/.test(location.search); } })();
+loadContent().then(function(){ if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); sessionCheck(); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden) sessionCheck(); });
 </script>
 </body>
