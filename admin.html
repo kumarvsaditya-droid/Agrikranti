@@ -17,6 +17,7 @@ header .in{max-width:860px;margin:0 auto;padding:10px 16px;display:flex;align-it
 header img{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold)}
 header b{font-family:'Teko',sans-serif;font-size:26px;color:var(--gold);line-height:1}
 header .sp{flex:1}
+.tbl th,.tbl td{border-bottom:1px solid var(--line);padding:7px 8px;text-align:left;white-space:nowrap}.tbl th{color:var(--gold);font-size:13px}.tbl a{color:inherit}
 .tabs{max-width:860px;margin:0 auto;display:flex;gap:6px;overflow-x:auto;padding:0 16px 10px}
 .tabs button{flex:none;background:var(--card);border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:6px 14px;font:inherit;font-weight:700;cursor:pointer}
 .tabs button.on{background:var(--gold);color:#111;border-color:var(--gold)}
@@ -60,7 +61,7 @@ ol{padding-left:20px;margin:6px 0}
 <script>
 var OWNER='kumarvsaditya-droid', REPO='Agrikranti', BRANCHES=['main','gh-pages'];
 var STATS_NS='agrikranti1928-app', STATS_API='https://abacus.jasoncameron.dev';
-var TOKEN=null, C=null, TESTS=null, TAB='sales', PINK=null;
+var TOKEN=null, C=null, TESTS=null, TAB='students', PINK=null;
 var M=document.getElementById('main');
 
 function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){ return null; } }
@@ -142,10 +143,10 @@ function boot(fresh){
 document.getElementById('logout').onclick=function(){ ls('ak_admin_token',null); TOKEN=null; loginView(); };
 
 /* ---------- Tabs ---------- */
-var TABS=[['sales','💰 eBook बिक्री'],['stats','📊 Stats'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['settings','⚙️ Links / Settings']];
+var TABS=[['students','👥 Students'],['sales','💰 eBook बिक्री'],['stats','📊 Stats'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['settings','⚙️ Links / Settings']];
 function renderTabs(){ var n=document.getElementById('tabs'); n.innerHTML=TABS.map(function(t){ return '<button data-t="'+t[0]+'" class="'+(t[0]===TAB?'on':'')+'">'+t[1]+'</button>'; }).join('');
   n.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ TAB=b.getAttribute('data-t'); renderTabs(); show(TAB); }; }); }
-function show(t){ window.scrollTo(0,0); ({sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
+function show(t){ window.scrollTo(0,0); ({students:studentsView,sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
 
 /* ---------- Stats ---------- */
 function getCount(key){ return fetch(STATS_API+'/get/'+STATS_NS+'/'+key).then(function(r){ return r.ok?r.json():{value:0}; }).then(function(j){ return j.value||0; }).catch(function(){ return null; }); }
@@ -210,6 +211,46 @@ function paperForm(gi,pi){
        if(pi>=0) g.papers[pi]=y; else g.papers.push(y); return saveContent('paper '+y.code); })
      .then(semView).catch(function(e){ toast('❌ '+e.message,8000); btn.disabled=false; });
   };
+}
+
+
+/* ---------- Students (login list) ---------- */
+var STU=null;
+function studentsView(){
+  var url=C.config.regUrl||'';
+  if(!url){
+    M.innerHTML='<div class="card"><h2>👥 Students - किसने login किया</h2><p class="muted small">यह list चालू करने के लिए एक बार (10 मिनट, laptop या फोन के Chrome में "Desktop site") यह करें:</p><ol class="small">'
+     +'<li>Chrome में <a href="https://script.new" target="_blank" rel="noopener">script.new</a> खोलें (अपने Gmail से login रहें)।</li>'
+     +'<li>वहाँ का सारा code मिटाकर <b>Agrikranti_Students_Code.gs</b> फाइल का पूरा code paste करें → ऊपर 💾 Save।</li>'
+     +'<li>ऊपर function की list में <b>setup</b> चुनें → <b>Run</b> → Review permissions → अपना Gmail → Advanced → Go to project (unsafe) → Allow।</li>'
+     +'<li>ऊपर दाएँ <b>Deploy → New deployment</b> → ⚙️ में <b>Web app</b> → Execute as: <b>Me</b>, Who has access: <b>Anyone</b> → Deploy।</li>'
+     +'<li>जो <b>Web app URL</b> मिले (https://script.google.com/macros/s/.../exec) उसे नीचे paste करके Save दबाएँ।</li></ol>'
+     +'<label>Students list Script URL</label><input id="ru" placeholder="https://script.google.com/macros/s/.../exec"><div class="row" style="margin-top:10px"><button class="btn" id="rs">Save</button></div></div>';
+    document.getElementById('rs').onclick=function(){ var v=document.getElementById('ru').value.trim(); if(!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec/.test(v)){ toast('❌ सही Web app URL डालें (…/exec पर खत्म)'); return; } C.config.regUrl=v; saveContent('Students list URL').then(function(){ studentsView(); }); };
+    return;
+  }
+  M.innerHTML='<div class="card muted">Students की list आ रही है...</div>';
+  fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'list',token:TOKEN})}).then(function(r){ return r.json(); }).then(function(j){
+    if(!j.ok) throw new Error(j.error==='token'?'Token जाँच नहीं हुई':j.error||'error');
+    STU=j; drawStudents('');
+  }).catch(function(e){ M.innerHTML='<div class="card"><h2>👥 Students</h2><div class="warn">List नहीं आई: '+esc(e.message)+'. Script का Deploy सही है? (Who has access: Anyone)</div><button class="btn ghost small" id="rr">दोबारा कोशिश</button> <button class="btn ghost small" id="rc">Script URL बदलें</button></div>';
+    document.getElementById('rr').onclick=studentsView; document.getElementById('rc').onclick=function(){ C.config.regUrl=''; studentsView(); }; });
+}
+function drawStudents(q){
+  var rows=STU.rows.slice().reverse(), ql=q.toLowerCase();
+  var f=rows.filter(function(r){ return !ql||r.join(' ').toLowerCase().indexOf(ql)>=0; });
+  var today=new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10).split('-').reverse().join('-');
+  var nToday=rows.filter(function(r){ return String(r[3]).indexOf(today)===0; }).length, nAnd=rows.filter(function(r){ return r[6]==='Android'; }).length, nEm=rows.filter(function(r){ return r[2]; }).length;
+  M.innerHTML='<div class="card"><h2>👥 Students - किसने login किया</h2><div class="stats"><div class="stat"><b>'+rows.length+'</b><span>कुल Students</span></div><div class="stat"><b>'+nToday+'</b><span>आज नए</span></div><div class="stat"><b>'+nAnd+'</b><span>Android app से</span></div><div class="stat"><b>'+nEm+'</b><span>Email दिया</span></div></div>'
+   +'<div class="row" style="margin:12px 0;gap:8px;flex-wrap:wrap"><input id="sq" placeholder="नाम / नंबर / email से खोजें" value="'+esc(q)+'" style="flex:1;min-width:180px"><button class="btn ghost small" id="csv">⬇ Excel (CSV)</button><a class="btn ghost small" target="_blank" rel="noopener" href="'+esc(STU.sheet)+'" style="text-decoration:none">Google Sheet खोलें</a><button class="btn ghost small" id="rf">↻</button></div>'
+   +'<div style="overflow-x:auto"><table class="tbl" style="width:100%;border-collapse:collapse;font-size:14px"><tr><th>#</th><th>नाम</th><th>मोबाइल</th><th>Email</th><th>पहली बार</th><th>Last open</th><th>दिन</th><th>App</th></tr>'
+   +f.map(function(r,i){ var mob=String(r[0]).replace(/\D/g,''); return '<tr><td>'+(i+1)+'</td><td>'+esc(r[1])+'</td><td><a href="tel:'+mob+'">'+mob+'</a> <a href="https://wa.me/91'+mob+'" target="_blank" rel="noopener" title="WhatsApp">💬</a></td><td>'+(r[2]?'<a href="mailto:'+esc(r[2])+'">'+esc(r[2])+'</a>':'<span class="muted">-</span>')+'</td><td>'+esc(r[3])+'</td><td>'+esc(r[4])+'</td><td>'+esc(r[5])+'</td><td>'+esc(r[6])+'</td></tr>'; }).join('')
+   +'</table></div>'+(f.length?'':'<p class="muted">अभी कोई student नहीं मिला।</p>')+'</div>';
+  var sq=document.getElementById('sq'); sq.oninput=function(){ var v=sq.value, pos=sq.selectionStart; drawStudents(v); var n=document.getElementById('sq'); n.focus(); n.setSelectionRange(pos,pos); };
+  document.getElementById('rf').onclick=studentsView;
+  document.getElementById('csv').onclick=function(){ var lines=[['Mobile','Name','Email','Pehli baar','Last open','Din','App']].concat(rows.map(function(r){ return [String(r[0]).replace(/\D/g,''),r[1],r[2],r[3],r[4],r[5],r[6]]; }));
+    var csv='﻿'+lines.map(function(l){ return l.map(function(x){ return '"'+String(x==null?'':x).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+    var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='Agrikranti_Students.csv'; a.click(); };
 }
 
 /* ---------- eBooks ---------- */
@@ -299,7 +340,7 @@ function qForm(i){
 /* ---------- Settings ---------- */
 function settingsView(){
   var c=C.config; if(c.gk&&!c.geminiKey){ try{ c.geminiKey=atob(c.gk).split('').reverse().join(''); }catch(e){} } c=C.config;
-  var _=0, F=[['tagline','Home पर tagline'],['youtube','YouTube link'],['instagram','Instagram link'],['whatsapp','WhatsApp group link'],['telegram','Telegram link'],['telegramName','Telegram username (जैसे @Agrikranti_Aditya_Kumar)'],['upiId','UPI ID'],['payeeName','Payment में नाम'],['geminiKey','Ask AI - Gemini API key (AIza... या AQ....) - सबसे आसान, नीचे देखें'],['aiUrl','Ask AI का Script URL (optional, advanced)'],['rzpKey','Automatic payment: Razorpay Key ID (rzp_live_...)'],['payUrl','Backend Script URL (Automatic payment + Student login)']];
+  var _=0, F=[['tagline','Home पर tagline'],['youtube','YouTube link'],['instagram','Instagram link'],['whatsapp','WhatsApp group link'],['telegram','Telegram link'],['telegramName','Telegram username (जैसे @Agrikranti_Aditya_Kumar)'],['upiId','UPI ID'],['payeeName','Payment में नाम'],['geminiKey','Ask AI - Gemini API key (AIza... या AQ....) - सबसे आसान, नीचे देखें'],['aiUrl','Ask AI का Script URL (optional, advanced)'],['rzpKey','Automatic payment: Razorpay Key ID (rzp_live_...)'],['payUrl','Backend Script URL (Automatic payment + Student login)'],['regUrl','Students list Script URL']];
   M.innerHTML='<div class="card"><h2>Links और Settings</h2>'+F.map(function(f){ return '<label>'+f[1]+'</label><input id="c-'+f[0]+'" value="'+esc(c[f[0]])+'">'; }).join('')
    +'<div class="grid2"><div><label>प्रति प्रश्न अंक</label><input id="c-marksPerQ" type="number" value="'+esc(c.marksPerQ)+'"></div><div><label>Negative marking (जैसे 0.5, नहीं तो 0)</label><input id="c-negative" type="number" step="0.25" value="'+esc(c.negative)+'"></div></div>'
    +'<label>Test का समय (मिनट)</label><input id="c-durationMin" type="number" value="'+esc(c.durationMin)+'">'
@@ -334,7 +375,7 @@ function salesView(){
   if(!PINK){
     var saved=ls('ak_admin_pin');
     if(saved){ M.innerHTML='<div class="card muted">PIN जाँच हो रहा है...</div>'; pinUnlock(saved).then(function(k){ PINK=k; salesView(); }).catch(function(){ ls('ak_admin_pin',null); salesView(); }); return; }
-    M.innerHTML='<div class="card"><h2>Admin PIN डालें</h2><p class="muted small">eBook के unlock code बनाने के लिए 6 अंकों का Admin PIN (जो Claude ने chat में दिया है)। एक बार डालने पर इसी फोन में याद रहेगा।</p><input id="pin" type="password" inputmode="numeric" maxlength="12" placeholder="Admin PIN"><div class="row" style="margin-top:10px"><button class="btn" id="pg">खोलें</button></div></div>';
+    M.innerHTML='<div class="card"><h2>Admin PIN डालें</h2><p class="muted small">eBook के unlock code बनाने के लिए 6 अंकों का Admin PIN (जो chat में दिया गया है)। एक बार डालने पर इसी फोन में याद रहेगा।</p><input id="pin" type="password" inputmode="numeric" maxlength="12" placeholder="Admin PIN"><div class="row" style="margin-top:10px"><button class="btn" id="pg">खोलें</button></div></div>';
     document.getElementById('pg').onclick=function(){ var v=document.getElementById('pin').value.trim(); toast('जाँच...',20000); pinUnlock(v).then(function(k){ PINK=k; ls('ak_admin_pin',v); toast('✅ PIN सही है'); salesView(); }).catch(function(){ toast('❌ PIN गलत है'); }); };
     return;
   }

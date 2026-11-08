@@ -236,7 +236,8 @@ var CONFIG = {
   geminiKey: '',
   // Automatic payment (Razorpay): admin panel se Key ID aur Payment Script URL
   rzpKey: '',
-  payUrl: ''
+  payUrl: '',
+  regUrl: ''
 };
 /* eBooks: free = seedha khulegi; paid = payment ke baad unlock code se khulegi */
 var EBOOKS = [
@@ -406,12 +407,13 @@ function loginPage(msg){
    +'<form class="card" id="lg" novalidate style="display:flex;flex-direction:column;gap:12px"><h2 class="sec" style="margin:0">Login / <span>Register</span></h2>'
    +'<div id="st1" style="display:flex;flex-direction:column;gap:12px"><div><label for="ln">आपका नाम</label><input id="ln" autocomplete="name" maxlength="40" placeholder="जैसे: Rahul Kumar"></div>'
    +'<div><label for="lm">मोबाइल नंबर</label><input id="lm" inputmode="numeric" maxlength="10" placeholder="10 अंकों का नंबर"></div>'
-   +(srv?'<div><label for="le2">Email (Gmail)</label><input id="le2" type="email" autocomplete="email" placeholder="जैसे: rahul@gmail.com"><div class="muted small">Login का OTP इसी email पर आएगा। पहले से registered हैं तो पुराने email पर ही आएगा।</div></div>':'')+'</div>'
+   +(!srv&&CONFIG.regUrl?'<div><label for="le3">Email (Gmail)</label><input id="le3" type="email" autocomplete="email" placeholder="जैसे: rahul@gmail.com"></div>':'')+(srv?'<div><label for="le2">Email (Gmail)</label><input id="le2" type="email" autocomplete="email" placeholder="जैसे: rahul@gmail.com"><div class="muted small">Login का OTP इसी email पर आएगा। पहले से registered हैं तो पुराने email पर ही आएगा।</div></div>':'')+'</div>'
    +(srv?'<div id="st2" hidden style="display:flex;flex-direction:column;gap:10px"><div class="muted small" id="otpto"></div><div><label for="lo2">6 अंकों का OTP</label><input id="lo2" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="OTP" style="font-size:22px;letter-spacing:6px;text-align:center"></div><div class="row" style="justify-content:space-between"><button class="iconbtn" type="button" id="chg">← नंबर बदलें</button><button class="iconbtn" type="button" id="rs" disabled>OTP दोबारा भेजें</button></div><div class="muted small">Email नहीं दिखा? Spam / Promotions folder भी देखें।</div></div>':'')
    +'<div class="err" id="le"></div><button class="btn block" type="submit" id="lb">'+(srv?'OTP भेजें':'Login करें')+'</button>'
    +(srv?'<div class="muted small" style="text-align:center">एक ID एक समय में एक ही फोन पर चलेगी।</div>':'')+'</form></main>';
   var stage=1, n='', m='', er=document.getElementById('le'), btn=document.getElementById('lb'), timer=null;
-  var done=function(name){ set('profile',{name:name||n,mobile:m}); restoreUser(m); set('sess',devId()); hit('logins'); go('home'); };
+  var em3='';
+  var done=function(name){ set('profile',{name:name||n,mobile:m,email:em3||(document.getElementById('le2')||{}).value||''}); regUser(true); restoreUser(m); set('sess',devId()); hit('logins'); go('home'); };
   function cooldown(){ var rs=document.getElementById('rs'), t=60; rs.disabled=true; clearInterval(timer); timer=setInterval(function(){ t--; rs.textContent=t>0?'दोबारा भेजें ('+t+')':'OTP दोबारा भेजें'; if(t<=0){ clearInterval(timer); rs.disabled=false; } },1000); }
   function sendOtp(){
     var em=document.getElementById('le2').value.trim();
@@ -434,6 +436,7 @@ function loginPage(msg){
       n=document.getElementById('ln').value.replace(/\s+/g,' ').trim(); m=document.getElementById('lm').value.replace(/\D/g,'');
       if(n.length<2){ er.className='err'; er.textContent='कृपया अपना नाम लिखें।'; return; }
       if(!/^[6-9]\d{9}$/.test(m)){ er.className='err'; er.textContent='कृपया 10 अंकों का सही मोबाइल नंबर लिखें।'; return; }
+      if(!srv && CONFIG.regUrl && m!==DEMO_M){ em3=document.getElementById('le3').value.trim().toLowerCase(); if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em3)){ er.className='err'; er.textContent='कृपया सही email लिखें (जैसे name@gmail.com)।'; return; } }
       if(!srv) return done(n);
       return sendOtp();
     }
@@ -448,6 +451,11 @@ function loginPage(msg){
   };
 }
 var DEMO_M='9000019280', DEMO_O='192819';
+function regUser(force){
+  var p=profile(); if(!p||!CONFIG.regUrl||p.mobile===DEMO_M) return;
+  var d=new Date().toISOString().slice(0,10); if(!force && get('regday','')===d) return;
+  fetch(CONFIG.regUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'reg',name:p.name,mobile:p.mobile,email:p.email||'',app:IS_TWA?'android':'web',device:devId()})}).then(function(r){ if(r.ok) set('regday',d); }).catch(function(){});
+}
 function sessionCheck(){
   var p=profile(); if(!p||!hasServer()) return; if(p.mobile===DEMO_M) return;
   payApi({action:'check',mobile:p.mobile,device:devId()}).then(function(r){ if(r && r.ok===false && r.reason==='other') logout('आपकी ID किसी दूसरे फोन पर login हुई है, इसलिए यहाँ से logout हो गया। दोबारा login करें।'); }).catch(function(){});
@@ -1055,7 +1063,7 @@ if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navig
 /* start */
 /* Play Store (TWA) mode: Google Play policy ke kaaran app ke andar paid eBook / payment nahi dikhte */
 var IS_TWA=(function(){ try{ if(/[?&]source=twa/.test(location.search)||document.referrer.indexOf('android-app://')===0) localStorage.setItem('ak_twa','1'); return localStorage.getItem('ak_twa')==='1'; }catch(e){ return /[?&]source=twa/.test(location.search); } })();
-loadContent().then(function(){ if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); sessionCheck(); });
+loadContent().then(function(){ regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); sessionCheck(); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden) sessionCheck(); });
 </script>
 </body>
