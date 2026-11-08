@@ -415,6 +415,7 @@ function loginPage(msg){
   function cooldown(){ var rs=document.getElementById('rs'), t=60; rs.disabled=true; clearInterval(timer); timer=setInterval(function(){ t--; rs.textContent=t>0?'दोबारा भेजें ('+t+')':'OTP दोबारा भेजें'; if(t<=0){ clearInterval(timer); rs.disabled=false; } },1000); }
   function sendOtp(){
     var em=document.getElementById('le2').value.trim();
+    if(m===DEMO_M){ stage=2; document.getElementById('st1').hidden=true; document.getElementById('st2').hidden=false; document.getElementById('st2').style.display='flex'; document.getElementById('otpto').innerHTML='Demo account'; btn.textContent='Login करें'; er.textContent=''; return; }
     btn.disabled=true; er.className='muted small'; er.textContent='OTP भेजा जा रहा है...';
     return payApi({action:'otp',mobile:m,name:n,email:em}).then(function(r){
       btn.disabled=false;
@@ -438,6 +439,7 @@ function loginPage(msg){
     }
     var otp=document.getElementById('lo2').value.replace(/\D/g,'');
     if(otp.length!==6){ er.className='err'; er.textContent='6 अंकों का OTP लिखें।'; return; }
+    if(m===DEMO_M){ if(otp===DEMO_O){ clearInterval(timer); return done(n); } er.className='err'; er.textContent='OTP गलत है। दोबारा जाँचें।'; return; }
     btn.disabled=true; er.className='muted small'; er.textContent='जाँच हो रही है...';
     payApi({action:'login',mobile:m,name:n,otp:otp,device:devId()}).then(function(r){
       if(r.ok){ clearInterval(timer); return done(r.name); } btn.disabled=false; er.className='err';
@@ -445,8 +447,9 @@ function loginPage(msg){
     }).catch(function(){ btn.disabled=false; er.className='err'; er.textContent='इंटरनेट जाँचकर दोबारा कोशिश करें।'; });
   };
 }
+var DEMO_M='9000019280', DEMO_O='192819';
 function sessionCheck(){
-  var p=profile(); if(!p||!hasServer()) return;
+  var p=profile(); if(!p||!hasServer()) return; if(p.mobile===DEMO_M) return;
   payApi({action:'check',mobile:p.mobile,device:devId()}).then(function(r){ if(r && r.ok===false && r.reason==='other') logout('आपकी ID किसी दूसरे फोन पर login हुई है, इसलिए यहाँ से logout हो गया। दोबारा login करें।'); }).catch(function(){});
 }
 
