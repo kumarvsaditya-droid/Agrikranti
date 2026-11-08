@@ -6,7 +6,12 @@
 <meta name="robots" content="noindex,nofollow">
 <meta name="theme-color" content="#0e1410">
 <title>Agrikranti Admin</title>
-<link rel="icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/admin-192.png">
+<link rel="manifest" href="admin.webmanifest">
+<link rel="apple-touch-icon" href="icons/admin-180.png">
+<meta name="theme-color" content="#0E1410">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AK Admin">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@600&family=Mukta:wght@400;600;800&display=swap">
 <style>
 :root{--bg:#0e1410;--card:#18231c;--card2:#1f2c23;--line:#2b3b30;--ink:#eef4ee;--muted:#9fb3a5;--green:#3fcf5e;--gold:#f2b705;--bad:#ff6b6b;color-scheme:dark}
@@ -52,7 +57,7 @@ ol{padding-left:20px;margin:6px 0}
 </style>
 </head>
 <body>
-<header><div class="in"><img src="icons/logo.png" alt=""><div><b>Agrikranti Admin</b><div class="muted small">सिर्फ आपके लिए</div></div><div class="sp"></div><a class="btn ghost small" href="./" target="_blank" style="text-decoration:none">App खोलें</a><button class="btn ghost small" id="logout" hidden>Logout</button></div>
+<header><div class="in"><img src="icons/logo.png" alt=""><div><b>Agrikranti Admin</b><div class="muted small">सिर्फ आपके लिए</div></div><div class="sp"></div><a class="btn ghost small" href="./" target="_blank" style="text-decoration:none">App खोलें</a><button class="btn small" id="inst" hidden>📲 App Install</button> <button class="btn ghost small" id="logout" hidden>Logout</button></div>
 <nav class="tabs" id="tabs" hidden></nav></header>
 <main id="main"></main>
 <div class="toast" id="toast"></div>
@@ -416,6 +421,21 @@ function salesView(){
 }
 
 /* ---------- start ---------- */
+/* Admin app install */
+try{ if('serviceWorker' in navigator) navigator.serviceWorker.register('admin-sw.js',{scope:'./admin.html'}).catch(function(){}); }catch(e){}
+(function(){
+  var ib=document.getElementById('inst'), dp=null;
+  var standalone=(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)||navigator.standalone||/source=pwa/.test(location.search)||document.referrer.indexOf('android-app://')===0;
+  if(standalone) return;
+  ib.hidden=false;
+  window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); dp=e; });
+  window.addEventListener('appinstalled',function(){ ib.hidden=true; toast('✅ Agrikranti Admin app install हो गया। Home screen पर देखें।',6000); });
+  ib.onclick=function(){
+    if(dp){ dp.prompt(); dp.userChoice.then(function(){ dp=null; }); return; }
+    var ios=/iphone|ipad/i.test(navigator.userAgent);
+    alert(ios?'Safari में नीचे Share (⬆) दबाएँ → "Add to Home Screen" → Add।':'Chrome में ऊपर दाएँ ⋮ (तीन बिंदु) दबाएँ → "Add to Home screen" / "Install app" → Install।');
+  };
+})();
 TOKEN=ls('ak_admin_token'); if(TOKEN) boot(false); else loginView();
 </script>
 </body>
