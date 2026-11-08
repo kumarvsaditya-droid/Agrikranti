@@ -231,7 +231,14 @@ function studentsView(){
      +'<li>ऊपर दाएँ <b>Deploy → New deployment</b> → ⚙️ में <b>Web app</b> → Execute as: <b>Me</b>, Who has access: <b>Anyone</b> → Deploy।</li>'
      +'<li>जो <b>Web app URL</b> मिले (https://script.google.com/macros/s/.../exec) उसे नीचे paste करके Save दबाएँ।</li></ol>'
      +'<label>Students list Script URL</label><input id="ru" placeholder="https://script.google.com/macros/s/.../exec"><div class="row" style="margin-top:10px"><button class="btn" id="rs">Save</button></div></div>';
-    document.getElementById('rs').onclick=function(){ var v=document.getElementById('ru').value.trim(); if(!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec/.test(v)){ toast('❌ सही Web app URL डालें (…/exec पर खत्म)'); return; } C.config.regUrl=v; saveContent('Students list URL').then(function(){ studentsView(); }); };
+    document.getElementById('rs').onclick=function(){ var v=document.getElementById('ru').value.replace(/\s+/g,''); var id=(v.match(/AKfy[A-Za-z0-9_-]{20,}/)||[])[0];
+      if(!id){ toast('❌ URL में AKfy... वाला हिस्सा नहीं मिला। Deploy के बाद वाला Web app URL copy करें।',7000); return; }
+      v='https://script.google.com/macros/s/'+id+'/exec'; toast('जाँच हो रही है...',20000);
+      fetch(v,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'ping'})}).then(function(r){ return r.json(); }).then(function(j){
+        if(!j || !j.error) throw new Error('x');
+        C.config.regUrl=v; saveContent('Students list URL').then(function(){ studentsView(); });
+      }).catch(function(){ toast('❌ यह Script नहीं खुल रही। Deploy में "Who has access: Anyone" चुना था? Deploy → Manage deployments में देखें।',9000); });
+    };
     return;
   }
   M.innerHTML='<div class="card muted">Students की list आ रही है...</div>';
