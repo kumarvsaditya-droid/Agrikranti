@@ -523,6 +523,8 @@ function home(){
   var d=document.getElementById('discard'); if(d) d.onclick=function(){ del('progress'); home(); };
 }
 /* ===== Drawer (side menu) ===== */
+var ADMIN_MOBILES=['7903496971'];
+function isAdminUser(){ var p=profile(); return !!(p && ADMIN_MOBILES.indexOf(String(p.mobile))>=0); }
 function openDrawer(){
   var p=profile(), o=document.createElement('div'); o.className='drawer';
   var I=function(svg,label,act){ return '<button class="it" data-dact="'+act+'">'+svg+'<span>'+label+'</span></button>'; };
@@ -530,12 +532,12 @@ function openDrawer(){
     +I('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>','Home','home')+I(TI_SVG.res,'My Results','results')+I(TI_SVG.user,'Profile / Settings','profile')
     +I(TI_SVG.sem,'Semester Papers','semester')+I(TI_SVG.ai,'Ask AI','ask')+I(TI_SVG.upd,'Exam Updates','updates')
     +I('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>','Chat (Telegram)','tg')
-    +I(TI_SVG.share,'Share App','share')+I(TI_SVG.link,'Links','links')+I('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3"/></svg>','Logout','logout')
+    +I(TI_SVG.share,'Share App','share')+I(TI_SVG.link,'Links','links')+(isAdminUser()?I('<svg viewBox="0 0 24 24" fill="none" stroke="#f5c518" stroke-width="1.8"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>','<b style="color:var(--gold)">Admin Panel</b>','admin'):'')+I('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M15 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 17l5-5-5-5M15 12H3"/></svg>','Logout','logout')
     +'<div class="fol"><b>Follow us</b><div class="row">'
     +'<a class="ic yt" href="'+esc(CONFIG.youtube)+'" target="_blank" rel="noopener">'+ICON.yt+'</a><a class="ic wa" href="'+esc(CONFIG.whatsapp)+'" target="_blank" rel="noopener">'+ICON.wa+'</a><a class="ic tg" href="'+esc(CONFIG.telegram)+'" target="_blank" rel="noopener">'+ICON.tg+'</a><a class="ic ig" href="'+esc(CONFIG.instagram)+'" target="_blank" rel="noopener">'+ICON.ig+'</a></div></div></div><div style="flex:1" data-dact="close"></div>';
   document.body.appendChild(o);
   o.addEventListener('click',function(e){ var b=e.target.closest('[data-dact]'); if(!b) return; var a=b.getAttribute('data-dact'); o.remove();
-    if(a==='close') return; if(a==='logout'){ if(confirm('Logout करें?')) logout(); return; } if(a==='share') return shareApp(); if(a==='tg') return window.open(CONFIG.telegram,'_blank','noopener'); go(a); });
+    if(a==='close') return; if(a==='logout'){ if(confirm('Logout करें?')) logout(); return; } if(a==='share') return shareApp(); if(a==='tg') return window.open(CONFIG.telegram,'_blank','noopener'); if(a==='admin'){ location.href='admin.html'; return; } go(a); });
 }
 /* ===== Category select ===== */
 function catsPage(){
@@ -1008,6 +1010,7 @@ function profilePage(){
   var p=profile()||{name:'',mobile:''};
   var h=topbar()+'<main class="page"><h2 class="sec">मेरी <span>Profile</span></h2><form class="card" id="pf" novalidate style="display:flex;flex-direction:column;gap:12px"><div><label for="pn">नाम</label><input id="pn" maxlength="40" value="'+esc(p.name)+'"></div><div><label for="pm">मोबाइल नंबर</label><input id="pm" inputmode="numeric" maxlength="10" value="'+esc(p.mobile)+'" readonly style="opacity:.7"><div class="muted small">मोबाइल नंबर बदलने के लिए Logout करके नए नंबर से Login करें।</div></div><div class="err" id="pe"></div><button class="btn" type="submit">सेव करें</button></form>';
   h+='<div class="card"><b>Agrikranti ऐप फोन में इंस्टॉल करें</b><ul class="rules" style="margin-top:6px"><li>Chrome में यह पेज खोलें।</li><li>ऊपर दाईं ओर ⋮ मेनू → <b>"Add to Home screen" / "Install app"</b> दबाएँ।</li><li>होम स्क्रीन पर Agrikranti का आइकन आ जाएगा, ऐप की तरह खुलेगा।</li></ul>'+(window.__deferredPrompt?'<button class="btn gold block" id="installBtn2" style="margin-top:10px">अभी इंस्टॉल करें</button>':'')+'</div>';
+  if(isAdminUser()) h+='<a class="btn gold block" href="admin.html" style="text-align:center;text-decoration:none">🛡️ Admin Panel खोलें</a>';
   h+='<button class="btn ghost block" id="lo" style="border-color:var(--bad);color:var(--bad)">🚪 Logout</button>';
   h+='<div class="card small"><b>Privacy और Account</b><div class="muted" style="margin:4px 0 8px">आपका डेटा कैसे उपयोग होता है, पढ़ें या अपना account व डेटा हटाने का अनुरोध करें।</div><div class="row"><a class="btn ghost" style="text-decoration:none" href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a><button class="btn ghost" id="delacc" style="border-color:var(--bad);color:var(--bad)">Account delete करें</button></div></div>';
   h+=shareCard();
