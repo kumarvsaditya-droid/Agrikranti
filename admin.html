@@ -66,7 +66,7 @@ ol{padding-left:20px;margin:6px 0}
 <script>
 var OWNER='kumarvsaditya-droid', REPO='Agrikranti', BRANCHES=['main','gh-pages'];
 var STATS_NS='agrikranti1928-app', STATS_API='https://abacus.jasoncameron.dev';
-var TOKEN=null, C=null, TESTS=null, TAB='students', PINK=null;
+var TOKEN=null, C=null, TESTS=null, TAB='dash', PINK=null;
 var M=document.getElementById('main');
 
 function ls(k,v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null) localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){ return null; } }
@@ -148,10 +148,10 @@ function boot(fresh){
 document.getElementById('logout').onclick=function(){ ls('ak_admin_token',null); TOKEN=null; loginView(); };
 
 /* ---------- Tabs ---------- */
-var TABS=[['students','👥 Students'],['sales','💰 eBook बिक्री'],['stats','📊 Stats'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['settings','⚙️ Links / Settings']];
+var TABS=[['dash','🏠 Dashboard'],['students','👥 Students'],['sales','💰 eBook बिक्री'],['banners','🖼️ Banners'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['stats','📊 Stats'],['settings','⚙️ Settings'],['backup','💾 Backup'],['help','❓ मदद']];
 function renderTabs(){ var n=document.getElementById('tabs'); n.innerHTML=TABS.map(function(t){ return '<button data-t="'+t[0]+'" class="'+(t[0]===TAB?'on':'')+'">'+t[1]+'</button>'; }).join('');
   n.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ TAB=b.getAttribute('data-t'); renderTabs(); show(TAB); }; }); }
-function show(t){ window.scrollTo(0,0); ({students:studentsView,sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
+function show(t){ window.scrollTo(0,0); ({dash:dashView,banners:bannersView,backup:backupView,help:helpView,students:studentsView,sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
 
 /* ---------- Stats ---------- */
 function getCount(key){ return fetch(STATS_API+'/get/'+STATS_NS+'/'+key).then(function(r){ return r.ok?r.json():{value:0}; }).then(function(j){ return j.value||0; }).catch(function(){ return null; }); }
@@ -254,12 +254,15 @@ function drawStudents(q){
   var today=new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10).split('-').reverse().join('-');
   var nToday=rows.filter(function(r){ return String(r[3]).indexOf(today)===0; }).length, nAnd=rows.filter(function(r){ return r[6]==='Android'; }).length, nEm=rows.filter(function(r){ return r[2]; }).length;
   M.innerHTML='<div class="card"><h2>👥 Students - किसने login किया</h2><div class="stats"><div class="stat"><b>'+rows.length+'</b><span>कुल Students</span></div><div class="stat"><b>'+nToday+'</b><span>आज नए</span></div><div class="stat"><b>'+nAnd+'</b><span>Android app से</span></div><div class="stat"><b>'+nEm+'</b><span>Email दिया</span></div></div>'
-   +'<div class="row" style="margin:12px 0;gap:8px;flex-wrap:wrap"><input id="sq" placeholder="नाम / नंबर / email से खोजें" value="'+esc(q)+'" style="flex:1;min-width:180px"><button class="btn ghost small" id="csv">⬇ Excel (CSV)</button><a class="btn ghost small" target="_blank" rel="noopener" href="'+esc(STU.sheet)+'" style="text-decoration:none">Google Sheet खोलें</a><button class="btn ghost small" id="rf">↻</button></div>'
+   +'<div class="row" style="margin:12px 0;gap:8px;flex-wrap:wrap"><input id="sq" placeholder="नाम / नंबर / email से खोजें" value="'+esc(q)+'" style="flex:1;min-width:180px"><button class="btn ghost small" id="csv">⬇ Excel (CSV)</button><button class="btn ghost small" id="cpn">📋 सभी नंबर</button><button class="btn ghost small" id="cpe">📋 सभी email</button><a class="btn ghost small" target="_blank" rel="noopener" href="'+esc(STU.sheet)+'" style="text-decoration:none">Google Sheet खोलें</a><button class="btn ghost small" id="rf">↻</button></div>'
    +'<div style="overflow-x:auto"><table class="tbl" style="width:100%;border-collapse:collapse;font-size:14px"><tr><th>#</th><th>नाम</th><th>मोबाइल</th><th>Email</th><th>पहली बार</th><th>Last open</th><th>दिन</th><th>App</th></tr>'
    +f.map(function(r,i){ var mob=String(r[0]).replace(/\D/g,''); return '<tr><td>'+(i+1)+'</td><td>'+esc(r[1])+'</td><td><a href="tel:'+mob+'">'+mob+'</a> <a href="https://wa.me/91'+mob+'" target="_blank" rel="noopener" title="WhatsApp">💬</a></td><td>'+(r[2]?'<a href="mailto:'+esc(r[2])+'">'+esc(r[2])+'</a>':'<span class="muted">-</span>')+'</td><td>'+esc(r[3])+'</td><td>'+esc(r[4])+'</td><td>'+esc(r[5])+'</td><td>'+esc(r[6])+'</td></tr>'; }).join('')
    +'</table></div>'+(f.length?'':'<p class="muted">अभी कोई student नहीं मिला।</p>')+'</div>';
   var sq=document.getElementById('sq'); sq.oninput=function(){ var v=sq.value, pos=sq.selectionStart; drawStudents(v); var n=document.getElementById('sq'); n.focus(); n.setSelectionRange(pos,pos); };
   document.getElementById('rf').onclick=studentsView;
+  var cp=function(arr,what){ var t=arr.filter(Boolean).join(', '); if(!t){ toast('कोई '+what+' नहीं'); return; } (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){ toast('✅ '+arr.filter(Boolean).length+' '+what+' copy हो गए - WhatsApp broadcast / email में paste करें',6000); }).catch(function(){ prompt('Copy करें:',t); }); };
+  document.getElementById('cpn').onclick=function(){ cp(f.map(function(r){ return String(r[0]).replace(/\D/g,''); }),'नंबर'); };
+  document.getElementById('cpe').onclick=function(){ cp(f.map(function(r){ return r[2]; }),'email'); };
   document.getElementById('csv').onclick=function(){ var lines=[['Mobile','Name','Email','Pehli baar','Last open','Din','App']].concat(rows.map(function(r){ return [String(r[0]).replace(/\D/g,''),r[1],r[2],r[3],r[4],r[5],r[6]]; }));
     var csv='﻿'+lines.map(function(l){ return l.map(function(x){ return '"'+String(x==null?'':x).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
     var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='Agrikranti_Students.csv'; a.click(); };
@@ -315,7 +318,7 @@ function testsView(){
   if(t){
     var SR=C.series||[{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}]; h+='<div class="card"><label>किस Test Series (tab) में</label><div class="row"><select id="tsr" style="flex:1">'+SR.map(function(x){ return '<option value="'+esc(x.id)+'"'+((t.series||SR[0].id)===x.id?' selected':'')+'>'+esc(x.name)+'</option>'; }).join('')+'<option value="__new">+ नई Test Series बनाएं</option></select></div></div>';
     h+='<div class="card"><label>Test का नाम</label><div class="row"><input id="tt" value="'+esc(t.title)+'" style="flex:1"><button class="btn ghost small" id="rn">नाम Save</button><button class="btn red small" id="dt">Test हटाएं</button></div>'
-     +'<div class="row" style="margin-top:10px"><button class="btn gold" id="aq">+ नया प्रश्न जोड़ें</button><span class="muted small">'+t.questions.length+' प्रश्न × '+(C.config.marksPerQ||2)+' अंक</span></div>'
+     +'<div class="row" style="margin-top:10px;flex-wrap:wrap;gap:8px"><button class="btn gold" id="aq">+ नया प्रश्न जोड़ें</button><button class="btn ghost" id="bq">📥 एक साथ बहुत प्रश्न</button><button class="btn ghost" id="tsg">⚙️ समय / negative</button><span class="muted small">'+t.questions.length+' प्रश्न × '+(t.mpq||C.config.marksPerQ||2)+' अंक'+(t.dur?' · '+t.dur+' मिनट':'')+(t.neg?' · -'+t.neg+' negative':'')+'</span></div>'
      +'<div class="qlist" style="margin-top:8px">'+t.questions.map(function(q,i){ return '<div class="q"><b>'+(i+1)+'.</b><div>'+esc(q.q)+'<div class="muted small">✔ '+esc(q.o[q.a])+'</div></div><button class="btn ghost small" data-eq="'+i+'">Edit</button><button class="btn red small" data-dq="'+i+'">✕</button></div>'; }).join('')+'</div></div>';
   }
   M.innerHTML=h;
@@ -328,6 +331,7 @@ function testsView(){
   document.getElementById('rn').onclick=function(){ t.title=document.getElementById('tt').value.trim()||t.title; saveTests('rename '+t.id).then(testsView); };
   document.getElementById('dt').onclick=function(){ if(!confirm('पूरा "'+t.title+'" हटाएं? यह वापस नहीं आएगा।')) return; TESTS.splice(TI,1); TI=0; saveTests('delete test').then(testsView); };
   document.getElementById('aq').onclick=function(){ qForm(-1); };
+  document.getElementById('bq').onclick=bulkForm; document.getElementById('tsg').onclick=testSettingsForm;
   M.querySelectorAll('[data-eq]').forEach(function(b){ b.onclick=function(){ qForm(+b.getAttribute('data-eq')); }; });
   M.querySelectorAll('[data-dq]').forEach(function(b){ b.onclick=function(){ if(!confirm('यह प्रश्न हटाएं?')) return; t.questions.splice(+b.getAttribute('data-dq'),1); saveTests('delete question').then(testsView); }; });
 }
@@ -363,7 +367,7 @@ function settingsView(){
    +'<li>ऊपर function में <b>testAI</b> चुनकर <b>Run</b> दबाएं → Review permissions → अपना account → Advanced → Go to (unsafe) → Allow। नीचे Execution log में हिंदी जवाब दिखना चाहिए।</li>'
    +'<li><b>Deploy → New deployment</b> → ⚙️ में <b>Web app</b> → Execute as: <b>Me</b>, Who has access: <b>Anyone</b> → Deploy।</li>'
    +'<li>जो <b>Web app URL</b> (https://script.google.com/macros/s/.../exec) मिले, उसे ऊपर "Ask AI का URL" में डालकर Save करें। AI चालू!</li></ol></details>'
-   +'<div class="warn" style="margin-top:10px">UPI ID बदलने पर QR फोटो पुराना ही रहेगा। नया QR लगाना हो तो Claude से कहें।</div>'
+   +'<div class="warn" style="margin-top:10px">UPI ID बदलने पर QR फोटो पुराना ही रहेगा। नया QR फोटो लगवाना हो तो बताइए।</div>'
    +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sv">Save करें</button></div></div>';
   document.getElementById('sv').onclick=function(){
     F.forEach(function(f){ c[f[0]]=document.getElementById('c-'+f[0]).value.trim(); });
@@ -431,6 +435,153 @@ function salesView(){
         .then(function(){ show(true); }, function(e){ C.licenses=C2.licenses; C.sales=C2.sales; show(false, /permission|Read and write|403/i.test(e.message)?'token सिर्फ Read वाला है':e.message); }); })
      .catch(function(e){ btn.disabled=false; toast('❌ '+e.message,8000); });
   };
+}
+
+/* ---------- Dashboard ---------- */
+var WRITE_OK=null;
+function checkWrite(){
+  if(WRITE_OK!==null) return Promise.resolve(WRITE_OK);
+  return gh('/contents/content.json',{method:'PUT',body:JSON.stringify({message:'check',content:b64('{}'),sha:'0000000000000000000000000000000000000000',branch:'main'})})
+    .then(function(){ WRITE_OK=true; return true; })
+    .catch(function(e){ WRITE_OK=!/not accessible|permission|403|Resource/i.test(e.message); return WRITE_OK; });
+}
+function tokenHelp(){ return '<ol class="small"><li><a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a> खोलें → अपने token के नाम पर दबाएँ → <b>Edit</b>।</li><li><b>Repository permissions</b> → <b>Contents</b> को <b>Read and write</b> करें → नीचे <b>Update</b>।</li><li>या <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">नया token</a> बनाएँ: Repository = Agrikranti, Contents = Read and write।</li><li>यहाँ ऊपर <b>Logout</b> करके नया / updated token डालें।</li></ol>'; }
+function dashView(){
+  var tests=TESTS.length, qs=TESTS.reduce(function(a,t){return a+t.questions.length;},0), papers=(C.semester||[]).reduce(function(a,g){return a+g.papers.length;},0);
+  var eb=(C.ebooks||[]).length, ban=(C.banners||[]).length;
+  var today=new Date().toISOString().slice(0,10);
+  M.innerHTML='<div class="card" id="tokc"><h2>🔐 Token जाँच</h2><div class="muted small">जाँच हो रही है...</div></div>'
+   +'<div class="card"><h2>📊 आज का हाल</h2><div class="stats">'
+   +'<div class="stat"><b id="d-stu">…</b><span>Login किए Students</span></div><div class="stat"><b id="d-new">…</b><span>आज नए Students</span></div>'
+   +'<div class="stat"><b id="d-today">…</b><span>आज App खोला</span></div><div class="stat"><b id="d-users">…</b><span>कुल फोन</span></div>'
+   +'<div class="stat"><b id="d-inst">…</b><span>App Install</span></div><div class="stat"><b id="d-sub">…</b><span>Test submit</span></div>'
+   +'</div></div>'
+   +'<div class="card"><h2>📦 App में क्या-क्या है</h2><div class="stats">'
+   +'<div class="stat"><b>'+tests+'</b><span>Tests (Admin वाले)</span></div><div class="stat"><b>'+qs+'</b><span>प्रश्न</span></div>'
+   +'<div class="stat"><b>'+papers+'</b><span>Semester Papers</span></div><div class="stat"><b>'+eb+'</b><span>eBooks</span></div>'
+   +'<div class="stat"><b>'+ban+'</b><span>Home Banners</span></div><div class="stat"><b>'+((C.series||[]).length)+'</b><span>Test Series (tabs)</span></div>'
+   +'</div><p class="muted small">10 Model Papers (1000 MCQ) अलग से app में लगे हैं।</p></div>'
+   +'<div class="card"><h2>⚡ जल्दी करें</h2><div class="row" style="flex-wrap:wrap;gap:8px">'
+   +'<button class="btn gold" data-go="sales">💰 eBook Unlock बनाएँ</button><button class="btn ghost" data-go="notice">📢 सूचना लगाएँ</button><button class="btn ghost" data-go="banners">🖼️ Banner बदलें</button>'
+   +'<button class="btn ghost" data-go="semester">🎓 Paper जोड़ें</button><button class="btn ghost" data-go="tests">📝 प्रश्न जोड़ें</button><button class="btn ghost" data-go="students">👥 Students देखें</button>'
+   +'<button class="btn ghost" id="shareapp">📤 App link share</button></div></div>'
+   +'<div class="card"><h2>🕘 हाल के बदलाव</h2><div id="hist" class="muted small">लोड हो रहा है...</div><button class="btn ghost small" data-go="backup" style="margin-top:8px">पूरा इतिहास / Backup</button></div>';
+  M.querySelectorAll('[data-go]').forEach(function(b){ b.onclick=function(){ TAB=b.getAttribute('data-go'); renderTabs(); show(TAB); }; });
+  document.getElementById('shareapp').onclick=function(){ var t='Agrikranti 1928 - Agriculture exam की free तैयारी: Mock Tests, Semester Papers, Notes और Agrikranti AI.\nApp खोलें: https://kumarvsaditya-droid.github.io/Agrikranti/'; window.open('https://wa.me/?text='+encodeURIComponent(t),'_blank'); };
+  checkWrite().then(function(ok){ var el=document.getElementById('tokc'); if(!el) return;
+    el.innerHTML=ok?'<h2>🔐 Token जाँच</h2><div style="color:#8EE05A"><b>✅ सब ठीक है</b> - आपका token "Read and write" वाला है, हर बदलाव save होगा।</div>'
+      :'<h2>🔐 Token जाँच</h2><div class="warn"><b>⚠️ आपका token सिर्फ "Read" वाला है</b> - इसलिए Notice, Tests, Papers, Banner आदि <b>save नहीं होंगे</b>। eBook unlock के लिए Link वाला तरीका चलेगा।<br>ठीक करने के लिए (2 मिनट):'+tokenHelp()+'</div>'; });
+  getCount('day-'+today).then(function(v){ var e=document.getElementById('d-today'); if(e) e.textContent=v==null?'-':v; });
+  getCount('users').then(function(v){ var e=document.getElementById('d-users'); if(e) e.textContent=v==null?'-':v; });
+  getCount('installs').then(function(v){ var e=document.getElementById('d-inst'); if(e) e.textContent=v==null?'-':v; });
+  getCount('tests-submitted').then(function(v){ var e=document.getElementById('d-sub'); if(e) e.textContent=v==null?'-':v; });
+  if(C.config.regUrl){ fetch(C.config.regUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'list',token:TOKEN})}).then(function(r){return r.json();}).then(function(j){
+      if(!j.ok) throw 0; STU=j; var d=new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10).split('-').reverse().join('-');
+      document.getElementById('d-stu').textContent=j.rows.length; document.getElementById('d-new').textContent=j.rows.filter(function(r){return String(r[3]).indexOf(d)===0;}).length; })
+    .catch(function(){ ['d-stu','d-new'].forEach(function(i){ var e=document.getElementById(i); if(e) e.textContent='-'; }); }); }
+  else ['d-stu','d-new'].forEach(function(i){ document.getElementById(i).textContent='-'; });
+  gh('/commits?per_page=8').then(function(list){ var el=document.getElementById('hist'); if(!el||!list) return;
+    el.innerHTML=list.map(function(c){ var d=new Date(c.commit.author.date); return '<div class="item" style="padding:6px 10px"><b>'+esc(niceMsg(c.commit.message))+'</b><div class="muted small">'+d.toLocaleString('hi-IN',{dateStyle:'medium',timeStyle:'short'})+'</div></div>'; }).join(''); }).catch(function(){ var el=document.getElementById('hist'); if(el) el.textContent='इतिहास नहीं खुला।'; });
+}
+function niceMsg(m){ m=String(m).split('\n')[0].replace(/^Admin:\s*/,''); return m.length>90?m.slice(0,90)+'…':m; }
+
+/* ---------- Banners ---------- */
+function compressImg(file,maxW){
+  return new Promise(function(res,rej){ var fr=new FileReader(); fr.onload=function(){ var im=new Image(); im.onload=function(){ var w=Math.min(maxW,im.width), h=Math.round(im.height*w/im.width), cv=document.createElement('canvas'); cv.width=w; cv.height=h; cv.getContext('2d').drawImage(im,0,0,w,h); res(cv.toDataURL('image/jpeg',0.86).split(',')[1]); }; im.onerror=function(){ rej(new Error('फोटो नहीं खुली')); }; im.src=fr.result; }; fr.onerror=rej; fr.readAsDataURL(file); });
+}
+function bannersView(){
+  C.banners=C.banners||[];
+  var h='<div class="card"><h2>🖼️ Home Banners (पोस्टर)</h2><p class="muted small">ये पोस्टर app के Home पर slider में दिखते हैं - सबसे पहले आपकी photo वाली slide, फिर ये क्रम से। सबसे अच्छा size: 1024 × 500 (चौड़ा)।</p>'
+   +(C.banners.length?'':'<div class="warn">अभी कोई banner नहीं।</div>')
+   +C.banners.map(function(b,i){ return '<div class="item"><img src="'+esc(b.img)+'?v='+Date.now()+'" alt="" style="width:100%;max-width:520px;border-radius:10px;display:block"><div class="muted small" style="margin:6px 0">'+(b.link?'Tap करने पर: '+esc(b.link):'कोई link नहीं')+'</div><div class="row" style="gap:6px;flex-wrap:wrap">'
+     +'<button class="btn ghost small" data-up="'+i+'"'+(i?'':' disabled')+'>⬆ ऊपर</button><button class="btn ghost small" data-dn="'+i+'"'+(i<C.banners.length-1?'':' disabled')+'>⬇ नीचे</button><button class="btn ghost small" data-lk="'+i+'">🔗 Link बदलें</button><button class="btn red small" data-rm="'+i+'">हटाएँ</button></div></div>'; }).join('')
+   +'</div><div class="card"><h3>+ नया Banner जोड़ें</h3><label>फोटो चुनें (JPG / PNG)</label><input type="file" id="bf" accept="image/*"><label>Tap करने पर कहाँ जाए (optional)</label><input id="bl" placeholder="जैसे: YouTube / WhatsApp link"><div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap"><button class="btn gold" id="ba">Upload करके जोड़ें</button><button class="btn ghost small" id="byt">YouTube link भरें</button><button class="btn ghost small" id="bwa">WhatsApp link भरें</button></div></div>';
+  M.innerHTML=h;
+  var save=function(msg){ return saveContent(msg).then(bannersView); };
+  M.querySelectorAll('[data-up]').forEach(function(b){ b.onclick=function(){ var i=+b.getAttribute('data-up'); var t=C.banners[i]; C.banners[i]=C.banners[i-1]; C.banners[i-1]=t; save('banner order'); }; });
+  M.querySelectorAll('[data-dn]').forEach(function(b){ b.onclick=function(){ var i=+b.getAttribute('data-dn'); var t=C.banners[i]; C.banners[i]=C.banners[i+1]; C.banners[i+1]=t; save('banner order'); }; });
+  M.querySelectorAll('[data-lk]').forEach(function(b){ b.onclick=function(){ var i=+b.getAttribute('data-lk'); var v=prompt('Banner पर tap करने पर कौन सा link खुले? (खाली = कोई नहीं)',C.banners[i].link||''); if(v===null) return; if(v.trim()) C.banners[i].link=v.trim(); else delete C.banners[i].link; save('banner link'); }; });
+  M.querySelectorAll('[data-rm]').forEach(function(b){ b.onclick=function(){ if(!confirm('यह banner हटाएँ?')) return; C.banners.splice(+b.getAttribute('data-rm'),1); save('banner removed'); }; });
+  document.getElementById('byt').onclick=function(){ document.getElementById('bl').value=C.config.youtube||''; };
+  document.getElementById('bwa').onclick=function(){ document.getElementById('bl').value=C.config.whatsapp||''; };
+  document.getElementById('ba').onclick=function(){ var f=document.getElementById('bf').files[0]; if(!f){ toast('पहले फोटो चुनें'); return; }
+    var btn=this; btn.disabled=true; toast('फोटो छोटी की जा रही है...',30000);
+    compressImg(f,1280).then(function(b64img){ var path='img/banners/b'+Date.now()+'.jpg'; toast('Upload हो रहा है...',60000); return putFile(path,b64img,'Admin: banner upload').then(function(){ return path; }); })
+     .then(function(path){ var bn={img:path}, l=document.getElementById('bl').value.trim(); if(l) bn.link=l; C.banners.push(bn); return save('banner added'); })
+     .catch(function(e){ btn.disabled=false; toast('❌ '+e.message,9000); }); };
+}
+
+/* ---------- Tests: bulk import + test settings ---------- */
+function parseBulk(txt){
+  var lines=txt.replace(/\r/g,'').split('\n'), out=[], cur=null, mode='q';
+  var push=function(){ if(cur&&cur.q&&cur.o.length>=2&&cur.a>=0&&cur.a<cur.o.length) out.push({q:cur.q.trim(),o:cur.o.map(function(x){return x.trim();}),a:cur.a,e:(cur.e||'').trim()}); else if(cur&&cur.q) out.bad=(out.bad||0)+1; cur=null; };
+  lines.forEach(function(l){ var t=l.trim(); if(!t){ return; }
+    var mo=t.match(/^\(?([A-Ea-e])[\).:]\s*(.+)$/), ma=t.match(/^(?:उत्तर|answer|ans|सही उत्तर)\s*[:\-–]?\s*\(?([A-Ea-e])\)?/i), me=t.match(/^(?:व्याख्या|explanation|exp)\s*[:\-–]\s*(.*)$/i), mq=t.match(/^(?:Q\.?\s*)?\d+\s*[\.\)]\s*(.+)$/i);
+    if(ma&&cur){ cur.a='ABCDE'.indexOf(ma[1].toUpperCase()); mode='a'; return; }
+    if(me&&cur){ cur.e=me[1]; mode='e'; return; }
+    if(mo&&cur&&mode!=='e'&&cur.o.length==='ABCDE'.indexOf(mo[1].toUpperCase())){ cur.o.push(mo[2]); mode='o'; return; }
+    if(mq||!cur||mode==='a'||mode==='e'&&!cur){ if(mq||!cur||cur.a>=0){ push(); cur={q:mq?mq[1]:t,o:[],a:-1,e:''}; mode='q'; return; } }
+    if(mode==='q') cur.q+='\n'+t; else if(mode==='o') cur.o[cur.o.length-1]+=' '+t; else if(mode==='e') cur.e+=' '+t; });
+  push(); return out;
+}
+function bulkForm(){
+  var t=TESTS[TI]; if(!t) return;
+  M.innerHTML='<div class="card"><h2>📥 एक साथ बहुत सारे प्रश्न जोड़ें</h2><p class="muted small">Test: <b>'+esc(t.title)+'</b>. Word / PDF / WhatsApp से प्रश्न copy करके नीचे paste करें। हर प्रश्न इस तरह हो:</p>'
+   +'<pre style="background:#0b100c;border:1px solid #2a3a2e;border-radius:8px;padding:8px;font-size:13px;white-space:pre-wrap">1. गन्ने का वैज्ञानिक नाम क्या है?\nA) Oryza sativa\nB) Saccharum officinarum\nC) Zea mays\nD) Triticum aestivum\nउत्तर: B\nव्याख्या: गन्ना Poaceae कुल का पौधा है। (optional)</pre>'
+   +'<textarea id="bt" style="min-height:260px" placeholder="यहाँ प्रश्न paste करें..."></textarea><div class="row" style="margin-top:10px;gap:8px"><button class="btn ghost" id="bp">जाँचें (Preview)</button><button class="btn gold" id="bs" disabled>Test में जोड़ें और Save</button><button class="btn ghost" id="bx">वापस</button></div><div id="bo" style="margin-top:10px"></div></div>';
+  var parsed=[];
+  document.getElementById('bx').onclick=testsView;
+  document.getElementById('bp').onclick=function(){ parsed=parseBulk(document.getElementById('bt').value);
+    document.getElementById('bo').innerHTML='<div class="'+(parsed.length?'item':'warn')+'"><b>'+parsed.length+' प्रश्न सही मिले</b>'+(parsed.bad?' · <span style="color:#ff8a80">'+parsed.bad+' प्रश्न में उत्तर / विकल्प नहीं मिले (छोड़ दिए)</span>':'')+'</div>'
+      +parsed.slice(0,40).map(function(q,i){ return '<div class="item"><b>'+(i+1)+'. '+esc(q.q)+'</b><div class="small">'+q.o.map(function(o,k){ return (k===q.a?'<b style="color:#8EE05A">✔ ':'')+'ABCDE'[k]+') '+esc(o)+(k===q.a?'</b>':''); }).join('<br>')+'</div></div>'; }).join('')+(parsed.length>40?'<div class="muted small">... और '+(parsed.length-40)+'</div>':'');
+    document.getElementById('bs').disabled=!parsed.length; };
+  document.getElementById('bs').onclick=function(){ if(!parsed.length) return; parsed.forEach(function(q){ t.questions.push(q); }); saveTests('bulk add '+parsed.length+' Q to '+t.id).then(testsView); };
+}
+function testSettingsForm(){
+  var t=TESTS[TI]; if(!t) return;
+  M.innerHTML='<div class="card"><h2>⚙️ इस Test की Setting</h2><p class="muted small">'+esc(t.title)+'. खाली छोड़ें तो Settings वाली सामान्य setting लगेगी ('+(C.config.durationMin||60)+' मिनट, '+(C.config.marksPerQ||2)+' अंक, negative '+(C.config.negative||0)+')।</p>'
+   +'<div class="grid2"><div><label>समय (मिनट)</label><input id="sd" type="number" value="'+esc(t.dur||'')+'" placeholder="'+(C.config.durationMin||60)+'"></div><div><label>प्रति प्रश्न अंक</label><input id="sm2" type="number" step="0.5" value="'+esc(t.mpq||'')+'" placeholder="'+(C.config.marksPerQ||2)+'"></div></div>'
+   +'<div class="grid2"><div><label>Negative marking (जैसे 0.25)</label><input id="sn2" type="number" step="0.25" value="'+esc(t.neg!=null?t.neg:'')+'" placeholder="'+(C.config.negative||0)+'"></div><div><label>प्रश्नों का क्रम</label><select id="sf"><option value="0"'+(t.fixed?'':' selected')+'>हर बार अलग (shuffle)</option><option value="1"'+(t.fixed?' selected':'')+'>असली paper जैसा तय क्रम</option></select></div></div>'
+   +'<div class="row" style="margin-top:12px;gap:8px"><button class="btn gold" id="ss">Save</button><button class="btn ghost" id="sx">वापस</button></div></div>';
+  document.getElementById('sx').onclick=testsView;
+  document.getElementById('ss').onclick=function(){ var d=+document.getElementById('sd').value, m=+document.getElementById('sm2').value, n=document.getElementById('sn2').value;
+    if(d>0) t.dur=d; else delete t.dur; if(m>0) t.mpq=m; else delete t.mpq; if(n!=='') t.neg=+n; else delete t.neg; if(document.getElementById('sf').value==='1') t.fixed=true; else delete t.fixed;
+    saveTests('settings '+t.id).then(testsView); };
+}
+
+/* ---------- Backup & history ---------- */
+function backupView(){
+  M.innerHTML='<div class="card"><h2>💾 Backup</h2><p class="muted small">पूरे app का data (settings, notice, papers, eBooks list, banners, tests) एक file में download करें। कुछ गलत हो जाए तो इसी file से वापस लगा सकते हैं।</p>'
+   +'<div class="row" style="gap:8px;flex-wrap:wrap"><button class="btn gold" id="bk">⬇ Backup download करें</button><label class="btn ghost" style="cursor:pointer">⬆ Backup से वापस लगाएँ<input type="file" id="rs" accept=".json" hidden></label></div></div>'
+   +'<div class="card"><h2>🕘 बदलावों का इतिहास</h2><p class="muted small">हर save का record। गलती से कुछ हट गया हो तो पुराने समय वाले version पर वापस जा सकते हैं (सिर्फ content: notice, papers, eBooks, banners, settings)।</p><div id="hl" class="muted small">लोड हो रहा है...</div></div>';
+  document.getElementById('bk').onclick=function(){ var data={savedAt:new Date().toISOString(),content:C,tests:TESTS}; var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,1)],{type:'application/json'})); a.download='Agrikranti_Backup_'+new Date().toISOString().slice(0,10)+'.json'; a.click(); toast('✅ Backup download हो गया'); };
+  document.getElementById('rs').onchange=function(e){ var f=e.target.files[0]; if(!f) return; var fr=new FileReader(); fr.onload=function(){ try{ var d=JSON.parse(fr.result); if(!d.content||!d.content.config) throw 0;
+      if(!confirm('Backup ('+(d.savedAt||'').slice(0,10)+') वापस लगाएँ? अभी का data इससे बदल जाएगा।')) return;
+      C=d.content; var p=saveContent('restore backup'); if(d.tests&&d.tests.length){ TESTS=d.tests; p=p.then(function(){ return saveTests('restore backup tests'); }); } p.then(backupView);
+    }catch(x){ toast('❌ यह सही backup file नहीं है',6000); } }; fr.readAsText(f); };
+  gh('/commits?path=content.json&per_page=25').then(function(list){ var el=document.getElementById('hl'); if(!el) return; if(!list||!list.length){ el.textContent='कोई इतिहास नहीं।'; return; }
+    el.innerHTML=list.map(function(c,i){ var d=new Date(c.commit.author.date); return '<div class="item" style="padding:6px 10px;display:flex;gap:8px;align-items:center"><div style="flex:1"><b>'+esc(niceMsg(c.commit.message))+'</b><div class="muted small">'+d.toLocaleString('hi-IN',{dateStyle:'medium',timeStyle:'short'})+(i===0?' · <b style="color:#8EE05A">अभी यही चालू</b>':'')+'</div></div>'+(i?'<button class="btn ghost small" data-rv="'+c.sha+'">इस पर वापस</button>':'')+'</div>'; }).join('');
+    el.querySelectorAll('[data-rv]').forEach(function(b){ b.onclick=function(){ var sha=b.getAttribute('data-rv'); if(!confirm('App का content इस पुराने version पर वापस करें? (Tests पर असर नहीं)')) return;
+      toast('पुराना version लाया जा रहा है...',20000); gh('/contents/content.json?ref='+sha).then(function(j){ var old=JSON.parse(unb64(j.content)); old.licenses=C.licenses; old.sales=C.sales; old.bookKeys=C.bookKeys; C=old; return saveContent('restore '+sha.slice(0,7)); }).then(backupView).catch(function(e){ toast('❌ '+e.message,8000); }); }; }); })
+   .catch(function(){ var el=document.getElementById('hl'); if(el) el.textContent='इतिहास नहीं खुला।'; });
+}
+
+/* ---------- Help ---------- */
+function helpView(){
+  var S=[['🏠 Dashboard','आज कितने students आए, app कितनी बार खुला, token ठीक है या नहीं, और जल्दी काम के buttons।'],
+   ['👥 Students','Login करने वाले हर student का नाम, नंबर, email। Search, call, WhatsApp, Excel download, सभी नंबर / email एक साथ copy।'],
+   ['💰 eBook बिक्री','Payment screenshot देखकर student का नाम + नंबर डालें → Unlock Link / Code बनेगा → WhatsApp पर भेजें।'],
+   ['🖼️ Banners','Home के पोस्टर: नया फोटो upload, क्रम बदलें, link लगाएँ, हटाएँ।'],
+   ['📢 सूचना','Home पर सबसे ऊपर दिखने वाला संदेश + button link।'],
+   ['🎓 Semester','B.Sc. semester के question paper व solution PDF जोड़ें / बदलें।'],
+   ['📚 eBooks','Free / paid eBook जोड़ें; paid PDF अपने आप lock हो जाती है।'],
+   ['📝 Tests','Test बनाएँ, प्रश्न जोड़ें / बदलें, <b>एक साथ बहुत सारे प्रश्न paste</b> करें, हर test का समय / negative marking तय करें।'],
+   ['📊 Stats','कुल फोन, install, test submit, PDF, Ask AI की गिनती और 14 दिन का graph।'],
+   ['⚙️ Settings','YouTube / WhatsApp / Telegram links, UPI, Ask AI key, सामान्य test setting।'],
+   ['💾 Backup','पूरे data का backup download / restore, और पुराने version पर वापस जाना।']];
+  M.innerHTML='<div class="card"><h2>❓ Admin Panel गाइड</h2>'+S.map(function(s){ return '<div class="item"><b>'+s[0]+'</b><div class="small">'+s[1]+'</div></div>'; }).join('')
+   +'<p class="small" style="margin-top:10px">हर बदलाव save होने के <b>1 - 2 मिनट बाद</b> सभी students के app में दिखता है। Students को app एक बार बंद करके खोलना पड़ सकता है।</p></div>'
+   +'<div class="card"><h2>🔐 Save नहीं हो रहा? Token ठीक करें</h2>'+tokenHelp()+'</div>';
 }
 
 /* ---------- start ---------- */
