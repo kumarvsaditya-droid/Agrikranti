@@ -426,7 +426,7 @@ function loginPage(msg){
    +(srv?'<div class="muted small" style="text-align:center">एक ID एक समय में एक ही फोन पर चलेगी।</div>':'')+'</form></main>';
   var stage=1, n='', m='', er=document.getElementById('le'), btn=document.getElementById('lb'), timer=null;
   var em3='';
-  var done=function(name){ set('profile',{name:name||n,mobile:m,email:em3||(document.getElementById('le2')||{}).value||''}); regUser(true); restoreUser(m); set('sess',devId()); hit('logins'); go('home'); };
+  var done=function(name){ set('profile',{name:name||n,mobile:m,email:em3||(document.getElementById('le2')||{}).value||''}); regUser(true); restoreUser(m); set('sess',devId()); hit('logins'); go('home'); setTimeout(processUnlockLink,800); };
   function cooldown(){ var rs=document.getElementById('rs'), t=60; rs.disabled=true; clearInterval(timer); timer=setInterval(function(){ t--; rs.textContent=t>0?'दोबारा भेजें ('+t+')':'OTP दोबारा भेजें'; if(t<=0){ clearInterval(timer); rs.disabled=false; } },1000); }
   function sendOtp(){
     var em=document.getElementById('le2').value.trim();
@@ -821,6 +821,19 @@ function codeBox(id,pm,pc){
      .catch(function(err){ btn.disabled=false; er.className='err'; er.textContent=(err&&err.message==='nf')?'यह code इस मोबाइल नंबर के लिए नहीं मिला। नंबर और code दोबारा जाँचें। (Code मिलने के 2 - 3 मिनट बाद काम करता है)':'यह फोन code जाँच नहीं पा रहा। Chrome का नया version इस्तेमाल करें।'; });
   };
 }
+/* ===== Unlock link (?ul=...) - admin WhatsApp link se book seedha khulti hai ===== */
+(function(){ try{ var m=location.search.match(/[?&]ul=([A-Za-z0-9_-]+)/); if(m){ localStorage.setItem('ak_ulp',m[1]); history.replaceState(null,'',location.pathname+location.search.replace(/[?&]ul=[A-Za-z0-9_-]+/,'').replace(/^&/,'?')+location.hash); } }catch(e){} })();
+function processUnlockLink(){
+  var raw; try{ raw=localStorage.getItem('ak_ulp'); }catch(e){} if(!raw||!profile()) return;
+  try{ localStorage.removeItem('ak_ulp'); }catch(e){}
+  var parts; try{ var b=raw.replace(/-/g,'+').replace(/_/g,'/'); while(b.length%4) b+='='; parts=atob(b).split('|'); }catch(e){ return; }
+  if(parts.length!==4) return;
+  var bid=parts[0], mob=parts[1], code=parts[2], w=parts[3];
+  AK.licUnwrap(w,bid,mob,code).then(function(K){ var u=unlocked(); u[bid]={m:mob,c:code,k:AK.b64e(K)}; set('unlocked',u); hit('book-unlocks');
+    var bk=EBOOKS.filter(function(e){return e.id===bid;})[0];
+    alert('✅ '+(bk?bk.title:'eBook')+' आपके app में खुल गई है।'); go('ebooks'); if(bk&&bk.enc) openReader(bid);
+  }).catch(function(){ alert('यह unlock link सही नहीं है या अधूरा copy हुआ है। Admin से दोबारा link लें।'); });
+}
 /* ===== Protected reader: PDF sirf app ke andar, bina download/share, watermark ke saath ===== */
 var PDFJS_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js', PDFJS_WORKER='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 function loadPdfJs(){ if(window.pdfjsLib) return Promise.resolve(); return new Promise(function(res,rej){ var sc=document.createElement('script'); sc.src=PDFJS_URL; sc.onload=function(){ pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS_WORKER; res(); }; sc.onerror=rej; document.head.appendChild(sc); }); }
@@ -1100,7 +1113,7 @@ if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navig
 /* start */
 /* Play Store (TWA) mode: Google Play policy ke kaaran app ke andar paid eBook / payment nahi dikhte */
 var IS_TWA=(function(){ try{ if(/[?&]source=twa/.test(location.search)||document.referrer.indexOf('android-app://')===0) localStorage.setItem('ak_twa','1'); return localStorage.getItem('ak_twa')==='1'; }catch(e){ return /[?&]source=twa/.test(location.search); } })();
-loadContent().then(function(){ regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); sessionCheck(); });
+loadContent().then(function(){ setTimeout(processUnlockLink,800); regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); sessionCheck(); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden) sessionCheck(); });
 </script>
 </body>

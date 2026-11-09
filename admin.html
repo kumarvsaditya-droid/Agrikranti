@@ -93,11 +93,11 @@ function putOne(path,contentB64,msg,branch){
 function putFile(path,contentB64,msg){
   return BRANCHES.reduce(function(p,br){ return p.then(function(){ return putOne(path,contentB64,msg,br); }); },Promise.resolve());
 }
-function saveContent(msg){
+function saveContent(msg,quiet){
   if(C.config.geminiKey!==undefined){ C.config.gk=C.config.geminiKey?btoa(C.config.geminiKey.split('').reverse().join('')):''; delete C.config.geminiKey; }
   toast('Save हो रहा है...',20000);
   return putFile('content.json',b64(JSON.stringify(C,null,1)),'Admin: '+msg).then(function(){ toast('✅ Save हो गया। 1 - 2 मिनट में पूरे app में दिखेगा।',6000); })
-    .catch(function(e){ toast('❌ Save नहीं हुआ: '+e.message,12000); alert('Save नहीं हुआ: '+e.message); throw e; });
+    .catch(function(e){ if(!quiet){ toast('❌ Save नहीं हुआ: '+e.message,12000); alert('Save नहीं हुआ: '+e.message); } throw e; });
 }
 function saveTests(msg){
   toast('Tests save हो रहे हैं...',20000);
@@ -380,7 +380,8 @@ function pinUnlock(pin){
 }
 function getSales(){ if(!C.sales) return Promise.resolve([]); return AK.aesDec(PINK,AK.b64d(C.sales)).then(function(u){ return JSON.parse(new TextDecoder().decode(u)); }); }
 function putSales(list){ return AK.aesEnc(PINK,new TextEncoder().encode(JSON.stringify(list))).then(function(e){ C.sales=AK.b64e(e); }); }
-function waMsg(x,book){ return 'नमस्ते '+x.n+' 🙏\nAgrikranti eBook "'+book+'" का आपका Unlock Code:\n\n*'+x.c+'*\n\nमोबाइल नंबर: '+x.m+'\n\nApp खोलें → Downloads → "Code डालें" → यही मोबाइल नंबर और code लिखें। Book app में खुल जाएगी।\nApp: https://kumarvsaditya-droid.github.io/Agrikranti/\n(यह code सिर्फ आपके नंबर के लिए है, हर पेज पर आपका नाम-नंबर रहेगा।)'; }
+function ulLink(x){ var t=x.b+'|'+x.m+'|'+x.c+'|'+x.w; return 'https://kumarvsaditya-droid.github.io/Agrikranti/?ul='+btoa(t).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
+function waMsg(x,book){ return 'नमस्ते '+x.n+' 🙏\nAgrikranti eBook "'+book+'" आपके लिए खुल गई है।\n\n👉 इस link पर tap करें, book app में तुरंत खुल जाएगी:\n'+ulLink(x)+'\n\n(पहले app में अपने नंबर '+x.m+' से login करें।)'+(x.saved===false?'':'\n\nया App → Downloads → "Code डालें" में मोबाइल नंबर '+x.m+' और यह code लिखें: *'+x.c+'*')+'\n\n(यह book सिर्फ आपके लिए है, हर पेज पर आपका नाम-नंबर रहेगा।)'; }
 function bookTitle(id){ var b=(C.ebooks||[]).filter(function(e){return e.id===id;})[0]; return b?b.title:id; }
 function salesView(){
   var paid=(C.ebooks||[]).filter(function(b){ return b.price>0 && b.enc; });
@@ -414,15 +415,20 @@ function salesView(){
     if(!bid){ toast('Book चुनें'); return; } if(n.length<2){ toast('नाम लिखें'); return; } if(!/^[6-9]\d{9}$/.test(m)){ toast('सही 10 अंकों का मोबाइल नंबर लिखें'); return; }
     btn.disabled=true; toast('Code बन रहा है...',20000);
     var code=AK.newCode(), K, rec;
+    var show=function(saved,err){ toast(saved?'✅ Code save हो गया':'✅ Link तैयार है - WhatsApp पर भेजें',5000); btn.disabled=false; document.getElementById('sn').value=''; document.getElementById('sm').value=''; rec.saved=saved;
+      document.getElementById('sres').innerHTML='<div class="item" style="border-color:var(--gold)"><b>✅ Unlock तैयार: '+esc(rec.n)+' · '+rec.m+'</b>'
+       +(saved?'<div>Code: <b style="color:var(--gold);font-size:20px">'+rec.c+'</b> (2 - 3 मिनट में चालू)</div>':'<div class="warn" style="margin-top:6px">Code app में save नहीं हुआ ('+esc(err||'token')+'), इसलिए <b>Link भेजें</b> - link से book तुरंत खुल जाएगी। Code वाला तरीका चाहिए तो GitHub token को "Contents: Read and write" करें।</div>')
+       +'<div class="row" style="margin-top:8px;flex-wrap:wrap;gap:8px"><a class="btn" style="text-decoration:none;background:#1fae54;color:#fff" target="_blank" rel="noopener" href="https://wa.me/91'+rec.m+'?text='+encodeURIComponent(waMsg(rec,bookTitle(bid)))+'">WhatsApp पर student को भेजें</a>'
+       +'<button class="btn ghost small" id="cpl">Link copy करें</button></div></div>';
+      document.getElementById('cpl').onclick=function(){ try{ navigator.clipboard.writeText(waMsg(rec,bookTitle(bid))); toast('✅ Message copy हो गया'); }catch(e){ prompt('Copy करें:',ulLink(rec)); } };
+      try{ var L=JSON.parse(localStorage.getItem('ak_admin_localsales')||'[]'); L.push({n:rec.n,m:rec.m,b:bid,c:rec.c,d:rec.d,saved:saved}); localStorage.setItem('ak_admin_localsales',JSON.stringify(L.slice(-200))); }catch(e){}
+      drawList(); };
     AK.aesDec(PINK,AK.b64d(C.bookKeys[bid])).then(function(k){ K=k; return Promise.all([AK.licId(bid,m,code),AK.licWrap(K,bid,m,code)]); })
-     .then(function(r){ C.licenses=C.licenses||{}; C.licenses[bid]=C.licenses[bid]||{}; C.licenses[bid][r[0]]={w:r[1]};
-       var d=new Date(); rec={id:r[0],b:bid,n:n,m:m,c:code,d:('0'+d.getDate()).slice(-2)+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+d.getFullYear()};
-       return getSales(); })
-     .then(function(list){ list.push(rec); return putSales(list); })
-     .then(function(){ return saveContent('ebook sale '+bid); })
-     .then(function(){ btn.disabled=false; document.getElementById('sn').value=''; document.getElementById('sm').value='';
-       document.getElementById('sres').innerHTML='<div class="item" style="border-color:var(--gold)"><b>✅ Code बन गया: <span style="color:var(--gold);font-size:20px">'+rec.c+'</span></b><div class="muted small">'+esc(rec.n)+' · '+rec.m+'</div><a class="btn" style="display:inline-block;margin-top:8px;text-decoration:none;background:#1fae54;color:#fff" target="_blank" rel="noopener" href="https://wa.me/91'+rec.m+'?text='+encodeURIComponent(waMsg(rec,bookTitle(bid)))+'">WhatsApp पर student को भेजें</a></div>';
-       drawList(); })
+     .then(function(r){ var d=new Date(); rec={id:r[0],b:bid,n:n,m:m,c:code,w:r[1],d:('0'+d.getDate()).slice(-2)+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+d.getFullYear()};
+       var C2=JSON.parse(JSON.stringify(C)); C.licenses=C.licenses||{}; C.licenses[bid]=C.licenses[bid]||{}; C.licenses[bid][r[0]]={w:r[1]};
+       return getSales().then(function(list){ list.push({id:rec.id,b:rec.b,n:rec.n,m:rec.m,c:rec.c,d:rec.d}); return putSales(list); })
+        .then(function(){ return saveContent('ebook sale '+bid,true); })
+        .then(function(){ show(true); }, function(e){ C.licenses=C2.licenses; C.sales=C2.sales; show(false, /permission|Read and write|403/i.test(e.message)?'token सिर्फ Read वाला है':e.message); }); })
      .catch(function(e){ btn.disabled=false; toast('❌ '+e.message,8000); });
   };
 }
