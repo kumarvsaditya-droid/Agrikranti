@@ -780,7 +780,8 @@ function payForm(b){
         }});
       rz.on('payment.failed',function(){ alert('Payment नहीं हुआ। दोबारा कोशिश करें।'); });
       rz.open();
-    }).catch(function(){ btn.disabled=false; er.className='err'; er.textContent='Payment अभी शुरू नहीं हो पाया। इंटरनेट जाँचकर दोबारा कोशिश करें।'; });
+    }).catch(function(e){ btn.disabled=false; er.className='err'; var m=String(e&&e.message||'');
+      er.textContent='Payment अभी शुरू नहीं हो पाया। '+(/Failed to fetch|NetworkError|Load failed/i.test(m)?'(Server नहीं खुला - Script का Deploy "Anyone" के लिए है?)':/auth/i.test(m)?'(Razorpay key / secret गलत है)':m&&m!=='order'?'('+m+')':'इंटरनेट जाँचकर दोबारा कोशिश करें।'); });
   };
 }
 function restoreBox(b){
