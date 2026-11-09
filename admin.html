@@ -396,7 +396,8 @@ function salesView(){
     document.getElementById('pg').onclick=function(){ var v=document.getElementById('pin').value.trim(); toast('जाँच...',20000); pinUnlock(v).then(function(k){ PINK=k; ls('ak_admin_pin',v); toast('✅ PIN सही है'); salesView(); }).catch(function(){ toast('❌ PIN गलत है'); }); };
     return;
   }
-  M.innerHTML='<div class="card"><h2>💰 eBook बेचें - Unlock Code बनाएं</h2><p class="muted small">Student का payment screenshot देखकर उसका नाम और मोबाइल नंबर डालें। Code बनेगा और WhatsApp पर भेजने का button आएगा। Code 2 - 3 मिनट में चालू होता है।</p>'
+  var bpHtml=paid.map(function(b){ return (C.bookPassAdmin||{})[b.id]?'<div class="item" data-bpb="'+esc(b.id)+'"><b>'+esc(b.title)+'</b> · Password: <b class="bpv" style="color:var(--gold);font-size:22px;letter-spacing:1px">…</b><div class="grid2" style="margin-top:6px"><div><input class="bpn" placeholder="Student का नाम"></div><div><input class="bpm" inputmode="numeric" maxlength="10" placeholder="Student का मोबाइल नंबर"></div></div><div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap"><button class="btn gold bps">WhatsApp पर Password भेजें</button><button class="btn ghost small bpc">Password बदलें</button></div></div>':''; }).join('');
+  M.innerHTML=(bpHtml?'<div class="card" style="border-color:var(--gold)"><h2>🔑 सबसे आसान: Book Password भेजें</h2><p class="muted small">हर book का <b>एक ही password</b> है - जो भी student payment करे, उसे यही password भेज दें। कुछ बनाना या save नहीं करना। Student app में "🔑 Password डालें" में अपना नंबर + यह password लिखेगा, book खुल जाएगी। हर पेज पर उसका नाम-नंबर रहेगा।</p>'+bpHtml+'</div>':'')+'<div class="card"><h2>💰 eBook बेचें - Unlock Code बनाएं</h2><p class="muted small">Student का payment screenshot देखकर उसका नाम और मोबाइल नंबर डालें। Code बनेगा और WhatsApp पर भेजने का button आएगा। Code 2 - 3 मिनट में चालू होता है।</p>'
    +(paid.length?'':'<div class="warn">अभी कोई locked (paid) eBook नहीं है।</div>')
    +'<label>Book</label><select id="sb">'+paid.map(function(b){ return '<option value="'+esc(b.id)+'">'+esc(b.title)+' (₹'+b.price+')</option>'; }).join('')+'</select>'
    +'<div class="grid2"><div><label>Student का नाम</label><input id="sn" placeholder="जैसे: Rahul Kumar"></div><div><label>Student का मोबाइल नंबर</label><input id="sm" inputmode="numeric" maxlength="10" placeholder="10 अंक"></div></div>'
@@ -413,6 +414,19 @@ function salesView(){
         putSales(list.filter(function(s){return s.id!==id;})).then(function(){ return saveContent('revoke access'); }).then(drawList); }; });
     }).catch(function(){ document.getElementById('sl').textContent='सूची नहीं खुली (PIN?)'; });
   }
+  M.querySelectorAll('[data-bpb]').forEach(function(el){ var bid=el.getAttribute('data-bpb'), pv=el.querySelector('.bpv'), pass='';
+    AK.aesDec(PINK,AK.b64d(C.bookPassAdmin[bid])).then(function(u){ pass=new TextDecoder().decode(u); pv.textContent=pass; }).catch(function(){ pv.textContent='(PIN?)'; });
+    el.querySelector('.bps').onclick=function(){ var n=el.querySelector('.bpn').value.trim()||'Student', m=el.querySelector('.bpm').value.replace(/\D/g,'');
+      if(!/^[6-9]\d{9}$/.test(m)){ toast('सही 10 अंकों का मोबाइल नंबर लिखें'); return; }
+      var t='नमस्ते '+n+' 🙏\nAgrikranti eBook "'+bookTitle(bid)+'" के लिए धन्यवाद।\n\n🔑 Book Password: *'+pass+'*\n\nकैसे खोलें:\n1. App खोलें: https://kumarvsaditya-droid.github.io/Agrikranti/\n2. अपने नंबर '+m+' से login करें\n3. Downloads → "'+bookTitle(bid)+'" → "🔑 Password डालें"\n4. मोबाइल नंबर '+m+' और password '+pass+' लिखें → Unlock\n\nBook हमेशा के लिए app में खुल जाएगी। हर पेज पर आपका नाम-नंबर रहेगा, कृपया password किसी से share न करें।';
+      try{ var L=JSON.parse(localStorage.getItem('ak_admin_localsales')||'[]'); var d=new Date(); L.push({n:n,m:m,b:bid,c:'PASSWORD',d:('0'+d.getDate()).slice(-2)+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+d.getFullYear()}); localStorage.setItem('ak_admin_localsales',JSON.stringify(L.slice(-300))); }catch(e){}
+      window.open('https://wa.me/91'+m+'?text='+encodeURIComponent(t),'_blank'); };
+    el.querySelector('.bpc').onclick=function(){ if(!confirm('नया password बनाएँ? पुराना password नए students के लिए काम नहीं करेगा (जिनकी book खुल चुकी है, उनकी खुली रहेगी)।')) return;
+      var a='ABCDEFGHJKMNPQRSTUVWXYZ23456789', r=crypto.getRandomValues(new Uint8Array(6)), np='AK'; for(var i=0;i<6;i++) np+=a[r[i]%a.length];
+      AK.aesDec(PINK,AK.b64d(C.bookKeys[bid])).then(function(K){ return Promise.all([AK.passWrap(K,bid,np),AK.aesEnc(PINK,new TextEncoder().encode(np))]); })
+       .then(function(x){ C.bookPass=C.bookPass||{}; C.bookPassAdmin=C.bookPassAdmin||{}; C.bookPass[bid]=x[0]; C.bookPassAdmin[bid]=AK.b64e(x[1]); return saveContent('book password changed'); })
+       .then(salesView).catch(function(e){ toast('❌ '+e.message,8000); }); };
+  });
   drawList();
   document.getElementById('sg').onclick=function(){
     var btn=this, bid=document.getElementById('sb').value, n=document.getElementById('sn').value.trim(), m=document.getElementById('sm').value.replace(/\D/g,'');
@@ -562,7 +576,7 @@ function backupView(){
   gh('/commits?path=content.json&per_page=25').then(function(list){ var el=document.getElementById('hl'); if(!el) return; if(!list||!list.length){ el.textContent='कोई इतिहास नहीं।'; return; }
     el.innerHTML=list.map(function(c,i){ var d=new Date(c.commit.author.date); return '<div class="item" style="padding:6px 10px;display:flex;gap:8px;align-items:center"><div style="flex:1"><b>'+esc(niceMsg(c.commit.message))+'</b><div class="muted small">'+d.toLocaleString('hi-IN',{dateStyle:'medium',timeStyle:'short'})+(i===0?' · <b style="color:#8EE05A">अभी यही चालू</b>':'')+'</div></div>'+(i?'<button class="btn ghost small" data-rv="'+c.sha+'">इस पर वापस</button>':'')+'</div>'; }).join('');
     el.querySelectorAll('[data-rv]').forEach(function(b){ b.onclick=function(){ var sha=b.getAttribute('data-rv'); if(!confirm('App का content इस पुराने version पर वापस करें? (Tests पर असर नहीं)')) return;
-      toast('पुराना version लाया जा रहा है...',20000); gh('/contents/content.json?ref='+sha).then(function(j){ var old=JSON.parse(unb64(j.content)); old.licenses=C.licenses; old.sales=C.sales; old.bookKeys=C.bookKeys; C=old; return saveContent('restore '+sha.slice(0,7)); }).then(backupView).catch(function(e){ toast('❌ '+e.message,8000); }); }; }); })
+      toast('पुराना version लाया जा रहा है...',20000); gh('/contents/content.json?ref='+sha).then(function(j){ var old=JSON.parse(unb64(j.content)); old.licenses=C.licenses; old.sales=C.sales; old.bookKeys=C.bookKeys; old.bookPass=C.bookPass; old.bookPassAdmin=C.bookPassAdmin; C=old; return saveContent('restore '+sha.slice(0,7)); }).then(backupView).catch(function(e){ toast('❌ '+e.message,8000); }); }; }); })
    .catch(function(){ var el=document.getElementById('hl'); if(el) el.textContent='इतिहास नहीं खुला।'; });
 }
 

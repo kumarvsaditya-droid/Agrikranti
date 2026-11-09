@@ -24,6 +24,8 @@
     licId: function (book, m, c) { var x = norm(m, c); return sha('lic|' + book + '|' + x[0] + '|' + x[1]).then(function (h) { return h.slice(0, 24); }); },
     licWrap: function (K, book, m, c) { var x = norm(m, c); return pbkdf(x[1], 'ak|' + book + '|' + x[0], 120000).then(function (k) { return aesEnc(k, K); }).then(b64e); },
     licUnwrap: function (w, book, m, c) { var x = norm(m, c); return pbkdf(x[1], 'ak|' + book + '|' + x[0], 120000).then(function (k) { return aesDec(k, b64d(w)); }); },
+    passWrap: function (K, book, pass) { var x = norm('0', pass)[1]; return pbkdf(x, 'akpass|' + book, 120000).then(function (k) { return aesEnc(k, K); }).then(b64e); },
+    passUnwrap: function (w, book, pass) { var x = norm('0', pass)[1]; return pbkdf(x, 'akpass|' + book, 120000).then(function (k) { return aesDec(k, b64d(w)); }); },
     pinKey: function (pin) { return pbkdf(String(pin), 'agrikranti-admin-pin', 200000); }
   };
   if (typeof module !== 'undefined') module.exports = AK; else root.AK = AK;

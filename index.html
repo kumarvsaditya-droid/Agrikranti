@@ -293,7 +293,7 @@ function applyContent(c){
   if(c.semester) SEMESTER=c.semester;
   NOTICE=(c.notice&&c.notice.text)?c.notice:null;
   window.BANNERS=(c.banners||[]).filter(function(b){return b&&b.img;});
-  window.LIC=c.licenses||{};
+  window.LIC=c.licenses||{}; window.BPASS=c.bookPass||{};
   if(c.series&&c.series.length) SERIES=c.series;
 }
 function loadContent(){
@@ -720,7 +720,7 @@ function ebookCard(b){
   var readBtn=b.price?'<button class="btn" data-read="'+b.id+'">📖 पढ़ें</button>':'<a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(b.file)+'">पढ़ें / डाउनलोड</a>';
   return '<div class="card ebook"><div class="cover"><span>'+b.cover+'</span><small>Agrikranti</small></div><div style="flex:1;min-width:0"><b>'+esc(b.title)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(b.sub)+' · '+b.pages+' पेज</div>'
     +'<div class="chips">'+(b.price?(open?'<span class="chip done">✔ खरीदी हुई</span>':'<span class="chip" style="color:var(--gold)">₹'+b.price+'</span>'):'<span class="chip done">Free</span>')+(b.price?'<span class="chip">🔒 सिर्फ App में पढ़ें</span>':'')+'</div>'
-    +'<div class="row">'+(open?readBtn:'<button class="btn gold" data-buy="'+b.id+'">₹'+b.price+' में खरीदें</button>'+(b.enc?'<button class="btn ghost" data-code="'+b.id+'">'+(autoPay()?'पहले खरीदी है?':'Code डालें')+'</button>':''))+'</div></div></div>';
+    +'<div class="row">'+(open?readBtn:'<button class="btn gold" data-buy="'+b.id+'">₹'+b.price+' में खरीदें</button>'+(b.enc?'<button class="btn ghost" data-code="'+b.id+'">'+(autoPay()?'पहले खरीदी है?':'🔑 Password डालें')+'</button>':''))+'</div></div></div>';
 }
 function bindBooks(){
   app.querySelectorAll('[data-buy]').forEach(function(x){ x.onclick=function(){ buyBook(x.getAttribute('data-buy')); }; });
@@ -741,7 +741,7 @@ function buyBook(id){
     +'<a class="btn gold block" style="text-align:center;text-decoration:none" href="img/upi-qr.png" download="Agrikranti_UPI_QR.png">QR फोटो Download करें</a>'
     +'<div class="muted small">इसी फोन से pay करना है? QR download करें → PhonePe / GPay / Paytm खोलें → Scan में "Gallery / Upload QR" से यह फोटो चुनें → ₹'+b.price+' डालकर pay करें। दूसरे फोन से सीधे scan भी कर सकते हैं।</div>'
     +'<div class="small" style="text-align:center">UPI ID: <b id="upiid">'+esc(CONFIG.upiId)+'</b> <button class="iconbtn" id="cpy" style="padding:2px 8px">Copy</button></div>'
-    +'<ol class="rules" style="color:var(--ink)"><li>QR scan करके या UPI ID पर ₹'+b.price+' का payment करें।</li><li>Payment का screenshot Telegram पर <b>'+esc(CONFIG.telegramName)+'</b> को भेजें।</li><li>'+(b.enc?'Payment जाँचकर आपके WhatsApp पर एक <b>Unlock Code</b> भेजा जाएगा। उसे यहाँ "Code डालें" में लिखें, book इसी app में हमेशा के लिए खुल जाएगी।':'Payment जाँचने के बाद पूरी <b>PDF आपको Telegram पर भेज दी जाएगी</b>।')+'</li></ol>'
+    +'<ol class="rules" style="color:var(--ink)"><li>QR scan करके या UPI ID पर ₹'+b.price+' का payment करें।</li><li>Payment का screenshot Telegram पर <b>'+esc(CONFIG.telegramName)+'</b> को भेजें।</li><li>'+(b.enc?'Payment जाँचकर आपके WhatsApp पर <b>Book Password</b> भेजा जाएगा। उसे यहाँ "🔑 Password डालें" में लिखें, book इसी app में हमेशा के लिए खुल जाएगी।':'Payment जाँचने के बाद पूरी <b>PDF आपको Telegram पर भेज दी जाएगी</b>।')+'</li></ol>'
     +'<a class="btn block" style="text-align:center;text-decoration:none;background:#2aa1da;color:#fff" target="_blank" rel="noopener" href="'+esc(CONFIG.telegram)+'">Telegram पर screenshot भेजें</a>'
     +'<a class="btn ghost block" style="text-align:center;text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent(msg)+'">WhatsApp पर संदेश भेजें</a>'
     +(b.enc?'<button class="btn ghost block" id="havecode">मेरे पास Code है</button>':'')+'<div class="okmsg" id="cpm"></div></div>';
@@ -803,9 +803,9 @@ function restoreBox(b){
 function codeBox(id,pm,pc){
   var b=EBOOKS.filter(function(e){return e.id===id;})[0], p=profile()||{};
   var o=document.createElement('div'); o.className='overlay';
-  o.innerHTML='<form class="card" id="cf" style="display:flex;flex-direction:column;gap:10px"><b>Unlock Code डालें</b><div class="muted small">'+esc(b.title)+'</div>'
+  o.innerHTML='<form class="card" id="cf" style="display:flex;flex-direction:column;gap:10px"><b>Book Password / Unlock Code डालें</b><div class="muted small">'+esc(b.title)+'</div>'
    +'<label for="cm" class="small">जिस मोबाइल नंबर से खरीदा</label><input id="cm" inputmode="numeric" maxlength="10" value="'+esc(pm||p.mobile||'')+'" placeholder="10 अंकों का मोबाइल नंबर">'
-   +'<label for="cc" class="small">Unlock Code (WhatsApp पर मिला)</label><input id="cc" autocomplete="off" value="'+esc(pc||'')+'" placeholder="जैसे: AB12CD34" style="text-transform:uppercase">'
+   +'<label for="cc" class="small">Book Password या Unlock Code (WhatsApp पर मिला)</label><input id="cc" autocomplete="off" value="'+esc(pc||'')+'" placeholder="जैसे: AB12CD34" style="text-transform:uppercase">'
    +'<div class="err" id="ce"></div><div class="row"><button class="btn" type="submit" id="cs">Unlock करें</button><button class="btn ghost" type="button" id="cx">रद्द करें</button></div></form>';
   document.body.appendChild(o);
   o.querySelector('#cx').onclick=function(){ o.remove(); };
@@ -814,11 +814,12 @@ function codeBox(id,pm,pc){
     if(!/^[6-9]\d{9}$/.test(m)){ er.textContent='सही 10 अंकों का मोबाइल नंबर लिखें।'; return; }
     if(c.length<6){ er.textContent='पूरा code लिखें।'; return; }
     btn.disabled=true; er.className='muted small'; er.textContent='जाँच हो रही है...';
-    fetch('content.json?v='+Date.now(),{cache:'no-store'}).then(function(r){ return r.json(); }).then(function(cj){ window.LIC=cj.licenses||{}; }).catch(function(){})
+    fetch('content.json?v='+Date.now(),{cache:'no-store'}).then(function(r){ return r.json(); }).then(function(cj){ window.LIC=cj.licenses||{}; window.BPASS=cj.bookPass||{}; }).catch(function(){})
      .then(function(){ return AK.licId(b.id,m,c); })
-     .then(function(lid){ var w=(LIC[b.id]||{})[lid]; if(!w) throw new Error('nf'); return AK.licUnwrap(w.w||w,b.id,m,c); })
-     .then(function(){ var u=unlocked(); u[b.id]={m:m,c:c}; set('unlocked',u); hit('book-unlocks'); o.remove(); ebooks(); openReader(b.id); })
-     .catch(function(err){ btn.disabled=false; er.className='err'; er.textContent=(err&&err.message==='nf')?'यह code इस मोबाइल नंबर के लिए नहीं मिला। नंबर और code दोबारा जाँचें। (Code मिलने के 2 - 3 मिनट बाद काम करता है)':'यह फोन code जाँच नहीं पा रहा। Chrome का नया version इस्तेमाल करें।'; });
+     .then(function(lid){ var w=(LIC[b.id]||{})[lid]; if(w) return AK.licUnwrap(w.w||w,b.id,m,c).then(function(K){ return {K:K,lic:1}; });
+        var bp=(window.BPASS||{})[b.id]; if(!bp) throw new Error('nf'); return AK.passUnwrap(bp,b.id,c).then(function(K){ return {K:K}; },function(){ throw new Error('nf'); }); })
+     .then(function(r){ var u=unlocked(); u[b.id]=r.lic?{m:m,c:c}:{m:m,c:c,k:AK.b64e(r.K)}; set('unlocked',u); hit('book-unlocks'); o.remove(); ebooks(); openReader(b.id); })
+     .catch(function(err){ btn.disabled=false; er.className='err'; er.textContent=(err&&err.message==='nf')?'Password / code सही नहीं है। WhatsApp पर मिला Book Password ध्यान से दोबारा लिखें।':'यह फोन code जाँच नहीं पा रहा। Chrome का नया version इस्तेमाल करें।'; });
   };
 }
 /* ===== Unlock link (?ul=...) - admin WhatsApp link se book seedha khulti hai ===== */
