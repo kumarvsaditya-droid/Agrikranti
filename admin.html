@@ -385,7 +385,8 @@ function pinUnlock(pin){
 function getSales(){ if(!C.sales) return Promise.resolve([]); return AK.aesDec(PINK,AK.b64d(C.sales)).then(function(u){ return JSON.parse(new TextDecoder().decode(u)); }); }
 function putSales(list){ return AK.aesEnc(PINK,new TextEncoder().encode(JSON.stringify(list))).then(function(e){ C.sales=AK.b64e(e); }); }
 function ulLink(x){ var t=x.b+'|'+x.m+'|'+x.c+'|'+x.w; return 'https://kumarvsaditya-droid.github.io/Agrikranti/?ul='+btoa(t).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }
-function waMsg(x,book){ return 'नमस्ते '+x.n+' 🙏\nAgrikranti eBook "'+book+'" आपके लिए खुल गई है।\n\n👉 इस link पर tap करें, book app में तुरंत खुल जाएगी:\n'+ulLink(x)+'\n\n(पहले app में अपने नंबर '+x.m+' से login करें।)'+(x.saved===false?'':'\n\nया App → Downloads → "Code डालें" में मोबाइल नंबर '+x.m+' और यह code लिखें: *'+x.c+'*')+'\n\n(यह book सिर्फ आपके लिए है, हर पेज पर आपका नाम-नंबर रहेगा।)'; }
+function waMsg(x,book){ return 'नमस्ते '+x.n+' 🙏\nAgrikranti eBook "'+book+'" खरीदने के लिए धन्यवाद।\n\n'+(x.saved===false?'👉 इस link पर tap करें, book app में तुरंत खुल जाएगी:\n'+ulLink(x)+'\n(पहले app में अपने नंबर '+x.m+' से login करें।)':'🔑 आपका Password = आपकी जन्मतिथि: *'+x.c+'*\n\nकैसे खोलें:\n1. App खोलें: https://kumarvsaditya-droid.github.io/Agrikranti/\n2. अपने नंबर '+x.m+' से login करें\n3. Downloads → "'+book+'" → "🔑 Password डालें"\n4. मोबाइल नंबर '+x.m+' और जन्मतिथि '+x.c+' लिखें → Unlock\n\nया सीधे इस link पर tap करें:\n'+ulLink(x))+'\n\n(यह book सिर्फ आपके लिए है, हर पेज पर आपका नाम-नंबर रहेगा।)'; }
+function dobDigits(v){ var d=String(v||'').replace(/\D/g,''); if(d.length!==8) return ''; var dd=+d.slice(0,2), mm=+d.slice(2,4), yy=+d.slice(4); if(dd<1||dd>31||mm<1||mm>12||yy<1950||yy>new Date().getFullYear()) return ''; return d; }
 function bookTitle(id){ var b=(C.ebooks||[]).filter(function(e){return e.id===id;})[0]; return b?b.title:id; }
 function salesView(){
   var paid=(C.ebooks||[]).filter(function(b){ return b.price>0 && b.enc; });
@@ -397,11 +398,12 @@ function salesView(){
     return;
   }
   var bpHtml=paid.map(function(b){ return (C.bookPassAdmin||{})[b.id]?'<div class="item" data-bpb="'+esc(b.id)+'"><b>'+esc(b.title)+'</b> · Password: <b class="bpv" style="color:var(--gold);font-size:22px;letter-spacing:1px">…</b><div class="grid2" style="margin-top:6px"><div><input class="bpn" placeholder="Student का नाम"></div><div><input class="bpm" inputmode="numeric" maxlength="10" placeholder="Student का मोबाइल नंबर"></div></div><div class="row" style="margin-top:8px;gap:8px;flex-wrap:wrap"><button class="btn gold bps">WhatsApp पर Password भेजें</button><button class="btn ghost small bpc">Password बदलें</button></div></div>':''; }).join('');
-  M.innerHTML=(bpHtml?'<div class="card" style="border-color:var(--gold)"><h2>🔑 सबसे आसान: Book Password भेजें</h2><p class="muted small">हर book का <b>एक ही password</b> है - जो भी student payment करे, उसे यही password भेज दें। कुछ बनाना या save नहीं करना। Student app में "🔑 Password डालें" में अपना नंबर + यह password लिखेगा, book खुल जाएगी। हर पेज पर उसका नाम-नंबर रहेगा।</p>'+bpHtml+'</div>':'')+'<div class="card"><h2>💰 eBook बेचें - Unlock Code बनाएं</h2><p class="muted small">Student का payment screenshot देखकर उसका नाम और मोबाइल नंबर डालें। Code बनेगा और WhatsApp पर भेजने का button आएगा। Code 2 - 3 मिनट में चालू होता है।</p>'
+  bpHtml=''; M.innerHTML=(bpHtml?'<div class="card" style="border-color:var(--gold)"><h2>🔑 सबसे आसान: Book Password भेजें</h2><p class="muted small">हर book का <b>एक ही password</b> है - जो भी student payment करे, उसे यही password भेज दें। कुछ बनाना या save नहीं करना। Student app में "🔑 Password डालें" में अपना नंबर + यह password लिखेगा, book खुल जाएगी। हर पेज पर उसका नाम-नंबर रहेगा।</p>'+bpHtml+'</div>':'')+'<div class="card"><h2>💰 eBook बेचें - जन्मतिथि वाला Password</h2><p class="muted small">Student का payment screenshot देखकर उसका <b>नाम, मोबाइल नंबर और जन्मतिथि</b> डालें। उस student का password उसकी <b>जन्मतिथि</b> होगा (जैसे 19/07/2001 → <b>19072001</b>)। Student app में अपना नंबर + जन्मतिथि लिखेगा और book खुल जाएगी। (Save होने के 2 - 3 मिनट बाद चालू)</p>'
    +(paid.length?'':'<div class="warn">अभी कोई locked (paid) eBook नहीं है।</div>')
    +'<label>Book</label><select id="sb">'+paid.map(function(b){ return '<option value="'+esc(b.id)+'">'+esc(b.title)+' (₹'+b.price+')</option>'; }).join('')+'</select>'
    +'<div class="grid2"><div><label>Student का नाम</label><input id="sn" placeholder="जैसे: Rahul Kumar"></div><div><label>Student का मोबाइल नंबर</label><input id="sm" inputmode="numeric" maxlength="10" placeholder="10 अंक"></div></div>'
-   +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sg">Code बनाएं और Save करें</button></div><div id="sres"></div></div>'
+   +'<label>Student की जन्मतिथि (Date of Birth)</label><input id="sdob" inputmode="numeric" maxlength="10" placeholder="DD/MM/YYYY - जैसे 19/07/2001">'
+   +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sg">Password चालू करें और Save करें</button></div><div id="sres"></div></div>'
    +'<div class="card"><h3>बिक्री की सूची</h3><div id="sl" class="muted small">लोड हो रहा है...</div></div>';
   function drawList(){
     getSales().then(function(list){
@@ -431,11 +433,12 @@ function salesView(){
   document.getElementById('sg').onclick=function(){
     var btn=this, bid=document.getElementById('sb').value, n=document.getElementById('sn').value.trim(), m=document.getElementById('sm').value.replace(/\D/g,'');
     if(!bid){ toast('Book चुनें'); return; } if(n.length<2){ toast('नाम लिखें'); return; } if(!/^[6-9]\d{9}$/.test(m)){ toast('सही 10 अंकों का मोबाइल नंबर लिखें'); return; }
-    btn.disabled=true; toast('Code बन रहा है...',20000);
-    var code=AK.newCode(), K, rec;
-    var show=function(saved,err){ toast(saved?'✅ Code save हो गया':'✅ Link तैयार है - WhatsApp पर भेजें',5000); btn.disabled=false; document.getElementById('sn').value=''; document.getElementById('sm').value=''; rec.saved=saved;
+    var dob=dobDigits(document.getElementById('sdob').value); if(!dob){ toast('सही जन्मतिथि लिखें - DD/MM/YYYY (जैसे 19/07/2001)',6000); return; }
+    btn.disabled=true; toast('Password चालू हो रहा है...',20000);
+    var code=dob, K, rec;
+    var show=function(saved,err){ toast(saved?'✅ Password चालू हो गया':'⚠️ Save नहीं हुआ - Link भेजें',6000); btn.disabled=false; document.getElementById('sn').value=''; document.getElementById('sm').value=''; document.getElementById('sdob').value=''; rec.saved=saved;
       document.getElementById('sres').innerHTML='<div class="item" style="border-color:var(--gold)"><b>✅ Unlock तैयार: '+esc(rec.n)+' · '+rec.m+'</b>'
-       +(saved?'<div>Code: <b style="color:var(--gold);font-size:20px">'+rec.c+'</b> (2 - 3 मिनट में चालू)</div>':'<div class="warn" style="margin-top:6px">Code app में save नहीं हुआ ('+esc(err||'token')+'), इसलिए <b>Link भेजें</b> - link से book तुरंत खुल जाएगी। Code वाला तरीका चाहिए तो GitHub token को "Contents: Read and write" करें।</div>')
+       +(saved?'<div>Password (जन्मतिथि): <b style="color:var(--gold);font-size:20px">'+rec.c+'</b> (2 - 3 मिनट में चालू)</div>':'<div class="warn" style="margin-top:6px">⚠️ जन्मतिथि वाला password app में save नहीं हुआ ('+esc(err||'token')+')। अभी के लिए <b>Link भेजें</b> - link से book तुरंत खुल जाएगी। जन्मतिथि से खोलने के लिए GitHub token को "Contents: Read and write" करें (Dashboard देखें)।</div>')
        +'<div class="row" style="margin-top:8px;flex-wrap:wrap;gap:8px"><a class="btn" style="text-decoration:none;background:#1fae54;color:#fff" target="_blank" rel="noopener" href="https://wa.me/91'+rec.m+'?text='+encodeURIComponent(waMsg(rec,bookTitle(bid)))+'">WhatsApp पर student को भेजें</a>'
        +'<button class="btn ghost small" id="cpl">Link copy करें</button></div></div>';
       document.getElementById('cpl').onclick=function(){ try{ navigator.clipboard.writeText(waMsg(rec,bookTitle(bid))); toast('✅ Message copy हो गया'); }catch(e){ prompt('Copy करें:',ulLink(rec)); } };
