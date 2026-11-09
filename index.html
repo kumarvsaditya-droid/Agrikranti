@@ -9,6 +9,11 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
 <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Agrikranti">
+<meta name="format-detection" content="telephone=no">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Teko:wght@500;600;700&family=Mukta:wght@400;500;700;800&display=swap">
 <style>
@@ -1018,7 +1023,7 @@ function profilePage(){
   activeTab('profile');
   var p=profile()||{name:'',mobile:''};
   var h=topbar()+'<main class="page"><h2 class="sec">मेरी <span>Profile</span></h2><form class="card" id="pf" novalidate style="display:flex;flex-direction:column;gap:12px"><div><label for="pn">नाम</label><input id="pn" maxlength="40" value="'+esc(p.name)+'"></div><div><label for="pm">मोबाइल नंबर</label><input id="pm" inputmode="numeric" maxlength="10" value="'+esc(p.mobile)+'" readonly style="opacity:.7"><div class="muted small">मोबाइल नंबर बदलने के लिए Logout करके नए नंबर से Login करें।</div></div><div class="err" id="pe"></div><button class="btn" type="submit">सेव करें</button></form>';
-  h+='<div class="card"><b>Agrikranti ऐप फोन में इंस्टॉल करें</b><ul class="rules" style="margin-top:6px"><li>Chrome में यह पेज खोलें।</li><li>ऊपर दाईं ओर ⋮ मेनू → <b>"Add to Home screen" / "Install app"</b> दबाएँ।</li><li>होम स्क्रीन पर Agrikranti का आइकन आ जाएगा, ऐप की तरह खुलेगा।</li></ul>'+(window.__deferredPrompt?'<button class="btn gold block" id="installBtn2" style="margin-top:10px">अभी इंस्टॉल करें</button>':'')+'</div>';
+  h+='<div class="card"><b>Agrikranti ऐप फोन में इंस्टॉल करें</b><ul class="rules" style="margin-top:6px"><li>Chrome में यह पेज खोलें।</li><li>ऊपर दाईं ओर ⋮ मेनू → <b>"Add to Home screen" / "Install app"</b> दबाएँ।</li><li>होम स्क्रीन पर Agrikranti का आइकन आ जाएगा, ऐप की तरह खुलेगा।</li><li><b>iPhone / iPad:</b> Safari में यह पेज खोलें → नीचे <b>Share (⬆)</b> बटन → <b>"Add to Home Screen" (होम स्क्रीन में जोड़ें)</b> → <b>Add</b>।</li></ul>'+(window.__deferredPrompt?'<button class="btn gold block" id="installBtn2" style="margin-top:10px">अभी इंस्टॉल करें</button>':'')+'</div>';
   if(isAdminUser()) h+='<a class="btn gold block" href="admin.html" style="text-align:center;text-decoration:none">🛡️ Admin Panel खोलें</a>';
   h+='<button class="btn ghost block" id="lo" style="border-color:var(--bad);color:var(--bad)">🚪 Logout</button>';
   h+='<div class="card small"><b>Privacy और Account</b><div class="muted" style="margin:4px 0 8px">आपका डेटा कैसे उपयोग होता है, पढ़ें या अपना account व डेटा हटाने का अनुरोध करें।</div><div class="row"><a class="btn ghost" style="text-decoration:none" href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a><button class="btn ghost" id="delacc" style="border-color:var(--bad);color:var(--bad)">Account delete करें</button></div></div>';
@@ -1066,6 +1071,26 @@ function adminView(d,key){
 }
 
 /* ================= PWA install ================= */
+/* ===== iPhone / iPad install help ===== */
+function iosInstallHelp(force){
+  try{
+    var ua=navigator.userAgent||'', ios=/iphone|ipad|ipod/i.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+    if(!ios) return false;
+    if(navigator.standalone||(window.matchMedia&&matchMedia('(display-mode: standalone)').matches)) return false;
+    if(!force){ var t=+get('iosHelpT',0); if(Date.now()-t<3*864e5) return false; }
+    if(document.getElementById('iosHelp')) return true;
+    var inApp=/FBAN|FBAV|Instagram|WhatsApp|Telegram|Line\/|; wv\)|GSA\//i.test(ua);
+    var o=document.createElement('div'); o.id='iosHelp';
+    o.style.cssText='position:fixed;left:10px;right:10px;bottom:calc(86px + env(safe-area-inset-bottom,0px));z-index:9999;background:#111a14;border:2px solid var(--gold);border-radius:16px;padding:14px 16px;box-shadow:0 10px 30px rgba(0,0,0,.6);color:#fff;font-size:15px;line-height:1.5';
+    o.innerHTML='<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px"><img src="icons/apple-touch-icon.png" alt="" style="width:40px;height:40px;border-radius:10px"><b style="flex:1;font-size:16px">iPhone में Agrikranti ऐप इंस्टॉल करें</b><button id="iosX" aria-label="बंद करें" style="background:none;border:0;color:#aaa;font-size:26px;line-height:1">×</button></div>'
+      +(inApp?'<div>यह पेज WhatsApp / Instagram के अंदर खुला है। ऊपर या नीचे <b>⋯ / Share</b> दबाकर <b>"Open in Safari"</b> चुनें, फिर Safari में नीचे दिए स्टेप करें।</div>':'')
+      +'<ol style="margin:6px 0 0;padding-left:20px"><li>नीचे <b>Share</b> बटन <span style="display:inline-block;border:1.5px solid #8fd;border-radius:5px;padding:0 6px">⬆</span> दबाएँ</li><li>नीचे स्क्रॉल करके <b>"Add to Home Screen"</b> (होम स्क्रीन में जोड़ें) चुनें</li><li>ऊपर दाईं ओर <b>Add</b> दबाएँ - होम स्क्रीन पर Agrikranti ऐप आ जाएगा</li></ol>';
+    document.body.appendChild(o);
+    document.getElementById('iosX').onclick=function(){ set('iosHelpT',Date.now()); o.remove(); };
+    return true;
+  }catch(e){ return false; }
+}
+setTimeout(function(){ iosInstallHelp(false); },2500);
 window.__deferredPrompt=null;
 window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); window.__deferredPrompt=e; var b=document.getElementById('installBtn'); if(!b && document.querySelector('.topbar .in')) home(); });
 function installBtnHtml(){ return window.__deferredPrompt?'<button class="iconbtn" id="installBtn">⬇ Install</button>':''; }
