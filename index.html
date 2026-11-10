@@ -875,7 +875,7 @@ function semCard(g,x){
    +'<div class="chips">'+(x.free?'<span class="chip done">Free Sample</span>':open?'<span class="chip done">✔ खुला है</span>':'<span class="chip" style="color:var(--gold)">'+lockTxt+'</span>')+(x.pages?'<span class="chip">Solution: '+x.pages+' पेज</span>':'')+'</div>'
    +'<div class="row" style="flex-wrap:wrap;gap:8px">'+body+'</div></div></div>';
 }
-function packPrice(id){ var b=EBOOKS.filter(function(e){return e.id===id;})[0]; return b?b.price:50; }
+function packPrice(id){ var b=EBOOKS.filter(function(e){return e.id===id;})[0]; return b?b.price:100; }
 function bindSem(){
   app.querySelectorAll('[data-sp]').forEach(function(x){ x.onclick=function(){ readerOpen(x.getAttribute('data-st'),x.getAttribute('data-sp'),keyFor(x.getAttribute('data-pk'))); }; });
 }
