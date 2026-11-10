@@ -148,10 +148,10 @@ function boot(fresh){
 document.getElementById('logout').onclick=function(){ ls('ak_admin_token',null); TOKEN=null; loginView(); };
 
 /* ---------- Tabs ---------- */
-var TABS=[['dash','🏠 Dashboard'],['students','👥 Students'],['sales','💰 eBook बिक्री'],['banners','🖼️ Banners'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['stats','📊 Stats'],['settings','⚙️ Settings'],['backup','💾 Backup'],['help','❓ मदद']];
+var TABS=[['dash','🏠 Dashboard'],['students','👥 Students'],['buyers','🧾 खरीदार'],['sales','💰 eBook बिक्री'],['banners','🖼️ Banners'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['stats','📊 Stats'],['settings','⚙️ Settings'],['backup','💾 Backup'],['help','❓ मदद']];
 function renderTabs(){ var n=document.getElementById('tabs'); n.innerHTML=TABS.map(function(t){ return '<button data-t="'+t[0]+'" class="'+(t[0]===TAB?'on':'')+'">'+t[1]+'</button>'; }).join('');
   n.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ TAB=b.getAttribute('data-t'); renderTabs(); show(TAB); }; }); }
-function show(t){ window.scrollTo(0,0); ({dash:dashView,banners:bannersView,backup:backupView,help:helpView,students:studentsView,sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
+function show(t){ window.scrollTo(0,0); ({dash:dashView,banners:bannersView,backup:backupView,help:helpView,students:studentsView,buyers:buyersView,sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
 
 /* ---------- Stats ---------- */
 function getCount(key){ return fetch(STATS_API+'/get/'+STATS_NS+'/'+key).then(function(r){ return r.ok?r.json():{value:0}; }).then(function(j){ return j.value||0; }).catch(function(){ return null; }); }
@@ -463,6 +463,41 @@ function checkWrite(){
     .catch(function(e){ WRITE_OK=!/not accessible|permission|403|Resource/i.test(e.message); return WRITE_OK; });
 }
 function tokenHelp(){ return '<ol class="small"><li><a href="https://github.com/settings/personal-access-tokens" target="_blank" rel="noopener">github.com/settings/personal-access-tokens</a> खोलें → अपने token के नाम पर दबाएँ → <b>Edit</b>।</li><li><b>Repository permissions</b> → <b>Contents</b> को <b>Read and write</b> करें → नीचे <b>Update</b>।</li><li>या <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">नया token</a> बनाएँ: Repository = Agrikranti, Contents = Read and write।</li><li>यहाँ ऊपर <b>Logout</b> करके नया / updated token डालें।</li></ol>'; }
+
+/* ===== Automatic (Razorpay) bikri - Payment Script ki Google Sheet se ===== */
+var BUY=null;
+function fetchBuyers(){ var u=C.config.payUrl||''; if(!u) return Promise.reject(new Error('nourl'));
+  return fetch(u,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'sales',token:TOKEN})}).then(function(r){ return r.json(); })
+   .then(function(j){ if(j&&j.ok){ BUY=j; return j; } var e=new Error(j&&j.error==='token'?'token':'old'); throw e; }); }
+function buyersView(){
+  M.innerHTML='<div class="card muted">खरीदारों की list आ रही है...</div>';
+  fetchBuyers().then(function(){ drawBuyers('',''); }).catch(function(e){
+    var m=e.message==='nourl'?'Settings में "Payment Script URL" नहीं है।':e.message==='token'?'Token जाँच नहीं हुई (Token "Read and write" वाला होना चाहिए)।':'Payment Script पुरानी है - उसमें नया (v4) code डालना है, तभी यहाँ list आएगी।';
+    M.innerHTML='<div class="card"><h2>🧾 खरीदार - Automatic payment</h2><div class="warn">'+esc(m)+'</div>'
+     +(e.message==='old'||e.message==='network'||e.message.indexOf('fetch')>=0?'<ol class="small" style="margin-top:10px"><li>अपनी <b>दूसरी Gmail</b> से script.google.com खोलें → <b>Agrikranti Pay</b> वाला project खोलें।</li><li>सारा code मिटाकर <b>Agrikranti_Payment_Code_v4_PRIVATE.gs</b> का पूरा code paste करें → 💾 Save।</li><li>ऊपर <b>Deploy → Manage deployments</b> → ✏️ (Edit) → Version: <b>New version</b> → <b>Deploy</b>।</li><li>URL वही रहेगा, कुछ और नहीं बदलना। फिर यहाँ "दोबारा कोशिश" दबाएँ।</li></ol>':'')
+     +'<button class="btn ghost small" id="br">दोबारा कोशिश</button></div>';
+    document.getElementById('br').onclick=buyersView; });
+}
+function drawBuyers(q,bk){
+  var rows=(BUY.rows||[]).filter(function(r){ return r[2]; }).map(function(r){ return {d:r[0],n:r[1],m:String(r[2]).replace(/\D/g,'').slice(-10),b:r[3],a:Number(String(r[4]).replace(/[^\d.]/g,''))||0,p:r[5],o:r[6]}; });
+  var books={}; rows.forEach(function(x){ books[x.b]=books[x.b]||{n:0,a:0}; books[x.b].n++; books[x.b].a+=x.a; });
+  var tot=rows.reduce(function(s,x){return s+x.a;},0), td=new Date(Date.now()+5.5*3600e3).toISOString().slice(0,10).split('-').reverse().join('-');
+  var nToday=rows.filter(function(x){return String(x.d).indexOf(td)===0;}).length;
+  var list=rows.filter(function(x){ return (!bk||x.b===bk)&&(!q||(x.n+' '+x.m+' '+x.p).toLowerCase().indexOf(q.toLowerCase())>=0); }).reverse();
+  M.innerHTML='<div class="card"><h2>🧾 खरीदार - Automatic payment</h2><p class="muted small">जिन students ने app में "खरीदें" दबाकर Razorpay से payment किया, उनकी पूरी list (Google Sheet "Agrikranti eBook Sales" से)।</p>'
+   +'<div class="stats"><div class="stat"><b>'+rows.length+'</b><span>कुल खरीद</span></div><div class="stat"><b>₹'+tot.toLocaleString('en-IN')+'</b><span>कुल कमाई</span></div><div class="stat"><b>'+nToday+'</b><span>आज की खरीद</span></div>'
+   +Object.keys(books).map(function(k){ return '<div class="stat"><b>'+books[k].n+'</b><span>'+esc(bookTitle(k))+' · ₹'+books[k].a.toLocaleString('en-IN')+'</span></div>'; }).join('')+'</div>'
+   +'<div class="grid2" style="margin-top:10px"><div><select id="bk"><option value="">सभी books / packs</option>'+Object.keys(books).map(function(k){ return '<option value="'+esc(k)+'"'+(k===bk?' selected':'')+'>'+esc(bookTitle(k))+' ('+books[k].n+')</option>'; }).join('')+'</select></div><div><input id="bq" placeholder="नाम / नंबर / Payment ID खोजें" value="'+esc(q)+'"></div></div>'
+   +'<div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap"><button class="btn ghost small" id="bcsv">⬇️ Excel (CSV) Download</button><button class="btn ghost small" id="bcp">📋 सभी नंबर copy</button>'+(BUY.sheet?'<a class="btn ghost small" style="text-decoration:none" target="_blank" rel="noopener" href="'+esc(BUY.sheet)+'">📄 Google Sheet खोलें</a>':'')+'<button class="btn ghost small" id="brf">🔄 Refresh</button></div></div>'
+   +'<div class="card"><h3>'+list.length+' खरीद'+(bk?' · '+esc(bookTitle(bk)):'')+'</h3>'+(list.length?list.map(function(x){ return '<div class="item"><b>'+esc(x.n||'Student')+'</b> · '+esc(x.m)+' · <b style="color:var(--gold)">₹'+x.a+'</b><div class="muted small">'+esc(bookTitle(x.b))+' · '+esc(x.d)+'<br>Payment ID: '+esc(x.p)+'</div><div class="row" style="margin-top:6px"><a class="btn small" style="text-decoration:none;background:#1fae54;color:#fff" target="_blank" rel="noopener" href="https://wa.me/91'+esc(x.m)+'">WhatsApp</a></div></div>'; }).join(''):'<div class="muted small">अभी तक कोई automatic खरीद नहीं।</div>')
+   +'<p class="muted small" style="margin-top:8px">DOB password से हाथ से दी गई books "💰 eBook बिक्री" tab की सूची में दिखती हैं।</p></div>';
+  document.getElementById('bk').onchange=function(){ drawBuyers(document.getElementById('bq').value,this.value); };
+  document.getElementById('bq').oninput=function(){ var v=this.value; clearTimeout(this._t); this._t=setTimeout(function(){ drawBuyers(v,document.getElementById('bk').value); var i=document.getElementById('bq'); i.focus(); i.setSelectionRange(v.length,v.length); },400); };
+  document.getElementById('brf').onclick=buyersView;
+  document.getElementById('bcp').onclick=function(){ var t=list.map(function(x){return x.m;}).join('\n'); (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(function(){ toast('✅ '+list.length+' नंबर copy'); }).catch(function(){ prompt('Copy करें:',t); }); };
+  document.getElementById('bcsv').onclick=function(){ var c='﻿Date,Name,Mobile,Book,Amount,Payment ID,Order ID\n'+list.map(function(x){ return [x.d,x.n,x.m,bookTitle(x.b),x.a,x.p,x.o].map(function(v){ return '"'+String(v==null?'':v).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+    var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([c],{type:'text/csv'})); a.download='Agrikranti_Kharidar.csv'; a.click(); };
+}
 function dashView(){
   var tests=TESTS.length, qs=TESTS.reduce(function(a,t){return a+t.questions.length;},0), papers=(C.semester||[]).reduce(function(a,g){return a+g.papers.length;},0);
   var eb=(C.ebooks||[]).length, ban=(C.banners||[]).length;
@@ -472,6 +507,7 @@ function dashView(){
    +'<div class="stat"><b id="d-stu">…</b><span>Login किए Students</span></div><div class="stat"><b id="d-new">…</b><span>आज नए Students</span></div>'
    +'<div class="stat"><b id="d-today">…</b><span>आज App खोला</span></div><div class="stat"><b id="d-users">…</b><span>कुल फोन</span></div>'
    +'<div class="stat"><b id="d-inst">…</b><span>App Install</span></div><div class="stat"><b id="d-sub">…</b><span>Test submit</span></div>'
+   +'<div class="stat" data-go="buyers" style="cursor:pointer"><b id="d-sem">…</b><span>Semester Pack बिके</span></div><div class="stat" data-go="buyers" style="cursor:pointer"><b id="d-buy">…</b><span>कुल खरीद (Auto)</span></div><div class="stat" data-go="buyers" style="cursor:pointer"><b id="d-rs">…</b><span>कुल कमाई (Auto)</span></div>'
    +'</div></div>'
    +'<div class="card"><h2>📦 App में क्या-क्या है</h2><div class="stats">'
    +'<div class="stat"><b>'+tests+'</b><span>Tests (Admin वाले)</span></div><div class="stat"><b>'+qs+'</b><span>प्रश्न</span></div>'
@@ -480,7 +516,7 @@ function dashView(){
    +'</div><p class="muted small">10 Model Papers (1000 MCQ) अलग से app में लगे हैं।</p></div>'
    +'<div class="card"><h2>⚡ जल्दी करें</h2><div class="row" style="flex-wrap:wrap;gap:8px">'
    +'<button class="btn gold" data-go="sales">💰 eBook Unlock बनाएँ</button><button class="btn ghost" data-go="notice">📢 सूचना लगाएँ</button><button class="btn ghost" data-go="banners">🖼️ Banner बदलें</button>'
-   +'<button class="btn ghost" data-go="semester">🎓 Paper जोड़ें</button><button class="btn ghost" data-go="tests">📝 प्रश्न जोड़ें</button><button class="btn ghost" data-go="students">👥 Students देखें</button>'
+   +'<button class="btn ghost" data-go="semester">🎓 Paper जोड़ें</button><button class="btn ghost" data-go="tests">📝 प्रश्न जोड़ें</button><button class="btn ghost" data-go="students">👥 Students देखें</button><button class="btn ghost" data-go="buyers">🧾 खरीदार देखें</button>'
    +'<button class="btn ghost" id="shareapp">📤 App link share</button></div></div>'
    +'<div class="card"><h2>🕘 हाल के बदलाव</h2><div id="hist" class="muted small">लोड हो रहा है...</div><button class="btn ghost small" data-go="backup" style="margin-top:8px">पूरा इतिहास / Backup</button></div>';
   M.querySelectorAll('[data-go]').forEach(function(b){ b.onclick=function(){ TAB=b.getAttribute('data-go'); renderTabs(); show(TAB); }; });
@@ -488,6 +524,9 @@ function dashView(){
   checkWrite().then(function(ok){ var el=document.getElementById('tokc'); if(!el) return;
     el.innerHTML=ok?'<h2>🔐 Token जाँच</h2><div style="color:#8EE05A"><b>✅ सब ठीक है</b> - आपका token "Read and write" वाला है, हर बदलाव save होगा।</div>'
       :'<h2>🔐 Token जाँच</h2><div class="warn"><b>⚠️ आपका token सिर्फ "Read" वाला है</b> - इसलिए Notice, Tests, Papers, Banner आदि <b>save नहीं होंगे</b>। eBook unlock के लिए Link वाला तरीका चलेगा।<br>ठीक करने के लिए (2 मिनट):'+tokenHelp()+'</div>'; });
+  fetchBuyers().then(function(j){ var r=(j.rows||[]).filter(function(x){return x[2];}), set=function(i,v){ var e=document.getElementById(i); if(e) e.textContent=v; };
+      set('d-sem',r.filter(function(x){return /^sem/.test(x[3]);}).length); set('d-buy',r.length); set('d-rs','₹'+r.reduce(function(a,x){return a+(Number(String(x[4]).replace(/[^\d.]/g,''))||0);},0).toLocaleString('en-IN')); })
+    .catch(function(){ ['d-sem','d-buy','d-rs'].forEach(function(i){ var e=document.getElementById(i); if(e) e.textContent='-'; }); });
   getCount('day-'+today).then(function(v){ var e=document.getElementById('d-today'); if(e) e.textContent=v==null?'-':v; });
   getCount('users').then(function(v){ var e=document.getElementById('d-users'); if(e) e.textContent=v==null?'-':v; });
   getCount('installs').then(function(v){ var e=document.getElementById('d-inst'); if(e) e.textContent=v==null?'-':v; });
