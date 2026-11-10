@@ -30,7 +30,7 @@
   "isMetaQuest": false,
   "fullScopeUrl": "https://kumarvsaditya-droid.github.io/Agrikranti/",
   "minSdkVersion": 24,
-  "orientation": "portrait",
+  "orientation": "any",
   "fingerprints": [],
   "additionalTrustedOrigins": [],
   "retainedBundles": [],

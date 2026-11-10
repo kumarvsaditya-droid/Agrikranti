@@ -6,7 +6,7 @@
   "start_url": "./admin.html?source=pwa",
   "scope": "./admin.html",
   "display": "standalone",
-  "orientation": "portrait",
+  "orientation": "any",
   "background_color": "#0E1410",
   "theme_color": "#0E1410",
   "icons": [
