@@ -179,7 +179,8 @@
  ],
  "banners": [
   {
-   "img": "img/banner-sem1pack.jpg"
+   "img": "img/banner-sem1pack.jpg",
+   "go": "semester"
   },
   {
    "img": "img/banner-diwali.jpg",
