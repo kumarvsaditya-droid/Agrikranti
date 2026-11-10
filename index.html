@@ -254,34 +254,7 @@ var EBOOKS = [
 ];
 
 /* B.Sc. Agriculture semester papers: har subject ka question paper + solution (free) */
-var SEMESTER = [
-  { sem: 1, title: 'B.Sc. Agriculture - 1st Semester', papers: [
-    { code: 'SSC-101', subject: 'Fundamentals of Soil Science', info: 'Model Paper (Previous Year Pattern) · 50 अंक · Q.1 अनिवार्य + Section A (4×5) + Section B (2×10)',
-      paper: 'papers/BSc_Sem1_SSC101_Question_Paper.pdf', solution: 'papers/BSc_Sem1_SSC101_Solved_Paper.pdf', pages: 14 },
-    { code: 'GPB-101', subject: 'Fundamentals of Genetics - PYQ 2024 (Solved)', info: 'Previous Year Paper 2024 (24/4202) · 50 अंक · सभी 11 प्रश्न हल सहित',
-      paper: 'papers/BSc_Sem1_GPB101_PYQ2024_Question_Paper.pdf', solution: 'papers/BSc_Sem1_GPB101_PYQ2024_Solved_Paper.pdf', pages: 12 },
-    { code: 'GPB-101', subject: 'Fundamentals of Genetics - Model Paper 1', info: 'Model Paper (Previous Year Pattern) · 50 अंक',
-      paper: 'papers/BSc_Sem1_GPB101_Model_Question_Paper.pdf', solution: 'papers/BSc_Sem1_GPB101_Model_Solved_Paper.pdf', pages: 12 },
-    { code: 'HOR-101', subject: 'Fundamentals of Horticulture - PYQ 2024 (Solved)', info: 'Previous Year Paper 2024 (24/4204) · 50 अंक · सभी प्रश्न हल',
-      paper: 'papers/BSc_Sem1_HOR101_PYQ2024_Question_Paper.pdf', solution: 'papers/BSc_Sem1_HOR101_PYQ2024_Solved_Paper.pdf', pages: 28 },
-    { code: 'MAT-101', subject: 'Elementary Mathematics - PYQ 2021-22 (Solved)', info: 'Previous Year Paper 2021-22 · 70 अंक · सभी प्रश्न हल',
-      paper: 'papers/BSc_Sem1_MAT101_PYQ2021-22_Question_Paper.pdf', solution: 'papers/BSc_Sem1_MAT101_PYQ2021-22_Solved_Paper.pdf', pages: 20 },
-    { code: 'MAT-101', subject: 'Elementary Mathematics - Model Paper 1', info: 'Model Paper · 70 अंक',
-      paper: 'papers/BSc_Sem1_MAT101_Model_Question_Paper.pdf', solution: 'papers/BSc_Sem1_MAT101_Model_Solved_Paper.pdf', pages: 18 },
-    { code: 'BIO-101', subject: 'Introductory Biology - PYQ Dec 2025 (Solved)', info: 'Previous Year Paper Dec 2025 · 50 अंक · सभी प्रश्न हल',
-      paper: 'papers/BSc_Sem1_BIO101_PYQ2025_Question_Paper.pdf', solution: 'papers/BSc_Sem1_BIO101_PYQ2025_Solved_Paper.pdf', pages: 23 },
-    { code: 'BIO-101', subject: 'Introductory Biology - Model Paper 1', info: 'Model Paper · 50 अंक',
-      paper: 'papers/BSc_Sem1_BIO101_Model_Question_Paper.pdf', solution: 'papers/BSc_Sem1_BIO101_Model_Solved_Paper.pdf', pages: 24 },
-    { code: 'ENG-101', subject: 'Comprehension and Communication Skills in English - Model Paper 1', info: 'Model Paper · 50 अंक',
-      paper: 'papers/BSc_Sem1_ENG101_Model_Question_Paper.pdf', solution: 'papers/BSc_Sem1_ENG101_Model_Solved_Paper.pdf', pages: 23 },
-    { code: 'AGR-101', subject: 'Fundamentals of Agronomy', info: 'Model Paper (Previous Year Pattern) · 50 अंक · Q.1 (5×2) + Section A (4×5) + Section B (2×10) · Diagrams के साथ हल',
-      paper: 'papers/BSc_Sem1_AGR101_Question_Paper.pdf', solution: 'papers/BSc_Sem1_AGR101_Solved_Paper.pdf', pages: 37 },
-    { code: 'AGR-102', subject: 'Agricultural Heritage - PYQ 2024 (Solved)', info: 'Previous Year Paper 2024 · 50 अंक · सभी 13 प्रश्न हल',
-      paper: 'papers/BSc_Sem1_AGR102_PYQ2024_Question_Paper.pdf', solution: 'papers/BSc_Sem1_AGR102_PYQ2024_Solved_Paper.pdf', pages: 25 },
-    { code: 'AGR-102', subject: 'Agricultural Heritage - Model Paper 1', info: 'Model Paper · 50 अंक',
-      paper: 'papers/BSc_Sem1_AGR102_Model_Question_Paper.pdf', solution: 'papers/BSc_Sem1_AGR102_Model_Solved_Paper.pdf', pages: 23 }
-  ]}
-];
+var SEMESTER = [];
 
 /* ===== Live content: admin panel se badla gaya content.json yahan load hota hai ===== */
 var NOTICE=null;
@@ -717,7 +690,7 @@ function isOpen(b){ var u=unlocked()[b.id]; return !b.price || (u && (u.c||u.k))
 function autoPay(){ return !!(CONFIG.rzpKey && CONFIG.payUrl); }
 function ebookCard(b){
   var open=isOpen(b);
-  var readBtn=b.price?'<button class="btn" data-read="'+b.id+'">📖 पढ़ें</button>':'<a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(b.file)+'">पढ़ें / डाउनलोड</a>';
+  var readBtn=b.pack?'<button class="btn" data-read="'+b.id+'">📚 Papers खोलें</button>':b.price?'<button class="btn" data-read="'+b.id+'">📖 पढ़ें</button>':'<a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(b.file)+'">पढ़ें / डाउनलोड</a>';
   return '<div class="card ebook"><div class="cover"><span>'+b.cover+'</span><small>Agrikranti</small></div><div style="flex:1;min-width:0"><b>'+esc(b.title)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(b.sub)+' · '+b.pages+' पेज</div>'
     +'<div class="chips">'+(b.price?(open?'<span class="chip done">✔ खरीदी हुई</span>':'<span class="chip" style="color:var(--gold)">₹'+b.price+'</span>'):'<span class="chip done">Free</span>')+(b.price?'<span class="chip">🔒 सिर्फ App में पढ़ें</span>':'')+'</div>'
     +'<div class="row">'+(open?readBtn:'<button class="btn gold" data-buy="'+b.id+'">₹'+b.price+' में खरीदें</button>'+(b.enc?'<button class="btn ghost" data-code="'+b.id+'">'+(autoPay()?'पहले खरीदी है?':'🔑 Password डालें')+'</button>':''))+'</div></div></div>';
@@ -734,7 +707,7 @@ function buyBook(id){
   var b=EBOOKS.filter(function(e){return e.id===id;})[0], p=profile()||{};
   var msg='नमस्ते सर, मैंने Agrikranti eBook "'+b.title+'" के लिए ₹'+b.price+' का payment किया है।\nनाम: '+(p.name||'')+'\nमोबाइल: '+(p.mobile||'')+'\n(Payment screenshot साथ में भेज रहा/रही हूँ)';
   var o=document.createElement('div'); o.className='overlay';
-  o.innerHTML='<div class="card" style="display:flex;flex-direction:column;gap:10px;max-height:92vh;overflow:auto"><div class="row" style="justify-content:space-between"><b>eBook खरीदें - ₹'+b.price+'</b><button class="iconbtn" id="x">✕</button></div>'
+  o.innerHTML='<div class="card" style="display:flex;flex-direction:column;gap:10px;max-height:92vh;overflow:auto"><div class="row" style="justify-content:space-between"><b>'+(b.pack?'Semester Pack':'eBook')+' खरीदें - ₹'+b.price+'</b><button class="iconbtn" id="x">✕</button></div>'
     +'<div class="muted small">'+esc(b.title)+'</div>'
     +'<div class="small" style="text-align:center;background:#3a2f05;border-radius:10px;padding:8px">Amount: <b style="color:var(--gold);font-size:18px">₹'+b.price+'</b> (UPI app में यह amount खुद डालें)</div>'
     +'<img src="img/upi-qr.png" alt="UPI QR - '+esc(CONFIG.payeeName)+'" style="width:100%;border-radius:12px;background:#fff">'
@@ -756,7 +729,7 @@ function loadRzp(){ if(window.Razorpay) return Promise.resolve(); return new Pro
 function grant(b,m,key,pid,name){ var u=unlocked(); u[b.id]={m:m,k:key,p:pid}; set('unlocked',u); if(name && !profile()) set('profile',{name:name,mobile:m}); hit('book-unlocks'); ebooks(); openReader(b.id); }
 function payForm(b){
   var p=profile()||{}, o=document.createElement('div'); o.className='overlay';
-  o.innerHTML='<form class="card" id="pf2" style="display:flex;flex-direction:column;gap:10px"><div class="row" style="justify-content:space-between"><b>eBook खरीदें - ₹'+b.price+'</b><button class="iconbtn" type="button" id="px">✕</button></div><div class="muted small">'+esc(b.title)+'</div>'
+  o.innerHTML='<form class="card" id="pf2" style="display:flex;flex-direction:column;gap:10px"><div class="row" style="justify-content:space-between"><b>'+(b.pack?'Semester Pack':'eBook')+' खरीदें - ₹'+b.price+'</b><button class="iconbtn" type="button" id="px">✕</button></div><div class="muted small">'+esc(b.title)+'</div>'
    +'<label class="small" for="pn2">आपका नाम</label><input id="pn2" maxlength="40" value="'+esc(p.name||'')+'">'
    +'<label class="small" for="pm2">मोबाइल नंबर</label><input id="pm2" inputmode="numeric" maxlength="10" value="'+esc(p.mobile||'')+'">'
    +'<div class="muted small">UPI, PhonePe, GPay, Card या Net Banking से pay करें। Payment होते ही book इसी app में अपने आप खुल जाएगी।</div>'
@@ -839,11 +812,18 @@ function processUnlockLink(){
 /* ===== Protected reader: PDF sirf app ke andar, bina download/share, watermark ke saath ===== */
 var PDFJS_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js', PDFJS_WORKER='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 function loadPdfJs(){ if(window.pdfjsLib) return Promise.resolve(); return new Promise(function(res,rej){ var sc=document.createElement('script'); sc.src=PDFJS_URL; sc.onload=function(){ pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS_WORKER; res(); }; sc.onerror=rej; document.head.appendChild(sc); }); }
+function keyFor(id){ var u=unlocked()[id]; if(!u) return Promise.reject(new Error('lic')); return u.k?Promise.resolve(AK.b64d(u.k)):AK.licId(id,u.m,u.c).then(function(lid){ var w=(LIC[id]||{})[lid]; if(!w) throw new Error('lic'); return AK.licUnwrap(w.w||w,id,u.m,u.c); }); }
+function packOpen(id){ var u=unlocked()[id]; return !!(u&&(u.k||u.c)); }
 function openReader(id){
   var b=EBOOKS.filter(function(e){return e.id===id;})[0], u=unlocked()[id], p=profile()||{};
+  if(b&&b.pack){ go('semester'); return; }
   if(!b||!u||!b.enc) return;
+  readerOpen(b.title,b.enc,keyFor(id),(p.name?p.name+' · ':'')+u.m);
+}
+function readerOpen(title,encUrl,keyP,wm){
+  var p=profile()||{}; wm=wm||((p.name?p.name+' · ':'')+(p.mobile||''));
   var ov=document.createElement('div'); ov.className='reader';
-  ov.innerHTML='<div class="rbar"><button class="iconbtn" id="rx">✕ बंद करें</button><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(b.title)+'</b><span class="muted small" id="rp"></span></div><div class="rbody" id="rb"><div class="card muted" style="margin:16px">Book खुल रही है... (पहली बार थोड़ा समय लगेगा)</div></div>';
+  ov.innerHTML='<div class="rbar"><button class="iconbtn" id="rx">✕ बंद करें</button><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(title)+'</b><span class="muted small" id="rp"></span></div><div class="rbody" id="rb"><div class="card muted" style="margin:16px">Book खुल रही है... (पहली बार थोड़ा समय लगेगा)</div></div>';
   document.body.appendChild(ov); document.body.style.overflow='hidden';
   var stop=function(e){ e.preventDefault(); return false; };
   ov.addEventListener('contextmenu',stop); ov.addEventListener('dragstart',stop); ov.addEventListener('selectstart',stop);
@@ -851,9 +831,7 @@ function openReader(id){
   document.addEventListener('keydown',keyBlock);
   var close=function(){ ov.remove(); document.body.style.overflow=''; document.removeEventListener('keydown',keyBlock); };
   ov.querySelector('#rx').onclick=close;
-  var wm=(p.name?p.name+' · ':'')+u.m;
-  Promise.all([loadPdfJs(), fetch(b.enc).then(function(r){ if(!r.ok) throw new Error('dl'); return r.arrayBuffer(); }),
-    (u.k?Promise.resolve(AK.b64d(u.k)):AK.licId(id,u.m,u.c).then(function(lid){ var w=(LIC[id]||{})[lid]; if(!w) throw new Error('lic'); return AK.licUnwrap(w.w||w,id,u.m,u.c); }))])
+  Promise.all([loadPdfJs(), fetch(encUrl).then(function(r){ if(!r.ok) throw new Error('dl'); return r.arrayBuffer(); }), keyP])
   .then(function(r){ return AK.rawKey(r[2]).then(function(k){ return AK.aesDec(k,new Uint8Array(r[1])); }); })
   .then(function(bytes){ return pdfjsLib.getDocument({data:bytes,disableAutoFetch:true}).promise; })
   .then(function(pdf){
@@ -880,24 +858,38 @@ function ebooks(){
   EBOOKS.forEach(function(b){ h+=ebookCard(b); });
   if(!IS_TWA && !autoPay()) h+='<div class="card"><b>Payment के लिए</b><div class="muted small" style="margin:4px 0 8px">'+esc(CONFIG.payeeName)+' · UPI: '+esc(CONFIG.upiId)+'</div><img src="img/upi-qr.png" alt="UPI QR" style="width:100%;max-width:320px;border-radius:12px;display:block;margin:0 auto;background:#fff"><a class="btn ghost block" style="text-align:center;text-decoration:none;margin-top:8px" href="img/upi-qr.png" download="Agrikranti_UPI_QR.png">QR Download करें</a></div>';
   h+='<h2 class="sec">Semester <span>Papers</span></h2>';
-  SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+='<div class="card ebook"><div class="cover"><span>'+esc(x.code)+'</span><small>Sem '+g.sem+'</small></div><div style="flex:1;min-width:0"><b>'+esc(x.subject)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(g.title)+'</div><div class="row"><a class="btn ghost" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(x.paper)+'">Question Paper</a><a class="btn gold" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(x.solution)+'">Solution</a></div></div></div>'; }); });
+  SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+=semCard(g,x); }); });
   h+='<div class="card empty">और eBooks जल्द आ रही हैं। अपडेट के लिए Telegram / WhatsApp से जुड़ें।</div></main>';
-  app.innerHTML=h; bindBooks();
+  app.innerHTML=h; bindBooks(); bindSem();
 }
 
+function semCard(g,x){
+  var open=x.free||!g.pack||packOpen(g.pack), lockTxt=IS_TWA?'🔒 Premium':'🔒 Semester Pack में';
+  var btn=function(kind,label,cls){ var plain=x[kind], enc=x[kind+'Enc'];
+    if(plain) return '<a class="btn '+cls+'" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(plain)+'">'+label+'</a>';
+    if(enc&&open) return '<button class="btn '+cls+'" data-sp="'+esc(enc)+'" data-st="'+esc(x.code+' · '+x.subject+' · '+label)+'" data-pk="'+esc(g.pack)+'">'+label+'</button>';
+    return ''; };
+  var body=open?btn('paper','Question Paper','ghost')+btn('solution','Solution देखें','gold')
+    :(IS_TWA?'':'<button class="btn gold" data-buy="'+esc(g.pack)+'">🔓 ₹'+packPrice(g.pack)+' में पूरा Semester खोलें</button>');
+  return '<div class="card ebook"><div class="cover"><span>'+esc(x.code)+'</span><small>Sem '+g.sem+'</small></div><div style="flex:1;min-width:0"><b>'+esc(x.subject)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(x.info||g.title)+'</div>'
+   +'<div class="chips">'+(x.free?'<span class="chip done">Free Sample</span>':open?'<span class="chip done">✔ खुला है</span>':'<span class="chip" style="color:var(--gold)">'+lockTxt+'</span>')+(x.pages?'<span class="chip">Solution: '+x.pages+' पेज</span>':'')+'</div>'
+   +'<div class="row" style="flex-wrap:wrap;gap:8px">'+body+'</div></div></div>';
+}
+function packPrice(id){ var b=EBOOKS.filter(function(e){return e.id===id;})[0]; return b?b.price:50; }
+function bindSem(){
+  app.querySelectorAll('[data-sp]').forEach(function(x){ x.onclick=function(){ readerOpen(x.getAttribute('data-st'),x.getAttribute('data-sp'),keyFor(x.getAttribute('data-pk'))); }; });
+}
 function semester(){
   activeTab('semester');
-  var h=topbar()+'<main class="page"><h2 class="sec">B.Sc. Agriculture <span>Semester</span></h2><p class="muted small" style="margin:0">Semester exam के लिए model question paper और gold-medalist style हल (English + हिंदी)। सब free है।</p>';
+  var h=topbar()+'<main class="page"><h2 class="sec">B.Sc. Agriculture <span>Semester</span></h2><p class="muted small" style="margin:0">Semester exam के लिए PYQ + model question paper और gold-medalist style हल (English + हिंदी)।</p>';
   SEMESTER.forEach(function(g){
+    var pk=g.pack&&EBOOKS.filter(function(e){return e.id===g.pack;})[0];
+    if(pk && !packOpen(g.pack)) h+='<div class="card" style="border-color:var(--gold);background:radial-gradient(120% 140% at 100% 0%,#4a3a05 0%,#141a10 65%)"><b style="font-size:18px">📚 '+esc(pk.title)+'</b><div class="muted small" style="margin:4px 0 8px">'+esc(pk.sub)+' · '+pk.pages+' पेज. एक बार ₹'+pk.price+' - सभी papers हमेशा के लिए खुलेंगे।'+(autoPay()?' Payment होते ही अपने आप खुल जाएगा।':'')+'</div><div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn gold" data-buy="'+pk.id+'">₹'+pk.price+' में खरीदें</button><button class="btn ghost" data-code="'+pk.id+'">'+(autoPay()?'पहले खरीदा है?':'🔑 Password डालें')+'</button></div></div>';
     h+='<h2 class="sec">'+esc(g.title)+'</h2>';
-    g.papers.forEach(function(x){
-      h+='<div class="card ebook"><div class="cover"><span>'+esc(x.code)+'</span><small>Sem '+g.sem+'</small></div><div style="flex:1;min-width:0"><b>'+esc(x.subject)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(x.info)+'</div>'
-       +'<div class="chips"><span class="chip done">Free</span><span class="chip">Solution: '+x.pages+' पेज</span></div>'
-       +'<div class="row"><a class="btn ghost" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(x.paper)+'">Question Paper</a><a class="btn gold" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(x.solution)+'">Solution देखें</a></div></div></div>';
-    });
+    g.papers.slice().sort(function(a,b){ return (b.free?1:0)-(a.free?1:0); }).forEach(function(x){ h+=semCard(g,x); });
   });
   h+=shareCard()+'<div class="card empty">बाकी subjects के paper जल्द आ रहे हैं। अपडेट के लिए Telegram / WhatsApp से जुड़ें।</div></main>';
-  app.innerHTML=h; bindCommon();
+  app.innerHTML=h; bindCommon(); bindBooks(); bindSem();
 }
 
 /* ================= Ask AI ================= */

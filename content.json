@@ -33,6 +33,16 @@
    "enc": "ebooks/enc/notes1.bin"
   },
   {
+   "id": "sem1",
+   "title": "B.Sc. Ag. Semester-1 Complete Pack",
+   "sub": "11 papers (PYQ + Model) + gold-medalist solutions, English + हिंदी",
+   "pages": 222,
+   "price": 50,
+   "cover": "SEM-1 PACK",
+   "enc": "pack",
+   "pack": "sem1"
+  },
+  {
    "id": "sample1",
    "title": "Free Sample - Agriculture Notes",
    "sub": "Full notes ke pehle 10 pages, pehle padhkar dekhein",
@@ -51,9 +61,9 @@
      "code": "SSC-101",
      "subject": "Fundamentals of Soil Science",
      "info": "Model Paper (Previous Year Pattern) · 50 अंक · Q.1 अनिवार्य + Section A (4×5) + Section B (2×10)",
-     "paper": "papers/BSc_Sem1_SSC101_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_SSC101_Solved_Paper.pdf",
-     "pages": 14
+     "pages": 14,
+     "paperEnc": "papers/enc/BSc_Sem1_SSC101_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_SSC101_Solved_Paper.bin"
     },
     {
      "code": "AGR-101",
@@ -61,97 +71,101 @@
      "info": "Model Paper (Previous Year Pattern) · 50 अंक · Q.1 (5×2) + Section A (4×5) + Section B (2×10) · Diagrams के साथ हल",
      "paper": "papers/BSc_Sem1_AGR101_Question_Paper.pdf",
      "solution": "papers/BSc_Sem1_AGR101_Solved_Paper.pdf",
-     "pages": 37
+     "pages": 37,
+     "free": true
     },
     {
      "code": "AGR-102",
      "subject": "Agricultural Heritage - PYQ 2024 (Solved)",
      "info": "Previous Year Paper 2024 (23151-AG, AG-109) · 50 अंक · Section A (10×1) + B (5×5) + C (2×7.5) · सभी 13 प्रश्न हल",
-     "paper": "papers/BSc_Sem1_AGR102_PYQ2024_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_AGR102_PYQ2024_Solved_Paper.pdf",
-     "pages": 25
+     "pages": 25,
+     "paperEnc": "papers/enc/BSc_Sem1_AGR102_PYQ2024_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_AGR102_PYQ2024_Solved_Paper.bin"
     },
     {
      "code": "AGR-102",
      "subject": "Agricultural Heritage - Model Paper 1",
      "info": "Model Paper · 50 अंक · Section A (5×2) + B (4×5) + C (2×10) · सभी प्रश्न हल",
-     "paper": "papers/BSc_Sem1_AGR102_Model_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_AGR102_Model_Solved_Paper.pdf",
-     "pages": 23
+     "pages": 23,
+     "paperEnc": "papers/enc/BSc_Sem1_AGR102_Model_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_AGR102_Model_Solved_Paper.bin"
     },
     {
      "code": "GPB-101",
      "subject": "Fundamentals of Genetics - PYQ 2024 (Solved)",
      "info": "Previous Year Paper 2024 (24/4202) · 50 अंक · Section A (5×2) + B (4×5) + C (2×10) · सभी 11 प्रश्न हल सहित",
-     "paper": "papers/BSc_Sem1_GPB101_PYQ2024_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_GPB101_PYQ2024_Solved_Paper.pdf",
-     "pages": 12
+     "pages": 12,
+     "paperEnc": "papers/enc/BSc_Sem1_GPB101_PYQ2024_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_GPB101_PYQ2024_Solved_Paper.bin"
     },
     {
      "code": "GPB-101",
      "subject": "Fundamentals of Genetics - Model Paper 1",
      "info": "Model Paper (Previous Year Pattern) · 50 अंक · Section A (5×2) + B (4×5) + C (2×10)",
-     "paper": "papers/BSc_Sem1_GPB101_Model_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_GPB101_Model_Solved_Paper.pdf",
-     "pages": 12
+     "pages": 12,
+     "paperEnc": "papers/enc/BSc_Sem1_GPB101_Model_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_GPB101_Model_Solved_Paper.bin"
     },
     {
      "code": "HOR-101",
      "subject": "Fundamentals of Horticulture - PYQ 2024 (Solved)",
      "info": "Previous Year Paper 2024 (24/4204) · 50 अंक · सभी प्रश्न हल · Chalkboard slides (English + हिंदी) with diagrams",
-     "paper": "papers/BSc_Sem1_HOR101_PYQ2024_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_HOR101_PYQ2024_Solved_Paper.pdf",
-     "pages": 28
+     "pages": 28,
+     "paperEnc": "papers/enc/BSc_Sem1_HOR101_PYQ2024_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_HOR101_PYQ2024_Solved_Paper.bin"
     },
     {
      "code": "MAT-101",
      "subject": "Elementary Mathematics - PYQ 2021-22 (Solved)",
      "info": "Previous Year Paper 2021-22 (639(A)) · 70 अंक · Section A (5×5) + B (3×15) · सभी 13 प्रश्न स्टेप-बाय-स्टेप हल",
-     "paper": "papers/BSc_Sem1_MAT101_PYQ2021-22_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_MAT101_PYQ2021-22_Solved_Paper.pdf",
-     "pages": 20
+     "pages": 20,
+     "paperEnc": "papers/enc/BSc_Sem1_MAT101_PYQ2021-22_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_MAT101_PYQ2021-22_Solved_Paper.bin"
     },
     {
      "code": "MAT-101",
      "subject": "Elementary Mathematics - Model Paper 1",
      "info": "Model Paper (Previous Year Pattern) · 70 अंक · syllabus based · स्टेप-बाय-स्टेप हल",
-     "paper": "papers/BSc_Sem1_MAT101_Model_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_MAT101_Model_Solved_Paper.pdf",
-     "pages": 18
+     "pages": 18,
+     "paperEnc": "papers/enc/BSc_Sem1_MAT101_Model_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_MAT101_Model_Solved_Paper.bin"
     },
     {
      "code": "BIO-101",
      "subject": "Introductory Biology - PYQ Dec 2025 (Solved)",
      "info": "Previous Year Paper Dec 2025 (CBCS-1373) · 50 अंक · Section A (5×3, अथवा सहित) + B (5×7) · सभी प्रश्न व विकल्प हल",
-     "paper": "papers/BSc_Sem1_BIO101_PYQ2025_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_BIO101_PYQ2025_Solved_Paper.pdf",
-     "pages": 23
+     "pages": 23,
+     "paperEnc": "papers/enc/BSc_Sem1_BIO101_PYQ2025_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_BIO101_PYQ2025_Solved_Paper.bin"
     },
     {
      "code": "BIO-101",
      "subject": "Introductory Biology - Model Paper 1",
      "info": "Model Paper · 50 अंक · Section A (5×2) + B (4×5) + C (2×10) · सभी प्रश्न हल",
-     "paper": "papers/BSc_Sem1_BIO101_Model_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_BIO101_Model_Solved_Paper.pdf",
-     "pages": 24
+     "pages": 24,
+     "paperEnc": "papers/enc/BSc_Sem1_BIO101_Model_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_BIO101_Model_Solved_Paper.bin"
     },
     {
      "code": "ENG-101",
      "subject": "Comprehension and Communication Skills in English - Model Paper 1",
      "info": "Model Paper · 50 अंक · Section A (5×2) + B (4×5) + C (2×10) · सभी प्रश्न हल",
-     "paper": "papers/BSc_Sem1_ENG101_Model_Question_Paper.pdf",
-     "solution": "papers/BSc_Sem1_ENG101_Model_Solved_Paper.pdf",
-     "pages": 23
+     "pages": 23,
+     "paperEnc": "papers/enc/BSc_Sem1_ENG101_Model_Question_Paper.bin",
+     "solutionEnc": "papers/enc/BSc_Sem1_ENG101_Model_Solved_Paper.bin"
     }
-   ]
+   ],
+   "pack": "sem1"
   }
  ],
  "bookKeys": {
-  "notes1": "wSiclV4IIDXWkVSvTiy6Z1wSaqPR2S9hLqMjoqmIYBhKAKrZ6whEvSpodWv9S0qD9YzvkfmNGHEaCGAP"
+  "notes1": "wSiclV4IIDXWkVSvTiy6Z1wSaqPR2S9hLqMjoqmIYBhKAKrZ6whEvSpodWv9S0qD9YzvkfmNGHEaCGAP",
+  "sem1": "18mYFrFVAFxvn8Emgoqav1Kbus6MkySaV0+SaT4/+mvi1PrNl3/4vk5h3xtZ8sSYY7tJc9oYOh3hOPJQ"
  },
  "sales": "XhwcekqG7lszH+pHiMc9ZoqtvuYKvg0M/DnQmLOm",
  "licenses": {
-  "notes1": {}
+  "notes1": {},
+  "sem1": {}
  },
  "series": [
   {
