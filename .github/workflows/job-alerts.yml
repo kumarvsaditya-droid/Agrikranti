@@ -18,7 +18,7 @@ jobs:
       - run: python3 jobs/fetch_jobs.py
       - name: Save jobs.json (main + gh-pages)
         run: |
-          git diff --quiet -- jobs.json && { echo "no change"; exit 0; }
+          [ -z "$(git status --porcelain -- jobs.json)" ] && { echo "no change"; exit 0; }
           git config user.name "Agrikranti Job Bot"; git config user.email "jobbot@users.noreply.github.com"
           cp jobs.json /tmp/jobs.json
           git add jobs.json && git commit -m "Auto: job alerts update [skip ci]" && git push origin main
