@@ -57,9 +57,12 @@ def official(label, url, mode, seen_before):
     req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (AgrikrantiJobAlerts)'})
     with urllib.request.urlopen(req, timeout=25) as r: page = r.read().decode('utf-8', 'ignore')
     skip, now, out = re.compile(CFG.get('official_skip_regex', 'tender'), re.I), int(time.time()), []
+    allh = []
     for href, txt in re.findall(r'<a\b[^>]*?href\s*=\s*["\']([^"\'#]+)["\'][^>]*>(.*?)</a>', page, re.I | re.S):
         txt = re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', txt))).strip()
         link = urllib.parse.urljoin(url, html.unescape(href.strip()))
+        lh = hashlib.md5(link.encode()).hexdigest()[:10]; allh.append(lh)
+        new_link = lh not in seen_before
         fname = urllib.parse.unquote(link.rsplit('/', 1)[-1])
         if not txt or len(txt) < 8 or txt.lower() in ('click here', 'download', 'view', 'read more', 'more'):
             txt = re.sub(r'\.pdf$', '', fname, flags=re.I).replace('-', ' ').replace('_', ' ').strip()
@@ -77,14 +80,14 @@ def official(label, url, mode, seen_before):
                 import datetime; ts = int(datetime.datetime(y, mo, d, 12).timestamp())
                 if ts > now + 86400 or y < 2020: ts = None
             except ValueError: ts = None
-        if ts is None: ts = now if seen_before else now - 10 * 86400   # pehli baar: purane maan lo (NEW na dikhe)
+        if ts is None: ts = now if (seen_before and new_link) else now - 10 * 86400   # pehli baar: purane maan lo (NEW na dikhe)
         if txt.replace(' ', '') in fname.replace('-', '').replace('_', '').replace('.pdf', '').replace('.PDF', ''):   # naam file se bana: saaf karein
             txt = re.sub(r'(?<!\d)\d{6,8}(?!\d)', '', txt)
             txt = re.sub(r'(?i)\bM\.?Sc\.?\s*AG\b', 'M.Sc. (Ag.)', re.sub(r'(?i)\bB\.?Sc\.?\s*AG\b', 'B.Sc. (Ag.)', txt)).strip()
             txt = txt + ' - नई सूचना' + (time.strftime(' (%d-%m-%Y)', time.localtime(ts)) if m else '')
         title = (label + ': ' + txt)[:180]
         out.append({'title': title, 'link': link, 'source': label + ' (Official)', 'ts': ts, 'uni': label})
-    return out[:15]
+    return out[:15], allh
 
 def region(t):
     for k, rx in REG:
@@ -117,24 +120,23 @@ def main():
     except Exception: pass
     new_seen, failed = {}, set()
     for label, url, mode in CFG.get('official_pages', []):
-        try: res = official(label, url, mode, url in pages_seen)
+        try: res, allh = official(label, url, mode, set(pages_seen.get(url, [])))
         except Exception as e: print('ERR official', url, e); new_seen[url] = pages_seen.get(url, []); failed.add(label); continue
         prev = set(pages_seen.get(url, []))
         hs = []
         for x in res:
             h = hashlib.md5(x['link'].encode()).hexdigest()[:10]; hs.append(h)
-            if h in prev and h not in old and x['ts'] >= now - 86400: x['ts'] = now - 10 * 86400   # pehle dekha tha, ab NEW nahi
             k = norm(x['title'])
             if now - x['ts'] > MAX_DAYS * 86400 or k in seen: continue
             seen.add(k)
             o = old.get(h, {})
             items.append({'id': h, 'title': x['title'], 'link': x['link'], 'source': x['source'][:40], 'ts': o.get('ts', x['ts']), 'tag': tag(x['title']), 'region': 'Bihar' if label == 'RPCAU Pusa' else 'UP', 'uni': label, 'added': o.get('added', now)})
-        new_seen[url] = sorted(set(hs) | prev)[-300:]
+        new_seen[url] = sorted(set(allh) | prev)[:2000]
         time.sleep(1)
     if errs == len(allq): raise SystemExit('sab queries fail - jobs.json nahi badla')
     for i, x in old.items():
         if x.get('source', '').endswith('(Official)'):   # official notice: sirf tab rakhein jab us site tak pahunch na paye ho
-            if x.get('uni') in failed and i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen: items.append(x)
+            if x.get('uni') in failed and not re.search(CFG.get('official_skip_regex', 'tender'), x['title'].split(': ', 1)[-1].lstrip('⦿🔵 '), re.I) and i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen: items.append(x)
             continue
     for i, x in old.items():   # purani (abhi bhi 30 din ke andar) khabrein bhi rakhein
         if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen and not x.get('source', '').endswith('(Official)') and accept(x['title'], x.get('source', '')) is not None: items.append(x)
