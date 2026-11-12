@@ -323,7 +323,7 @@ var CATS=[{id:'comp',name:'Entrance Exam',ic:'🎯',sub:'Sugarcane Supervisor (U
 function curCat(){ var c=get('cat','comp'); return CATS.filter(function(x){return x.id===c;})[0]||CATS[0]; }
 var SV={menu:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h11"/></svg>',
  bell:'<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.8V3.5a1.5 1.5 0 0 0-3 0v.7A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>'};
-function topbar(extra){ var c=curCat(), n=NOTICE?1:0;
+function topbar(extra){ var c=curCat(), n=(NOTICE?1:0)+jobsNew(); if(n>9) n='9+';
   return '<header class="topbar tb2"><div class="in"><button class="hb" data-menu="1" aria-label="Menu">'+SV.menu+'</button><button class="catbtn" data-cat="1"><img src="icons/logo.png" alt=""><span>'+esc(c.name)+'</span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button><div class="sp"></div>'+(extra||'')+'<button class="bell" data-upd="1" aria-label="सूचनाएँ">'+SV.bell+(n?'<i>'+n+'</i>':'')+'</button></div></header>'; }
 document.addEventListener('click',function(e){ if(!e.target.closest) return; var t=e.target.closest('[data-share]'); if(t){ e.preventDefault(); shareApp(); return; }
   if(e.target.closest('[data-menu]')){ openDrawer(); return; } if(e.target.closest('[data-cat]')){ go('cats'); return; } if(e.target.closest('[data-upd]')){ go('updates'); return; }
@@ -491,7 +491,7 @@ function home(){
   var sl=bannerSlides();
   h+='<div class="banner"><div class="slides" id="slides">'+sl.join('')+'</div><div class="dots2" id="dots2">'+sl.map(function(x,i){ return '<b class="'+(i?'':'on')+'"></b>'; }).join('')+'</div></div>';
   if(NOTICE) h+='<div class="card" data-goto="updates" style="cursor:pointer;border-color:var(--gold);background:#2a2205;padding:12px 14px"><b style="color:var(--gold)">📢 '+esc(NOTICE.text.split('\n')[0].slice(0,90))+'</b></div>';
-  h+='<div class="tiles">'+tilesFor(cat)+'</div>';
+  h+='<div id="jobsHome"></div><div class="tiles">'+tilesFor(cat)+'</div>';
   var prog=get('progress',null);
   if(prog && testById(prog.testId)){
     h+='<div class="card"><b>अधूरा टेस्ट: '+esc(shortTitle(testById(prog.testId)))+'</b><p class="muted small" style="margin:4px 0 10px">जहाँ छोड़ा था वहीं से जारी रखें।</p><div class="row"><button class="btn gold" id="resume">जारी रखें</button><button class="btn ghost" id="discard">छोड़ दें</button></div></div>';
@@ -504,7 +504,7 @@ function home(){
   }
   h+=shareCard();
   h+='</main>';
-  app.innerHTML=h; bindCommon(); bindBooks(); startBanner();
+  app.innerHTML=h; bindCommon(); bindBooks(); startBanner(); fillJobsHome();
   var r=document.getElementById('resume'); if(r) r.onclick=function(){ go('quiz',{testId:prog.testId,resume:prog}); };
   var d=document.getElementById('discard'); if(d) d.onclick=function(){ del('progress'); home(); };
 }
@@ -538,13 +538,49 @@ function catsPage(){
   document.getElementById('cb').onclick=function(){ go('home'); };
 }
 /* ===== Exam updates ===== */
+/* ===== Auto Job Alerts: GitHub Actions har 3 ghante jobs.json banata hai (UP/Bihar pehle) ===== */
+var JOBS=null, JOBS_URLS=['https://raw.githubusercontent.com/kumarvsaditya-droid/Agrikranti/main/jobs.json','jobs.json'], JOBF='all';
+function jobsSeen(){ var v=+get('jobsSeen',0); if(!v){ v=Math.floor(Date.now()/1000)-5*86400; set('jobsSeen',v); } return v; }
+function jobsNew(){ if(!JOBS||!JOBS.items) return 0; var s=jobsSeen(); return JOBS.items.filter(function(x){ return x.ts>s; }).length; }
+function jobsDate(ts){ var d=new Date(ts*1000); return ('0'+d.getDate()).slice(-2)+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+d.getFullYear(); }
+function refreshBell(){ var n=(NOTICE?1:0)+jobsNew();
+  document.querySelectorAll('.bell').forEach(function(b){ var i=b.querySelector('i'); if(n){ if(!i){ i=document.createElement('i'); b.appendChild(i); } i.textContent=n>9?'9+':n; } else if(i) i.remove(); });
+  try{ var j=jobsNew(); if(navigator.setAppBadge){ j?navigator.setAppBadge(j):navigator.clearAppBadge(); } }catch(e){}
+  fillJobsHome(); }
+function fillJobsHome(){ var el=document.getElementById('jobsHome'); if(!el) return; var n=jobsNew(); if(!n){ el.innerHTML=''; return; }
+  var s=jobsSeen(), pri=JOBS.items.filter(function(x){ return x.ts>s && x.region; }), top=pri[0]||JOBS.items.filter(function(x){ return x.ts>s; })[0];
+  el.innerHTML='<div class="card" data-goto="updates" style="cursor:pointer;border-color:#e53935;background:linear-gradient(135deg,#3a0d0d,#1a1410);padding:12px 14px"><b style="color:#ff6b6b">🔔 '+n+' नई Agriculture Job Alert'+(pri.length?' · ⭐ '+pri.length+' UP/Bihar':'')+'</b><div class="small" style="margin-top:4px;line-height:1.35">'+esc(top.title)+'</div><div class="muted small" style="margin-top:4px">सभी देखें →</div></div>'; }
+function loadJobs(){ var i=0, bust='?t='+Math.floor(Date.now()/600000);
+  (function next(){ if(i>=JOBS_URLS.length) return; fetch(JOBS_URLS[i++]+bust,{cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ if(!j||!j.items) throw 0; JOBS=j; refreshBell(); if(document.getElementById('jobList')) drawJobs(); }).catch(next); })(); }
+function jobCard(x,s){ return '<a class="card" href="'+esc(x.link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;padding:12px 14px">'
+  +(x.ts>s?'<span class="chip" style="background:#e53935;color:#fff">NEW</span> ':'')+(x.region?'<span class="chip" style="background:var(--gold);color:#111">⭐ '+esc(x.region)+'</span> ':'')+'<span class="chip">'+esc(x.tag||'Update')+'</span>'
+  +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div><div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'; }
+function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
+  if(!JOBS){ el.innerHTML='<div class="card muted small">Job alerts लोड हो रहे हैं...</div>'; return; }
+  var s=+(el.getAttribute('data-seen')||jobsSeen()), F=[['all','सभी'],['UP','⭐ UP'],['Bihar','⭐ Bihar'],['Notification','भर्ती'],['Result','Result'],['Admit Card','Admit Card']];
+  var list=JOBS.items.filter(function(x){ return JOBF==='all'||x.region===JOBF||x.tag===JOBF; });
+  var pri=list.filter(function(x){ return x.region; }), rest=list.filter(function(x){ return !x.region; });
+  el.innerHTML='<div class="pills">'+F.map(function(f){ return '<button class="pill'+(JOBF===f[0]?' on':'')+'" data-jf="'+esc(f[0])+'">'+f[1]+'</button>'; }).join('')+'</div>'
+   +(pri.length?'<h3 style="margin:12px 2px 6px;color:var(--gold)">⭐ UP / Bihar</h3>'+pri.map(function(x){ return jobCard(x,s); }).join(''):'')
+   +(rest.length?'<h3 style="margin:12px 2px 6px">🇮🇳 अन्य राज्य / केंद्र (ICAR, NABARD, IBPS AFO...)</h3>'+rest.map(function(x){ return jobCard(x,s); }).join(''):'')
+   +(list.length?'':'<div class="card empty">इस filter में अभी कोई खबर नहीं।</div>')
+   +'<div class="muted small" style="margin:8px 2px">हर 3 घंटे में अपने आप अपडेट होता है (आखिरी: '+jobsDate(JOBS.updated)+'). ये खबरें समाचार वेबसाइटों से हैं - आवेदन से पहले विभाग की आधिकारिक वेबसाइट पर जानकारी ज़रूर जाँचें।</div>';
+  el.querySelectorAll('[data-jf]').forEach(function(b){ b.onclick=function(){ JOBF=b.getAttribute('data-jf'); drawJobs(); }; });
+  setTimeout(function(){ set('jobsSeen',Math.floor(Date.now()/1000)); refreshBell(); try{ navigator.serviceWorker&&navigator.serviceWorker.controller&&navigator.serviceWorker.controller.postMessage({type:'jobs-seen',ts:Math.floor(Date.now()/1000)}); }catch(e){} },1500); }
+function notifCard(){ if(!('Notification' in window)||!('serviceWorker' in navigator)) return ''; if(Notification.permission==='granted') return '<div class="card small" style="padding:10px 14px">🔔 Job Alert notification <b style="color:#8EE05A">चालू है</b> - नई खबर आने पर फ़ोन पर सूचना आएगी (App install होना चाहिए)।</div>';
+  if(Notification.permission==='denied') return '<div class="card small muted">🔕 Notification बंद हैं। चालू करने के लिए: फ़ोन Settings → Apps → Agrikranti/Chrome → Notifications → Allow।</div>';
+  return '<div class="card" style="border-color:var(--gold)"><b>🔔 नई Job Alert फ़ोन पर पाएँ</b><div class="muted small" style="margin:4px 0 8px">UP / Bihar agriculture की नई भर्ती, Admit Card, Result की खबर आते ही सूचना।</div><button class="btn gold" id="notifOn">Notification चालू करें</button></div>'; }
+function enableNotif(){ Notification.requestPermission().then(function(p){ if(p!=='granted') return updatesPage();
+  navigator.serviceWorker.ready.then(function(reg){ if(reg.periodicSync) reg.periodicSync.register('ak-jobs',{minInterval:4*3600*1000}).catch(function(){});
+    reg.showNotification('Agrikranti Job Alerts चालू ✅',{body:'UP / Bihar agriculture की नई नौकरी की खबर आते ही बताएँगे।',icon:'icons/notif-icon.png',badge:'icons/badge-72.png',image:'img/job-alert.jpg',tag:'ak-jobs-on'});
+    try{ reg.active&&reg.active.postMessage({type:'jobs-seen',ts:Math.floor(Date.now()/1000)}); }catch(e){} updatesPage(); }); }); }
 function updatesPage(){
   activeTab('');
   var h=topbar()+'<main class="page"><h2 class="sec">Exam <span>Updates</span></h2>';
   if(NOTICE) h+='<div class="card" style="border-color:var(--gold);background:#2a2205"><b style="color:var(--gold)">📢 सूचना</b><div style="margin-top:4px;white-space:pre-line">'+esc(NOTICE.text)+'</div>'+(NOTICE.link?'<a class="btn gold" style="margin-top:8px;display:inline-block;text-decoration:none" target="_blank" rel="noopener" href="'+esc(NOTICE.link)+'">'+esc(NOTICE.linkText||'खोलें')+'</a>':'')+'</div>';
-  else h+='<div class="card empty">अभी कोई नई सूचना नहीं है।</div>';
+  h+='<h2 class="sec" style="margin-top:14px">Agriculture <span>Job Alerts</span></h2>'+notifCard()+'<div id="jobList" data-seen="'+jobsSeen()+'"></div>';
   h+='<div class="card small muted">Exam की हर नई जानकारी सबसे पहले पाने के लिए WhatsApp / Telegram से जुड़ें।</div>'+socialCards()+'</main>';
-  app.innerHTML=h; bindCommon();
+  app.innerHTML=h; bindCommon(); drawJobs(); var nb=document.getElementById('notifOn'); if(nb) nb.onclick=enableNotif; if(!JOBS) loadJobs();
 }
 function linksPage(){
   activeTab('');
@@ -1128,7 +1164,7 @@ if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navig
 /* start */
 /* Play Store (TWA) mode: Google Play policy ke kaaran app ke andar paid eBook / payment nahi dikhte */
 var IS_TWA=(function(){ try{ if(/[?&]source=twa/.test(location.search)||document.referrer.indexOf('android-app://')===0) localStorage.setItem('ak_twa','1'); return localStorage.getItem('ak_twa')==='1'; }catch(e){ return /[?&]source=twa/.test(location.search); } })();
-loadContent().then(function(){ setTimeout(processUnlockLink,800); regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else go('home'); sessionCheck(); });
+loadContent().then(function(){ setTimeout(processUnlockLink,800); regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else if(/[?&]go=updates/.test(location.search)||location.hash==='#updates') go('updates'); else go('home'); sessionCheck(); loadJobs(); setInterval(loadJobs,15*60*1000); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden) sessionCheck(); });
 </script>
 </body>

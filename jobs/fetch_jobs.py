@@ -52,7 +52,7 @@ def main():
         except Exception as e: errs += 1; print('ERR', q, e); continue
         for x in res:
             t = x['title']
-            if now - x['ts'] > MAX_DAYS * 86400 or not AGRI.search(t) or not JOB.search(t) or BAD.search(t): continue
+            if now - x['ts'] > MAX_DAYS * 86400 or not AGRI.search(t) or not JOB.search(t) or BAD.search(t) or x['source'] in CFG.get('blocked_sources', []): continue
             k = norm(t)
             if not k or k in seen: continue
             seen.add(k); i = hashlib.md5(k.encode()).hexdigest()[:10]
@@ -60,7 +60,7 @@ def main():
         time.sleep(1)
     if errs == len(CFG['queries']): raise SystemExit('sab queries fail - jobs.json nahi badla')
     for i, x in old.items():   # purani (abhi bhi 30 din ke andar) khabrein bhi rakhein
-        if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen: items.append(x)
+        if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen and AGRI.search(x['title']) and JOB.search(x['title']) and not BAD.search(x['title']) and x.get('source') not in CFG.get('blocked_sources', []): items.append(x)
     items.sort(key=lambda x: x['ts'], reverse=True)
     pri = [x for x in items if x.get('region')]; rest = [x for x in items if not x.get('region')]
     items = (pri[:50] + rest)[:KEEP]   # UP/Bihar wali khabrein pehle
