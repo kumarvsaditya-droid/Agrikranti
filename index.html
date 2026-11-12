@@ -255,6 +255,8 @@ var EBOOKS = [
 
 /* B.Sc. Agriculture semester papers: har subject ka question paper + solution (free) */
 var SEMESTER = [];
+/* B.Sc. Natural Farming: content.json 'naturalFarming' (semester jaisa format, har course: notesEnc + paperEnc + solutionEnc, paid pack) */
+var NF = [];
 
 /* ===== Live content: admin panel se badla gaya content.json yahan load hota hai ===== */
 var NOTICE=null;
@@ -264,6 +266,7 @@ function applyContent(c){
   if(c.config && c.config.gk){ try{ CONFIG.geminiKey=atob(c.config.gk).split('').reverse().join(''); }catch(e){} }
   if(c.ebooks) EBOOKS=c.ebooks;
   if(c.semester) SEMESTER=c.semester;
+  if(c.naturalFarming) NF=c.naturalFarming;
   NOTICE=(c.notice&&c.notice.text)?c.notice:null;
   window.BANNERS=(c.banners||[]).filter(function(b){return b&&b.img;});
   window.LIC=c.licenses||{}; window.BPASS=c.bookPass||{};
@@ -319,7 +322,7 @@ function api(params, body){
   var opt=body?{method:'POST',body:JSON.stringify(body),headers:{'Content-Type':'text/plain;charset=utf-8'}}:{};
   return fetch(url,opt).then(function(r){return r.json();}).then(function(j){ if(j.error) throw new Error(j.error); return j; });
 }
-var CATS=[{id:'comp',name:'Entrance Exam',ic:'🎯',sub:'Sugarcane Supervisor (UPSSSC) Test Series, eBooks और Ask AI'},{id:'sem',name:'Semester Exam',ic:'🎓',sub:'B.Sc. Agriculture semester papers + solution'}];
+var CATS=[{id:'comp',name:'Entrance Exam',ic:'🎯',sub:'Sugarcane Supervisor (UPSSSC) Test Series, eBooks और Ask AI'},{id:'sem',name:'Semester Exam',ic:'🎓',sub:'B.Sc. Agriculture semester papers + solution'},{id:'nf',name:'B.Sc. Natural Farming',ic:'🌿',sub:'Natural Farming semester notes + model paper (हल सहित)'}];
 function curCat(){ var c=get('cat','comp'); return CATS.filter(function(x){return x.id===c;})[0]||CATS[0]; }
 var SV={menu:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h11"/></svg>',
  bell:'<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.8V3.5a1.5 1.5 0 0 0-3 0v.7A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>'};
@@ -371,7 +374,7 @@ function go(view, arg){
   window.scrollTo(0,0);
   if(view!=='quiz') setNav(true);
   var f=document.getElementById('fab'); if(f) f.hidden=(view==='quiz'||view==='ask'||view==='register');
-  ({home:home, tests:tests, ebooks:ebooks, semester:semester, ask:askAI, cats:catsPage, updates:updatesPage, syllabus:syllabusPage, links:linksPage, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
+  ({home:home, tests:tests, ebooks:ebooks, semester:semester, ask:askAI, cats:catsPage, updates:updatesPage, syllabus:syllabusPage, nf:nfPage, links:linksPage, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
 }
 document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ var v=b.getAttribute('data-go'); if(v==='wa'){ window.open(CONFIG.whatsapp,'_blank','noopener'); return; } go(v); }; });
 
@@ -460,8 +463,8 @@ var TI_SVG={
  sem:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>',
  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>'};
 function tilesFor(cat){
-  var T={tests:['Test Series','test','tests'],ebooks:['E-Books','book','ebooks'],sem:['Semester Papers','sem','semester'],pyq:['Previous Year Paper','pdf','semester'],ai:['Ask AI','ai','ask'],res:['My Results','res','results'],upd:['Exam Updates','upd','updates'],syl:['Free Syllabus','pdf','syllabus'],links:['Links','link','links'],share:['Share App','share','share'],prof:['My Profile','user','profile']};
-  var order=cat==='sem'?['sem','pyq','syl','ai','ebooks','tests','upd','res','share','prof']:['tests','syl','ebooks','ai','upd','res','sem','links','share','prof'];
+  var T={tests:['Test Series','test','tests'],ebooks:['E-Books','book','ebooks'],sem:['Semester Papers','sem','semester'],pyq:['Previous Year Paper','pdf','semester'],ai:['Ask AI','ai','ask'],res:['My Results','res','results'],upd:['Exam Updates','upd','updates'],syl:['Free Syllabus','pdf','syllabus'],nf:['Natural Farming','sem','nf'],links:['Links','link','links'],share:['Share App','share','share'],prof:['My Profile','user','profile']};
+  var order=cat==='nf'?['nf','syl','ai','ebooks','upd','tests','res','links','share','prof']:cat==='sem'?['sem','pyq','syl','nf','ai','ebooks','tests','upd','res','share']:['tests','syl','ebooks','ai','upd','res','sem','nf','share','prof'];
   return order.slice(0,10).map(function(k,i){ var t=T[k]; return '<button class="tile t'+(i%8+1)+'" data-goto="'+t[2]+'">'+TI_SVG[t[1]]+'<span>'+t[0]+(k==='syl'?'<small style="display:block;font-size:11px;font-weight:700;color:#ffe08a">FREE PDF · Share करें</small>':'')+'</span></button>'; }).join('');
 }
 function bannerSlides(){
@@ -496,7 +499,11 @@ function home(){
   if(prog && testById(prog.testId)){
     h+='<div class="card"><b>अधूरा टेस्ट: '+esc(shortTitle(testById(prog.testId)))+'</b><p class="muted small" style="margin:4px 0 10px">जहाँ छोड़ा था वहीं से जारी रखें।</p><div class="row"><button class="btn gold" id="resume">जारी रखें</button><button class="btn ghost" id="discard">छोड़ दें</button></div></div>';
   }
-  if(cat==='sem'){
+  if(cat==='nf'){
+    h+='<h2 class="sec">Natural <span>Farming</span></h2>';
+    var nfn=0; NF.forEach(function(g){ g.papers.forEach(function(x){ nfn++; h+='<div class="card link" data-goto="nf" style="cursor:pointer"><span class="ic" style="background:#2e6b2a;font-family:var(--display);font-size:13px;color:var(--gold)">'+esc(x.code||'NF')+'</span><span><b>'+esc(x.subject)+'</b><span class="muted small">'+esc(g.title)+' · Notes + Model Paper</span></span></div>'; }); });
+    if(!nfn) h+='<div class="card" data-goto="nf" style="cursor:pointer"><b>🌿 B.Sc. Natural Farming</b><div class="muted small" style="margin-top:4px">Semester notes और हल सहित model paper जल्द आ रहे हैं।</div></div>';
+  } else if(cat==='sem'){
     h+='<h2 class="sec">Semester <span>Papers</span></h2>';
     SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+='<div class="card link" data-goto="semester" style="cursor:pointer"><span class="ic" style="background:#1f5f3a;font-family:var(--display);font-size:13px;color:var(--gold)">'+esc(x.code)+'</span><span><b>'+esc(x.subject)+'</b><span class="muted small">'+esc(g.title)+' · Paper + Solution</span></span></div>'; }); });
   } else {
@@ -963,7 +970,7 @@ function semCard(g,x){
     if(plain) return '<a class="btn '+cls+'" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(plain)+'">'+label+'</a>';
     if(enc&&open) return '<button class="btn '+cls+'" data-sp="'+esc(enc)+'" data-st="'+esc(x.code+' · '+x.subject+' · '+label)+'" data-pk="'+esc(g.pack)+'">'+label+'</button>';
     return ''; };
-  var body=open?btn('paper','Question Paper','ghost')+btn('solution','Solution देखें','gold')
+  var body=open?btn('notes','📘 Notes पढ़ें','gold')+btn('paper','Model Paper','ghost')+btn('solution','Solution देखें','gold')
     :(IS_TWA?'':'<button class="btn gold" data-buy="'+esc(g.pack)+'">🔓 ₹'+packPrice(g.pack)+' में पूरा Semester खोलें</button>');
   return '<div class="card ebook"><div class="cover"><span>'+esc(x.code)+'</span><small>Sem '+g.sem+'</small></div><div style="flex:1;min-width:0"><b>'+esc(x.subject)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(x.info||g.title)+'</div>'
    +'<div class="chips">'+(x.free?'<span class="chip done">Free Sample</span>':open?'<span class="chip done">✔ खुला है</span>':'<span class="chip" style="color:var(--gold)">'+lockTxt+'</span>')+(x.pages?'<span class="chip">Solution: '+x.pages+' पेज</span>':'')+'</div>'
@@ -972,6 +979,19 @@ function semCard(g,x){
 function packPrice(id){ var b=EBOOKS.filter(function(e){return e.id===id;})[0]; return b?b.price:100; }
 function bindSem(){
   app.querySelectorAll('[data-sp]').forEach(function(x){ x.onclick=function(){ readerOpen(x.getAttribute('data-st'),x.getAttribute('data-sp'),keyFor(x.getAttribute('data-pk'))); }; });
+}
+function nfPage(){
+  activeTab('');
+  var h=topbar()+'<main class="page"><h2 class="sec">B.Sc. Natural <span>Farming</span></h2><p class="muted small" style="margin:0">B.Sc. Natural Farming semester के हर course के notes (English + हिंदी) और gold-medalist style हल सहित model paper।</p>';
+  NF.forEach(function(g){
+    var pk=g.pack&&EBOOKS.filter(function(e){return e.id===g.pack;})[0];
+    if(pk && !packOpen(g.pack) && !IS_TWA) h+='<div class="card" style="border-color:var(--gold);background:radial-gradient(120% 140% at 100% 0%,#2f4a05 0%,#141a10 65%)"><b style="font-size:18px">🌿 '+esc(pk.title)+'</b><div class="muted small" style="margin:4px 0 8px">'+esc(pk.sub)+(pk.pages?' · '+pk.pages+' पेज':'')+'. एक बार ₹'+pk.price+' - इस semester के सभी notes और model paper हमेशा के लिए खुलेंगे।'+(autoPay()?' Payment होते ही अपने आप खुल जाएगा।':'')+'</div><div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn gold" data-buy="'+pk.id+'">₹'+pk.price+' में खरीदें</button><button class="btn ghost" data-code="'+pk.id+'">'+(autoPay()?'पहले खरीदा है?':'🔑 Password डालें')+'</button></div></div>';
+    h+='<h2 class="sec">'+esc(g.title)+'</h2>';
+    g.papers.forEach(function(x){ h+=semCard(g,x); });
+  });
+  if(!NF.length) h+='<div class="card" style="text-align:center;padding:22px 16px"><div style="font-size:46px;line-height:1">🌿</div><b style="display:block;margin-top:6px">Notes और Model Paper जल्द आ रहे हैं</b><p class="muted small" style="margin:6px 0 0">B.Sc. Natural Farming के semester notes और हल सहित model paper यहाँ जोड़े जा रहे हैं। अपडेट के लिए WhatsApp / Telegram से जुड़ें।</p></div>'+socialCards();
+  h+=shareCard()+'</main>';
+  app.innerHTML=h; bindCommon(); bindBooks(); bindSem();
 }
 function semester(){
   activeTab('semester');
