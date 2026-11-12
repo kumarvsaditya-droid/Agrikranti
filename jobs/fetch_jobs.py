@@ -63,9 +63,10 @@ def official(label, url, mode, seen_before):
         fname = urllib.parse.unquote(link.rsplit('/', 1)[-1])
         if not txt or len(txt) < 8 or txt.lower() in ('click here', 'download', 'view', 'read more', 'more'):
             txt = re.sub(r'\.pdf$', '', fname, flags=re.I).replace('-', ' ').replace('_', ' ').strip()
+        txt = re.sub(r'^[^0-9A-Za-zऀ-ॿ]+', '', txt).strip()   # ⦿ 🔵 jaise nishan hatao
         both = txt + ' ' + fname
-        if len(txt) < 6 or skip.search(both) or BAD.search(txt): continue
-        if not (link.lower().endswith('.pdf') or UJOB.search(txt)): continue
+        if len(txt) < 6 or skip.search(txt) or skip.search(fname) or BAD.search(txt): continue
+        if not link.lower().split('?')[0].endswith(('.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png')) and len(txt) < 35: continue   # menu ke chhote link nahi
         if mode == 'agri' and not UTOPIC.search(both): continue
         if mode == 'job' and not UJOB.search(both): continue
         m = re.search(r'(?<!\d)(\d{2})(\d{2})(\d{4}|\d{2})(?!\d)', fname)
@@ -114,10 +115,10 @@ def main():
     pages_seen = {}
     try: pages_seen = json.load(open(OUT, encoding='utf-8')).get('pages_seen', {})
     except Exception: pass
-    new_seen = {}
+    new_seen, failed = {}, set()
     for label, url, mode in CFG.get('official_pages', []):
         try: res = official(label, url, mode, url in pages_seen)
-        except Exception as e: print('ERR official', url, e); new_seen[url] = pages_seen.get(url, []); continue
+        except Exception as e: print('ERR official', url, e); new_seen[url] = pages_seen.get(url, []); failed.add(label); continue
         prev = set(pages_seen.get(url, []))
         hs = []
         for x in res:
@@ -132,8 +133,8 @@ def main():
         time.sleep(1)
     if errs == len(allq): raise SystemExit('sab queries fail - jobs.json nahi badla')
     for i, x in old.items():
-        if x.get('source', '').endswith('(Official)'):   # official notice: sirf tab rakhein jab abhi bhi 30 din ke andar
-            if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen: items.append(x)
+        if x.get('source', '').endswith('(Official)'):   # official notice: sirf tab rakhein jab us site tak pahunch na paye ho
+            if x.get('uni') in failed and i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen: items.append(x)
             continue
     for i, x in old.items():   # purani (abhi bhi 30 din ke andar) khabrein bhi rakhein
         if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen and not x.get('source', '').endswith('(Official)') and accept(x['title'], x.get('source', '')) is not None: items.append(x)

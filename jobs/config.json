@@ -340,5 +340,5 @@
    "job"
   ]
  ],
- "official_skip_regex": "tender|निविदा|quotation|e-?procurement|GeM|auction|नीलामी|login|privacy|sitemap|RTI|NIRF|NAAC|IQAC|anti.?ragging|grievance"
+ "official_skip_regex": "tender|निविदा|quotation|e-?procurement|GeM|auction|नीलामी|login|privacy|sitemap|RTI|NIRF|NAAC|IQAC|anti.?ragging|grievance|membership|brochure|archived|guideline|international student|bus service|Controller of Exam|Examination Cell|Medical Officer|Driver|Clerk|Stenographer|Security|हॉस्टल|hostel|fee structure|Post Graduate-Forms|^\\W*(admissions?|recruitments?|results?|admit card|notices?|notice and results|notification and circular|exam schedule|course order and time table|faculty of agriculture|faculty agriculture|new faculty requirements \\d+)\\W*$"
 }
