@@ -1,6 +1,6 @@
 {
  "max_days": 30,
- "keep": 80,
+ "keep": 100,
  "queries": [
   [
    "UPSSSC AGTA",
@@ -125,7 +125,7 @@
  ],
  "agri_regex": "agri|agro|krishi|कृषि|AGTA|ganna|गन्ना|cane supervisor|ICAR|horticult|उद्यान|AFO|agriculture field officer|NABARD|KVK|कृषि विज्ञान|kisan salahkar|किसान सलाहकार|soil|मृदा|plant protection|पौध संरक्षण|फसल रक्षक|fisheries|मत्स्य|Matsya|seed certification|बीज प्रमाणीकरण",
  "job_regex": "recruit|vacanc|bharti|भर्ती|बहाली|notification|अधिसूचना|नोटिफिकेशन|admit card|एडमिट|प्रवेश पत्र|result|रिजल्ट|परिणाम|exam date|परीक्षा तिथि|answer key|आंसर की|cut ?off|कटऑफ|apply|आवेदन|\\bposts\\b|पदों|पद पर|रिक्ति|syllabus|सिलेबस|merit list|मेरिट|walk-?in|exam calendar|परीक्षा कैलेंडर|shortlist",
- "exclude_regex": "किस्त|installment|pm kisan|पीएम किसान|मंडी|mandi|मौसम|weather|loan|ऋण|subsidy|सब्सिडी|अनुदान|योजना|yojana|scheme|stock|share price|IPO|शेयर|cricket|क्रिकेट|election|चुनाव|मौत|death|died|हमला|attack|हंगामा|आरोप|fraud|फर्जी|धोखा|घोटाला|scam|सेवानिवृत्त|retire|विदाई|farewell|प्रदर्शन|protest|सफलता|success story|बनीं|बने|minister|मंत्री|workers|ILO|Iowa|Turkmenistan|forest guard|वन रक्षक|वनरक्षक|police|पुलिस|arrest|गिरफ्तार|सम्मान|award|सस्पेंड|suspend|निलंबित|रिश्वत|bribe|county government|kenya|nigeria|USA|UK ",
+ "exclude_regex": "किस्त|installment|pm kisan|पीएम किसान|मंडी|mandi|मौसम|weather|loan|ऋण|subsidy|सब्सिडी|अनुदान|योजना|yojana|scheme|stock|share price|IPO|शेयर|cricket|क्रिकेट|election|चुनाव|मौत|death|died|हमला|attack|हंगामा|आरोप|fraud|फर्जी|धोखा|घोटाला|scam|सेवानिवृत्त|retire|विदाई|farewell|प्रदर्शन|protest|सफलता|success story|बनीं|बने|minister|मंत्री|workers|ILO|Iowa|Turkmenistan|forest guard|वन रक्षक|वनरक्षक|police|पुलिस|arrest|गिरफ्तार|सम्मान|award|सस्पेंड|suspend|निलंबित|रिश्वत|bribe|county government|kenya|nigeria|\\bUSA\\b|\\bUK\\b|GKY|Gramin Kaushal|ग्रामीण कौशल|DDU Junction|डीडीयू जंक्शन|मुगलसराय|Mughalsarai|\\btrains?\\b|ट्रेन|रेल|hospital|अस्पताल|BRD Medical|बीआरडी मेडिकल|मेडिकल कॉलेज",
  "tags": [
   [
    "Admit Card",
@@ -136,8 +136,12 @@
    "result|रिजल्ट|परिणाम|merit|मेरिट|cut ?off|कटऑफ|answer key|आंसर"
   ],
   [
+   "Admission",
+   "admission|दाखिला|प्रवेश परीक्षा|में प्रवेश|प्रवेश प्रक्रिया|प्रवेश के लिए|entrance|counsel|काउंसलिंग"
+  ],
+  [
    "Exam Date",
-   "exam date|परीक्षा तिथि|exam calendar|परीक्षा कैलेंडर|schedule"
+   "exam date|परीक्षा तिथि|exam calendar|परीक्षा कैलेंडर|schedule|time ?table|समय सारणी|date ?sheet|परीक्षा कार्यक्रम"
   ],
   [
    "Notification",
@@ -157,5 +161,156 @@
  "blocked_sources": [
   "YouTube",
   "Urban Acres"
+ ],
+ "uni_keep": 30,
+ "universities": [
+  [
+   "DDU Gorakhpur",
+   "DDU ?Gorakhpur|DDUGU|Gorakhpur University|Deen Dayal Upadhyaya Gorakhpur|गोरखपुर विश्वविद्यालय|गोरखपुर यूनिवर्सिटी|गोरखपुर विवि|दीनदयाल उपाध्याय गोरखपुर|डीडीयू|गोविवि"
+  ],
+  [
+   "MGU Gorakhpur",
+   "Mahayogi Gorakhnath|महायोगी गोरखनाथ|MGUG|Gorakhnath University|गोरखनाथ विश्वविद्यालय|आरोग्यधाम"
+  ],
+  [
+   "BRD PG College Deoria",
+   "BRD PG|B\\.?R\\.?D\\.? (PG )?College|Baba Raghav Das|बाबा राघव दास|बीआरडी पीजी|बीआरडीपीजी"
+  ],
+  [
+   "Azamgarh University",
+   "Maharaja Suheldev|Suhel ?dev|महाराजा सुहेलदेव|सुहेलदेव विश्वविद्यालय|Azamgarh University|आजमगढ़ विश्वविद्यालय|Kotwa|कोटवा"
+  ],
+  [
+   "Siddharth University",
+   "Siddharth University|Siddharthnagar University|सिद्धार्थ विश्वविद्यालय|कपिलवस्तु"
+  ],
+  [
+   "JNCU Ballia",
+   "Jananayak Chandrashekhar|Jannayak Chandrashekhar|JNCU|जननायक चंद्रशेखर|बलिया विश्वविद्यालय|Ballia University"
+  ],
+  [
+   "Purvanchal University",
+   "Purvanchal University|VBSPU|Veer Bahadur Singh|पूर्वांचल विश्वविद्यालय|पूविवि|वीर बहादुर सिंह"
+  ],
+  [
+   "ANDUAT Ayodhya",
+   "NDUAT|ANDUAT|Narendra Deva|नरेंद्र देव|कुमारगंज|Kumarganj"
+  ],
+  [
+   "BHU Varanasi",
+   "\\bBHU\\b|Banaras Hindu University|बीएचयू|काशी हिंदू विश्वविद्यालय"
+  ],
+  [
+   "RPCAU Pusa",
+   "RPCAU|Rajendra Prasad Central Agricultural|राजेंद्र प्रसाद केंद्रीय कृषि|पूसा कृषि विश्वविद्यालय"
+  ]
+ ],
+ "uni_topic_regex": "agri|agro|krishi|कृषि|AGTA|ganna|गन्ना|cane supervisor|ICAR|horticult|उद्यान|AFO|agriculture field officer|NABARD|KVK|कृषि विज्ञान|kisan salahkar|किसान सलाहकार|soil|मृदा|plant protection|पौध संरक्षण|फसल रक्षक|fisheries|मत्स्य|Matsya|seed certification|बीज प्रमाणीकरण|एग्रीकल्चर|एग्री|बीएससी कृषि|बीएससी एजी|एमएससी कृषि|B\\.? ?Sc\\.? ?\\(?Ag|M\\.? ?Sc\\.? ?\\(?Ag|BSc Agri|MSc Agri|Institute of Agricultur|कृषि संस्थान|कृषि संकाय|Faculty of Agri|पशुपालन|animal husbandry|veterinary|पशु चिकित्सा",
+ "uni_job_regex": "recruit|vacanc|bharti|भर्ती|बहाली|notification|अधिसूचना|नोटिफिकेशन|admit card|एडमिट|प्रवेश पत्र|result|रिजल्ट|परिणाम|exam date|परीक्षा तिथि|answer key|आंसर की|cut ?off|कटऑफ|apply|आवेदन|\\bposts\\b|पदों|पद पर|रिक्ति|syllabus|सिलेबस|merit list|मेरिट|walk-?in|exam calendar|परीक्षा कैलेंडर|shortlist|admission|दाखिला|प्रवेश|entrance|counsel|काउंसलिंग|exam|परीक्षा|time ?table|समय सारणी|date ?sheet|seat|सीट|last date|अंतिम तिथि|form|फॉर्म|PhD|पीएचडी|\\bRET\\b|मेरिट|cut ?off|कटऑफ|faculty|शिक्षक|assistant professor|असिस्टेंट प्रोफेसर|सहायक आचार्य|guest|अतिथि|SRF|JRF|project (assistant|associate)|young professional|semester|सेमेस्टर|course|कोर्स|पाठ्यक्रम",
+ "uni_queries": [
+  [
+   "DDU Gorakhpur University agriculture",
+   "en"
+  ],
+  [
+   "DDU Gorakhpur University BSc Agriculture",
+   "en"
+  ],
+  [
+   "DDUGU admission",
+   "en"
+  ],
+  [
+   "गोरखपुर विश्वविद्यालय कृषि",
+   "hi"
+  ],
+  [
+   "गोरखपुर विश्वविद्यालय बीएससी कृषि",
+   "hi"
+  ],
+  [
+   "डीडीयू कृषि",
+   "hi"
+  ],
+  [
+   "गोरखपुर विश्वविद्यालय प्रवेश परीक्षा",
+   "hi"
+  ],
+  [
+   "Mahayogi Gorakhnath University agriculture",
+   "en"
+  ],
+  [
+   "महायोगी गोरखनाथ विश्वविद्यालय कृषि",
+   "hi"
+  ],
+  [
+   "BRD PG College Deoria agriculture",
+   "en"
+  ],
+  [
+   "बीआरडी पीजी कॉलेज देवरिया कृषि",
+   "hi"
+  ],
+  [
+   "Maharaja Suheldev University Azamgarh agriculture",
+   "en"
+  ],
+  [
+   "महाराजा सुहेलदेव विश्वविद्यालय आजमगढ़",
+   "hi"
+  ],
+  [
+   "आजमगढ़ कृषि महाविद्यालय कोटवा",
+   "hi"
+  ],
+  [
+   "Siddharth University Kapilvastu agriculture",
+   "en"
+  ],
+  [
+   "सिद्धार्थ विश्वविद्यालय कृषि",
+   "hi"
+  ],
+  [
+   "Jananayak Chandrashekhar University Ballia agriculture",
+   "en"
+  ],
+  [
+   "जननायक चंद्रशेखर विश्वविद्यालय कृषि",
+   "hi"
+  ],
+  [
+   "Purvanchal University Jaunpur agriculture",
+   "en"
+  ],
+  [
+   "पूर्वांचल विश्वविद्यालय कृषि",
+   "hi"
+  ],
+  [
+   "NDUAT Kumarganj",
+   "en"
+  ],
+  [
+   "आचार्य नरेंद्र देव कृषि विश्वविद्यालय",
+   "hi"
+  ],
+  [
+   "BHU Institute of Agricultural Sciences",
+   "en"
+  ],
+  [
+   "बीएचयू कृषि विज्ञान संस्थान",
+   "hi"
+  ],
+  [
+   "RPCAU Pusa admission recruitment",
+   "en"
+  ]
+ ],
+ "agri_universities": [
+  "ANDUAT Ayodhya",
+  "RPCAU Pusa"
  ]
 }

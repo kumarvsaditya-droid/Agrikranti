@@ -548,19 +548,20 @@ function refreshBell(){ var n=(NOTICE?1:0)+jobsNew();
   try{ var j=jobsNew(); if(navigator.setAppBadge){ j?navigator.setAppBadge(j):navigator.clearAppBadge(); } }catch(e){}
   fillJobsHome(); }
 function fillJobsHome(){ var el=document.getElementById('jobsHome'); if(!el) return; var n=jobsNew(); if(!n){ el.innerHTML=''; return; }
-  var s=jobsSeen(), pri=JOBS.items.filter(function(x){ return x.ts>s && x.region; }), top=pri[0]||JOBS.items.filter(function(x){ return x.ts>s; })[0];
-  el.innerHTML='<div class="card" data-goto="updates" style="cursor:pointer;border-color:#e53935;background:linear-gradient(135deg,#3a0d0d,#1a1410);padding:12px 14px"><b style="color:#ff6b6b">🔔 '+n+' नई Agriculture Job Alert'+(pri.length?' · ⭐ '+pri.length+' UP/Bihar':'')+'</b><div class="small" style="margin-top:4px;line-height:1.35">'+esc(top.title)+'</div><div class="muted small" style="margin-top:4px">सभी देखें →</div></div>'; }
+  var s=jobsSeen(), un=JOBS.items.filter(function(x){ return x.ts>s && x.uni; }), pri=JOBS.items.filter(function(x){ return x.ts>s && x.region; }), top=un[0]||pri[0]||JOBS.items.filter(function(x){ return x.ts>s; })[0];
+  el.innerHTML='<div class="card" data-goto="updates" style="cursor:pointer;border-color:#e53935;background:linear-gradient(135deg,#3a0d0d,#1a1410);padding:12px 14px"><b style="color:#ff6b6b">🔔 '+n+' नई Agriculture Job Alert'+(un.length?' · 🎓 '+un.length+' University':'')+(pri.length?' · ⭐ '+pri.length+' UP/Bihar':'')+'</b><div class="small" style="margin-top:4px;line-height:1.35">'+esc(top.title)+'</div><div class="muted small" style="margin-top:4px">सभी देखें →</div></div>'; }
 function loadJobs(){ var i=0, bust='?t='+Math.floor(Date.now()/600000);
   (function next(){ if(i>=JOBS_URLS.length) return; fetch(JOBS_URLS[i++]+bust,{cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ if(!j||!j.items) throw 0; JOBS=j; refreshBell(); if(document.getElementById('jobList')) drawJobs(); }).catch(next); })(); }
 function jobCard(x,s){ return '<a class="card" href="'+esc(x.link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;padding:12px 14px">'
-  +(x.ts>s?'<span class="chip" style="background:#e53935;color:#fff">NEW</span> ':'')+(x.region?'<span class="chip" style="background:var(--gold);color:#111">⭐ '+esc(x.region)+'</span> ':'')+'<span class="chip">'+esc(x.tag||'Update')+'</span>'
+  +(x.ts>s?'<span class="chip" style="background:#e53935;color:#fff">NEW</span> ':'')+(x.uni?'<span class="chip" style="background:#1e88e5;color:#fff">🎓 '+esc(x.uni)+'</span> ':(x.region?'<span class="chip" style="background:var(--gold);color:#111">⭐ '+esc(x.region)+'</span> ':''))+'<span class="chip">'+esc(x.tag||'Update')+'</span>'
   +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div><div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'; }
 function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
   if(!JOBS){ el.innerHTML='<div class="card muted small">Job alerts लोड हो रहे हैं...</div>'; return; }
-  var s=+(el.getAttribute('data-seen')||jobsSeen()), F=[['all','सभी'],['UP','⭐ UP'],['Bihar','⭐ Bihar'],['Notification','भर्ती'],['Result','Result'],['Admit Card','Admit Card']];
-  var list=JOBS.items.filter(function(x){ return JOBF==='all'||x.region===JOBF||x.tag===JOBF; });
-  var pri=list.filter(function(x){ return x.region; }), rest=list.filter(function(x){ return !x.region; });
+  var s=+(el.getAttribute('data-seen')||jobsSeen()), F=[['all','सभी'],['UNI','🎓 University'],['UP','⭐ UP'],['Bihar','⭐ Bihar'],['Notification','भर्ती'],['Admission','प्रवेश'],['Result','Result'],['Admit Card','Admit Card']];
+  var list=JOBS.items.filter(function(x){ return JOBF==='all'||(JOBF==='UNI'&&x.uni)||x.region===JOBF||x.tag===JOBF; });
+  var un=list.filter(function(x){ return x.uni; }), pri=list.filter(function(x){ return x.region && !x.uni; }), rest=list.filter(function(x){ return !x.region && !x.uni; });
   el.innerHTML='<div class="pills">'+F.map(function(f){ return '<button class="pill'+(JOBF===f[0]?' on':'')+'" data-jf="'+esc(f[0])+'">'+f[1]+'</button>'; }).join('')+'</div>'
+   +(un.length?'<h3 style="margin:12px 2px 6px;color:#64b5f6">🎓 गोरखपुर क्षेत्र की University</h3>'+un.map(function(x){ return jobCard(x,s); }).join(''):'')
    +(pri.length?'<h3 style="margin:12px 2px 6px;color:var(--gold)">⭐ UP / Bihar</h3>'+pri.map(function(x){ return jobCard(x,s); }).join(''):'')
    +(rest.length?'<h3 style="margin:12px 2px 6px">🇮🇳 अन्य राज्य / केंद्र (ICAR, NABARD, IBPS AFO...)</h3>'+rest.map(function(x){ return jobCard(x,s); }).join(''):'')
    +(list.length?'':'<div class="card empty">इस filter में अभी कोई खबर नहीं।</div>')
@@ -569,7 +570,7 @@ function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
   setTimeout(function(){ set('jobsSeen',Math.floor(Date.now()/1000)); refreshBell(); try{ navigator.serviceWorker&&navigator.serviceWorker.controller&&navigator.serviceWorker.controller.postMessage({type:'jobs-seen',ts:Math.floor(Date.now()/1000)}); }catch(e){} },1500); }
 function notifCard(){ if(!('Notification' in window)||!('serviceWorker' in navigator)) return ''; if(Notification.permission==='granted') return '<div class="card small" style="padding:10px 14px">🔔 Job Alert notification <b style="color:#8EE05A">चालू है</b> - नई खबर आने पर फ़ोन पर सूचना आएगी (App install होना चाहिए)।</div>';
   if(Notification.permission==='denied') return '<div class="card small muted">🔕 Notification बंद हैं। चालू करने के लिए: फ़ोन Settings → Apps → Agrikranti/Chrome → Notifications → Allow।</div>';
-  return '<div class="card" style="border-color:var(--gold)"><b>🔔 नई Job Alert फ़ोन पर पाएँ</b><div class="muted small" style="margin:4px 0 8px">UP / Bihar agriculture की नई भर्ती, Admit Card, Result की खबर आते ही सूचना।</div><button class="btn gold" id="notifOn">Notification चालू करें</button></div>'; }
+  return '<div class="card" style="border-color:var(--gold)"><b>🔔 नई Job Alert फ़ोन पर पाएँ</b><div class="muted small" style="margin:4px 0 8px">UP / Bihar agriculture भर्ती और DDU, BRD PG, आजमगढ़ जैसी University के प्रवेश, परीक्षा, Result की खबर आते ही सूचना।</div><button class="btn gold" id="notifOn">Notification चालू करें</button></div>'; }
 function enableNotif(){ Notification.requestPermission().then(function(p){ if(p!=='granted') return updatesPage();
   navigator.serviceWorker.ready.then(function(reg){ if(reg.periodicSync) reg.periodicSync.register('ak-jobs',{minInterval:4*3600*1000}).catch(function(){});
     reg.showNotification('Agrikranti Job Alerts चालू ✅',{body:'UP / Bihar agriculture की नई नौकरी की खबर आते ही बताएँगे।',icon:'icons/notif-icon.png',badge:'icons/badge-72.png',image:'img/job-alert.jpg',tag:'ak-jobs-on'});

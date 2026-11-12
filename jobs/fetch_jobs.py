@@ -13,6 +13,24 @@ JOB = re.compile(CFG['job_regex'], re.I)
 BAD = re.compile(CFG['exclude_regex'], re.I)
 REG = [(k, re.compile(r, re.I)) for k, r in CFG.get('regions', [])]
 MAX_DAYS, KEEP = CFG.get('max_days', 30), CFG.get('keep', 80)
+UNIS = [(k, re.compile(r, re.I)) for k, r in CFG.get('universities', [])]
+UTOPIC = re.compile(CFG.get('uni_topic_regex', CFG['agri_regex']), re.I)
+UJOB = re.compile(CFG.get('uni_job_regex', CFG['job_regex']), re.I)
+AGRI_UNI = set(CFG.get('agri_universities', []))
+BLOCKED = CFG.get('blocked_sources', [])
+
+def uni(t):
+    for k, rx in UNIS:
+        if rx.search(t): return k
+    return ''
+
+def accept(t, src):
+    """('uni naam' ya '') lautata hai agar khabar rakhni hai, warna None."""
+    if BAD.search(t) or src in BLOCKED: return None
+    u = uni(t)
+    if u and (u in AGRI_UNI or UTOPIC.search(t)) and UJOB.search(t): return u   # Gorakhpur kshetra ki university (agriculture)
+    if AGRI.search(t) and JOB.search(t): return ''
+    return None
 
 def tag(t):
     for k, rx in CFG['tags']:
@@ -47,23 +65,26 @@ def main():
         for x in json.load(open(OUT, encoding='utf-8')).get('items', []): old[x['id']] = x
     except Exception: pass
     now, seen, items, errs = int(time.time()), set(), [], 0
-    for q, lang in CFG['queries']:
+    allq = CFG['queries'] + CFG.get('uni_queries', [])
+    for q, lang in allq:
         try: res = fetch(q, lang)
         except Exception as e: errs += 1; print('ERR', q, e); continue
         for x in res:
             t = x['title']
-            if now - x['ts'] > MAX_DAYS * 86400 or not AGRI.search(t) or not JOB.search(t) or BAD.search(t) or x['source'] in CFG.get('blocked_sources', []): continue
+            u = accept(t, x['source'])
+            if now - x['ts'] > MAX_DAYS * 86400 or u is None: continue
             k = norm(t)
             if not k or k in seen: continue
             seen.add(k); i = hashlib.md5(k.encode()).hexdigest()[:10]
-            items.append({'id': i, 'title': t[:180], 'link': x['link'], 'source': x['source'][:40], 'ts': x['ts'], 'tag': tag(t), 'region': region(t), 'added': old.get(i, {}).get('added', now)})
+            items.append({'id': i, 'title': t[:180], 'link': x['link'], 'source': x['source'][:40], 'ts': x['ts'], 'tag': tag(t), 'region': region(t) or ('Bihar' if u == 'RPCAU Pusa' else ('UP' if u else '')), 'uni': u, 'added': old.get(i, {}).get('added', now)})
         time.sleep(1)
-    if errs == len(CFG['queries']): raise SystemExit('sab queries fail - jobs.json nahi badla')
+    if errs == len(allq): raise SystemExit('sab queries fail - jobs.json nahi badla')
     for i, x in old.items():   # purani (abhi bhi 30 din ke andar) khabrein bhi rakhein
-        if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen and AGRI.search(x['title']) and JOB.search(x['title']) and not BAD.search(x['title']) and x.get('source') not in CFG.get('blocked_sources', []): items.append(x)
+        if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen and accept(x['title'], x.get('source', '')) is not None: items.append(x)
     items.sort(key=lambda x: x['ts'], reverse=True)
-    pri = [x for x in items if x.get('region')]; rest = [x for x in items if not x.get('region')]
-    items = (pri[:50] + rest)[:KEEP]   # UP/Bihar wali khabrein pehle
+    un = [x for x in items if x.get('uni')]
+    pri = [x for x in items if x.get('region') and not x.get('uni')]; rest = [x for x in items if not x.get('region') and not x.get('uni')]
+    items = (un[:CFG.get('uni_keep', 30)] + pri[:50] + rest)[:KEEP]   # pehle Gorakhpur kshetra ki university, phir UP/Bihar
     new = {'updated': now, 'count': len(items), 'items': items}
     prev = None
     try: prev = json.load(open(OUT, encoding='utf-8'))
