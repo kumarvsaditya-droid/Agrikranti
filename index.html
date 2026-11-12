@@ -502,6 +502,7 @@ function home(){
   if(cat==='nf'){
     h+='<h2 class="sec">Natural <span>Farming</span></h2>';
     var nfn=0; NF.forEach(function(g){ g.papers.forEach(function(x){ nfn++; h+='<div class="card link" data-goto="nf" style="cursor:pointer"><span class="ic" style="background:#2e6b2a;font-family:var(--display);font-size:13px;color:var(--gold)">'+esc(x.code||'NF')+'</span><span><b>'+esc(x.subject)+'</b><span class="muted small">'+esc(g.title)+' · Notes + Model Paper</span></span></div>'; }); });
+    nfBooks().forEach(function(b){ nfn++; h+='<div class="card link" data-goto="nf" style="cursor:pointer"><span class="ic" style="background:#2e6b2a;font-size:20px">📗</span><span><b>'+esc(b.title)+'</b><span class="muted small">'+(b.price?'₹'+b.price+' · ':'')+esc(b.pages||'')+' पेज · Notes + 5 Model Papers</span></span></div>'; });
     if(!nfn) h+='<div class="card" data-goto="nf" style="cursor:pointer"><b>🌿 B.Sc. Natural Farming</b><div class="muted small" style="margin-top:4px">Semester notes और हल सहित model paper जल्द आ रहे हैं।</div></div>';
   } else if(cat==='sem'){
     h+='<h2 class="sec">Semester <span>Papers</span></h2>';
@@ -904,24 +905,24 @@ function rtoast(ov,m){ var t=document.createElement('div'); t.textContent=m; t.s
 function readerOpen(title,encUrl,keyP,wm){
   var p=profile()||{}; wm=wm===false?'':(wm||((p.name?p.name+' · ':'')+(p.mobile||'')));
   var ov=document.createElement('div'); ov.className='reader';
-  ov.innerHTML='<div class="rbar"><button class="iconbtn" id="rx">✕ बंद करें</button><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(title)+'</b><span class="muted small" id="rp"></span><button class="iconbtn" id="rrot" title="Landscape / Portrait">↻ Landscape</button></div><div class="rbody" id="rb"><div class="card muted" style="margin:16px">Book खुल रही है... (पहली बार थोड़ा समय लगेगा)</div></div>';
+  ov.innerHTML='<div class="rbar"><button class="iconbtn" id="rx">✕ बंद करें</button><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(title)+'</b><span class="muted small" id="rp"></span><button class="iconbtn" id="rzo" title="Zoom कम करें" style="min-width:36px;font-size:18px">−</button><button class="iconbtn" id="rzi" title="Zoom बढ़ाएँ" style="min-width:36px;font-size:18px">+</button><button class="iconbtn" id="rrot" title="Landscape / Portrait">↻</button></div><div class="rbody" id="rb"><div class="card muted" style="margin:16px">Book खुल रही है... (पहली बार थोड़ा समय लगेगा)</div></div>';
   document.body.appendChild(ov); document.body.style.overflow='hidden';
   var stop=function(e){ e.preventDefault(); return false; };
   ov.addEventListener('contextmenu',stop); ov.addEventListener('dragstart',stop); ov.addEventListener('selectstart',stop);
   var keyBlock=function(e){ if((e.ctrlKey||e.metaKey)&&/^[psc]$/i.test(e.key)){ e.preventDefault(); } };
   document.addEventListener('keydown',keyBlock);
-  var land=false, relayout=null, rto=null;
+  var land=false, relayout=null, rto=null, Z=1;
   var onResize=function(){ clearTimeout(rto); rto=setTimeout(function(){ if(relayout) relayout(); },250); };
   window.addEventListener('resize',onResize); window.addEventListener('orientationchange',onResize);
   var unlock=function(){ try{ screen.orientation&&screen.orientation.unlock&&screen.orientation.unlock(); }catch(e){} if(document.fullscreenElement&&document.exitFullscreen) document.exitFullscreen().catch(function(){}); };
   var rot=ov.querySelector('#rrot');
   rot.onclick=function(){
-    if(!land){
+    if(!land){ 
       var fs=ov.requestFullscreen?ov.requestFullscreen({navigationUI:'hide'}):Promise.reject();
       fs.catch(function(){}).then(function(){ return screen.orientation&&screen.orientation.lock?screen.orientation.lock('landscape'):Promise.reject(); })
-        .then(function(){ land=true; rot.textContent='↻ Portrait'; })
-        .catch(function(){ land=true; rot.textContent='↻ Portrait'; rtoast(ov,'फ़ोन को आड़ा (sideways) घुमाएँ - Auto-rotate चालू रखें'); });
-    } else { land=false; rot.textContent='↻ Landscape'; unlock(); }
+        .then(function(){ land=true; rot.textContent='↺'; })
+        .catch(function(){ land=true; rot.textContent='↺'; rtoast(ov,'फ़ोन को आड़ा (sideways) घुमाएँ - Auto-rotate चालू रखें'); });
+    } else { land=false; rot.textContent='↻'; unlock(); }
   };
   var close=function(){ unlock(); window.removeEventListener('resize',onResize); window.removeEventListener('orientationchange',onResize); ov.remove(); document.body.style.overflow=''; document.removeEventListener('keydown',keyBlock); };
   ov.querySelector('#rx').onclick=close;
@@ -933,7 +934,7 @@ function readerOpen(title,encUrl,keyP,wm){
     var W=Math.min(rb.clientWidth-16,1400), AR=1.414, obs=null;
     function mkObs(){ return new IntersectionObserver(function(es){ es.forEach(function(en){ var t=en.target; if(en.isIntersecting && !t.dataset.done){ t.dataset.done=1; draw(+t.dataset.p,t); } else if(!en.isIntersecting && t.dataset.done){ delete t.dataset.done; t.innerHTML=''; } }); },{root:rb,rootMargin:'1500px 0px'}); }
     function draw(n,box){ var Wd=W;
-      pdf.getPage(n).then(function(pg){ var v0=pg.getViewport({scale:1}), sc=Wd/v0.width, dpr=Math.min(window.devicePixelRatio||1,2), v=pg.getViewport({scale:sc*dpr});
+      pdf.getPage(n).then(function(pg){ var v0=pg.getViewport({scale:1}), sc=Wd/v0.width, dpr=Math.min(Math.max(window.devicePixelRatio||1,1)*1.5,3,4096/Wd), v=pg.getViewport({scale:sc*dpr});
         var cv=document.createElement('canvas'); cv.width=v.width; cv.height=v.height; if(Wd!==W) return; cv.style.width=Wd+'px'; cv.style.height=(v.height/dpr)+'px';
         var ctx=cv.getContext('2d');
         pg.render({canvasContext:ctx,viewport:v}).promise.then(function(){
@@ -945,11 +946,13 @@ function readerOpen(title,encUrl,keyP,wm){
     }
     function layout(){
       var cur=1, kids=rb.children; for(var i=0;i<kids.length;i++){ if(kids[i].offsetTop+kids[i].offsetHeight>rb.scrollTop){ cur=i+1; break; } }
-      if(obs) obs.disconnect(); rb.innerHTML=''; W=Math.min(rb.clientWidth-16,1400); obs=mkObs();
+      if(obs) obs.disconnect(); rb.innerHTML=''; W=Math.round(Math.min((rb.clientWidth-16)*Z,Z>1?4000:1400)); rb.style.alignItems=Z>1?'flex-start':'center'; obs=mkObs();
       for(var n=1;n<=pdf.numPages;n++){ var d=document.createElement('div'); d.className='rpage'; d.dataset.p=n; d.style.width=W+'px'; d.style.height=Math.round(W*AR)+'px'; rb.appendChild(d); obs.observe(d); }
       if(cur>1&&rb.children[cur-1]) rb.scrollTop=rb.children[cur-1].offsetTop;
     }
     var lastW=0; relayout=function(){ var nw=Math.min(rb.clientWidth-16,1400); if(Math.abs(nw-lastW)>20){ lastW=nw; layout(); } };
+    var zoom=function(f){ var nz=Math.max(1,Math.min(3,Math.round(Z*f*100)/100)); if(nz===Z) return; var fx=rb.scrollWidth>rb.clientWidth?(rb.scrollLeft+rb.clientWidth/2)/rb.scrollWidth:0.5; Z=nz; layout(); rb.scrollLeft=Math.max(0,fx*rb.scrollWidth-rb.clientWidth/2); rtoast(ov,'Zoom '+Math.round(Z*100)+'%'); };
+    ov.querySelector('#rzi').onclick=function(){ zoom(1.25); }; ov.querySelector('#rzo').onclick=function(){ zoom(0.8); };
     pdf.getPage(1).then(function(pg){ var v=pg.getViewport({scale:1}); AR=v.height/v.width; }).catch(function(){}).then(function(){ lastW=Math.min(rb.clientWidth-16,1400); layout(); });
   }).catch(function(e){ ov.querySelector('#rb').innerHTML='<div class="card" style="margin:16px"><b>Book नहीं खुल पाई</b><p class="muted small">'+(e&&e.message==='lic'?'आपका code अब मान्य नहीं है। Telegram पर संपर्क करें।':'इंटरनेट जाँचकर दोबारा खोलें।')+'</p></div>'; });
 }
@@ -980,16 +983,18 @@ function packPrice(id){ var b=EBOOKS.filter(function(e){return e.id===id;})[0]; 
 function bindSem(){
   app.querySelectorAll('[data-sp]').forEach(function(x){ x.onclick=function(){ readerOpen(x.getAttribute('data-st'),x.getAttribute('data-sp'),keyFor(x.getAttribute('data-pk'))); }; });
 }
+function nfBooks(){ return EBOOKS.filter(function(b){ return /natural\s*farming|प्राकृतिक खेती/i.test((b.title||'')+' '+(b.sub||'')); }); }
 function nfPage(){
   activeTab('');
   var h=topbar()+'<main class="page"><h2 class="sec">B.Sc. Natural <span>Farming</span></h2><p class="muted small" style="margin:0">B.Sc. Natural Farming semester के हर course के notes (English + हिंदी) और gold-medalist style हल सहित model paper।</p>';
+  var nb=nfBooks(); if(nb.length){ h+='<h2 class="sec">Notes <span>eBooks</span></h2>'; nb.forEach(function(b){ h+=ebookCard(b); }); }
   NF.forEach(function(g){
     var pk=g.pack&&EBOOKS.filter(function(e){return e.id===g.pack;})[0];
     if(pk && !packOpen(g.pack) && !IS_TWA) h+='<div class="card" style="border-color:var(--gold);background:radial-gradient(120% 140% at 100% 0%,#2f4a05 0%,#141a10 65%)"><b style="font-size:18px">🌿 '+esc(pk.title)+'</b><div class="muted small" style="margin:4px 0 8px">'+esc(pk.sub)+(pk.pages?' · '+pk.pages+' पेज':'')+'. एक बार ₹'+pk.price+' - इस semester के सभी notes और model paper हमेशा के लिए खुलेंगे।'+(autoPay()?' Payment होते ही अपने आप खुल जाएगा।':'')+'</div><div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn gold" data-buy="'+pk.id+'">₹'+pk.price+' में खरीदें</button><button class="btn ghost" data-code="'+pk.id+'">'+(autoPay()?'पहले खरीदा है?':'🔑 Password डालें')+'</button></div></div>';
     h+='<h2 class="sec">'+esc(g.title)+'</h2>';
     g.papers.forEach(function(x){ h+=semCard(g,x); });
   });
-  if(!NF.length) h+='<div class="card" style="text-align:center;padding:22px 16px"><div style="font-size:46px;line-height:1">🌿</div><b style="display:block;margin-top:6px">Notes और Model Paper जल्द आ रहे हैं</b><p class="muted small" style="margin:6px 0 0">B.Sc. Natural Farming के semester notes और हल सहित model paper यहाँ जोड़े जा रहे हैं। अपडेट के लिए WhatsApp / Telegram से जुड़ें।</p></div>'+socialCards();
+  if(!NF.length && !nb.length) h+='<div class="card" style="text-align:center;padding:22px 16px"><div style="font-size:46px;line-height:1">🌿</div><b style="display:block;margin-top:6px">Notes और Model Paper जल्द आ रहे हैं</b><p class="muted small" style="margin:6px 0 0">B.Sc. Natural Farming के semester notes और हल सहित model paper यहाँ जोड़े जा रहे हैं। अपडेट के लिए WhatsApp / Telegram से जुड़ें।</p></div>'+socialCards();
   h+=shareCard()+'</main>';
   app.innerHTML=h; bindCommon(); bindBooks(); bindSem();
 }
