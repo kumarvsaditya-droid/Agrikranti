@@ -312,5 +312,33 @@
  "agri_universities": [
   "ANDUAT Ayodhya",
   "RPCAU Pusa"
- ]
+ ],
+ "official_pages": [
+  [
+   "DDU Gorakhpur",
+   "https://www.dduguadmission.in/",
+   "agri"
+  ],
+  [
+   "DDU Gorakhpur",
+   "https://ddugu.ac.in/",
+   "agri"
+  ],
+  [
+   "MGU Gorakhpur",
+   "https://mgug.ac.in/",
+   "agri"
+  ],
+  [
+   "ANDUAT Ayodhya",
+   "https://nduat.org/",
+   "job"
+  ],
+  [
+   "RPCAU Pusa",
+   "https://www.rpcau.ac.in/",
+   "job"
+  ]
+ ],
+ "official_skip_regex": "tender|निविदा|quotation|e-?procurement|GeM|auction|नीलामी|login|privacy|sitemap|RTI|NIRF|NAAC|IQAC|anti.?ragging|grievance"
 }

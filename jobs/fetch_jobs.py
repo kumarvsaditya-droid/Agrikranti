@@ -52,6 +52,39 @@ def fetch(q, lang):
         out.append({'title': title, 'link': (it.findtext('link') or '').strip(), 'source': src, 'ts': ts})
     return out
 
+def official(label, url, mode, seen_before):
+    """University ki official website se agriculture notice ke link (PDF/notice). Date file-naam se, warna pehli baar dikhne ka samay."""
+    req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (AgrikrantiJobAlerts)'})
+    with urllib.request.urlopen(req, timeout=25) as r: page = r.read().decode('utf-8', 'ignore')
+    skip, now, out = re.compile(CFG.get('official_skip_regex', 'tender'), re.I), int(time.time()), []
+    for href, txt in re.findall(r'<a\b[^>]*?href\s*=\s*["\']([^"\'#]+)["\'][^>]*>(.*?)</a>', page, re.I | re.S):
+        txt = re.sub(r'\s+', ' ', html.unescape(re.sub(r'<[^>]+>', ' ', txt))).strip()
+        link = urllib.parse.urljoin(url, html.unescape(href.strip()))
+        fname = urllib.parse.unquote(link.rsplit('/', 1)[-1])
+        if not txt or len(txt) < 8 or txt.lower() in ('click here', 'download', 'view', 'read more', 'more'):
+            txt = re.sub(r'\.pdf$', '', fname, flags=re.I).replace('-', ' ').replace('_', ' ').strip()
+        both = txt + ' ' + fname
+        if len(txt) < 6 or skip.search(both) or BAD.search(txt): continue
+        if not (link.lower().endswith('.pdf') or UJOB.search(txt)): continue
+        if mode == 'agri' and not UTOPIC.search(both): continue
+        if mode == 'job' and not UJOB.search(both): continue
+        m = re.search(r'(?<!\d)(\d{2})(\d{2})(\d{4}|\d{2})(?!\d)', fname)
+        ts = None
+        if m:
+            d, mo, y = int(m.group(1)), int(m.group(2)), int(m.group(3)); y += 2000 if y < 100 else 0
+            try:
+                import datetime; ts = int(datetime.datetime(y, mo, d, 12).timestamp())
+                if ts > now + 86400 or y < 2020: ts = None
+            except ValueError: ts = None
+        if ts is None: ts = now if seen_before else now - 10 * 86400   # pehli baar: purane maan lo (NEW na dikhe)
+        if txt.replace(' ', '') in fname.replace('-', '').replace('_', '').replace('.pdf', '').replace('.PDF', ''):   # naam file se bana: saaf karein
+            txt = re.sub(r'(?<!\d)\d{6,8}(?!\d)', '', txt)
+            txt = re.sub(r'(?i)\bM\.?Sc\.?\s*AG\b', 'M.Sc. (Ag.)', re.sub(r'(?i)\bB\.?Sc\.?\s*AG\b', 'B.Sc. (Ag.)', txt)).strip()
+            txt = txt + ' - नई सूचना' + (time.strftime(' (%d-%m-%Y)', time.localtime(ts)) if m else '')
+        title = (label + ': ' + txt)[:180]
+        out.append({'title': title, 'link': link, 'source': label + ' (Official)', 'ts': ts, 'uni': label})
+    return out[:15]
+
 def region(t):
     for k, rx in REG:
         if rx.search(t): return k
@@ -78,18 +111,41 @@ def main():
             seen.add(k); i = hashlib.md5(k.encode()).hexdigest()[:10]
             items.append({'id': i, 'title': t[:180], 'link': x['link'], 'source': x['source'][:40], 'ts': x['ts'], 'tag': tag(t), 'region': region(t) or ('Bihar' if u == 'RPCAU Pusa' else ('UP' if u else '')), 'uni': u, 'added': old.get(i, {}).get('added', now)})
         time.sleep(1)
+    pages_seen = {}
+    try: pages_seen = json.load(open(OUT, encoding='utf-8')).get('pages_seen', {})
+    except Exception: pass
+    new_seen = {}
+    for label, url, mode in CFG.get('official_pages', []):
+        try: res = official(label, url, mode, url in pages_seen)
+        except Exception as e: print('ERR official', url, e); new_seen[url] = pages_seen.get(url, []); continue
+        prev = set(pages_seen.get(url, []))
+        hs = []
+        for x in res:
+            h = hashlib.md5(x['link'].encode()).hexdigest()[:10]; hs.append(h)
+            if h in prev and h not in old and x['ts'] >= now - 86400: x['ts'] = now - 10 * 86400   # pehle dekha tha, ab NEW nahi
+            k = norm(x['title'])
+            if now - x['ts'] > MAX_DAYS * 86400 or k in seen: continue
+            seen.add(k)
+            o = old.get(h, {})
+            items.append({'id': h, 'title': x['title'], 'link': x['link'], 'source': x['source'][:40], 'ts': o.get('ts', x['ts']), 'tag': tag(x['title']), 'region': 'Bihar' if label == 'RPCAU Pusa' else 'UP', 'uni': label, 'added': o.get('added', now)})
+        new_seen[url] = sorted(set(hs) | prev)[-300:]
+        time.sleep(1)
     if errs == len(allq): raise SystemExit('sab queries fail - jobs.json nahi badla')
+    for i, x in old.items():
+        if x.get('source', '').endswith('(Official)'):   # official notice: sirf tab rakhein jab abhi bhi 30 din ke andar
+            if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen: items.append(x)
+            continue
     for i, x in old.items():   # purani (abhi bhi 30 din ke andar) khabrein bhi rakhein
-        if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen and accept(x['title'], x.get('source', '')) is not None: items.append(x)
+        if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen and not x.get('source', '').endswith('(Official)') and accept(x['title'], x.get('source', '')) is not None: items.append(x)
     items.sort(key=lambda x: x['ts'], reverse=True)
     un = [x for x in items if x.get('uni')]
     pri = [x for x in items if x.get('region') and not x.get('uni')]; rest = [x for x in items if not x.get('region') and not x.get('uni')]
     items = (un[:CFG.get('uni_keep', 30)] + pri[:50] + rest)[:KEEP]   # pehle Gorakhpur kshetra ki university, phir UP/Bihar
-    new = {'updated': now, 'count': len(items), 'items': items}
+    new = {'updated': now, 'count': len(items), 'items': items, 'pages_seen': new_seen}
     prev = None
     try: prev = json.load(open(OUT, encoding='utf-8'))
     except Exception: pass
-    if prev and [x['id'] for x in prev.get('items', [])] == [x['id'] for x in items]:
+    if prev and [x['id'] for x in prev.get('items', [])] == [x['id'] for x in items] and prev.get('pages_seen', {}) == new_seen:
         print('koi nayi khabar nahi'); return
     json.dump(new, open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('jobs.json:', len(items), 'khabrein,', len([x for x in items if x['id'] not in old]), 'nayi')
