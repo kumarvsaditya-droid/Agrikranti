@@ -1,6 +1,6 @@
 {
  "updated": 1794465503,
- "count": 92,
+ "count": 80,
  "items": [
   {
    "id": "5de20e337b",
@@ -12,17 +12,6 @@
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
    "added": 1794465002
-  },
-  {
-   "id": "526a67ff39",
-   "title": "RPCAU Pusa: 07/11/2023 - Notice for Walk-In-Interview",
-   "link": "https://rpcau.ac.in/wp-content/uploads/2024/04/Walk-in-interview-L.NO_.-757-CAE_0001.pdf",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601592,
-   "tag": "Update",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465503
   },
   {
    "id": "e5adbdaf45",
@@ -37,7 +26,7 @@
   },
   {
    "id": "ae816afe9c",
-   "title": "ANDUAT Ayodhya: Corrigendum WALk IN INTERVIEW ADVT [344 KB] Language: English",
+   "title": "ANDUAT Ayodhya: Corrigendum WALk IN INTERVIEW ADVT",
    "link": "https://nduat.org/pdf/CORRIGENDUMS Walk-in-Interview.pdf",
    "source": "ANDUAT Ayodhya (Official)",
    "ts": 1793601581,
@@ -48,7 +37,7 @@
   },
   {
    "id": "2fb37fe114",
-   "title": "ANDUAT Ayodhya: New Faculty Requirement 2026 Date Extension Notice [616 KB] Language: English",
+   "title": "ANDUAT Ayodhya: New Faculty Requirement 2026 Date Extension Notice",
    "link": "https://nduat.org/pdf/Corrigendum Date Extension Notice.pdf",
    "source": "ANDUAT Ayodhya (Official)",
    "ts": 1793601581,
@@ -59,79 +48,13 @@
   },
   {
    "id": "8c1649c9d0",
-   "title": "ANDUAT Ayodhya: Advt. No. 11/2025 and 12/2025 Exam Result [8303 KB] Language: English",
+   "title": "ANDUAT Ayodhya: Advt. No. 11/2025 and 12/2025 Exam Result",
    "link": "https://nduat.org/pdf/New Doc 07-13-2026 17.36.pdf",
    "source": "ANDUAT Ayodhya (Official)",
    "ts": 1793601581,
    "tag": "Result",
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
-   "added": 1794465503
-  },
-  {
-   "id": "c782164489",
-   "title": "ANDUAT Ayodhya: Roster Information DE Postions [835 KB] Language: English",
-   "link": "https://nduat.org/pdf/Roster Information DE Postions.pdf",
-   "source": "ANDUAT Ayodhya (Official)",
-   "ts": 1793601581,
-   "tag": "Update",
-   "region": "UP",
-   "uni": "ANDUAT Ayodhya",
-   "added": 1794465503
-  },
-  {
-   "id": "286056572a",
-   "title": "ANDUAT Ayodhya: Guest House Revised Rate [1209 KB] Language: English",
-   "link": "https://nduat.org/pdf/Guest house rate.pdf",
-   "source": "ANDUAT Ayodhya (Official)",
-   "ts": 1793601581,
-   "tag": "Update",
-   "region": "UP",
-   "uni": "ANDUAT Ayodhya",
-   "added": 1794465503
-  },
-  {
-   "id": "b98ef32fe1",
-   "title": "ANDUAT Ayodhya: 28 Convocation Notification [3653 KB] Language: English",
-   "link": "https://nduat.org/pdf/Image to PDF 20260612 13.54.45.pdf",
-   "source": "ANDUAT Ayodhya (Official)",
-   "ts": 1793601581,
-   "tag": "Notification",
-   "region": "UP",
-   "uni": "ANDUAT Ayodhya",
-   "added": 1794465503
-  },
-  {
-   "id": "4f0f9a7727",
-   "title": "ANDUAT Ayodhya: Lokpal Notification [554 KB] Language: English",
-   "link": "https://nduat.org/pdf/Notification-Lokpal.pdf",
-   "source": "ANDUAT Ayodhya (Official)",
-   "ts": 1793601581,
-   "tag": "Notification",
-   "region": "UP",
-   "uni": "ANDUAT Ayodhya",
-   "added": 1794465503
-  },
-  {
-   "id": "b6d7b78c6e",
-   "title": "ANDUAT Ayodhya: inner event gallery.php?fid=NDA=&gid=VmljZSBDaGFuY2VsbG9yIElzc3VlcyBSZWd1bGFyaXphdGlvbiBBcHBvaW50bWVudCBMZXR0ZXJzIHRvIFRocmVlIERhaWx5LVdhZ2UgV29ya2VycyBvbiBBY2hhcnl",
-   "link": "https://nduat.org/inner-event-gallery.php?fid=NDA=&gid=VmljZSBDaGFuY2VsbG9yIElzc3VlcyBSZWd1bGFyaXphdGlvbiBBcHBvaW50bWVudCBMZXR0ZXJzIHRvIFRocmVlIERhaWx5LVdhZ2UgV29ya2VycyBvbiBBY2hhcnlhIE5hcmVuZHJhIERldiBKYXlhbnRp",
-   "source": "ANDUAT Ayodhya (Official)",
-   "ts": 1793601581,
-   "tag": "Update",
-   "region": "UP",
-   "uni": "ANDUAT Ayodhya",
-   "added": 1794465503
-  },
-  {
-   "id": "e5fec04b64",
-   "title": "DDU Gorakhpur: Institute of Agriculture & Natural Sciences",
-   "link": "javascript:void(0)",
-   "source": "DDU Gorakhpur (Official)",
-   "ts": 1793601576,
-   "tag": "Update",
-   "region": "UP",
-   "uni": "DDU Gorakhpur",
    "added": 1794465503
   },
   {
@@ -158,7 +81,7 @@
   },
   {
    "id": "3520a37f7d",
-   "title": "DDU Gorakhpur: spot B.Sc. (Ag.).jpeg - नई सूचना",
+   "title": "DDU Gorakhpur: spot B.Sc. (Ag.) - नई सूचना",
    "link": "https://www.dduguadmission.in/pdf-files/spot-bsc-ag.jpeg",
    "source": "DDU Gorakhpur (Official)",
    "ts": 1793601484,
@@ -171,61 +94,6 @@
    "id": "4dca6e1c02",
    "title": "RPCAU Pusa: Public Notice regarding Announcement for Written Examination and Interview for Advt. No.- RPCAU/02/2026",
    "link": "https://rpcau.ac.in/advt-no-rpcau-02-2026-dated-24-01-2026-for-the-post-of-assistant-registrar-deputation-and-medical-officer-t-6-direct/",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601484,
-   "tag": "Update",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465321
-  },
-  {
-   "id": "f494083e2f",
-   "title": "RPCAU Pusa: Advt. No. – RPCAU/03/2026 Dated-31/07/2026 for the posts of Professor and Associate Professor",
-   "link": "https://rpcau.ac.in/advt-no-rpcau-03-2026-dated-31-07-2026-for-the-posts-of-professor-and-associate-professor/",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601484,
-   "tag": "Update",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465321
-  },
-  {
-   "id": "d35c6baaf0",
-   "title": "RPCAU Pusa: Public Notice – Declaration of provisional result for the Statutory posts against Advt. No. RPCAU/04/2024, dated-12.12.2024",
-   "link": "https://rpcau.ac.in/advertisement-for-various-statutory-positions-against-advt-no-rpcau-04-2024-dated-12-12-2024/",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601484,
-   "tag": "Result",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465321
-  },
-  {
-   "id": "0e07f63a91",
-   "title": "RPCAU Pusa: Public Notice – Declaration of provisional result for various Technical Posts against Advt. No. RPCAU/02/2024, dated-15.02.2024",
-   "link": "https://rpcau.ac.in/employment-notice-for-the-post-of-various-technical-positions-against-employment-notice-no-rpcau-02-2024-dated-15-02-2024/",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601484,
-   "tag": "Result",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465321
-  },
-  {
-   "id": "542b232657",
-   "title": "RPCAU Pusa: Public Notice (Declaration of provisional result for the post of Assistant Registrar & Assistant Comptroller against Advt. No. RPCAU/01/2024, dated-15.02.2024",
-   "link": "https://rpcau.ac.in/employment-notice-for-the-post-of-various-administrative-positions-against-employment-notice-no-rpcau-01-2024-dated-15-02-2024/",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601484,
-   "tag": "Result",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465321
-  },
-  {
-   "id": "d35c6baaf0",
-   "title": "RPCAU Pusa: Public Notice- Shortlisted Candidates to be called for Personal Interaction-cum-Interview against Advt. No.-RPCAU/04/2024 dated – 12.12.2024",
-   "link": "https://rpcau.ac.in/advertisement-for-various-statutory-positions-against-advt-no-rpcau-04-2024-dated-12-12-2024/",
    "source": "RPCAU Pusa (Official)",
    "ts": 1793601484,
    "tag": "Update",

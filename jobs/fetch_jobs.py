@@ -65,8 +65,9 @@ def official(label, url, mode, seen_before):
         new_link = lh not in seen_before
         fname = urllib.parse.unquote(link.rsplit('/', 1)[-1])
         if not txt or len(txt) < 8 or txt.lower() in ('click here', 'download', 'view', 'read more', 'more'):
-            txt = re.sub(r'\.pdf$', '', fname, flags=re.I).replace('-', ' ').replace('_', ' ').strip()
+            txt = re.sub(r'(?i)\.(pdf|jpe?g|png|docx?)$', '', fname).replace('-', ' ').replace('_', ' ').strip()
         txt = re.sub(r'^[^0-9A-Za-zऀ-ॿ]+', '', txt).strip()   # ⦿ 🔵 jaise nishan hatao
+        txt = re.sub(r'\s*\[[\d.,]+\s*[KM]B\]\s*(Language:\s*\w+)?', '', txt, flags=re.I).strip()
         both = txt + ' ' + fname
         if len(txt) < 6 or skip.search(txt) or skip.search(fname) or BAD.search(txt): continue
         if not link.lower().split('?')[0].endswith(('.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png')) and len(txt) < 35: continue   # menu ke chhote link nahi
@@ -80,9 +81,17 @@ def official(label, url, mode, seen_before):
                 import datetime; ts = int(datetime.datetime(y, mo, d, 12).timestamp())
                 if ts > now + 86400 or y < 2020: ts = None
             except ValueError: ts = None
+        if ts is None:   # text mein likhi taareekh (31/07/2026) - sabse nayi wali
+            ds = []
+            for a, b, cc in re.findall(r'(?<!\d)(\d{1,2})[./-](\d{1,2})[./-](20\d{2})(?!\d)', txt):
+                try:
+                    import datetime; v = int(datetime.datetime(int(cc), int(b), int(a), 12).timestamp())
+                    if v <= now + 86400: ds.append(v)
+                except ValueError: pass
+            if ds: ts = max(ds)
         if ts is None: ts = now if (seen_before and new_link) else now - 10 * 86400   # pehli baar: purane maan lo (NEW na dikhe)
         if txt.replace(' ', '') in fname.replace('-', '').replace('_', '').replace('.pdf', '').replace('.PDF', ''):   # naam file se bana: saaf karein
-            txt = re.sub(r'(?<!\d)\d{6,8}(?!\d)', '', txt)
+            txt = re.sub(r'(?<!\d)\d{6,8}(?!\d)', '', re.sub(r'(?i)\.(pdf|jpe?g|png|docx?)$', '', txt))
             txt = re.sub(r'(?i)\bM\.?Sc\.?\s*AG\b', 'M.Sc. (Ag.)', re.sub(r'(?i)\bB\.?Sc\.?\s*AG\b', 'B.Sc. (Ag.)', txt)).strip()
             txt = txt + ' - नई सूचना' + (time.strftime(' (%d-%m-%Y)', time.localtime(ts)) if m else '')
         title = (label + ': ' + txt)[:180]
