@@ -177,7 +177,7 @@
    "name": "Sugarcane Supervisor Test Series"
   }
  ],
- "banners": [{"img":"img/banner-exam-alert.jpg","go":"semester"},
+ "banners": [
   {
    "img": "img/banner-sem1pack.jpg",
    "go": "semester"
