@@ -297,8 +297,12 @@ function ebookForm(i){
    +'<div class="grid2"><div><label>कीमत ₹ (0 = Free)</label><input id="bp" type="number" min="0" value="'+esc(b.price)+'"></div><div><label>पेज</label><input id="bg" type="number" value="'+esc(b.pages)+'"></div></div>'
    +'<label>Cover पर लिखा (2 शब्द)</label><input id="bc" value="'+esc(String(b.cover||'').replace(/<br>/g,' '))+'">'
    +'<label>PDF (Free हो तो खुली, Paid हो तो lock होकर upload होगी) '+(b.file?'(अभी: '+esc(b.file)+')':'')+'</label><input id="bf" type="file" accept="application/pdf">'
+   +'<div class="small" id="mkst" style="margin-top:6px;color:#9fb3a5">Paid PDF की चाबी जाँच हो रही है...</div>'
    +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sv">Save करें</button><button class="btn ghost" id="bk">वापस</button></div></div>';
   document.getElementById('bk').onclick=ebookView;
+  payMasterKey().then(function(MK){ var el=document.getElementById('mkst'); if(!el) return;
+    el.innerHTML=MK?'✅ <b style="color:#4fd36a">Paid PDF payment वाली master चाबी से lock होगी</b> - payment के बाद book अपने आप खुलेगी। (v2)'
+      :(!PINK?'⚠️ <b style="color:#f2b705">पहले "💰 eBook बिक्री" tab में Admin PIN डालें</b>, फिर यहाँ आएँ।':'⚠️ <b style="color:#ff6b6b">Master चाबी नहीं मिली</b> - upload न करें, Claude को बताएँ।'); });
   document.getElementById('sv').onclick=function(){
     var btn=this; btn.disabled=true;
     var w=document.getElementById('bc').value.trim().split(/\s+/);
