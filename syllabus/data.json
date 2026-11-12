@@ -1,0 +1,583 @@
+{
+ "note": "Syllabus library. Har exam ka content official notification / vishvasniya source se milakar likha hai. Naya exam jodne ke liye yahan entry daalo aur python3 _src/build_syllabus.py chalao.",
+ "exams": [
+  {
+   "id": "upsssc-ganna-paryavekshak",
+   "title": "UPSSSC Ganna Paryavekshak (Cane Supervisor) Mains",
+   "hi": "यूपीएसएसएससी गन्ना पर्यवेक्षक मुख्य परीक्षा",
+   "body": "UPSSSC, Lucknow",
+   "region": "UP",
+   "year": "2026",
+   "posts": "1182 (1000 सामान्य + 182 विशेष चयन)",
+   "advt": "विज्ञापन सं. 13-परीक्षा/2026",
+   "official": "https://upsssc.gov.in",
+   "eligibility": "B.Sc. (Ag.) + UPSSSC PET स्कोर",
+   "match": "(cane|sugarcane|ganna)\\s*(supervisor|paryavekshak)|गन्ना\\s*पर्यवेक्षक",
+   "pattern": [
+    [
+     "परीक्षा / Exam",
+     "मुख्य लिखित परीक्षा, OMR, वस्तुनिष्ठ (MCQ), हिंदी + English"
+    ],
+    [
+     "प्रश्न / Questions",
+     "100 प्रश्न, 100 अंक (हर प्रश्न 1 अंक)"
+    ],
+    [
+     "समय / Time",
+     "2 घंटे (120 मिनट)"
+    ],
+    [
+     "Negative",
+     "हर गलत उत्तर पर 1/4 (0.25) अंक कटेंगे"
+    ]
+   ],
+   "sections": [
+    {
+     "name": "Part A: Agriculture Science",
+     "hi": "भाग क: कृषि विज्ञान",
+     "marks": "65 अंक",
+     "topics": [
+      [
+       "Crop Science: classification of crops (cereals, pulses, oilseeds, millets, fibre, cash, spice, fodder, fruit, flower, vegetable) and their production practices",
+       "फसल विज्ञान: फसलों का वर्गीकरण (अनाज, दलहन, तिलहन, मोटे अनाज, रेशा, नकदी, मसाला, चारा, फल, फूल, सब्ज़ी) और उत्पादन तकनीक"
+      ],
+      [
+       "Post-harvest handling, preservation and processing of fruits and vegetables",
+       "फल-सब्ज़ी की तुड़ाई उपरांत देखभाल, संरक्षण और प्रसंस्करण"
+      ],
+      [
+       "Cropping systems: crop rotation, cropping pattern, dry, integrated, natural and organic farming; mono, multiple and intercropping",
+       "फसल प्रणाली: फसल चक्र, फसल प्रारूप, शुष्क, एकीकृत, प्राकृतिक व जैविक खेती; एकल, बहु व अंतःफसल"
+      ],
+      [
+       "Basics of plant biotechnology in agriculture",
+       "कृषि में पादप जैव-प्रौद्योगिकी की मूल बातें"
+      ],
+      [
+       "Plant breeding and crop physiology",
+       "पादप प्रजनन और फसल कार्यिकी"
+      ],
+      [
+       "Soil and water conservation: soil types, fertility, irrigation, water conservation, watershed management",
+       "मृदा एवं जल संरक्षण: मृदा के प्रकार, उर्वरता, सिंचाई, जल संरक्षण, जलागम प्रबंधन"
+      ],
+      [
+       "Agricultural extension",
+       "कृषि प्रसार"
+      ],
+      [
+       "Agricultural economics and government schemes (PM-KISAN, PMFBY, KCC, Soil Health Card etc.)",
+       "कृषि अर्थशास्त्र और सरकारी योजनाएँ (पीएम-किसान, पीएमएफबीवाई, केसीसी, मृदा स्वास्थ्य कार्ड आदि)"
+      ],
+      [
+       "Dairy and animal husbandry basics",
+       "दुग्ध विज्ञान और पशुपालन की मूल बातें"
+      ]
+     ]
+    },
+    {
+     "name": "Part B: Computer & IT",
+     "hi": "भाग ख: कंप्यूटर एवं सूचना प्रौद्योगिकी",
+     "marks": "15 अंक",
+     "topics": [
+      [
+       "Computer fundamentals: components, history, classification, functions",
+       "कंप्यूटर की मूल बातें: भाग, इतिहास, वर्गीकरण, कार्य"
+      ],
+      [
+       "Software: system, application and utility software",
+       "सॉफ्टवेयर: सिस्टम, एप्लिकेशन और यूटिलिटी"
+      ],
+      [
+       "MS Word, Excel and PowerPoint basics",
+       "MS Word, Excel और PowerPoint की मूल बातें"
+      ],
+      [
+       "Operating system: Windows, GUI, desktop, taskbar, shortcuts, dialogue boxes",
+       "ऑपरेटिंग सिस्टम: Windows, GUI, डेस्कटॉप, टास्कबार, शॉर्टकट"
+      ],
+      [
+       "Emerging technology: AI, machine learning, deep learning, IoT, big data",
+       "उभरती तकनीक: AI, मशीन लर्निंग, डीप लर्निंग, IoT, बिग डेटा"
+      ]
+     ]
+    },
+    {
+     "name": "Part C: Uttar Pradesh General Information",
+     "hi": "भाग ग: उत्तर प्रदेश सामान्य जानकारी",
+     "marks": "20 अंक",
+     "topics": [
+      [
+       "UP general knowledge and current affairs",
+       "उत्तर प्रदेश सामान्य ज्ञान और समसामयिकी"
+      ],
+      [
+       "Agricultural profile of UP: major crops, seasons, agro-climatic zones",
+       "उत्तर प्रदेश की कृषि: प्रमुख फसलें, मौसम, कृषि-जलवायु क्षेत्र"
+      ],
+      [
+       "Sugarcane cultivation in UP, sugar mills and cane development schemes",
+       "उत्तर प्रदेश में गन्ना खेती, चीनी मिलें और गन्ना विकास योजनाएँ"
+      ],
+      [
+       "State agricultural policies and farmer welfare schemes",
+       "राज्य की कृषि नीतियाँ और किसान कल्याण योजनाएँ"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "upsssc-agta",
+   "title": "UPSSSC AGTA (Agriculture Technical Assistant) Mains",
+   "hi": "यूपीएसएसएससी कृषि तकनीकी सहायक (AGTA) मुख्य परीक्षा",
+   "body": "UPSSSC, Lucknow",
+   "region": "UP",
+   "year": "2026",
+   "posts": "विज्ञापन अनुसार",
+   "advt": "UPSSSC का नवीनतम AGTA विज्ञापन",
+   "official": "https://upsssc.gov.in",
+   "eligibility": "B.Sc. (Ag.) + UPSSSC PET स्कोर",
+   "match": "\\bAGTA\\b|agricultur\\w*\\s+technical\\s+assistant|कृषि\\s*तकनीकी\\s*सहायक",
+   "pattern": [
+    [
+     "परीक्षा / Exam",
+     "मुख्य लिखित परीक्षा, वस्तुनिष्ठ (MCQ), हिंदी + English"
+    ],
+    [
+     "प्रश्न / Questions",
+     "100 प्रश्न, 100 अंक"
+    ],
+    [
+     "समय / Time",
+     "2 घंटे"
+    ],
+    [
+     "Negative",
+     "हर गलत उत्तर पर 1/4 अंक कटेंगे"
+    ]
+   ],
+   "sections": [
+    {
+     "name": "Crop Science",
+     "hi": "फसल विज्ञान",
+     "marks": "25 प्रश्न",
+     "topics": [
+      [
+       "Classification of crops, production practices, post-harvest handling",
+       "फसलों का वर्गीकरण, उत्पादन तकनीक, तुड़ाई उपरांत प्रबंधन"
+      ],
+      [
+       "Crop rotation, farming systems, organic farming",
+       "फसल चक्र, कृषि प्रणाली, जैविक खेती"
+      ],
+      [
+       "Seeds and seed treatment, crop protection and IPM, pests and diseases, quality of produce, storage",
+       "बीज व बीजोपचार, फसल सुरक्षा व IPM, कीट-रोग, उपज की गुणवत्ता, भंडारण"
+      ]
+     ]
+    },
+    {
+     "name": "Biotechnology, Plant Breeding & Crop Physiology",
+     "hi": "जैव-प्रौद्योगिकी, पादप प्रजनन एवं फसल कार्यिकी",
+     "marks": "10 प्रश्न",
+     "topics": [
+      [
+       "Biotechnology in agriculture, genetics and plant breeding",
+       "कृषि में जैव-प्रौद्योगिकी, आनुवंशिकी व पादप प्रजनन"
+      ],
+      [
+       "Photosynthesis, respiration, transpiration, plant anatomy and metabolism",
+       "प्रकाश-संश्लेषण, श्वसन, वाष्पोत्सर्जन, पादप शारीरिकी व उपापचय"
+      ]
+     ]
+    },
+    {
+     "name": "Soil and Water Management",
+     "hi": "मृदा एवं जल प्रबंधन",
+     "marks": "15 प्रश्न",
+     "topics": [
+      [
+       "Soil formation and properties, erosion and conservation",
+       "मृदा निर्माण व गुण, मृदा क्षरण व संरक्षण"
+      ],
+      [
+       "Plant nutrients and deficiency symptoms, fertilizers, INM, bio-fertilizers, soil microbiology",
+       "पोषक तत्व व कमी के लक्षण, उर्वरक, समन्वित पोषक प्रबंधन, जैव उर्वरक, मृदा सूक्ष्मजीव विज्ञान"
+      ],
+      [
+       "Soil survey and sampling, irrigation, drainage, watershed management, pollution",
+       "मृदा सर्वेक्षण व नमूना, सिंचाई, जल निकास, जलागम प्रबंधन, प्रदूषण"
+      ]
+     ]
+    },
+    {
+     "name": "Agriculture Extension",
+     "hi": "कृषि प्रसार",
+     "marks": "5 प्रश्न",
+     "topics": [
+      [
+       "Extension principles, rural development, methods and audio-visual aids, training, central and state schemes",
+       "प्रसार के सिद्धांत, ग्रामीण विकास, प्रसार विधियाँ व दृश्य-श्रव्य साधन, प्रशिक्षण, केंद्र व राज्य की योजनाएँ"
+      ]
+     ]
+    },
+    {
+     "name": "Agriculture Economics and Schemes",
+     "hi": "कृषि अर्थशास्त्र एवं योजनाएँ",
+     "marks": "5 प्रश्न",
+     "topics": [
+      [
+       "Agriculture in UP economy, import-export, agricultural planning and statistics, MSP, agricultural marketing",
+       "उत्तर प्रदेश की अर्थव्यवस्था में कृषि, आयात-निर्यात, कृषि नियोजन व सांख्यिकी, MSP, कृषि विपणन"
+      ]
+     ]
+    },
+    {
+     "name": "Animal Husbandry and Dairy Science",
+     "hi": "पशुपालन एवं दुग्ध विज्ञान",
+     "marks": "5 प्रश्न",
+     "topics": [
+      [
+       "Animal breeds and feed, animal breeding, milk production, poultry, fish, apiculture, sericulture, animal diseases",
+       "पशु नस्लें व आहार, पशु प्रजनन, दुग्ध उत्पादन, मुर्गी, मछली, मधुमक्खी व रेशम कीट पालन, पशु रोग"
+      ]
+     ]
+    },
+    {
+     "name": "Computer and IT",
+     "hi": "कंप्यूटर एवं सूचना प्रौद्योगिकी",
+     "marks": "15 प्रश्न",
+     "topics": [
+      [
+       "Computer basics, internet and WWW, hardware, software, input-output devices, IP address",
+       "कंप्यूटर की मूल बातें, इंटरनेट, हार्डवेयर, सॉफ्टवेयर, इनपुट-आउटपुट डिवाइस, IP एड्रेस"
+      ],
+      [
+       "E-mail, MS Word, MS Excel, operating system, social networking, e-governance, digital payments",
+       "ई-मेल, MS Word, MS Excel, ऑपरेटिंग सिस्टम, सोशल नेटवर्किंग, ई-गवर्नेंस, डिजिटल भुगतान"
+      ],
+      [
+       "Cyber security, AI, machine learning, big data, IoT, India's achievements in IT",
+       "साइबर सुरक्षा, AI, मशीन लर्निंग, बिग डेटा, IoT, IT में भारत की उपलब्धियाँ"
+      ]
+     ]
+    },
+    {
+     "name": "General Information on Uttar Pradesh",
+     "hi": "उत्तर प्रदेश सामान्य जानकारी",
+     "marks": "20 प्रश्न",
+     "topics": [
+      [
+       "History, culture, art, architecture, festivals, folk dance, literature, regional languages, tourism",
+       "इतिहास, संस्कृति, कला, स्थापत्य, त्योहार, लोकनृत्य, साहित्य, क्षेत्रीय भाषाएँ, पर्यटन"
+      ],
+      [
+       "Geography, wildlife, minerals, economy (agriculture, industry, employment), polity and administration, current events",
+       "भूगोल, वन्यजीव, खनिज, अर्थव्यवस्था (कृषि, उद्योग, रोज़गार), राजव्यवस्था व प्रशासन, समसामयिकी"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "icar-technical-assistant",
+   "title": "ICAR Technical Assistant (T-3) & Senior Technical Assistant (T-4) - Agriculture",
+   "hi": "आईसीएआर तकनीकी सहायक (T-3) व वरिष्ठ तकनीकी सहायक (T-4) - कृषि समूह",
+   "body": "ASRB, New Delhi",
+   "region": "Central",
+   "year": "2026",
+   "posts": "1393 कुल (कृषि समूह-A: 772)",
+   "advt": "ASRB केंद्रीकृत परीक्षा-2026, अधिसूचना 11.11.2026",
+   "official": "https://asrb.org.in",
+   "eligibility": "संबंधित विषय में स्नातक (विज्ञापन देखें)",
+   "dates": "आवेदन: 18 नवंबर से 17 दिसंबर 2026 · Prelims (CBT): फरवरी 2027 (संभावित)",
+   "match": "(ICAR|ASRB|आईसीएआर).{0,40}(technical\\s*assistant|T-?3|T-?4|टेक्निकल|तकनीकी)|(technical\\s*assistant|टेक्निकल\\s*असिस्टेंट).{0,40}(ICAR|ASRB|आईसीएआर)|(ICAR|ASRB|आईसीएआर).{0,60}1,?393",
+   "pattern": [
+    [
+     "Paper I (Prelims)",
+     "Qualifying · 100 प्रश्न, 100 अंक · 1 घंटा · गलत उत्तर पर -0.25"
+    ],
+    [
+     "Paper II (Mains)",
+     "Merit · 100 प्रश्न, 300 अंक (3 अंक प्रति प्रश्न) · 2 घंटे · गलत उत्तर पर -1"
+    ],
+    [
+     "Qualifying %",
+     "UR 30%, EWS/OBC 25%, SC/ST/PwBD 20% · Interview नहीं"
+    ],
+    [
+     "भाषा / Language",
+     "हिंदी + English (General English केवल English में)"
+    ]
+   ],
+   "sections": [
+    {
+     "name": "Paper I: General Knowledge",
+     "hi": "पेपर I: सामान्य ज्ञान",
+     "marks": "25 प्रश्न",
+     "topics": [
+      [
+       "Environment, society, current events, India and neighbours (history, culture, geography, economy, policy, science)",
+       "पर्यावरण, समाज, समसामयिकी, भारत व पड़ोसी देश (इतिहास, संस्कृति, भूगोल, अर्थव्यवस्था, नीति, विज्ञान)"
+      ]
+     ]
+    },
+    {
+     "name": "Paper I: General English",
+     "hi": "पेपर I: सामान्य अंग्रेज़ी",
+     "marks": "25 प्रश्न",
+     "topics": [
+      [
+       "Correct usage, comprehension, writing ability",
+       "शुद्ध प्रयोग, अपठित गद्यांश, लेखन क्षमता"
+      ]
+     ]
+    },
+    {
+     "name": "Paper I: Quantitative Aptitude",
+     "hi": "पेपर I: संख्यात्मक अभियोग्यता",
+     "marks": "25 प्रश्न",
+     "topics": [
+      [
+       "Number system, percentage, ratio, average, profit-loss, time and work, algebra, geometry, mensuration, trigonometry, data interpretation",
+       "संख्या पद्धति, प्रतिशत, अनुपात, औसत, लाभ-हानि, समय व कार्य, बीजगणित, ज्यामिति, क्षेत्रमिति, त्रिकोणमिति, आँकड़ा विश्लेषण"
+      ]
+     ]
+    },
+    {
+     "name": "Paper I: General Agriculture",
+     "hi": "पेपर I: सामान्य कृषि",
+     "marks": "25 प्रश्न",
+     "topics": [
+      [
+       "Agro-ecosystems and crops, plant breeding, seed production, diseases of major crops, animal science, fisheries",
+       "कृषि पारिस्थितिकी व फसलें, पादप प्रजनन, बीज उत्पादन, प्रमुख फसलों के रोग, पशु विज्ञान, मात्स्यिकी"
+      ],
+      [
+       "Farm machinery, post-harvest technology, ICT, agribusiness, farm economics",
+       "कृषि यंत्र, तुड़ाई उपरांत तकनीक, ICT, कृषि व्यवसाय, फार्म अर्थशास्त्र"
+      ],
+      [
+       "Institutions (ICAR, NAARM, SAUs, KVKs, NGOs, co-operatives), seed, PPV&FR, biodiversity and pesticide laws, international research bodies",
+       "संस्थाएँ (ICAR, NAARM, कृषि विश्वविद्यालय, KVK, NGO, सहकारी), बीज, पौधा किस्म, जैव विविधता व कीटनाशी कानून, अंतरराष्ट्रीय शोध संस्थान"
+      ]
+     ]
+    },
+    {
+     "name": "Paper II: Group A Agriculture (subject paper)",
+     "hi": "पेपर II: समूह-A कृषि (विषय पेपर)",
+     "marks": "100 प्रश्न / 300 अंक",
+     "topics": [
+      [
+       "Ecology, natural resources, pollution, climate change, remote sensing and GIS",
+       "पारिस्थितिकी, प्राकृतिक संसाधन, प्रदूषण, जलवायु परिवर्तन, रिमोट सेंसिंग व GIS"
+      ],
+      [
+       "Cropping systems, organic and precision farming, package of practices of major crops, agroforestry, weed science",
+       "फसल प्रणाली, जैविक व परिशुद्ध खेती, प्रमुख फसलों की उत्पादन तकनीक, कृषि वानिकी, खरपतवार विज्ञान"
+      ],
+      [
+       "Soil properties, fertility, soil testing, nutrient management, dryland farming, erosion; water management, irrigation scheduling, drainage, water quality",
+       "मृदा गुण, उर्वरता, मृदा परीक्षण, पोषक प्रबंधन, बारानी खेती, क्षरण; जल प्रबंधन, सिंचाई समय-निर्धारण, जल निकास, जल गुणवत्ता"
+      ],
+      [
+       "Farm management, marketing, prices, co-operatives, crop insurance; extension, KVKs, NGOs, SHGs",
+       "फार्म प्रबंधन, विपणन, कीमतें, सहकारिता, फसल बीमा; प्रसार, KVK, NGO, स्वयं सहायता समूह"
+      ],
+      [
+       "Farm power and machinery, soil and water conservation engineering, food processing, renewable energy",
+       "कृषि शक्ति व यंत्र, मृदा-जल संरक्षण अभियांत्रिकी, खाद्य प्रसंस्करण, नवीकरणीय ऊर्जा"
+      ],
+      [
+       "Cell biology, genetics, plant breeding (heterosis, molecular markers, GM crops, CRISPR, genomics), seed technology, IPR",
+       "कोशिका विज्ञान, आनुवंशिकी, पादप प्रजनन (संकर ओज, आणविक मार्कर, GM फसलें, CRISPR, जीनोमिक्स), बीज प्रौद्योगिकी, IPR"
+      ],
+      [
+       "Plant nutrition, soil-water-plant relations, plant physiology and biochemistry, stress physiology",
+       "पादप पोषण, मृदा-जल-पौधा संबंध, पादप कार्यिकी व जैव रसायन, तनाव कार्यिकी"
+      ],
+      [
+       "Horticulture: fruits, vegetables, spices, flowers, plantation crops, protected cultivation, post-harvest",
+       "उद्यानिकी: फल, सब्ज़ी, मसाले, फूल, बागानी फसलें, संरक्षित खेती, तुड़ाई उपरांत प्रबंधन"
+      ],
+      [
+       "Plant protection: pest and disease diagnosis, IPM, biological control, quarantine, pesticides",
+       "पौध संरक्षण: कीट-रोग पहचान, IPM, जैविक नियंत्रण, संगरोध, कीटनाशी"
+      ],
+      [
+       "Food science and technology, food microbiology, food chemistry, food safety, food security and PDS, biotechnology and bioinformatics",
+       "खाद्य विज्ञान व प्रौद्योगिकी, खाद्य सूक्ष्मजीव विज्ञान, खाद्य रसायन, खाद्य सुरक्षा, PDS, जैव-प्रौद्योगिकी व बायोइन्फॉर्मेटिक्स"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ibps-afo",
+   "title": "IBPS SO Agriculture Field Officer (AFO)",
+   "hi": "आईबीपीएस एसओ कृषि क्षेत्र अधिकारी (AFO)",
+   "body": "IBPS, Mumbai",
+   "region": "Central",
+   "year": "2026",
+   "posts": "हर वर्ष के विज्ञापन अनुसार",
+   "advt": "IBPS CRP SPL (Specialist Officer) - नवीनतम विज्ञापन",
+   "official": "https://www.ibps.in",
+   "eligibility": "B.Sc. Agriculture / संबंधित 4 वर्षीय स्नातक",
+   "match": "\\bIBPS\\b.{0,40}(AFO|agricultur\\w*\\s+field\\s+officer|SO\\b)|\\bAFO\\b|कृषि\\s*क्षेत्र\\s*अधिकारी",
+   "pattern": [
+    [
+     "Prelims",
+     "Online · Reasoning, English Language, Quantitative Aptitude · 120 मिनट · गलत उत्तर पर 1/4 अंक कटेंगे · केवल qualifying"
+    ],
+    [
+     "Mains",
+     "Online · Professional Knowledge (Agriculture) · 45 मिनट"
+    ],
+    [
+     "Interview",
+     "Mains 80% + Interview 20% वेटेज से अंतिम मेरिट"
+    ]
+   ],
+   "sections": [
+    {
+     "name": "Mains: Professional Knowledge (Agriculture)",
+     "hi": "मुख्य परीक्षा: व्यावसायिक ज्ञान (कृषि)",
+     "marks": "",
+     "topics": [
+      [
+       "Agriculture in India: types of cultivation, major crops, research institutes, GM crops",
+       "भारत में कृषि: खेती के प्रकार, प्रमुख फसलें, शोध संस्थान, GM फसलें"
+      ],
+      [
+       "Agronomy practices: land preparation, sowing, manuring, irrigation, weeding, harvesting, storage",
+       "सस्य क्रियाएँ: खेत की तैयारी, बुवाई, खाद, सिंचाई, निराई, कटाई, भंडारण"
+      ],
+      [
+       "Horticulture: fruits, vegetables, commercial horticulture",
+       "उद्यानिकी: फल, सब्ज़ी, व्यावसायिक बागवानी"
+      ],
+      [
+       "Soil science: soil types, green manure, fertilizer use, nutrient deficiency, tillage, soil properties",
+       "मृदा विज्ञान: मृदा प्रकार, हरी खाद, उर्वरक उपयोग, पोषक कमी, जुताई, मृदा गुण"
+      ],
+      [
+       "Irrigation methods: drip, sprinkler, lift irrigation",
+       "सिंचाई विधियाँ: ड्रिप, स्प्रिंकलर, लिफ्ट सिंचाई"
+      ],
+      [
+       "Agricultural finance: crop loan, term loan, KCC, farm mechanisation finance, crop insurance, NABARD",
+       "कृषि वित्त: फसल ऋण, सावधि ऋण, KCC, यंत्रीकरण वित्त, फसल बीमा, नाबार्ड"
+      ],
+      [
+       "Agricultural economics: cost of production, market structure; SHGs and government schemes",
+       "कृषि अर्थशास्त्र: उत्पादन लागत, बाज़ार संरचना; स्वयं सहायता समूह व सरकारी योजनाएँ"
+      ],
+      [
+       "Seed technology, plant pathology, entomology, animal husbandry, dairy, farm machinery, agri current affairs",
+       "बीज प्रौद्योगिकी, पादप रोग विज्ञान, कीट विज्ञान, पशुपालन, डेयरी, कृषि यंत्र, कृषि समसामयिकी"
+      ]
+     ]
+    }
+   ]
+  },
+  {
+   "id": "nabard-grade-a",
+   "title": "NABARD Grade A (Assistant Manager - RDBS)",
+   "hi": "नाबार्ड ग्रेड A (सहायक प्रबंधक - RDBS)",
+   "body": "NABARD, Mumbai",
+   "region": "Central",
+   "year": "2026",
+   "posts": "विज्ञापन अनुसार",
+   "advt": "NABARD का नवीनतम ग्रेड A विज्ञापन",
+   "official": "https://www.nabard.org",
+   "eligibility": "विज्ञापन देखें (कृषि/संबद्ध विषयों के लिए विशेष पद)",
+   "match": "NABARD.{0,30}grade\\s*A|नाबार्ड.{0,30}(ग्रेड|grade)",
+   "pattern": [
+    [
+     "Phase 1 (Prelims)",
+     "Online · Reasoning, English, Quant, Computer, Decision Making, General Awareness, ESI, ARD"
+    ],
+    [
+     "Phase 2 (Mains)",
+     "Paper 1 Descriptive English · Paper 2 ESI · Paper 3 ARD"
+    ],
+    [
+     "Interview",
+     "Phase 2 के बाद (अंक/समय विज्ञापन में देखें)"
+    ]
+   ],
+   "sections": [
+    {
+     "name": "ARD: Agriculture & Rural Development",
+     "hi": "ARD: कृषि एवं ग्रामीण विकास",
+     "marks": "Phase 1 + Phase 2",
+     "topics": [
+      [
+       "Agronomy, field crops, agro-climatic zones, cropping systems, dryland farming, seed production, agro-meteorology, precision and organic farming",
+       "सस्य विज्ञान, खेत फसलें, कृषि-जलवायु क्षेत्र, फसल प्रणाली, बारानी खेती, बीज उत्पादन, कृषि मौसम विज्ञान, परिशुद्ध व जैविक खेती"
+      ],
+      [
+       "Soil and water conservation, fertilizers and manures, watershed management, irrigation, micro-irrigation, Command Area Development",
+       "मृदा-जल संरक्षण, उर्वरक व खाद, जलागम प्रबंधन, सिंचाई, सूक्ष्म सिंचाई, कमान क्षेत्र विकास"
+      ],
+      [
+       "Farm machinery, water harvesting, agro-processing and storage",
+       "कृषि यंत्र, जल संचयन, कृषि प्रसंस्करण व भंडारण"
+      ],
+      [
+       "Horticulture and plantation crops, value and supply chain",
+       "उद्यानिकी व बागानी फसलें, मूल्य व आपूर्ति श्रृंखला"
+      ],
+      [
+       "Animal husbandry, poultry, fisheries, forestry and agroforestry",
+       "पशुपालन, मुर्गी पालन, मात्स्यिकी, वानिकी व कृषि वानिकी"
+      ],
+      [
+       "Agricultural extension and KVKs; ecology and climate change (NAPCC, IPCC, carbon credit)",
+       "कृषि प्रसार व KVK; पारिस्थितिकी व जलवायु परिवर्तन (NAPCC, IPCC, कार्बन क्रेडिट)"
+      ],
+      [
+       "Present Indian agriculture: finance, marketing, food security; rural development, Panchayati Raj, MGNREGA, NRLM",
+       "वर्तमान भारतीय कृषि: वित्त, विपणन, खाद्य सुरक्षा; ग्रामीण विकास, पंचायती राज, मनरेगा, NRLM"
+      ]
+     ]
+    },
+    {
+     "name": "ESI: Economic & Social Issues",
+     "hi": "ESI: आर्थिक एवं सामाजिक मुद्दे",
+     "marks": "Phase 1 + Phase 2",
+     "topics": [
+      [
+       "National income, growth and development, Indian economy before and after 1991 reforms",
+       "राष्ट्रीय आय, वृद्धि व विकास, 1991 सुधारों से पहले व बाद की भारतीय अर्थव्यवस्था"
+      ],
+      [
+       "Public finance, fiscal policy, inflation, taxation, planning",
+       "लोक वित्त, राजकोषीय नीति, मुद्रास्फीति, कराधान, नियोजन"
+      ],
+      [
+       "Poverty, unemployment, population, health, education, gender, urbanisation and migration",
+       "गरीबी, बेरोज़गारी, जनसंख्या, स्वास्थ्य, शिक्षा, लैंगिक मुद्दे, शहरीकरण व प्रवास"
+      ],
+      [
+       "Role of banks and RBI, rural credit, microfinance, financial inclusion",
+       "बैंक व RBI की भूमिका, ग्रामीण ऋण, सूक्ष्म वित्त, वित्तीय समावेशन"
+      ]
+     ]
+    },
+    {
+     "name": "Phase 2 Paper 1: Descriptive English",
+     "hi": "फेज़ 2 पेपर 1: वर्णनात्मक अंग्रेज़ी",
+     "marks": "",
+     "topics": [
+      [
+       "Essay, precis writing, letter writing",
+       "निबंध, सारांश लेखन, पत्र लेखन"
+      ]
+     ]
+    }
+   ]
+  }
+ ]
+}

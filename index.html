@@ -371,7 +371,7 @@ function go(view, arg){
   window.scrollTo(0,0);
   if(view!=='quiz') setNav(true);
   var f=document.getElementById('fab'); if(f) f.hidden=(view==='quiz'||view==='ask'||view==='register');
-  ({home:home, tests:tests, ebooks:ebooks, semester:semester, ask:askAI, cats:catsPage, updates:updatesPage, links:linksPage, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
+  ({home:home, tests:tests, ebooks:ebooks, semester:semester, ask:askAI, cats:catsPage, updates:updatesPage, syllabus:syllabusPage, links:linksPage, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
 }
 document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ var v=b.getAttribute('data-go'); if(v==='wa'){ window.open(CONFIG.whatsapp,'_blank','noopener'); return; } go(v); }; });
 
@@ -460,9 +460,9 @@ var TI_SVG={
  sem:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/></svg>',
  user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>'};
 function tilesFor(cat){
-  var T={tests:['Test Series','test','tests'],ebooks:['E-Books','book','ebooks'],sem:['Semester Papers','sem','semester'],pyq:['Previous Year Paper','pdf','semester'],ai:['Ask AI','ai','ask'],res:['My Results','res','results'],upd:['Exam Updates','upd','updates'],links:['Links','link','links'],share:['Share App','share','share'],prof:['My Profile','user','profile']};
-  var order=cat==='sem'?['sem','pyq','ai','ebooks','tests','upd','res','links','share','prof']:['tests','ebooks','ai','res','sem','upd','links','share','prof','pyq'];
-  return order.slice(0,10).map(function(k,i){ var t=T[k]; return '<button class="tile t'+(i%8+1)+'" data-goto="'+t[2]+'">'+TI_SVG[t[1]]+'<span>'+t[0]+'</span></button>'; }).join('');
+  var T={tests:['Test Series','test','tests'],ebooks:['E-Books','book','ebooks'],sem:['Semester Papers','sem','semester'],pyq:['Previous Year Paper','pdf','semester'],ai:['Ask AI','ai','ask'],res:['My Results','res','results'],upd:['Exam Updates','upd','updates'],syl:['Free Syllabus','pdf','syllabus'],links:['Links','link','links'],share:['Share App','share','share'],prof:['My Profile','user','profile']};
+  var order=cat==='sem'?['sem','pyq','syl','ai','ebooks','tests','upd','res','share','prof']:['tests','syl','ebooks','ai','upd','res','sem','links','share','prof'];
+  return order.slice(0,10).map(function(k,i){ var t=T[k]; return '<button class="tile t'+(i%8+1)+'" data-goto="'+t[2]+'">'+TI_SVG[t[1]]+'<span>'+t[0]+(k==='syl'?'<small style="display:block;font-size:11px;font-weight:700;color:#ffe08a">FREE PDF · Share करें</small>':'')+'</span></button>'; }).join('');
 }
 function bannerSlides(){
   var sl=[];
@@ -552,9 +552,9 @@ function fillJobsHome(){ var el=document.getElementById('jobsHome'); if(!el) ret
   el.innerHTML='<div class="card" data-goto="updates" style="cursor:pointer;border-color:#e53935;background:linear-gradient(135deg,#3a0d0d,#1a1410);padding:12px 14px"><b style="color:#ff6b6b">🔔 '+n+' नई Agriculture Job Alert'+(un.length?' · 🎓 '+un.length+' University':'')+(pri.length?' · ⭐ '+pri.length+' UP/Bihar':'')+'</b><div class="small" style="margin-top:4px;line-height:1.35">'+esc(top.title)+'</div><div class="muted small" style="margin-top:4px">सभी देखें →</div></div>'; }
 function loadJobs(){ var i=0, bust='?t='+Math.floor(Date.now()/600000);
   (function next(){ if(i>=JOBS_URLS.length) return; fetch(JOBS_URLS[i++]+bust,{cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ if(!j||!j.items) throw 0; JOBS=j; refreshBell(); if(document.getElementById('jobList')) drawJobs(); }).catch(next); })(); }
-function jobCard(x,s){ return '<a class="card" href="'+esc(x.link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;padding:12px 14px">'
+function jobCard(x,s){ var sy=sylFor(x.title); return '<div class="card" style="padding:0;overflow:hidden"><a href="'+esc(x.link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;padding:12px 14px">'
   +(x.ts>s?'<span class="chip" style="background:#e53935;color:#fff">NEW</span> ':'')+(x.uni?'<span class="chip" style="background:#1e88e5;color:#fff">🎓 '+esc(x.uni)+'</span> ':(x.region?'<span class="chip" style="background:var(--gold);color:#111">⭐ '+esc(x.region)+'</span> ':''))+'<span class="chip">'+esc(x.tag||'Update')+'</span>'
-  +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div><div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'; }
+  +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div><div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'+(sy?'<button class="btn gold" data-sylgo="'+esc(sy.id)+'" style="display:block;width:100%;border-radius:0;padding:9px">📄 इस परीक्षा का Free Syllabus (PDF)</button>':'')+'</div>'; }
 function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
   if(!JOBS){ el.innerHTML='<div class="card muted small">Job alerts लोड हो रहे हैं...</div>'; return; }
   var s=+(el.getAttribute('data-seen')||jobsSeen()), F=[['all','सभी'],['UNI','🎓 University'],['UP','⭐ UP'],['Bihar','⭐ Bihar'],['Notification','भर्ती'],['Admission','प्रवेश'],['Result','Result'],['Admit Card','Admit Card']];
@@ -567,6 +567,7 @@ function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
    +(list.length?'':'<div class="card empty">इस filter में अभी कोई खबर नहीं।</div>')
    +'<div class="muted small" style="margin:8px 2px">हर 3 घंटे में अपने आप अपडेट होता है (आखिरी: '+jobsDate(JOBS.updated)+'). ये खबरें समाचार वेबसाइटों से हैं - आवेदन से पहले विभाग की आधिकारिक वेबसाइट पर जानकारी ज़रूर जाँचें।</div>';
   el.querySelectorAll('[data-jf]').forEach(function(b){ b.onclick=function(){ JOBF=b.getAttribute('data-jf'); drawJobs(); }; });
+  el.querySelectorAll('[data-sylgo]').forEach(function(b){ b.onclick=function(){ go('syllabus',b.getAttribute('data-sylgo')); }; });
   setTimeout(function(){ set('jobsSeen',Math.floor(Date.now()/1000)); refreshBell(); try{ navigator.serviceWorker&&navigator.serviceWorker.controller&&navigator.serviceWorker.controller.postMessage({type:'jobs-seen',ts:Math.floor(Date.now()/1000)}); }catch(e){} },1500); }
 function notifCard(){ if(!('Notification' in window)||!('serviceWorker' in navigator)) return ''; if(Notification.permission==='granted') return '<div class="card small" style="padding:10px 14px">🔔 Job Alert notification <b style="color:#8EE05A">चालू है</b> - नई खबर आने पर फ़ोन पर सूचना आएगी (App install होना चाहिए)।</div>';
   if(Notification.permission==='denied') return '<div class="card small muted">🔕 Notification बंद हैं। चालू करने के लिए: फ़ोन Settings → Apps → Agrikranti/Chrome → Notifications → Allow।</div>';
@@ -582,6 +583,41 @@ function updatesPage(){
   h+='<h2 class="sec" style="margin-top:14px">Agriculture <span>Job Alerts</span></h2>'+notifCard()+'<div id="jobList" data-seen="'+jobsSeen()+'"></div>';
   h+='<div class="card small muted">Exam की हर नई जानकारी सबसे पहले पाने के लिए WhatsApp / Telegram से जुड़ें।</div>'+socialCards()+'</main>';
   app.innerHTML=h; bindCommon(); drawJobs(); var nb=document.getElementById('notifOn'); if(nb) nb.onclick=enableNotif; if(!JOBS) loadJobs();
+}
+/* ===== Free Syllabus: syllabus/index.json + PDF (sabke liye free, view / download / share) ===== */
+var SYL=null, SYLF='all', SYL_URLS=['https://raw.githubusercontent.com/kumarvsaditya-droid/Agrikranti/main/syllabus/index.json','syllabus/index.json'];
+function loadSyl(cb){ if(SYL){ cb&&cb(); return; } var i=0;
+  (function next(){ if(i>=SYL_URLS.length){ cb&&cb(); return; } fetch(SYL_URLS[i++]+'?t='+Math.floor(Date.now()/600000),{cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ if(!j||!j.items) throw 0; SYL=j; SYL.items.forEach(function(x){ try{ x.rx=new RegExp(x.match,'i'); }catch(e){} }); if(document.getElementById('jobList')) drawJobs(); cb&&cb(); }).catch(next); })(); }
+function sylFor(t){ if(!SYL||!t) return null; for(var i=0;i<SYL.items.length;i++){ var x=SYL.items[i]; if(x.rx&&x.rx.test(t)) return x; } return null; }
+function sylAbs(x){ return APP_URL+x.pdf; }
+function sylShare(x){ var link=APP_URL+'?go=syllabus&s='+x.id, txt='📄 '+x.title+' - पूरा Free Syllabus (PDF, हिंदी + English) Agrikranti App पर:';
+  var fallback=function(){ if(navigator.share) return navigator.share({title:x.title,text:txt,url:link}).catch(function(){}); window.open('https://wa.me/?text='+encodeURIComponent(txt+' '+link),'_blank','noopener'); };
+  if(navigator.canShare && window.File){ fetch(x.pdf).then(function(r){ return r.blob(); }).then(function(b){ var f=new File([b],x.id+'-syllabus.pdf',{type:'application/pdf'});
+      if(navigator.canShare({files:[f]})) return navigator.share({files:[f],title:x.title,text:txt+' '+link}).catch(function(e){ if(e&&e.name!=='AbortError') fallback(); }); fallback(); }).catch(fallback); }
+  else fallback(); }
+function sylCard(x,hl){ var R={UP:'⭐ उत्तर प्रदेश',Bihar:'⭐ बिहार',Central:'🇮🇳 केंद्र / All India'};
+  return '<div class="card" id="syl-'+esc(x.id)+'" style="'+(hl?'border-color:var(--gold);box-shadow:0 0 0 2px var(--gold);':'')+'padding:12px 14px"><div class="chips" style="margin:0 0 6px"><span class="chip" style="background:var(--gold);color:#111">'+esc(R[x.region]||x.region)+'</span><span class="chip">'+esc(x.body)+'</span><span class="chip done">FREE</span></div>'
+   +'<b style="font-size:16px;line-height:1.35;display:block">'+esc(x.title)+'</b><div class="muted small" style="margin:2px 0 6px">'+esc(x.hi)+'</div>'
+   +'<div class="small" style="line-height:1.45">पद: '+esc(x.posts)+'<br>'+esc(x.advt)+'</div><div class="muted small" style="margin:4px 0 10px">'+x.sections.length+' भाग: '+x.sections.map(esc).join(' · ')+'</div>'
+   +'<div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn gold" data-sylv="'+esc(x.id)+'">📄 Syllabus देखें</button><a class="btn ghost" style="text-decoration:none;display:inline-grid;place-items:center" href="'+esc(x.pdf)+'" download="'+esc(x.id)+'-syllabus.pdf">⬇ Download</a><button class="btn ghost" data-syls="'+esc(x.id)+'">📤 Share</button></div></div>'; }
+function syllabusPage(focus){
+  activeTab('');
+  var h=topbar()+'<main class="page"><h2 class="sec">Free <span>Syllabus</span></h2><p class="muted small" style="margin:0">Agriculture की सरकारी भर्तियों का पूरा syllabus PDF में (हिंदी + English)। सबके लिए free - देखें, download करें, दोस्तों को share करें। Job Alert में जिस परीक्षा का syllabus यहाँ है, वहाँ "Free Syllabus" बटन भी दिखेगा।</p><input id="sylq" placeholder="परीक्षा खोजें: AGTA, गन्ना, ICAR, AFO..." style="margin-top:4px"><div id="sylList"><div class="card muted small">Syllabus लोड हो रहे हैं...</div></div></main>';
+  app.innerHTML=h; bindCommon();
+  var draw=function(){ var el=document.getElementById('sylList'); if(!el) return;
+    if(!SYL){ el.innerHTML='<div class="card"><b>Syllabus लोड नहीं हुआ</b><p class="muted small">इंटरनेट जाँचकर दोबारा खोलें।</p></div>'; return; }
+    var q=(document.getElementById('sylq').value||'').trim().toLowerCase(), F=[['all','सभी'],['UP','⭐ UP'],['Bihar','⭐ Bihar'],['Central','🇮🇳 केंद्र']];
+    var list=SYL.items.filter(function(x){ return (SYLF==='all'||x.region===SYLF) && (!q||(x.title+' '+x.hi+' '+x.body+' '+x.id).toLowerCase().indexOf(q)>-1); });
+    var rank={UP:0,Bihar:1,Central:2}; list.sort(function(a,b){ return (rank[a.region]||3)-(rank[b.region]||3); });
+    el.innerHTML='<div class="pills" style="margin:8px 0">'+F.map(function(f){ return '<button class="pill'+(SYLF===f[0]?' on':'')+'" data-sf="'+f[0]+'">'+f[1]+'</button>'; }).join('')+'</div>'
+      +(list.length?list.map(function(x){ return sylCard(x,x.id===focus); }).join(''):'<div class="card empty">इस filter में अभी कोई syllabus नहीं। नई भर्ती आते ही उसका syllabus यहाँ जोड़ा जाएगा।</div>')
+      +'<div class="muted small" style="margin:8px 2px">ये syllabus आधिकारिक विज्ञापन से मिलाकर छात्रों की सुविधा के लिए बनाए गए हैं (अपडेट: '+esc(SYL.updated)+')। आवेदन से पहले आयोग की आधिकारिक वेबसाइट पर ज़रूर जाँचें।</div>';
+    el.querySelectorAll('[data-sf]').forEach(function(b){ b.onclick=function(){ SYLF=b.getAttribute('data-sf'); draw(); }; });
+    el.querySelectorAll('[data-sylv]').forEach(function(b){ b.onclick=function(){ var x=SYL.items.filter(function(y){ return y.id===b.getAttribute('data-sylv'); })[0]; readerOpen(x.title+' · Syllabus',x.pdf,null,false); }; });
+    el.querySelectorAll('[data-syls]').forEach(function(b){ b.onclick=function(){ sylShare(SYL.items.filter(function(y){ return y.id===b.getAttribute('data-syls'); })[0]); }; });
+    if(focus){ var t=document.getElementById('syl-'+focus); if(t) t.scrollIntoView({block:'center'}); focus=null; } };
+  document.getElementById('sylq').oninput=function(){ focus=null; draw(); };
+  loadSyl(draw);
 }
 function linksPage(){
   activeTab('');
@@ -859,7 +895,7 @@ function openReader(id){
 }
 function rtoast(ov,m){ var t=document.createElement('div'); t.textContent=m; t.style.cssText='position:absolute;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 14px;border-radius:10px;font-size:14px;z-index:9;max-width:90%;text-align:center'; ov.appendChild(t); setTimeout(function(){ t.remove(); },3500); }
 function readerOpen(title,encUrl,keyP,wm){
-  var p=profile()||{}; wm=wm||((p.name?p.name+' · ':'')+(p.mobile||''));
+  var p=profile()||{}; wm=wm===false?'':(wm||((p.name?p.name+' · ':'')+(p.mobile||'')));
   var ov=document.createElement('div'); ov.className='reader';
   ov.innerHTML='<div class="rbar"><button class="iconbtn" id="rx">✕ बंद करें</button><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(title)+'</b><span class="muted small" id="rp"></span><button class="iconbtn" id="rrot" title="Landscape / Portrait">↻ Landscape</button></div><div class="rbody" id="rb"><div class="card muted" style="margin:16px">Book खुल रही है... (पहली बार थोड़ा समय लगेगा)</div></div>';
   document.body.appendChild(ov); document.body.style.overflow='hidden';
@@ -883,7 +919,7 @@ function readerOpen(title,encUrl,keyP,wm){
   var close=function(){ unlock(); window.removeEventListener('resize',onResize); window.removeEventListener('orientationchange',onResize); ov.remove(); document.body.style.overflow=''; document.removeEventListener('keydown',keyBlock); };
   ov.querySelector('#rx').onclick=close;
   Promise.all([loadPdfJs(), fetch(encUrl).then(function(r){ if(!r.ok) throw new Error('dl'); return r.arrayBuffer(); }), keyP])
-  .then(function(r){ return AK.rawKey(r[2]).then(function(k){ return AK.aesDec(k,new Uint8Array(r[1])); }); })
+  .then(function(r){ if(!r[2]) return new Uint8Array(r[1]); return AK.rawKey(r[2]).then(function(k){ return AK.aesDec(k,new Uint8Array(r[1])); }); })
   .then(function(bytes){ return pdfjsLib.getDocument({data:bytes,disableAutoFetch:true}).promise; })
   .then(function(pdf){
     var rb=ov.querySelector('#rb'); rb.innerHTML=''; ov.querySelector('#rp').textContent=pdf.numPages+' पेज';
@@ -894,9 +930,9 @@ function readerOpen(title,encUrl,keyP,wm){
         var cv=document.createElement('canvas'); cv.width=v.width; cv.height=v.height; if(Wd!==W) return; cv.style.width=Wd+'px'; cv.style.height=(v.height/dpr)+'px';
         var ctx=cv.getContext('2d');
         pg.render({canvasContext:ctx,viewport:v}).promise.then(function(){
-          ctx.save(); ctx.globalAlpha=0.13; ctx.fillStyle='#b00020'; ctx.font='bold '+Math.round(22*dpr)+'px sans-serif'; ctx.translate(cv.width/2,cv.height/2); ctx.rotate(-Math.PI/5);
+          if(wm){ ctx.save(); ctx.globalAlpha=0.13; ctx.fillStyle='#b00020'; ctx.font='bold '+Math.round(22*dpr)+'px sans-serif'; ctx.translate(cv.width/2,cv.height/2); ctx.rotate(-Math.PI/5);
           for(var y=-cv.height;y<cv.height;y+=170*dpr){ for(var x=-cv.width;x<cv.width;x+=420*dpr){ ctx.fillText(wm,x,y); } } ctx.restore();
-          ctx.globalAlpha=0.5; ctx.fillStyle='#444'; ctx.font=Math.round(10*dpr)+'px sans-serif'; ctx.fillText('Agrikranti 1928 · '+wm+' · Page '+n,10*dpr,cv.height-8*dpr);
+          ctx.globalAlpha=0.5; ctx.fillStyle='#444'; ctx.font=Math.round(10*dpr)+'px sans-serif'; ctx.fillText('Agrikranti 1928 · '+wm+' · Page '+n,10*dpr,cv.height-8*dpr); }
           if(Wd!==W) return; box.innerHTML=''; box.style.height=(v.height/dpr)+'px'; box.appendChild(cv); });
       });
     }
@@ -1165,7 +1201,7 @@ if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navig
 /* start */
 /* Play Store (TWA) mode: Google Play policy ke kaaran app ke andar paid eBook / payment nahi dikhte */
 var IS_TWA=(function(){ try{ if(/[?&]source=twa/.test(location.search)||document.referrer.indexOf('android-app://')===0) localStorage.setItem('ak_twa','1'); return localStorage.getItem('ak_twa')==='1'; }catch(e){ return /[?&]source=twa/.test(location.search); } })();
-loadContent().then(function(){ setTimeout(processUnlockLink,800); regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else if(/[?&]go=updates/.test(location.search)||location.hash==='#updates') go('updates'); else go('home'); sessionCheck(); loadJobs(); setInterval(loadJobs,15*60*1000); });
+loadContent().then(function(){ setTimeout(processUnlockLink,800); regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else if(/[?&]go=updates/.test(location.search)||location.hash==='#updates') go('updates'); else if(/[?&]go=syllabus/.test(location.search)||/^#syllabus/.test(location.hash)) go('syllabus',(location.search.match(/[?&]s=([\w-]+)/)||location.hash.match(/#syllabus-([\w-]+)/)||[])[1]); else go('home'); sessionCheck(); loadSyl(); loadJobs(); setInterval(loadJobs,15*60*1000); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden) sessionCheck(); });
 </script>
 </body>

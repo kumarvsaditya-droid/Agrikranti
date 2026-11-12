@@ -1,0 +1,106 @@
+{
+ "updated": "12-11-2026",
+ "count": 5,
+ "items": [
+  {
+   "id": "upsssc-ganna-paryavekshak",
+   "title": "UPSSSC Ganna Paryavekshak (Cane Supervisor) Mains",
+   "hi": "यूपीएसएसएससी गन्ना पर्यवेक्षक मुख्य परीक्षा",
+   "body": "UPSSSC, Lucknow",
+   "region": "UP",
+   "year": "2026",
+   "posts": "1182 (1000 सामान्य + 182 विशेष चयन)",
+   "advt": "विज्ञापन सं. 13-परीक्षा/2026",
+   "official": "https://upsssc.gov.in",
+   "match": "(cane|sugarcane|ganna)\\s*(supervisor|paryavekshak)|गन्ना\\s*पर्यवेक्षक",
+   "pdf": "syllabus/upsssc-ganna-paryavekshak.pdf",
+   "sections": [
+    "Part A: Agriculture Science",
+    "Part B: Computer & IT",
+    "Part C: Uttar Pradesh General Information"
+   ],
+   "updated": "12-11-2026"
+  },
+  {
+   "id": "upsssc-agta",
+   "title": "UPSSSC AGTA (Agriculture Technical Assistant) Mains",
+   "hi": "यूपीएसएसएससी कृषि तकनीकी सहायक (AGTA) मुख्य परीक्षा",
+   "body": "UPSSSC, Lucknow",
+   "region": "UP",
+   "year": "2026",
+   "posts": "विज्ञापन अनुसार",
+   "advt": "UPSSSC का नवीनतम AGTA विज्ञापन",
+   "official": "https://upsssc.gov.in",
+   "match": "\\bAGTA\\b|agricultur\\w*\\s+technical\\s+assistant|कृषि\\s*तकनीकी\\s*सहायक",
+   "pdf": "syllabus/upsssc-agta.pdf",
+   "sections": [
+    "Crop Science",
+    "Biotechnology, Plant Breeding & Crop Physiology",
+    "Soil and Water Management",
+    "Agriculture Extension",
+    "Agriculture Economics and Schemes",
+    "Animal Husbandry and Dairy Science",
+    "Computer and IT",
+    "General Information on Uttar Pradesh"
+   ],
+   "updated": "12-11-2026"
+  },
+  {
+   "id": "icar-technical-assistant",
+   "title": "ICAR Technical Assistant (T-3) & Senior Technical Assistant (T-4) - Agriculture",
+   "hi": "आईसीएआर तकनीकी सहायक (T-3) व वरिष्ठ तकनीकी सहायक (T-4) - कृषि समूह",
+   "body": "ASRB, New Delhi",
+   "region": "Central",
+   "year": "2026",
+   "posts": "1393 कुल (कृषि समूह-A: 772)",
+   "advt": "ASRB केंद्रीकृत परीक्षा-2026, अधिसूचना 11.11.2026",
+   "official": "https://asrb.org.in",
+   "match": "(ICAR|ASRB|आईसीएआर).{0,40}(technical\\s*assistant|T-?3|T-?4|टेक्निकल|तकनीकी)|(technical\\s*assistant|टेक्निकल\\s*असिस्टेंट).{0,40}(ICAR|ASRB|आईसीएआर)|(ICAR|ASRB|आईसीएआर).{0,60}1,?393",
+   "pdf": "syllabus/icar-technical-assistant.pdf",
+   "sections": [
+    "Paper I: General Knowledge",
+    "Paper I: General English",
+    "Paper I: Quantitative Aptitude",
+    "Paper I: General Agriculture",
+    "Paper II: Group A Agriculture (subject paper)"
+   ],
+   "updated": "12-11-2026"
+  },
+  {
+   "id": "ibps-afo",
+   "title": "IBPS SO Agriculture Field Officer (AFO)",
+   "hi": "आईबीपीएस एसओ कृषि क्षेत्र अधिकारी (AFO)",
+   "body": "IBPS, Mumbai",
+   "region": "Central",
+   "year": "2026",
+   "posts": "हर वर्ष के विज्ञापन अनुसार",
+   "advt": "IBPS CRP SPL (Specialist Officer) - नवीनतम विज्ञापन",
+   "official": "https://www.ibps.in",
+   "match": "\\bIBPS\\b.{0,40}(AFO|agricultur\\w*\\s+field\\s+officer|SO\\b)|\\bAFO\\b|कृषि\\s*क्षेत्र\\s*अधिकारी",
+   "pdf": "syllabus/ibps-afo.pdf",
+   "sections": [
+    "Mains: Professional Knowledge (Agriculture)"
+   ],
+   "updated": "12-11-2026"
+  },
+  {
+   "id": "nabard-grade-a",
+   "title": "NABARD Grade A (Assistant Manager - RDBS)",
+   "hi": "नाबार्ड ग्रेड A (सहायक प्रबंधक - RDBS)",
+   "body": "NABARD, Mumbai",
+   "region": "Central",
+   "year": "2026",
+   "posts": "विज्ञापन अनुसार",
+   "advt": "NABARD का नवीनतम ग्रेड A विज्ञापन",
+   "official": "https://www.nabard.org",
+   "match": "NABARD.{0,30}grade\\s*A|नाबार्ड.{0,30}(ग्रेड|grade)",
+   "pdf": "syllabus/nabard-grade-a.pdf",
+   "sections": [
+    "ARD: Agriculture & Rural Development",
+    "ESI: Economic & Social Issues",
+    "Phase 2 Paper 1: Descriptive English"
+   ],
+   "updated": "12-11-2026"
+  }
+ ]
+}
