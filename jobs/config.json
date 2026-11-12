@@ -1,0 +1,157 @@
+{
+ "max_days": 30,
+ "keep": 80,
+ "queries": [
+  [
+   "UPSSSC AGTA",
+   "en"
+  ],
+  [
+   "UPSSSC cane supervisor",
+   "en"
+  ],
+  [
+   "UPSSSC agriculture",
+   "en"
+  ],
+  [
+   "UPPSC agriculture",
+   "en"
+  ],
+  [
+   "UP agriculture department recruitment",
+   "en"
+  ],
+  [
+   "BPSC agriculture",
+   "en"
+  ],
+  [
+   "BSSC agriculture",
+   "en"
+  ],
+  [
+   "Bihar agriculture department recruitment",
+   "en"
+  ],
+  [
+   "Bihar krishi samanvayak",
+   "en"
+  ],
+  [
+   "BAU Sabour recruitment",
+   "en"
+  ],
+  [
+   "यूपी कृषि विभाग भर्ती",
+   "hi"
+  ],
+  [
+   "उत्तर प्रदेश कृषि भर्ती",
+   "hi"
+  ],
+  [
+   "गन्ना पर्यवेक्षक",
+   "hi"
+  ],
+  [
+   "UPSSSC कृषि",
+   "hi"
+  ],
+  [
+   "यूपी उद्यान विभाग भर्ती",
+   "hi"
+  ],
+  [
+   "बिहार कृषि विभाग बहाली",
+   "hi"
+  ],
+  [
+   "बिहार कृषि समन्वयक",
+   "hi"
+  ],
+  [
+   "बिहार किसान सलाहकार",
+   "hi"
+  ],
+  [
+   "BPSC कृषि",
+   "hi"
+  ],
+  [
+   "बिहार उद्यान भर्ती",
+   "hi"
+  ],
+  [
+   "agriculture recruitment notification",
+   "en"
+  ],
+  [
+   "agriculture officer vacancy",
+   "en"
+  ],
+  [
+   "ICAR recruitment",
+   "en"
+  ],
+  [
+   "IBPS AFO agriculture field officer",
+   "en"
+  ],
+  [
+   "NABARD grade A agriculture",
+   "en"
+  ],
+  [
+   "horticulture officer recruitment",
+   "en"
+  ],
+  [
+   "KVK recruitment",
+   "en"
+  ],
+  [
+   "कृषि विभाग भर्ती",
+   "hi"
+  ],
+  [
+   "कृषि अधिकारी भर्ती",
+   "hi"
+  ],
+  [
+   "कृषि तकनीकी सहायक भर्ती",
+   "hi"
+  ]
+ ],
+ "agri_regex": "agri|agro|krishi|कृषि|AGTA|ganna|गन्ना|cane supervisor|ICAR|horticult|उद्यान|AFO|field officer|NABARD|KVK|कृषि विज्ञान|kisan salahkar|किसान सलाहकार|soil|मृदा|seed|बीज|plant protection|पौध संरक्षण|fisheries|मत्स्य|forest guard|वनरक्षक|dairy|veterinary|पशुपालन",
+ "job_regex": "recruit|vacanc|bharti|भर्ती|बहाली|notification|अधिसूचना|नोटिफिकेशन|admit card|एडमिट|प्रवेश पत्र|result|रिजल्ट|परिणाम|exam date|परीक्षा तिथि|answer key|आंसर की|cut ?off|कटऑफ|apply|आवेदन|posts|पद|रिक्ति|syllabus|सिलेबस|interview|साक्षात्कार|merit list|मेरिट|walk-in|job",
+ "exclude_regex": "किस्त|installment|pm kisan|पीएम किसान|मंडी|mandi|मौसम|weather|loan|ऋण|subsidy|सब्सिडी|अनुदान|stock|share price|IPO|शेयर|क्रिकेट|cricket",
+ "tags": [
+  [
+   "Admit Card",
+   "admit|एडमिट|प्रवेश पत्र|hall ticket"
+  ],
+  [
+   "Result",
+   "result|रिजल्ट|परिणाम|merit|मेरिट|cut ?off|कटऑफ|answer key|आंसर"
+  ],
+  [
+   "Exam Date",
+   "exam date|परीक्षा तिथि|exam calendar|परीक्षा कैलेंडर|schedule"
+  ],
+  [
+   "Notification",
+   "notification|अधिसूचना|नोटिफिकेशन|recruit|भर्ती|बहाली|vacanc|रिक्ति|apply|आवेदन|पद"
+  ]
+ ],
+ "regions": [
+  [
+   "UP",
+   "UPSSSC|UPPSC|Uttar Pradesh|उत्तर प्रदेश|\\bUP\\b|यूपी|ganna|गन्ना|cane supervisor|Lucknow|लखनऊ|Gorakhpur|गोरखपुर|Kanpur|कानपुर|CSAUAT|NDUAT|BHU"
+  ],
+  [
+   "Bihar",
+   "Bihar|बिहार|BPSC|BSSC|BTSC|Patna|पटना|Sabour|सबौर|RPCAU|Pusa|पूसा"
+  ]
+ ]
+}

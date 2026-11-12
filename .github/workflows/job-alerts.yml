@@ -1,0 +1,26 @@
+name: Job Alerts
+on:
+  schedule:
+    - cron: '17 */3 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['jobs/**', '.github/workflows/job-alerts.yml']
+permissions:
+  contents: write
+concurrency: job-alerts
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { ref: main }
+      - run: python3 jobs/fetch_jobs.py
+      - name: Save jobs.json (main + gh-pages)
+        run: |
+          git diff --quiet -- jobs.json && { echo "no change"; exit 0; }
+          git config user.name "Agrikranti Job Bot"; git config user.email "jobbot@users.noreply.github.com"
+          cp jobs.json /tmp/jobs.json
+          git add jobs.json && git commit -m "Auto: job alerts update [skip ci]" && git push origin main
+          git fetch origin gh-pages && git checkout -q gh-pages && cp /tmp/jobs.json jobs.json
+          git add jobs.json && git commit -m "Auto: job alerts update [skip ci]" && git push origin gh-pages || true
