@@ -280,6 +280,16 @@ function ebookView(){
   M.querySelectorAll('[data-d]').forEach(function(b){ b.onclick=function(){ if(!confirm('यह eBook हटाएं?')) return; C.ebooks.splice(+b.getAttribute('data-d'),1); saveContent('ebook removed').then(ebookView); }; });
   document.getElementById('add').onclick=function(){ ebookForm(-1); };
 }
+/* Payment script naye paid items ke liye "master" chaabi deti hai (content.json payMasterW, Admin PIN se locked).
+   Paid PDF usi chaabi se lock honi chahiye, warna payment ke baad book nahi khulegi. */
+function payMasterKey(){
+  if(!C.payMasterW||!PINK) return Promise.resolve(null);
+  return AK.aesDec(PINK,AK.b64d(C.payMasterW)).then(function(u){
+    if(u.length===32) return u;
+    var t=new TextDecoder().decode(u).trim(), k=null; try{ k=AK.b64d(t); }catch(e){}
+    return (k&&k.length===32)?k:null;
+  }).catch(function(){ return null; });
+}
 function ebookForm(i){
   var b=i>=0?C.ebooks[i]:{id:'book'+Date.now().toString(36),title:'',sub:'',pages:'',price:0,cover:'NEW<br>BOOK'};
   M.innerHTML='<div class="card"><h2>'+(i>=0?'eBook Edit':'नई eBook')+'</h2>'
@@ -297,8 +307,9 @@ function ebookForm(i){
     if(y.price>0){ delete y.file;
       if(f){ if(!PINK){ toast('पहले "💰 eBook बिक्री" tab में Admin PIN डालें।',7000); btn.disabled=false; return; }
         toast('PDF lock (encrypt) होकर upload हो रही है...',60000);
-        var K=AK.newKey();
-        f.arrayBuffer().then(function(buf){ return AK.rawKey(K).then(function(k){ return AK.aesEnc(k,new Uint8Array(buf)); }); })
+        var K=null;
+        payMasterKey().then(function(MK){ K=MK||AK.newKey(); return f.arrayBuffer(); })
+         .then(function(buf){ return AK.rawKey(K).then(function(k){ return AK.aesEnc(k,new Uint8Array(buf)); }); })
          .then(function(encd){ return putFile('ebooks/enc/'+y.id+'.bin',AK.b64e(encd),'Admin: locked ebook '+y.id); })
          .then(function(){ return AK.aesEnc(PINK,K); }).then(function(w){ C.bookKeys=C.bookKeys||{}; C.bookKeys[y.id]=AK.b64e(w); C.licenses=C.licenses||{}; C.licenses[y.id]=C.licenses[y.id]||{}; y.enc='ebooks/enc/'+y.id+'.bin';
            if(i>=0) C.ebooks[i]=y; else C.ebooks.push(y); return saveContent('locked ebook '+y.title); })

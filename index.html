@@ -954,7 +954,7 @@ function readerOpen(title,encUrl,keyP,wm){
     var zoom=function(f){ var nz=Math.max(1,Math.min(3,Math.round(Z*f*100)/100)); if(nz===Z) return; var fx=rb.scrollWidth>rb.clientWidth?(rb.scrollLeft+rb.clientWidth/2)/rb.scrollWidth:0.5; Z=nz; layout(); rb.scrollLeft=Math.max(0,fx*rb.scrollWidth-rb.clientWidth/2); rtoast(ov,'Zoom '+Math.round(Z*100)+'%'); };
     ov.querySelector('#rzi').onclick=function(){ zoom(1.25); }; ov.querySelector('#rzo').onclick=function(){ zoom(0.8); };
     pdf.getPage(1).then(function(pg){ var v=pg.getViewport({scale:1}); AR=v.height/v.width; }).catch(function(){}).then(function(){ lastW=Math.min(rb.clientWidth-16,1400); layout(); });
-  }).catch(function(e){ ov.querySelector('#rb').innerHTML='<div class="card" style="margin:16px"><b>Book नहीं खुल पाई</b><p class="muted small">'+(e&&e.message==='lic'?'आपका code अब मान्य नहीं है। Telegram पर संपर्क करें।':'इंटरनेट जाँचकर दोबारा खोलें।')+'</p></div>'; });
+  }).catch(function(e){ ov.querySelector('#rb').innerHTML='<div class="card" style="margin:16px"><b>Book नहीं खुल पाई</b><p class="muted small">'+(e&&e.message==='lic'?'आपका code अब मान्य नहीं है। Telegram पर संपर्क करें।':e&&e.name==='OperationError'?'Book अपडेट हो रही है, थोड़ी देर बाद दोबारा खोलें। फिर भी न खुले तो Telegram पर संपर्क करें - आपका payment सुरक्षित है।':'इंटरनेट जाँचकर दोबारा खोलें।')+'</p></div>'; });
 }
 function ebooks(){
   activeTab('ebooks');
