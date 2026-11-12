@@ -53,21 +53,12 @@
   },
   {
    "id": "bookmwdw1xzo",
-   "title": "Bhumi Suposhan (Soil Nutrition) - B.Sc. Natural Farming.",
-   "sub": "Complete bilingual notes + 5 model papers",
-   "pages": 156,
-   "price": 110,
-   "cover": "BHUMI<br>SUPOSHAN",
-   "enc": "ebooks/enc/bookmwdw1xzo.bin"
-  },
-  {
-   "id": "bookmwdwlcyg",
-   "title": "Bhumi Suposhan (Soil Nutrition) - B.Sc. Natural Farming.",
+   "title": "Bhumi Suposhan (Soil Nutrition) - B.Sc. Natural Farming",
    "sub": "Complete bilingual notes + 5 model papers",
    "pages": 156,
    "price": 99,
    "cover": "BHUMI<br>SUPOSHAN",
-   "enc": "ebooks/enc/bookmwdwlcyg.bin"
+   "enc": "ebooks/enc/bookmwdw1xzo.bin"
   }
  ],
  "semester": [
@@ -179,15 +170,13 @@
  "bookKeys": {
   "notes1": "wSiclV4IIDXWkVSvTiy6Z1wSaqPR2S9hLqMjoqmIYBhKAKrZ6whEvSpodWv9S0qD9YzvkfmNGHEaCGAP",
   "sem1": "18mYFrFVAFxvn8Emgoqav1Kbus6MkySaV0+SaT4/+mvi1PrNl3/4vk5h3xtZ8sSYY7tJc9oYOh3hOPJQ",
-  "bookmwdw1xzo": "coAtNpRNsoFe5HH6T8A1LqrKOJ//iIj/4NhjtEPSsRVh7cuAImG/kWtuqYzia6mI3MKXIVBzIFtGl3sn",
-  "bookmwdwlcyg": "cyMKdfMl6pSXGjK79NWMbY4/u6ThM8MaRtLNzX3qMH95XKa/PvGupaCuYsSZMIqjNrXKQxqsi/6Y/dAZ"
+  "bookmwdw1xzo": "coAtNpRNsoFe5HH6T8A1LqrKOJ//iIj/4NhjtEPSsRVh7cuAImG/kWtuqYzia6mI3MKXIVBzIFtGl3sn"
  },
  "sales": "XhwcekqG7lszH+pHiMc9ZoqtvuYKvg0M/DnQmLOm",
  "licenses": {
   "notes1": {},
   "sem1": {},
-  "bookmwdw1xzo": {},
-  "bookmwdwlcyg": {}
+  "bookmwdw1xzo": {}
  },
  "series": [
   {
