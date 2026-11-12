@@ -125,7 +125,7 @@
  ],
  "agri_regex": "agri|agro|krishi|कृषि|AGTA|ganna|गन्ना|cane supervisor|ICAR|horticult|उद्यान|AFO|agriculture field officer|NABARD|KVK|कृषि विज्ञान|kisan salahkar|किसान सलाहकार|soil|मृदा|plant protection|पौध संरक्षण|फसल रक्षक|fisheries|मत्स्य|Matsya|seed certification|बीज प्रमाणीकरण",
  "job_regex": "recruit|vacanc|bharti|भर्ती|बहाली|notification|अधिसूचना|नोटिफिकेशन|admit card|एडमिट|प्रवेश पत्र|result|रिजल्ट|परिणाम|exam date|परीक्षा तिथि|answer key|आंसर की|cut ?off|कटऑफ|apply|आवेदन|\\bposts\\b|पदों|पद पर|रिक्ति|syllabus|सिलेबस|merit list|मेरिट|walk-?in|exam calendar|परीक्षा कैलेंडर|shortlist",
- "exclude_regex": "किस्त|installment|pm kisan|पीएम किसान|मंडी|mandi|मौसम|weather|loan|ऋण|subsidy|सब्सिडी|अनुदान|योजना|yojana|scheme|stock|share price|IPO|शेयर|cricket|क्रिकेट|election|चुनाव|मौत|death|died|हमला|attack|हंगामा|आरोप|fraud|फर्जी|धोखा|घोटाला|scam|सेवानिवृत्त|retire|विदाई|farewell|प्रदर्शन|protest|सफलता|success story|बनीं|बने|minister|मंत्री|workers|ILO|Iowa|Turkmenistan|forest guard|वन रक्षक|वनरक्षक|police|पुलिस|arrest|गिरफ्तार|सम्मान|award|सस्पेंड|suspend|निलंबित|रिश्वत|bribe|county government|kenya|nigeria|\\bUSA\\b|\\bUK\\b|GKY|Gramin Kaushal|ग्रामीण कौशल|DDU Junction|डीडीयू जंक्शन|मुगलसराय|Mughalsarai|\\btrains?\\b|ट्रेन|रेल|hospital|अस्पताल|BRD Medical|बीआरडी मेडिकल|मेडिकल कॉलेज",
+ "exclude_regex": "किस्त|installment|pm kisan|पीएम किसान|मंडी|mandi|मौसम|weather|loan|ऋण|subsidy|सब्सिडी|अनुदान|योजना|yojana|scheme|stock|share price|IPO|शेयर|cricket|क्रिकेट|election|चुनाव|मौत|death|died|हमला|attack|हंगामा|आरोप|fraud|फर्जी|धोखा|घोटाला|scam|सेवानिवृत्त|retire|विदाई|farewell|प्रदर्शन|protest|सफलता|success story|बनीं|बने|minister|मंत्री|workers|ILO|Iowa|Turkmenistan|forest guard|वन रक्षक|वनरक्षक|police|पुलिस|arrest|गिरफ्तार|सम्मान|award|सस्पेंड|suspend|निलंबित|रिश्वत|bribe|county government|kenya|nigeria|\\bUSA\\b|\\bUK\\b|GKY|Gramin Kaushal|ग्रामीण कौशल|DDU Junction|डीडीयू जंक्शन|मुगलसराय|Mughalsarai|\\btrains?\\b|ट्रेन|रेल|hospital|अस्पताल|BRD Medical|बीआरडी मेडिकल|मेडिकल कॉलेज|\\bQ[1-4]\\b.{0,12}results|revenue|EBITDA|net profit|quarterly results|तिमाही नतीजे|मुनाफा|SOC Analyst|cyber security",
  "tags": [
   [
    "Admit Card",
@@ -151,7 +151,7 @@
  "regions": [
   [
    "UP",
-   "UPSSSC|UPPSC|Uttar Pradesh|उत्तर प्रदेश|\\bUP\\b|यूपी|ganna|गन्ना|cane supervisor|Lucknow|लखनऊ|Gorakhpur|गोरखपुर|Kanpur|कानपुर|CSAUAT|NDUAT|BHU"
+   "UPSSSC|UPPSC|Uttar Pradesh|उत्तर प्रदेश|(?-i:\\bUP\\b)|यूपी|ganna|गन्ना|cane supervisor|Lucknow|लखनऊ|Gorakhpur|गोरखपुर|Kanpur|कानपुर|CSAUAT|NDUAT|BHU"
   ],
   [
    "Bihar",
