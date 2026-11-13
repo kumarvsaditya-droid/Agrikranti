@@ -172,11 +172,15 @@
   "sem1": "18mYFrFVAFxvn8Emgoqav1Kbus6MkySaV0+SaT4/+mvi1PrNl3/4vk5h3xtZ8sSYY7tJc9oYOh3hOPJQ",
   "bookmwdw1xzo": "hqrYuxhUkzNp+AibpAScz8k48YqB27AujtreLXw82SpgoeQDPbidRF3QwM3z9D44qmwlPYpujM6YoqOF"
  },
- "sales": "XhwcekqG7lszH+pHiMc9ZoqtvuYKvg0M/DnQmLOm",
+ "sales": "egP8d7syp8ir1dMMTmClpQ2nJHL8dsovaFxABg6JkAzmDH0ZWkDvjM9AxOx08nBhsjlVn2lY6zImQCocv3MRxFBqkfl4kAsRw0bTIym0UMpWihXKuh6/1D8XbPPoPA7voY6q8CNv8dVlEspxIjJ6X8hiP47Hu8yUmQmniSLy2NgAMeOjwI1S2msbxecDpcQcoTWNLsVu",
  "licenses": {
   "notes1": {},
   "sem1": {},
-  "bookmwdw1xzo": {}
+  "bookmwdw1xzo": {
+   "b22d1f2cebfe92381952727f": {
+    "w": "WX0Tf2UODRnFccjg8F1wZhKkEbMYdmjfsapBywZa7sfJVuoFGSIfRSY0SJZTWDdjVL4ZvJzvepc7gcq9"
+   }
+  }
  },
  "series": [
   {
