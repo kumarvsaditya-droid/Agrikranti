@@ -312,7 +312,7 @@ function ebookForm(i){
       if(f){ if(!PINK){ toast('पहले "💰 eBook बिक्री" tab में Admin PIN डालें।',7000); btn.disabled=false; return; }
         toast('PDF lock (encrypt) होकर upload हो रही है...',60000);
         var K=null;
-        payMasterKey().then(function(MK){ K=MK||AK.newKey(); return f.arrayBuffer(); })
+        payMasterKey().then(function(MK){ if(!MK) throw new Error('Master चाबी नहीं मिली - Admin PIN दोबारा डालें (page refresh करें)। बिना इसके payment के बाद book नहीं खुलेगी, इसलिए upload रोका गया।'); K=MK; return f.arrayBuffer(); })
          .then(function(buf){ return AK.rawKey(K).then(function(k){ return AK.aesEnc(k,new Uint8Array(buf)); }); })
          .then(function(encd){ return putFile('ebooks/enc/'+y.id+'.bin',AK.b64e(encd),'Admin: locked ebook '+y.id); })
          .then(function(){ return AK.aesEnc(PINK,K); }).then(function(w){ C.bookKeys=C.bookKeys||{}; C.bookKeys[y.id]=AK.b64e(w); C.licenses=C.licenses||{}; C.licenses[y.id]=C.licenses[y.id]||{}; y.enc='ebooks/enc/'+y.id+'.bin';

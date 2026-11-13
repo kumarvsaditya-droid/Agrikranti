@@ -808,6 +808,30 @@ function buyBook(id){
 function payApi(body){ return fetch(CONFIG.payUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}).then(function(r){ return r.json(); }); }
 function loadRzp(){ if(window.Razorpay) return Promise.resolve(); return new Promise(function(res,rej){ var sc=document.createElement('script'); sc.src='https://checkout.razorpay.com/v1/checkout.js'; sc.onload=res; sc.onerror=rej; document.head.appendChild(sc); }); }
 function grant(b,m,key,pid,name){ var u=unlocked(); u[b.id]={m:m,k:key,p:pid}; set('unlocked',u); if(name && !profile()) set('profile',{name:name,mobile:m}); hit('book-unlocks'); ebooks(); openReader(b.id); }
+/* Payment ke baad book kabhi na atke: har payment yaad rakho, verify fail ho to apne aap dobara try karo (abhi + har baar app khulne par) */
+function pendAll(){ return get('paypend',{}); }
+function pendSave(id,x){ var a=pendAll(); if(x) a[id]=x; else delete a[id]; set('paypend',a); }
+function verifyPend(oid,tries,delay){
+  var x=pendAll()[oid]; if(!x||!x.pid) return Promise.reject(new Error('nopid'));
+  var b=EBOOKS.filter(function(e){return e.id===x.b;})[0]; if(!b) return Promise.reject(new Error('nobook'));
+  return payApi({action:'verify',book:x.b,mobile:x.m,name:x.n,order_id:oid,payment_id:x.pid,signature:x.sig}).then(function(v){
+    if(v&&v.ok&&v.key){ pendSave(oid,null); grant(b,x.m,v.key,x.pid,x.n); return true; }
+    var er=String(v&&v.error||'');
+    if(/signature|mismatch|not found/i.test(er)){ pendSave(oid,null); throw new Error('bad'); }
+    throw new Error(er||'verify');
+  }).catch(function(e){
+    if(e&&e.message==='bad'||!tries) throw e;
+    return new Promise(function(r){ setTimeout(r,delay); }).then(function(){ return verifyPend(oid,tries-1,Math.min(delay*2,20000)); });
+  });
+}
+function retryPending(){
+  var a=pendAll(), now=Date.now();
+  Object.keys(a).forEach(function(oid){ var x=a[oid];
+    if(!x.pid){ if(now-(x.t||0)>3*864e5) pendSave(oid,null); return; }
+    if((unlocked()[x.b]||{}).k){ pendSave(oid,null); return; }
+    verifyPend(oid,2,4000).then(function(){ alert('✅ आपकी payment वाली book खुल गई है।'); }).catch(function(){});
+  });
+}
 function payForm(b){
   var p=profile()||{}, o=document.createElement('div'); o.className='overlay';
   o.innerHTML='<form class="card" id="pf2" style="display:flex;flex-direction:column;gap:10px"><div class="row" style="justify-content:space-between"><b>'+(b.pack?'Semester Pack':'eBook')+' खरीदें - ₹'+b.price+'</b><button class="iconbtn" type="button" id="px">✕</button></div><div class="muted small">'+esc(b.title)+'</div>'
@@ -823,14 +847,15 @@ function payForm(b){
     btn.disabled=true; er.className='muted small'; er.textContent='Payment खुल रहा है...';
     Promise.all([loadRzp(),payApi({action:'order',book:b.id,mobile:m,name:n})]).then(function(r){
       var od=r[1]; if(!od.order_id) throw new Error(od.error||'order');
-      o.remove();
+      o.remove(); pendSave(od.order_id,{b:b.id,m:m,n:n,t:Date.now()});
       var rz=new Razorpay({key:od.key_id||CONFIG.rzpKey,amount:od.amount,currency:'INR',order_id:od.order_id,name:'Agrikranti 1928',description:b.title,image:location.href.replace(/[^/]*$/,'')+'icons/icon-192.png',
         prefill:{name:n,contact:m},notes:{book:b.id,mobile:m},theme:{color:'#1f8f3a'},
         handler:function(resp){
           var w=document.createElement('div'); w.className='overlay'; w.innerHTML='<div class="card"><b>Payment हो गया ✅</b><p class="muted small">Book खुल रही है, कृपया रुकें...</p></div>'; document.body.appendChild(w);
-          payApi({action:'verify',book:b.id,mobile:m,name:n,order_id:resp.razorpay_order_id,payment_id:resp.razorpay_payment_id,signature:resp.razorpay_signature})
-            .then(function(v){ w.remove(); if(!v.ok||!v.key) throw new Error(v.error||'verify'); grant(b,m,v.key,resp.razorpay_payment_id,n); })
-            .catch(function(){ w.innerHTML='<div class="card"><b>Payment हो गया, पर book अभी नहीं खुली</b><p class="muted small">घबराएँ नहीं, पैसा सुरक्षित है। Payment ID: <b>'+esc(resp.razorpay_payment_id)+'</b><br>"पहले खरीदी है?" में मोबाइल नंबर और यह Payment ID डालें, या Telegram पर screenshot भेजें।</p><button class="btn" onclick="this.closest(\'.overlay\').remove()">ठीक है</button></div>'; });
+          pendSave(resp.razorpay_order_id,{b:b.id,m:m,n:n,t:Date.now(),pid:resp.razorpay_payment_id,sig:resp.razorpay_signature});
+          verifyPend(resp.razorpay_order_id,4,2500)
+            .then(function(){ w.remove(); })
+            .catch(function(){ w.innerHTML='<div class="card"><b>Payment हो गया ✅ - book थोड़ी देर में अपने आप खुलेगी</b><p class="muted small">पैसा सुरक्षित है और यह payment इस फोन में save है। इंटरनेट चालू रखें और app दोबारा खोलें, book अपने आप खुल जाएगी।<br>Payment ID: <b>'+esc(resp.razorpay_payment_id)+'</b> (न खुले तो Telegram पर screenshot भेजें)</p><button class="btn" onclick="this.closest(\'.overlay\').remove()">ठीक है</button></div>'; });
         }});
       rz.on('payment.failed',function(){ alert('Payment नहीं हुआ। दोबारा कोशिश करें।'); });
       rz.open();
@@ -851,7 +876,9 @@ function restoreBox(b){
     if(!/^[6-9]\d{9}$/.test(m)){ er.textContent='सही 10 अंकों का मोबाइल नंबर लिखें।'; return; }
     if(!/^pay_/i.test(v)){ o.remove(); codeBox(b.id,m,v); return; }
     btn.disabled=true; er.className='muted small'; er.textContent='जाँच हो रही है...';
-    payApi({action:'restore',book:b.id,mobile:m,payment_id:v}).then(function(r){ if(!r.ok||!r.key) throw new Error('nf'); o.remove(); grant(b,m,r.key,v); })
+    var po=Object.keys(pendAll()).filter(function(k){ return pendAll()[k].pid===v; })[0];
+    (po?verifyPend(po,1,2000).then(function(){ return {done:1}; }).catch(function(){ return payApi({action:'restore',book:b.id,mobile:m,payment_id:v}); }):payApi({action:'restore',book:b.id,mobile:m,payment_id:v}))
+     .then(function(r){ if(r.done){ o.remove(); return; } if(!r.ok||!r.key) throw new Error('nf'); o.remove(); grant(b,m,r.key,v); })
       .catch(function(){ btn.disabled=false; er.className='err'; er.textContent='इस नंबर और Payment ID से खरीद नहीं मिली। दोबारा जाँचें या Telegram पर संपर्क करें।'; });
   };
 }
@@ -1226,7 +1253,7 @@ if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navig
 /* start */
 /* Play Store (TWA) mode: Google Play policy ke kaaran app ke andar paid eBook / payment nahi dikhte */
 var IS_TWA=(function(){ try{ if(/[?&]source=twa/.test(location.search)||document.referrer.indexOf('android-app://')===0) localStorage.setItem('ak_twa','1'); return localStorage.getItem('ak_twa')==='1'; }catch(e){ return /[?&]source=twa/.test(location.search); } })();
-loadContent().then(function(){ setTimeout(processUnlockLink,800); regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else if(/[?&]go=updates/.test(location.search)||location.hash==='#updates') go('updates'); else if(/[?&]go=syllabus/.test(location.search)||/^#syllabus/.test(location.hash)) go('syllabus',(location.search.match(/[?&]s=([\w-]+)/)||location.hash.match(/#syllabus-([\w-]+)/)||[])[1]); else go('home'); sessionCheck(); loadSyl(); loadJobs(); setInterval(loadJobs,15*60*1000); });
+loadContent().then(function(){ setTimeout(processUnlockLink,800); if(autoPay()) setTimeout(retryPending,2500); regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else if(/[?&]go=updates/.test(location.search)||location.hash==='#updates') go('updates'); else if(/[?&]go=syllabus/.test(location.search)||/^#syllabus/.test(location.hash)) go('syllabus',(location.search.match(/[?&]s=([\w-]+)/)||location.hash.match(/#syllabus-([\w-]+)/)||[])[1]); else go('home'); sessionCheck(); loadSyl(); loadJobs(); setInterval(loadJobs,15*60*1000); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden) sessionCheck(); });
 </script>
 </body>
