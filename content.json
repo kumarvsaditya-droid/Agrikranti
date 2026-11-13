@@ -33,16 +33,6 @@
    "enc": "ebooks/enc/notes1.bin"
   },
   {
-   "id": "sem1",
-   "title": "B.Sc. Ag. Semester-1 Complete Pack",
-   "sub": "11 papers (PYQ + Model) + gold-medalist solutions, English + हिंदी",
-   "pages": 222,
-   "price": 100,
-   "cover": "SEM-1<br>PACK",
-   "enc": "pack",
-   "pack": "sem1"
-  },
-  {
    "id": "sample1",
    "title": "Free Sample - Agriculture Notes",
    "sub": "Full notes ke pehle 10 pages, pehle padhkar dekhein",
