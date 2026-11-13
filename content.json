@@ -90,5 +90,16 @@
    "img": "img/banner-main.jpg"
   }
  ],
- "payMasterW": "ikd5dtLFVd2KlDksuwWu6QhVLkGSZLFC+Kl74iw2hhOwLoGiVztnEfwEiG55BhQwRm6udBMNqpGRlntEh9OR71HPSxNZ0s8h"
+ "payMasterW": "ikd5dtLFVd2KlDksuwWu6QhVLkGSZLFC+Kl74iw2hhOwLoGiVztnEfwEiG55BhQwRm6udBMNqpGRlntEh9OR71HPSxNZ0s8h",
+ "nfSyllabus": [
+  {
+   "id": "bsc-nf-ddugu",
+   "title": "B.Sc. Ag. (Hons.) Natural Farming - Complete Syllabus",
+   "hi": "बी.एससी. कृषि (ऑनर्स) प्राकृतिक खेती - पूरा syllabus (Semester I - VIII)",
+   "body": "IANS, DDU Gorakhpur University",
+   "pdf": "syllabus/bsc-natural-farming-ddugu.pdf",
+   "pages": 166,
+   "sub": "Semester-wise course distribution, credit hours, सभी courses का detailed theory + practical syllabus"
+  }
+ ]
 }
