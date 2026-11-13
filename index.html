@@ -947,7 +947,7 @@ function openReader(id,again){
   var b=EBOOKS.filter(function(e){return e.id===id;})[0], u=unlocked()[id], p=profile()||{};
   if(b&&b.pack){ go('semester'); return; }
   if(!b||!u||!b.enc) return;
-  readerOpen(b.title,b.enc,keyFor(id),(p.name?p.name+' · ':'')+u.m,(!again&&autoPay())?function(){ MINE_T=Date.now(); return syncMine(true).then(function(){ openReader(id,1); }); }:null);
+  readerOpen(b.title,b.enc,keyFor(id),(p.name?p.name+' · ':'')+u.m,!again?function(){ var uu=unlocked(); if(uu[id]&&uu[id].c&&uu[id].k){ delete uu[id].k; set('unlocked',uu); return openReader(id,1); } if(!autoPay()) return openReader(id,1); MINE_T=Date.now(); return syncMine(true).then(function(){ openReader(id,1); }); }:null);
 }
 function rtoast(ov,m){ var t=document.createElement('div'); t.textContent=m; t.style.cssText='position:absolute;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 14px;border-radius:10px;font-size:14px;z-index:9;max-width:90%;text-align:center'; ov.appendChild(t); setTimeout(function(){ t.remove(); },3500); }
 function readerOpen(title,encUrl,keyP,wm,onBadKey){

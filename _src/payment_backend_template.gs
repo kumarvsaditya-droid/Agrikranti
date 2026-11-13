@@ -8,21 +8,23 @@
  *  3. Payment hua par book nahi khuli (app band ho gaya, net chala gaya) - Razorpay se khud jaanch kar
  *     book khol deta hai. Purane (v4 wale) khareedaron ko bhi Razorpay se dhoond kar khol deta hai.
  *
- * Sirf neeche ki 2 lines mein apni purani script wali Razorpay Key ID aur Key Secret daalein.
+ * Is code mein kuch bhi badalna nahi hai. Razorpay keys "Project Settings > Script Properties" mein hain
+ * (RAZORPAY_KEY_ID, RAZORPAY_KEY_SECRET) - wahi purani wali apne aap use hongi.
  */
-var RAZORPAY_KEY_ID = 'PASTE_KEY_ID';          // purani script se copy karein (rzp_live_...)
-var RAZORPAY_KEY_SECRET = 'PASTE_KEY_SECRET';  // purani script se copy karein
+var PROPS = PropertiesService.getScriptProperties();
+var RAZORPAY_KEY_ID = String(PROPS.getProperty('RAZORPAY_KEY_ID') || '').trim();
+var RAZORPAY_KEY_SECRET = String(PROPS.getProperty('RAZORPAY_KEY_SECRET') || '').trim();
 var NOTIFY_EMAIL = '';                          // khali = script wale Gmail par email
 
 /* ---------- Iske neeche kuch na badlein ---------- */
 var CONTENT_URL = 'https://raw.githubusercontent.com/kumarvsaditya-droid/Agrikranti/main/content.json';
 var REPO_API = 'https://api.github.com/repos/kumarvsaditya-droid/Agrikranti';
 var MAX_DEVICES = 4;                            // ek khareed = zyada se zyada itne phone
-var MASTER_KEY = '/*MASTER*/';                  // nayi books isi chaabi se lock hoti hain (admin panel)
+var MASTER_KEY = '/*MASTER*/';                  // har nayi book ki chaabi isse banti hai (admin panel bhi yahi karta hai)
 var OLD_KEYS = /*OLD_KEYS*/;                    // purani books ki apni chaabi
 var OLD_PRICES = { notes1: 99, sem1: 100 };     // content.json na mile to
 
-function doGet() { return out({ ok: true, name: 'Agrikranti Pay', v: 5 }); }
+function doGet() { return out({ ok: true, name: 'Agrikranti Pay', v: 5, keySet: !!(RAZORPAY_KEY_ID && RAZORPAY_KEY_SECRET) }); }
 
 function doPost(e) {
   try {
@@ -90,9 +92,12 @@ function bookInfo(id) {
   var e = (content().ebooks || []).filter(function (x) { return x.id === id; })[0];
   var price = e ? Number(e.price) : OLD_PRICES[id];
   if (!price || price <= 0) return null;
-  return { price: price, title: e ? e.title : id, key: OLD_KEYS[id] || MASTER_KEY };
+  return { price: price, title: e ? e.title : id, key: keyOf(id) };
 }
-function keyOf(id) { return OLD_KEYS[id] || MASTER_KEY; }
+function keyOf(id) {
+  if (OLD_KEYS[id]) return OLD_KEYS[id];
+  return Utilities.base64Encode(Utilities.computeHmacSha256Signature(Utilities.newBlob('item|' + id).getBytes(), Utilities.base64Decode(MASTER_KEY)));
+}
 
 /* ---- Login ID par sab khareedi books ---- */
 function mine(mobile, b) {
@@ -245,4 +250,4 @@ function check(m, b) {
 function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
 /* Code paste karne ke baad ek baar Run karein (permission ke liye) */
-function setup() { Logger.log('Sheet: ' + sheet().getParent().getUrl() + ' | Books: ' + JSON.stringify(content().ebooks.map(function (x) { return x.id + '=' + x.price; }))); }
+function setup() { Logger.log('Razorpay keys: ' + (RAZORPAY_KEY_ID && RAZORPAY_KEY_SECRET ? 'OK (' + RAZORPAY_KEY_ID + ')' : 'NAHI MILI - Script Properties dekhein') + ' | Sheet: ' + sheet().getParent().getUrl() + ' | Books: ' + JSON.stringify(content().ebooks.map(function (x) { return x.id + '=' + x.price; }))); }

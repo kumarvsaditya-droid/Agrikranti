@@ -15,7 +15,7 @@
 
 ## Payment v5 (13 Nov 2026)
 - App calls `action:'mine'` (mobile + device + pending order ids) on start, login, eBooks/Semester open. Server returns `{ok, books:{id:key}}` for every book bought on that mobile, so books open on any phone with no code.
-- Server v5 reads price/title from content.json (any new paid book works without editing the script). Key = OLD_KEYS[id] or MASTER_KEY (admin uploads new paid PDFs with master key).
+- Server v5 reads price/title from content.json (any new paid book works without editing the script). Key = OLD_KEYS[id] (notes1) else HMAC-SHA256(master, "item|"+id) - same as v4 and admin.html itemKey(). Razorpay keys come from Script Properties.
 - Server also checks unpaid/unverified orders on Razorpay and scans the last 60 days of paid orders for that mobile, so "paid but not opened" fixes itself.
 - Max 4 devices per buyer (Sheet "Devices", delete row to reset). Template here has placeholders; the filled PRIVATE copy is only with Aditya.
 - Reader: if saved key fails, app fetches fresh key via `mine` and reopens.

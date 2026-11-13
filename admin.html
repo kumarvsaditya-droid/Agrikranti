@@ -290,6 +290,8 @@ function payMasterKey(){
     return (k&&k.length===32)?k:null;
   }).catch(function(){ return null; });
 }
+/* Har paid item ki apni chaabi = HMAC-SHA256(master, 'item|'+id) - yahi payment server deta hai (v4 aur v5 dono) */
+function itemKey(MK,id){ return crypto.subtle.importKey('raw',MK,{name:'HMAC',hash:'SHA-256'},false,['sign']).then(function(k){ return crypto.subtle.sign('HMAC',k,new TextEncoder().encode('item|'+id)); }).then(function(b){ return new Uint8Array(b); }); }
 function ebookForm(i){
   var b=i>=0?C.ebooks[i]:{id:'book'+Date.now().toString(36),title:'',sub:'',pages:'',price:0,cover:'NEW<br>BOOK'};
   M.innerHTML='<div class="card"><h2>'+(i>=0?'eBook Edit':'नई eBook')+'</h2>'
@@ -301,7 +303,7 @@ function ebookForm(i){
    +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sv">Save करें</button><button class="btn ghost" id="bk">वापस</button></div></div>';
   document.getElementById('bk').onclick=ebookView;
   payMasterKey().then(function(MK){ var el=document.getElementById('mkst'); if(!el) return;
-    el.innerHTML=MK?'✅ <b style="color:#4fd36a">Paid PDF payment वाली master चाबी से lock होगी</b> - payment के बाद book अपने आप खुलेगी। (v2)'
+    el.innerHTML=MK?'✅ <b style="color:#4fd36a">Paid PDF payment server वाली चाबी से lock होगी</b> - payment के बाद book अपने आप खुलेगी। (v3)'
       :(!PINK?'⚠️ <b style="color:#f2b705">पहले "💰 eBook बिक्री" tab में Admin PIN डालें</b>, फिर यहाँ आएँ।':'⚠️ <b style="color:#ff6b6b">Master चाबी नहीं मिली</b> - upload न करें, Claude को बताएँ।'); });
   document.getElementById('sv').onclick=function(){
     var btn=this; btn.disabled=true;
@@ -312,7 +314,7 @@ function ebookForm(i){
       if(f){ if(!PINK){ toast('पहले "💰 eBook बिक्री" tab में Admin PIN डालें।',7000); btn.disabled=false; return; }
         toast('PDF lock (encrypt) होकर upload हो रही है...',60000);
         var K=null;
-        payMasterKey().then(function(MK){ if(!MK) throw new Error('Master चाबी नहीं मिली - Admin PIN दोबारा डालें (page refresh करें)। बिना इसके payment के बाद book नहीं खुलेगी, इसलिए upload रोका गया।'); K=MK; return f.arrayBuffer(); })
+        payMasterKey().then(function(MK){ if(!MK) throw new Error('Master चाबी नहीं मिली - Admin PIN दोबारा डालें (page refresh करें)। बिना इसके payment के बाद book नहीं खुलेगी, इसलिए upload रोका गया।'); return itemKey(MK,y.id); }).then(function(IK){ K=IK; return f.arrayBuffer(); })
          .then(function(buf){ return AK.rawKey(K).then(function(k){ return AK.aesEnc(k,new Uint8Array(buf)); }); })
          .then(function(encd){ return putFile('ebooks/enc/'+y.id+'.bin',AK.b64e(encd),'Admin: locked ebook '+y.id); })
          .then(function(){ return AK.aesEnc(PINK,K); }).then(function(w){ C.bookKeys=C.bookKeys||{}; C.bookKeys[y.id]=AK.b64e(w); C.licenses=C.licenses||{}; C.licenses[y.id]=C.licenses[y.id]||{}; y.enc='ebooks/enc/'+y.id+'.bin';
