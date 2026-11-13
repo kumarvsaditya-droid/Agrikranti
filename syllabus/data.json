@@ -281,30 +281,205 @@
    ]
   },
   {
+   "id": "btsc-fishery-extension-officer",
+   "title": "BTSC Fishery Extension Officer (Matsya Prasar Padadhikari)",
+   "hi": "बीटीएससी मत्स्य प्रसार पदाधिकारी, बिहार",
+   "body": "बिहार तकनीकी सेवा आयोग (BTSC), पटना",
+   "region": "Bihar",
+   "year": "2026",
+   "posts": "विज्ञापन सं. 28/2026 अनुसार",
+   "advt": "BTSC विज्ञापन सं. 28/2026 (मत्स्य प्रसार पदाधिकारी, नियमित नियुक्ति)",
+   "official": "https://btsc.bihar.gov.in",
+   "eligibility": "आधिकारिक विज्ञापन 28/2026 देखें",
+   "dates": "ऑनलाइन आवेदन: 24-09-2026 से 23-10-2026 (बंद) · परीक्षा तिथि: BTSC वेबसाइट पर सूचना देखें",
+   "verified": "official",
+   "note": "Syllabus BTSC की आधिकारिक syllabus PDF (btsc.bihar.gov.in, प्रकाशित 01-10-2026) से लिया गया है। विज्ञापन PDF स्कैन इमेज है, इसलिए प्रश्न संख्या / अंक / समय यहाँ नहीं दिए - आधिकारिक विज्ञापन में देखें।",
+   "match": "fisher(y|ies)\\s*extension\\s*officer|matsya\\s*prasar|मत्स्य\\s*प्रसार",
+   "pattern": [
+    [
+     "परीक्षा / Exam",
+     "लिखित प्रतियोगिता परीक्षा · प्रश्न, अंक, समय व negative marking के लिए BTSC विज्ञापन 28/2026 देखें"
+    ],
+    [
+     "Syllabus",
+     "BTSC आधिकारिक syllabus · 5 यूनिट (यूनिटवार अंक syllabus में नहीं दिए गए)"
+    ]
+   ],
+   "sections": [
+    {
+     "name": "Unit 1: Fishery resources and management & Fish Biology",
+     "hi": "यूनिट 1: मत्स्य संसाधन व प्रबंधन एवं मत्स्य जीव विज्ञान",
+     "marks": "",
+     "topics": [
+      [
+       "Classification and taxonomic characteristics of cultivable fishes, crustaceans and molluscs",
+       "पालने योग्य मछलियों, क्रस्टेशियन व मोलस्क का वर्गीकरण और वर्गिकी लक्षण"
+      ],
+      [
+       "Fresh water and pond ecosystem",
+       "मीठा जल और तालाब पारितंत्र"
+      ],
+      [
+       "Population dynamics, fish stock abundance methods and analysis",
+       "जनसंख्या गतिकी, मत्स्य भंडार आकलन विधियाँ व विश्लेषण"
+      ],
+      [
+       "Conservation and management of fishery resources; impact of over-exploitation and climate change",
+       "मत्स्य संसाधनों का संरक्षण व प्रबंधन; अति-दोहन व जलवायु परिवर्तन का प्रभाव"
+      ],
+      [
+       "Culture and capture fishery resources of Bihar: present status, fish and fish seed production vis-a-vis supply and demand",
+       "बिहार के पालन व प्रग्रहण मत्स्य संसाधन: वर्तमान स्थिति, मछली व मत्स्य बीज उत्पादन बनाम माँग-आपूर्ति"
+      ],
+      [
+       "Fin fish and shell fish anatomy, various aspects of biology",
+       "फिन फिश व शेल फिश की शारीरिक संरचना, जीव विज्ञान के विभिन्न पहलू"
+      ]
+     ]
+    },
+    {
+     "name": "Unit 2: Fish aquaculture",
+     "hi": "यूनिट 2: मत्स्य पालन (एक्वाकल्चर)",
+     "marks": "",
+     "topics": [
+      [
+       "Reproduction and breeding behaviour in fishes and shellfishes, brood stock improvement, maturity and fecundity studies",
+       "मछलियों व शेलफिश में प्रजनन व प्रजनन व्यवहार, ब्रूड स्टॉक सुधार, परिपक्वता व प्रजनन क्षमता (फीकंडिटी) अध्ययन"
+      ],
+      [
+       "Induced spawning and seed production, natural fish seed collection and rearing",
+       "प्रेरित प्रजनन व बीज उत्पादन, प्राकृतिक मत्स्य बीज संग्रह व पालन"
+      ],
+      [
+       "Types of eggs and larval development of fin fishes and shellfishes",
+       "अंडों के प्रकार और फिन फिश व शेलफिश के लार्वा अवस्थाओं का विकास"
+      ],
+      [
+       "Preparation and management of fresh water and brackish water fish ponds",
+       "मीठा जल व खारा जल मत्स्य तालाबों की तैयारी व प्रबंधन"
+      ],
+      [
+       "Cultivable species identification, introduction of exotic fishes in India",
+       "पालने योग्य प्रजातियों की पहचान, भारत में विदेशी मछलियों का आगमन"
+      ],
+      [
+       "Culture methods: pen and cage culture, carp and shrimp hatchery management, types of fish culture",
+       "पालन विधियाँ: पेन व केज कल्चर, कार्प व झींगा हैचरी प्रबंधन, मत्स्य पालन के प्रकार"
+      ],
+      [
+       "Basic biotechnology and genetics in fisheries; fish diseases and control",
+       "मात्स्यिकी में जैव-प्रौद्योगिकी व आनुवंशिकी की मूल बातें; मछली रोग व नियंत्रण"
+      ],
+      [
+       "Ornamental fish breeding and culture; capture and culture fisheries in low lying water bodies",
+       "सजावटी मछली प्रजनन व पालन; निचले जलक्षेत्रों में प्रग्रहण व पालन मात्स्यिकी"
+      ]
+     ]
+    },
+    {
+     "name": "Unit 3: Ecology of water bodies",
+     "hi": "यूनिट 3: जलाशयों की पारिस्थितिकी",
+     "marks": "",
+     "topics": [
+      [
+       "Limnological and biological parameters of lotic and lentic waters, biological productivity and its impact on fisheries",
+       "बहते (लोटिक) व ठहरे (लेंटिक) जल के सरोवर-विज्ञान व जैविक मापदंड, जैविक उत्पादकता व मात्स्यिकी पर प्रभाव"
+      ],
+      [
+       "Environmental impact assessment on fisheries in lentic and lotic waters",
+       "लेंटिक व लोटिक जल में मात्स्यिकी पर पर्यावरणीय प्रभाव आकलन"
+      ],
+      [
+       "Energy flow, community ecology and aquatic association",
+       "ऊर्जा प्रवाह, समुदाय पारिस्थितिकी व जलीय सहचर्य"
+      ],
+      [
+       "Biodiversity and its conservation, aquatic pollution and its management",
+       "जैव विविधता व संरक्षण, जलीय प्रदूषण व प्रबंधन"
+      ]
+     ]
+    },
+    {
+     "name": "Unit 4: Harvest and post harvest technology",
+     "hi": "यूनिट 4: मत्स्य प्रग्रहण व तुड़ाई उपरांत तकनीक",
+     "marks": "",
+     "topics": [
+      [
+       "Common crafts and gears for fish capture; boat building materials (wood, steel, aluminium, ferro cement, FRP) and their demerits",
+       "मछली पकड़ने की सामान्य नावें व जाल; नाव निर्माण सामग्री (लकड़ी, स्टील, एल्युमिनियम, फेरो सीमेंट, FRP) व उनकी कमियाँ"
+      ],
+      [
+       "Fibres and netting materials, their characteristics and preservation",
+       "रेशे व जाल सामग्री, उनके गुण व संरक्षण"
+      ],
+      [
+       "Parts of trammel net, purse seine, gill net and tuna long line",
+       "ट्रैमल जाल, पर्स सीन, गिल जाल व टूना लॉन्ग लाइन के भाग"
+      ],
+      [
+       "Food chemistry and fundamentals of microbiology",
+       "खाद्य रसायन व सूक्ष्मजीव विज्ञान की मूल बातें"
+      ],
+      [
+       "Fish preservation methods, fishery by-products, canning and packaging, processing and product development",
+       "मछली परिरक्षण की विधियाँ, मत्स्य उप-उत्पाद, कैनिंग व पैकेजिंग, प्रसंस्करण व उत्पाद विकास"
+      ]
+     ]
+    },
+    {
+     "name": "Unit 5: Fisheries economics, extension & statistics",
+     "hi": "यूनिट 5: मत्स्य अर्थशास्त्र, प्रसार एवं सांख्यिकी",
+     "marks": "",
+     "topics": [
+      [
+       "Fishery economics; co-operative, marketing and banking management",
+       "मत्स्य अर्थशास्त्र; सहकारिता, विपणन व बैंकिंग प्रबंधन"
+      ],
+      [
+       "Supply vs demand economics of hatchery and fish culture, profit maximization, problems in estimating costs and returns",
+       "हैचरी व मत्स्य पालन का माँग-आपूर्ति अर्थशास्त्र, लाभ अधिकतमीकरण, लागत व आय आकलन की समस्याएँ"
+      ],
+      [
+       "Fisheries extension methods, training and education needs, communication concepts, modern tools of extension",
+       "मत्स्य प्रसार विधियाँ, प्रशिक्षण व शिक्षा आवश्यकताएँ, संचार की अवधारणाएँ, प्रसार के आधुनिक साधन"
+      ],
+      [
+       "Participatory rural appraisal (PRA), rapid rural appraisal (RRA), role of women in fisheries",
+       "सहभागी ग्रामीण मूल्यांकन (PRA), त्वरित ग्रामीण मूल्यांकन (RRA), मात्स्यिकी में महिलाओं की भूमिका"
+      ],
+      [
+       "Basics of statistics in fisheries and computer science",
+       "मात्स्यिकी में सांख्यिकी व कंप्यूटर विज्ञान की मूल बातें"
+      ]
+     ]
+    }
+   ]
+  },
+  {
    "id": "icar-technical-assistant",
    "title": "ICAR Technical Assistant (T-3) & Senior Technical Assistant (T-4) - Agriculture",
    "hi": "आईसीएआर तकनीकी सहायक (T-3) व वरिष्ठ तकनीकी सहायक (T-4) - कृषि समूह",
    "body": "ASRB, New Delhi",
    "region": "Central",
    "year": "2026",
-   "posts": "1393 कुल (कृषि समूह-A: 772)",
-   "advt": "ASRB केंद्रीकृत परीक्षा-2026, अधिसूचना 11.11.2026",
-   "official": "https://asrb.org.in",
+   "posts": "1393 कुल (समूहवार पद ASRB अधिसूचना में देखें)",
+   "advt": "ASRB केंद्रीकृत परीक्षा-2026 · Scheme व Syllabus: ICAR कार्यालय ज्ञापन F.No. TS-19(6)/2024-Estt.IV, दिनांक 28.09.2026",
+   "official": "https://asrb.gov.in",
    "eligibility": "संबंधित विषय में स्नातक (विज्ञापन देखें)",
    "dates": "आवेदन: 18 नवंबर से 17 दिसंबर 2026 · Prelims (CBT): फरवरी 2027 (संभावित)",
    "match": "(ICAR|ASRB|आईसीएआर).{0,40}(technical\\s*assistant|T-?3|T-?4|टेक्निकल|तकनीकी)|(technical\\s*assistant|टेक्निकल\\s*असिस्टेंट).{0,40}(ICAR|ASRB|आईसीएआर)|(ICAR|ASRB|आईसीएआर).{0,60}1,?393",
    "pattern": [
     [
      "Paper I (Prelims)",
-     "Qualifying · 100 प्रश्न, 100 अंक · 1 घंटा · गलत उत्तर पर -0.25"
+     "Qualifying · 4 भाग x 25 प्रश्न = 100 प्रश्न, 100 अंक · 1 घंटा · गलत उत्तर पर -0.25"
     ],
     [
      "Paper II (Mains)",
-     "Merit · 100 प्रश्न, 300 अंक (3 अंक प्रति प्रश्न) · 2 घंटे · गलत उत्तर पर -1"
+     "100 प्रश्न x 3 अंक = 300 अंक · 2 घंटे · गलत उत्तर पर -1 · अपने functional group का विषय"
     ],
     [
-     "Qualifying %",
-     "UR 30%, EWS/OBC 25%, SC/ST/PwBD 20% · Interview नहीं"
+     "चयन / Selection",
+     "Paper I के आधार पर ASRB द्वारा तय अनुपात में Mains के लिए shortlist · Interview नहीं"
     ],
     [
      "भाषा / Language",
@@ -318,8 +493,12 @@
      "marks": "25 प्रश्न",
      "topics": [
       [
-       "Environment, society, current events, India and neighbours (history, culture, geography, economy, policy, science)",
-       "पर्यावरण, समाज, समसामयिकी, भारत व पड़ोसी देश (इतिहास, संस्कृति, भूगोल, अर्थव्यवस्था, नीति, विज्ञान)"
+       "General awareness of environment and its application to society, current events, everyday observation in scientific aspect",
+       "पर्यावरण की सामान्य जानकारी और समाज में उसका उपयोग, समसामयिकी, रोज़मर्रा की घटनाओं का वैज्ञानिक पक्ष"
+      ],
+      [
+       "India and its neighbouring countries: history, culture, geography, economic science, general policy and scientific research",
+       "भारत व पड़ोसी देश: इतिहास, संस्कृति, भूगोल, अर्थशास्त्र, सामान्य नीति और वैज्ञानिक शोध"
       ]
      ]
     },
@@ -329,8 +508,8 @@
      "marks": "25 प्रश्न",
      "topics": [
       [
-       "Correct usage, comprehension, writing ability",
-       "शुद्ध प्रयोग, अपठित गद्यांश, लेखन क्षमता"
+       "Understanding of correct English, basic comprehension and writing ability",
+       "शुद्ध अंग्रेज़ी की समझ, अपठित गद्यांश की मूल समझ और लेखन क्षमता"
       ]
      ]
     },
@@ -340,8 +519,32 @@
      "marks": "25 प्रश्न",
      "topics": [
       [
-       "Number system, percentage, ratio, average, profit-loss, time and work, algebra, geometry, mensuration, trigonometry, data interpretation",
-       "संख्या पद्धति, प्रतिशत, अनुपात, औसत, लाभ-हानि, समय व कार्य, बीजगणित, ज्यामिति, क्षेत्रमिति, त्रिकोणमिति, आँकड़ा विश्लेषण"
+       "Whole numbers, decimals, fractions, percentage, ratio and proportion, square roots, averages",
+       "पूर्ण संख्याएँ, दशमलव, भिन्न, प्रतिशत, अनुपात-समानुपात, वर्गमूल, औसत"
+      ],
+      [
+       "Interest, profit and loss, discount, partnership business, mixture and alligation, time and distance, time and work",
+       "ब्याज, लाभ-हानि, बट्टा, साझेदारी, मिश्रण व एलिगेशन, समय व दूरी, समय व कार्य"
+      ],
+      [
+       "Basic algebraic identities, elementary surds, graphs of linear equations",
+       "मूल बीजगणितीय सर्वसमिकाएँ, साधारण करणी, रैखिक समीकरणों के ग्राफ"
+      ],
+      [
+       "Geometry: triangle and its centres, congruence and similarity, circle (chords, tangents), quadrilateral, regular polygons",
+       "ज्यामिति: त्रिभुज व उसके केंद्र, सर्वांगसमता व समरूपता, वृत्त (जीवा, स्पर्शरेखा), चतुर्भुज, सम बहुभुज"
+      ],
+      [
+       "Mensuration: right prism, cone, cylinder, sphere, hemisphere, rectangular parallelepiped, regular right pyramid",
+       "क्षेत्रमिति: प्रिज़्म, शंकु, बेलन, गोला, अर्धगोला, घनाभ, सम पिरामिड"
+      ],
+      [
+       "Trigonometry: ratios, degree and radian, standard identities, complementary angles, heights and distances",
+       "त्रिकोणमिति: अनुपात, डिग्री व रेडियन, मानक सर्वसमिकाएँ, पूरक कोण, ऊँचाई व दूरी"
+      ],
+      [
+       "Histogram, frequency polygon, bar diagram and pie chart",
+       "आयतचित्र, बारंबारता बहुभुज, दंड आरेख और पाई चार्ट"
       ]
      ]
     },
@@ -351,67 +554,129 @@
      "marks": "25 प्रश्न",
      "topics": [
       [
-       "Agro-ecosystems and crops, plant breeding, seed production, diseases of major crops, animal science, fisheries",
-       "कृषि पारिस्थितिकी व फसलें, पादप प्रजनन, बीज उत्पादन, प्रमुख फसलों के रोग, पशु विज्ञान, मात्स्यिकी"
+       "Agro-ecosystems: agronomic principles, agro-meteorology, dryland farming and agroforestry, soil testing and fertility management, integrated farming systems, climate change impact",
+       "कृषि पारिस्थितिकी: सस्य सिद्धांत, कृषि मौसम विज्ञान, बारानी खेती व कृषि वानिकी, मृदा परीक्षण व उर्वरता प्रबंधन, एकीकृत कृषि प्रणाली, जलवायु परिवर्तन का प्रभाव"
       ],
       [
-       "Farm machinery, post-harvest technology, ICT, agribusiness, farm economics",
-       "कृषि यंत्र, तुड़ाई उपरांत तकनीक, ICT, कृषि व्यवसाय, फार्म अर्थशास्त्र"
+       "Diversity of cereals, pulses, oilseeds, forage and horticultural crops; principles of plant breeding, seed production, tissue culture and plant propagation",
+       "अनाज, दलहन, तिलहन, चारा व उद्यानिकी फसलों की विविधता; पादप प्रजनन के सिद्धांत, बीज उत्पादन, ऊतक संवर्धन व पौध प्रवर्धन"
       ],
       [
-       "Institutions (ICAR, NAARM, SAUs, KVKs, NGOs, co-operatives), seed, PPV&FR, biodiversity and pesticide laws, international research bodies",
-       "संस्थाएँ (ICAR, NAARM, कृषि विश्वविद्यालय, KVK, NGO, सहकारी), बीज, पौधा किस्म, जैव विविधता व कीटनाशी कानून, अंतरराष्ट्रीय शोध संस्थान"
+       "Major diseases of rice, wheat, maize, sugarcane, potato, citrus and papaya; weeds and their management",
+       "धान, गेहूँ, मक्का, गन्ना, आलू, नींबू वर्गीय फल व पपीता के प्रमुख रोग; खरपतवार व उनका प्रबंधन"
+      ],
+      [
+       "Animal breeding, animal cloning, animal health, livestock, poultry, duckery, small ruminants, bee keeping, fresh water and marine fisheries",
+       "पशु प्रजनन, पशु क्लोनिंग, पशु स्वास्थ्य, पशुधन, मुर्गी, बत्तख, छोटे जुगाली पशु, मधुमक्खी पालन, मीठा जल व समुद्री मात्स्यिकी"
+      ],
+      [
+       "Farm machinery, agri-energy, ergonomics and women-friendly equipment, post-harvest technology, ICT in agriculture",
+       "कृषि यंत्र, कृषि ऊर्जा, श्रम-दक्षता व महिला-अनुकूल उपकरण, तुड़ाई उपरांत तकनीक, कृषि में सूचना-संचार तकनीक"
+      ],
+      [
+       "Agri-business, socio-economic aspects, types and systems of farming, agricultural price policy, crop insurance",
+       "कृषि व्यवसाय, सामाजिक-आर्थिक पक्ष, खेती के प्रकार व प्रणालियाँ, कृषि मूल्य नीति, फसल बीमा"
+      ],
+      [
+       "Role of ICAR, NAARM, agricultural universities, KVKs, NGOs and SHGs, co-operatives; indigenous knowledge; HRD in agricultural research; New Education Policy 2020",
+       "ICAR, NAARM, कृषि विश्वविद्यालय, KVK, NGO व स्वयं सहायता समूह, सहकारिता की भूमिका; पारंपरिक ज्ञान; कृषि शोध में मानव संसाधन विकास; नई शिक्षा नीति 2020"
+      ],
+      [
+       "Seed Act 1966, PPV&FR Act 2001, Biodiversity Act 2002 (amendment 2023), Insecticide Act 1968, Plant Quarantine Order 2003; NBA, PPV&FR Authority, DPPQ&S",
+       "बीज अधिनियम 1966, पौधा किस्म व कृषक अधिकार संरक्षण अधिनियम 2001, जैव विविधता अधिनियम 2002 (संशोधन 2023), कीटनाशी अधिनियम 1968, पादप संगरोध आदेश 2003; NBA, PPV&FR प्राधिकरण, DPPQ&S"
+      ],
+      [
+       "International centres: CIMMYT, IRRI, ICRISAT, IITA, CIAT, IWMI, ICARDA",
+       "अंतरराष्ट्रीय केंद्र: CIMMYT, IRRI, ICRISAT, IITA, CIAT, IWMI, ICARDA"
       ]
      ]
     },
     {
-     "name": "Paper II: Group A Agriculture (subject paper)",
-     "hi": "पेपर II: समूह-A कृषि (विषय पेपर)",
+     "name": "Paper II: Group (A) Field/Farm & Laboratory Technician (Agriculture)",
+     "hi": "पेपर II: समूह (A) फील्ड/फार्म व प्रयोगशाला तकनीशियन (कृषि)",
      "marks": "100 प्रश्न / 300 अंक",
      "topics": [
       [
-       "Ecology, natural resources, pollution, climate change, remote sensing and GIS",
-       "पारिस्थितिकी, प्राकृतिक संसाधन, प्रदूषण, जलवायु परिवर्तन, रिमोट सेंसिंग व GIS"
+       "Ecology, natural resources and their conservation, environmental pollution, climate change and international conventions, greenhouse effect, remote sensing, GIS, drones in agriculture",
+       "पारिस्थितिकी, प्राकृतिक संसाधन व संरक्षण, पर्यावरण प्रदूषण, जलवायु परिवर्तन व अंतरराष्ट्रीय समझौते, ग्रीनहाउस प्रभाव, रिमोट सेंसिंग, GIS, कृषि में ड्रोन"
       ],
       [
-       "Cropping systems, organic and precision farming, package of practices of major crops, agroforestry, weed science",
-       "फसल प्रणाली, जैविक व परिशुद्ध खेती, प्रमुख फसलों की उत्पादन तकनीक, कृषि वानिकी, खरपतवार विज्ञान"
+       "Cropping patterns in agro-climatic zones, organic and precision farming, package of practices of cereals, pulses, oilseeds, fibres, sugar, commercial and fodder crops",
+       "कृषि-जलवायु क्षेत्रों में फसल प्रारूप, जैविक व परिशुद्ध खेती, अनाज, दलहन, तिलहन, रेशा, शर्करा, व्यावसायिक व चारा फसलों की उत्पादन तकनीक"
       ],
       [
-       "Soil properties, fertility, soil testing, nutrient management, dryland farming, erosion; water management, irrigation scheduling, drainage, water quality",
-       "मृदा गुण, उर्वरता, मृदा परीक्षण, पोषक प्रबंधन, बारानी खेती, क्षरण; जल प्रबंधन, सिंचाई समय-निर्धारण, जल निकास, जल गुणवत्ता"
+       "Agroforestry, forest ecology, wildlife management, forest mensuration, forest products",
+       "कृषि वानिकी, वन पारिस्थितिकी, वन्यजीव प्रबंधन, वन मापन, वन उत्पाद"
       ],
       [
-       "Farm management, marketing, prices, co-operatives, crop insurance; extension, KVKs, NGOs, SHGs",
-       "फार्म प्रबंधन, विपणन, कीमतें, सहकारिता, फसल बीमा; प्रसार, KVK, NGO, स्वयं सहायता समूह"
+       "Weeds: characteristics, dissemination; cultural, biological and chemical control",
+       "खरपतवार: लक्षण, फैलाव; सस्य, जैविक व रासायनिक नियंत्रण"
       ],
       [
-       "Farm power and machinery, soil and water conservation engineering, food processing, renewable energy",
-       "कृषि शक्ति व यंत्र, मृदा-जल संरक्षण अभियांत्रिकी, खाद्य प्रसंस्करण, नवीकरणीय ऊर्जा"
+       "Soil physical, chemical and biological properties, soils of India, soil fertility, soil testing and fertilizer recommendation, INM, biofertilizers, problem soils, soil conservation, watershed management, dryland agriculture",
+       "मृदा के भौतिक, रासायनिक व जैविक गुण, भारत की मृदाएँ, मृदा उर्वरता, मृदा परीक्षण व उर्वरक संस्तुति, समन्वित पोषक प्रबंधन, जैव उर्वरक, समस्याग्रस्त मृदाएँ, मृदा संरक्षण, जलागम प्रबंधन, बारानी कृषि"
       ],
       [
-       "Cell biology, genetics, plant breeding (heterosis, molecular markers, GM crops, CRISPR, genomics), seed technology, IPR",
-       "कोशिका विज्ञान, आनुवंशिकी, पादप प्रजनन (संकर ओज, आणविक मार्कर, GM फसलें, CRISPR, जीनोमिक्स), बीज प्रौद्योगिकी, IPR"
+       "Water-use efficiency, rainwater harvesting, drip and sprinkler irrigation, drainage of water-logged soils, irrigation projects in India",
+       "जल उपयोग दक्षता, वर्षा जल संचयन, ड्रिप व स्प्रिंकलर सिंचाई, जलभराव वाली मृदा का जल निकास, भारत की सिंचाई परियोजनाएँ"
       ],
       [
-       "Plant nutrition, soil-water-plant relations, plant physiology and biochemistry, stress physiology",
-       "पादप पोषण, मृदा-जल-पौधा संबंध, पादप कार्यिकी व जैव रसायन, तनाव कार्यिकी"
+       "Farm management, resource use and budgeting, marketing management, agricultural price policy, crop insurance",
+       "फार्म प्रबंधन, संसाधन उपयोग व बजट, विपणन प्रबंधन, कृषि मूल्य नीति, फसल बीमा"
       ],
       [
-       "Horticulture: fruits, vegetables, spices, flowers, plantation crops, protected cultivation, post-harvest",
-       "उद्यानिकी: फल, सब्ज़ी, मसाले, फूल, बागानी फसलें, संरक्षित खेती, तुड़ाई उपरांत प्रबंधन"
+       "Agricultural extension, socio-economic survey, training of extension workers, role of KVKs",
+       "कृषि प्रसार, सामाजिक-आर्थिक सर्वेक्षण, प्रसार कार्यकर्ताओं का प्रशिक्षण, KVK की भूमिका"
       ],
       [
-       "Plant protection: pest and disease diagnosis, IPM, biological control, quarantine, pesticides",
-       "पौध संरक्षण: कीट-रोग पहचान, IPM, जैविक नियंत्रण, संगरोध, कीटनाशी"
+       "Agricultural engineering: farm power and machinery, soil and water conservation, irrigation and drainage, agricultural structures, food processing, renewable energy, automation",
+       "कृषि अभियांत्रिकी: कृषि शक्ति व यंत्र, मृदा-जल संरक्षण, सिंचाई व जल निकास, कृषि संरचनाएँ, खाद्य प्रसंस्करण, नवीकरणीय ऊर्जा, स्वचालन"
       ],
       [
-       "Food science and technology, food microbiology, food chemistry, food safety, food security and PDS, biotechnology and bioinformatics",
-       "खाद्य विज्ञान व प्रौद्योगिकी, खाद्य सूक्ष्मजीव विज्ञान, खाद्य रसायन, खाद्य सुरक्षा, PDS, जैव-प्रौद्योगिकी व बायोइन्फॉर्मेटिक्स"
+       "Cell structure and cell cycle, laws of heredity, chromosome structure and aberrations, polyploidy, mutation, cytoplasmic inheritance",
+       "कोशिका संरचना व कोशिका चक्र, आनुवंशिकता के नियम, गुणसूत्र संरचना व विकृतियाँ, बहुगुणिता, उत्परिवर्तन, कोशिकाद्रव्यी वंशागति"
+      ],
+      [
+       "History of plant breeding, origin and domestication of crops, genetic resources, recombinant DNA, molecular markers, heterosis, CRISPR-Cas9 and genome editing, doubled haploids, apomixis, genomic selection",
+       "पादप प्रजनन का इतिहास, फसलों का उद्भव व पालतूकरण, आनुवंशिक संसाधन, पुनर्योगज DNA, आणविक मार्कर, संकर ओज, CRISPR-Cas9 व जीनोम संपादन, द्विगुणित अगुणित, असंगजनन, जीनोमिक चयन"
+      ],
+      [
+       "Seed production and processing, seed certification, DNA fingerprinting and seed registration, IPR and WTO issues",
+       "बीज उत्पादन व प्रसंस्करण, बीज प्रमाणीकरण, DNA फिंगरप्रिंटिंग व बीज पंजीकरण, IPR व WTO मुद्दे"
+      ],
+      [
+       "Plant physiology, soil-water-plant relationship, enzymes and pigments, photosynthesis, respiration, growth and development, photoperiodism, vernalization, plant growth substances, stress physiology",
+       "पादप कार्यिकी, मृदा-जल-पौधा संबंध, एंजाइम व वर्णक, प्रकाश-संश्लेषण, श्वसन, वृद्धि व विकास, दीप्तिकालिता, वसंतीकरण, पादप वृद्धि नियामक, तनाव कार्यिकी"
+      ],
+      [
+       "Fruits, plantation crops, vegetables, spices, flowers; protected cultivation and high-tech horticulture; medicinal and aromatic plants",
+       "फल, बागानी फसलें, सब्ज़ियाँ, मसाले, फूल; संरक्षित खेती व हाई-टेक उद्यानिकी; औषधीय व सुगंधित पौधे"
+      ],
+      [
+       "Diagnosis of pests and diseases, integrated pest and disease management, storage pests, biological control, epidemiology and forecasting, pesticides and their mode of action",
+       "कीट-रोग पहचान, समन्वित कीट-रोग प्रबंधन, भंडारण कीट, जैविक नियंत्रण, रोग महामारी विज्ञान व पूर्वानुमान, कीटनाशी व उनकी क्रिया-विधि"
+      ],
+      [
+       "Food science and technology: food processing, preservation, packaging, quality control, nutrition, functional foods, AI in food systems",
+       "खाद्य विज्ञान व प्रौद्योगिकी: प्रसंस्करण, परिरक्षण, पैकेजिंग, गुणवत्ता नियंत्रण, पोषण, कार्यात्मक खाद्य, खाद्य प्रणाली में AI"
+      ],
+      [
+       "Food production and consumption trends in India, food security, Public Distribution System, nutrient deficiency",
+       "भारत में खाद्य उत्पादन व उपभोग की प्रवृत्ति, खाद्य सुरक्षा, सार्वजनिक वितरण प्रणाली, पोषक तत्वों की कमी"
+      ],
+      [
+       "Biotechnology: cell biology, genetics, molecular biology, bioinformatics, genetic engineering",
+       "जैव-प्रौद्योगिकी: कोशिका विज्ञान, आनुवंशिकी, आणविक जीव विज्ञान, बायोइन्फॉर्मेटिक्स, आनुवंशिक अभियांत्रिकी"
+      ],
+      [
+       "Food microbiology, food chemistry, food processing techniques, food safety, engineering in food business",
+       "खाद्य सूक्ष्मजीव विज्ञान, खाद्य रसायन, खाद्य प्रसंस्करण तकनीक, खाद्य सुरक्षा, खाद्य व्यवसाय में अभियांत्रिकी"
       ]
      ]
     }
-   ]
+   ],
+   "verified": "official",
+   "note": "Exam scheme और syllabus ICAR के आधिकारिक कार्यालय ज्ञापन (icar.org.in) से मिलाया गया है। पद संख्या व तिथियाँ ASRB अधिसूचना से asrb.gov.in पर ज़रूर मिलाएँ।"
   },
   {
    "id": "ibps-afo",
@@ -419,31 +684,35 @@
    "hi": "आईबीपीएस एसओ कृषि क्षेत्र अधिकारी (AFO)",
    "body": "IBPS, Mumbai",
    "region": "Central",
-   "year": "2026",
-   "posts": "हर वर्ष के विज्ञापन अनुसार",
-   "advt": "IBPS CRP SPL (Specialist Officer) - नवीनतम विज्ञापन",
+   "year": "2026-27",
+   "posts": "370 (अद्यतन रिक्तियाँ 20.07.2026 अनुसार)",
+   "advt": "IBPS CRP SPL-XVI (रिक्तियाँ 2027-28), अधिसूचना 01.07.2026",
    "official": "https://www.ibps.in",
-   "eligibility": "B.Sc. Agriculture / संबंधित 4 वर्षीय स्नातक",
+   "eligibility": "कृषि / उद्यानिकी / पशुपालन / पशु चिकित्सा / डेयरी / मात्स्यिकी आदि में 4 वर्षीय स्नातक · आयु 20-30 वर्ष (01.07.2026 को)",
    "match": "\\bIBPS\\b.{0,40}(AFO|agricultur\\w*\\s+field\\s+officer|SO\\b)|\\bAFO\\b|कृषि\\s*क्षेत्र\\s*अधिकारी",
    "pattern": [
     [
      "Prelims",
-     "Online · Reasoning, English Language, Quantitative Aptitude · 120 मिनट · गलत उत्तर पर 1/4 अंक कटेंगे · केवल qualifying"
+     "100 प्रश्न, 125 अंक, 80 मिनट · English 25/25 · Reasoning 25/25 · Quant 25/25 · Professional Knowledge 25 प्रश्न/50 अंक · चारों में अलग cut-off"
     ],
     [
      "Mains",
-     "Online · Professional Knowledge (Agriculture) · 45 मिनट"
+     "150 प्रश्न, 200 अंक, 125 मिनट · English 30/30 · Reasoning 40/40 · Quant 30/30 · Professional Knowledge 50 प्रश्न/100 अंक"
+    ],
+    [
+     "Negative",
+     "हर गलत उत्तर पर उस प्रश्न के 1/4 अंक कटेंगे"
     ],
     [
      "Interview",
-     "Mains 80% + Interview 20% वेटेज से अंतिम मेरिट"
+     "100 अंक · अंतिम मेरिट Mains : Interview = 80 : 20 · Prelims के अंक मेरिट में नहीं जुड़ते"
     ]
    ],
    "sections": [
     {
-     "name": "Mains: Professional Knowledge (Agriculture)",
-     "hi": "मुख्य परीक्षा: व्यावसायिक ज्ञान (कृषि)",
-     "marks": "",
+     "name": "Professional Knowledge (Agriculture): Prelims + Mains",
+     "hi": "व्यावसायिक ज्ञान (कृषि): प्रारंभिक + मुख्य",
+     "marks": "Prelims 25 प्रश्न · Mains 50 प्रश्न",
      "topics": [
       [
        "Agriculture in India: types of cultivation, major crops, research institutes, GM crops",
@@ -479,7 +748,9 @@
       ]
      ]
     }
-   ]
+   ],
+   "dates": "आवेदन: 01-21 जुलाई 2026 · Prelims: अगस्त 2026 · Mains: नवंबर 2026 · Interview: नवंबर/दिसंबर 2026 (संभावित)",
+   "note": "Exam pattern, पद व तिथियाँ IBPS CRP SPL-XVI की आधिकारिक अधिसूचना से मिलाई गई हैं। IBPS Professional Knowledge का विषयवार syllabus जारी नहीं करता, इसलिए topics पिछले वर्षों के सामान्य पैटर्न पर आधारित हैं।"
   },
   {
    "id": "nabard-grade-a",

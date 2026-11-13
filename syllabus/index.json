@@ -1,6 +1,6 @@
 {
- "updated": "12-11-2026",
- "count": 5,
+ "updated": "13-11-2026",
+ "count": 6,
  "items": [
   {
    "id": "upsssc-ganna-paryavekshak",
@@ -13,13 +13,14 @@
    "advt": "विज्ञापन सं. 13-परीक्षा/2026",
    "official": "https://upsssc.gov.in",
    "match": "(cane|sugarcane|ganna)\\s*(supervisor|paryavekshak)|गन्ना\\s*पर्यवेक्षक",
+   "verified": "",
    "pdf": "syllabus/upsssc-ganna-paryavekshak.pdf",
    "sections": [
     "Part A: Agriculture Science",
     "Part B: Computer & IT",
     "Part C: Uttar Pradesh General Information"
    ],
-   "updated": "12-11-2026"
+   "updated": "13-11-2026"
   },
   {
    "id": "upsssc-agta",
@@ -32,6 +33,7 @@
    "advt": "UPSSSC का नवीनतम AGTA विज्ञापन",
    "official": "https://upsssc.gov.in",
    "match": "\\bAGTA\\b|agricultur\\w*\\s+technical\\s+assistant|कृषि\\s*तकनीकी\\s*सहायक",
+   "verified": "",
    "pdf": "syllabus/upsssc-agta.pdf",
    "sections": [
     "Crop Science",
@@ -43,7 +45,29 @@
     "Computer and IT",
     "General Information on Uttar Pradesh"
    ],
-   "updated": "12-11-2026"
+   "updated": "13-11-2026"
+  },
+  {
+   "id": "btsc-fishery-extension-officer",
+   "title": "BTSC Fishery Extension Officer (Matsya Prasar Padadhikari)",
+   "hi": "बीटीएससी मत्स्य प्रसार पदाधिकारी, बिहार",
+   "body": "बिहार तकनीकी सेवा आयोग (BTSC), पटना",
+   "region": "Bihar",
+   "year": "2026",
+   "posts": "विज्ञापन सं. 28/2026 अनुसार",
+   "advt": "BTSC विज्ञापन सं. 28/2026 (मत्स्य प्रसार पदाधिकारी, नियमित नियुक्ति)",
+   "official": "https://btsc.bihar.gov.in",
+   "match": "fisher(y|ies)\\s*extension\\s*officer|matsya\\s*prasar|मत्स्य\\s*प्रसार",
+   "verified": "official",
+   "pdf": "syllabus/btsc-fishery-extension-officer.pdf",
+   "sections": [
+    "Unit 1: Fishery resources and management & Fish Biology",
+    "Unit 2: Fish aquaculture",
+    "Unit 3: Ecology of water bodies",
+    "Unit 4: Harvest and post harvest technology",
+    "Unit 5: Fisheries economics, extension & statistics"
+   ],
+   "updated": "13-11-2026"
   },
   {
    "id": "icar-technical-assistant",
@@ -52,19 +76,20 @@
    "body": "ASRB, New Delhi",
    "region": "Central",
    "year": "2026",
-   "posts": "1393 कुल (कृषि समूह-A: 772)",
-   "advt": "ASRB केंद्रीकृत परीक्षा-2026, अधिसूचना 11.11.2026",
-   "official": "https://asrb.org.in",
+   "posts": "1393 कुल (समूहवार पद ASRB अधिसूचना में देखें)",
+   "advt": "ASRB केंद्रीकृत परीक्षा-2026 · Scheme व Syllabus: ICAR कार्यालय ज्ञापन F.No. TS-19(6)/2024-Estt.IV, दिनांक 28.09.2026",
+   "official": "https://asrb.gov.in",
    "match": "(ICAR|ASRB|आईसीएआर).{0,40}(technical\\s*assistant|T-?3|T-?4|टेक्निकल|तकनीकी)|(technical\\s*assistant|टेक्निकल\\s*असिस्टेंट).{0,40}(ICAR|ASRB|आईसीएआर)|(ICAR|ASRB|आईसीएआर).{0,60}1,?393",
+   "verified": "official",
    "pdf": "syllabus/icar-technical-assistant.pdf",
    "sections": [
     "Paper I: General Knowledge",
     "Paper I: General English",
     "Paper I: Quantitative Aptitude",
     "Paper I: General Agriculture",
-    "Paper II: Group A Agriculture (subject paper)"
+    "Paper II: Group (A) Field/Farm & Laboratory Technician (Agriculture)"
    ],
-   "updated": "12-11-2026"
+   "updated": "13-11-2026"
   },
   {
    "id": "ibps-afo",
@@ -72,16 +97,17 @@
    "hi": "आईबीपीएस एसओ कृषि क्षेत्र अधिकारी (AFO)",
    "body": "IBPS, Mumbai",
    "region": "Central",
-   "year": "2026",
-   "posts": "हर वर्ष के विज्ञापन अनुसार",
-   "advt": "IBPS CRP SPL (Specialist Officer) - नवीनतम विज्ञापन",
+   "year": "2026-27",
+   "posts": "370 (अद्यतन रिक्तियाँ 20.07.2026 अनुसार)",
+   "advt": "IBPS CRP SPL-XVI (रिक्तियाँ 2027-28), अधिसूचना 01.07.2026",
    "official": "https://www.ibps.in",
    "match": "\\bIBPS\\b.{0,40}(AFO|agricultur\\w*\\s+field\\s+officer|SO\\b)|\\bAFO\\b|कृषि\\s*क्षेत्र\\s*अधिकारी",
+   "verified": "",
    "pdf": "syllabus/ibps-afo.pdf",
    "sections": [
-    "Mains: Professional Knowledge (Agriculture)"
+    "Professional Knowledge (Agriculture): Prelims + Mains"
    ],
-   "updated": "12-11-2026"
+   "updated": "13-11-2026"
   },
   {
    "id": "nabard-grade-a",
@@ -94,13 +120,14 @@
    "advt": "NABARD का नवीनतम ग्रेड A विज्ञापन",
    "official": "https://www.nabard.org",
    "match": "NABARD.{0,30}grade\\s*A|नाबार्ड.{0,30}(ग्रेड|grade)",
+   "verified": "",
    "pdf": "syllabus/nabard-grade-a.pdf",
    "sections": [
     "ARD: Agriculture & Rural Development",
     "ESI: Economic & Social Issues",
     "Phase 2 Paper 1: Descriptive English"
    ],
-   "updated": "12-11-2026"
+   "updated": "13-11-2026"
   }
  ]
 }

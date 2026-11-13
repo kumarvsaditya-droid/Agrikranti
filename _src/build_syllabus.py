@@ -22,6 +22,15 @@ def font_css():
     return '\n'.join(out)
 
 
+def src_note(x):
+    """Syllabus ka source batata hai: 'note' field ho to wahi, warna verified/compiled ka default."""
+    if x.get('note'):
+        return x['note']
+    if x.get('verified') == 'official':
+        return 'यह syllabus आयोग के आधिकारिक विज्ञापन / syllabus से मिलाकर लिखा गया है।'
+    return 'यह syllabus उपलब्ध स्रोतों से छात्रों की सुविधा के लिए संकलित है (आधिकारिक text से मिलान अभी बाकी)।'
+
+
 def page(x, today):
     rows = ''.join('<tr><th>%s</th><td>%s</td></tr>' % (e(a), e(b)) for a, b in x['pattern'])
     secs = ''
@@ -59,9 +68,9 @@ ol{margin:6px 0 8px;padding-left:28px}li{margin:4px 0;padding-right:8px;break-in
 <div class="fx">%s</div>
 <h4>परीक्षा पैटर्न / Exam Pattern</h4><table>%s</table>
 <h4>विस्तृत पाठ्यक्रम / Detailed Syllabus</h4>%s
-<div class="note"><b>ध्यान दें:</b> यह syllabus आधिकारिक विज्ञापन और उपलब्ध स्रोतों से मिलाकर छात्रों की सुविधा के लिए संकलित है। आवेदन / परीक्षा से पहले %s पर जारी आधिकारिक विज्ञापन से मिलान ज़रूर करें। आयोग पैटर्न बदल सकता है।</div>
+<div class="note"><b>ध्यान दें:</b> %s आवेदन / परीक्षा से पहले %s पर जारी आधिकारिक विज्ञापन से मिलान ज़रूर करें। आयोग पैटर्न बदल सकता है।</div>
 <div class="ft"><span>Agrikranti App - free syllabus, share करें</span><span>अपडेट: %s</span></div>
-</body></html>""" % (font_css(), LOGO, e(REGION.get(x['region'], x['region'])), e(x['title']), e(x['hi']), fx, rows, secs, e(x['official']), today)
+</body></html>""" % (font_css(), LOGO, e(REGION.get(x['region'], x['region'])), e(x['title']), e(x['hi']), fx, rows, secs, e(src_note(x)), e(x['official']), today)
 
 
 def main():
@@ -78,7 +87,7 @@ def main():
                    footer_template='<div style="font-size:8px;width:100%;text-align:center;color:#888"><span class="pageNumber"></span> / <span class="totalPages"></span></div>',
                    margin={'top': '14mm', 'bottom': '16mm', 'left': '13mm', 'right': '13mm'})
             print('PDF', out.name, out.stat().st_size // 1024, 'KB')
-            index.append({k: x.get(k, '') for k in ('id', 'title', 'hi', 'body', 'region', 'year', 'posts', 'advt', 'official', 'match')}
+            index.append({k: x.get(k, '') for k in ('id', 'title', 'hi', 'body', 'region', 'year', 'posts', 'advt', 'official', 'match', 'verified')}
                          | {'pdf': 'syllabus/%s.pdf' % x['id'], 'sections': [s['name'] for s in x['sections']], 'updated': today})
         b.close()
     json.dump({'updated': today, 'count': len(index), 'items': index}, open(SYL / 'index.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
