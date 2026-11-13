@@ -185,7 +185,7 @@ function semView(){
   C.semester.forEach(function(g,gi){
     h+='<div class="card"><div class="row" style="justify-content:space-between"><h3>'+esc(g.title)+'</h3><button class="btn red small" data-dg="'+gi+'">Semester हटाएं</button></div>';
     g.papers.forEach(function(x,pi){
-      h+='<div class="item"><b>'+esc(x.code)+' - '+esc(x.subject)+'</b><div class="muted small">'+esc(x.info)+'</div><div class="small" style="margin:4px 0">📄 <a href="'+esc(x.paper)+'" target="_blank">Question Paper</a> · ✅ <a href="'+esc(x.solution)+'" target="_blank">Solution</a></div><div class="row"><button class="btn ghost small" data-ep="'+gi+'-'+pi+'">Edit</button><button class="btn red small" data-dp="'+gi+'-'+pi+'">हटाएं</button></div></div>';
+      h+='<div class="item"><b>'+esc(x.code)+' - '+esc(x.subject)+'</b><div class="muted small">'+esc(x.info)+'</div><div class="small" style="margin:4px 0">'+(x.notes?'📘 <a href="'+esc(x.notes)+'" target="_blank">Notes</a>'+(x.free?' (Free)':'')+(x.paper?' · ':''):'')+(x.paper?'📄 <a href="'+esc(x.paper)+'" target="_blank">Question Paper</a> · ✅ <a href="'+esc(x.solution)+'" target="_blank">Solution</a>':'')+'</div><div class="row"><button class="btn ghost small" data-ep="'+gi+'-'+pi+'">Edit</button><button class="btn red small" data-dp="'+gi+'-'+pi+'">हटाएं</button></div></div>';
     });
     h+='<button class="btn small" style="margin-top:10px" data-ap="'+gi+'">+ नया Subject Paper जोड़ें</button></div>';
   });
@@ -209,10 +209,10 @@ function paperForm(gi,pi){
   document.getElementById('bk').onclick=semView;
   document.getElementById('sv').onclick=function(){
     var btn=this; btn.disabled=true;
-    var y={code:document.getElementById('pc').value.trim(),subject:document.getElementById('ps').value.trim(),info:document.getElementById('pi').value.trim(),pages:+document.getElementById('pp').value||0,paper:x.paper,solution:x.solution};
+    var y=Object.assign({},x,{code:document.getElementById('pc').value.trim(),subject:document.getElementById('ps').value.trim(),info:document.getElementById('pi').value.trim(),pages:+document.getElementById('pp').value||0,paper:x.paper,solution:x.solution});
     if(!y.code||!y.subject){ toast('Code और Subject भरें'); btn.disabled=false; return; }
     uploadPdf(document.getElementById('fq').files[0],'papers').then(function(p){ if(p) y.paper=p; return uploadPdf(document.getElementById('fs').files[0],'papers'); })
-     .then(function(p){ if(p) y.solution=p; if(!y.paper||!y.solution) throw new Error('दोनों PDF (paper + solution) ज़रूरी हैं');
+     .then(function(p){ if(p) y.solution=p; if(!y.notes&&(!y.paper||!y.solution)) throw new Error('दोनों PDF (paper + solution) ज़रूरी हैं');
        if(pi>=0) g.papers[pi]=y; else g.papers.push(y); return saveContent('paper '+y.code); })
      .then(semView).catch(function(e){ toast('❌ '+e.message,8000); btn.disabled=false; });
   };

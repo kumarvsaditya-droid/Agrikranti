@@ -51,7 +51,21 @@
    "enc": "ebooks/enc/bookmwdw1xzo.bin"
   }
  ],
- "semester": [],
+ "semester": [
+  {
+   "sem": 1,
+   "title": "B.Sc. Agriculture - 1st Semester",
+   "papers": [
+    {
+     "code": "GPB-101",
+     "subject": "Fundamentals of Genetics - Notes Part 1",
+     "info": "Free Notes · 33 पेज · Cell, Cell Organelles, Nucleus, Chromosome Structure & Classification",
+     "notes": "papers/BSc_Sem1_GPB101_Genetics_Notes_Part1.pdf",
+     "free": true
+    }
+   ]
+  }
+ ],
  "bookKeys": {
   "notes1": "wSiclV4IIDXWkVSvTiy6Z1wSaqPR2S9hLqMjoqmIYBhKAKrZ6whEvSpodWv9S0qD9YzvkfmNGHEaCGAP",
   "sem1": "18mYFrFVAFxvn8Emgoqav1Kbus6MkySaV0+SaT4/+mvi1PrNl3/4vk5h3xtZ8sSYY7tJc9oYOh3hOPJQ",

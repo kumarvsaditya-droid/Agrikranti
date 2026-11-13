@@ -254,7 +254,7 @@ var EBOOKS = [
 ];
 
 /* B.Sc. Agriculture semester papers: har subject ka question paper + solution (free) */
-var SEMESTER = [];
+var SEMESTER = [{"sem": 1, "title": "B.Sc. Agriculture - 1st Semester", "papers": [{"code": "GPB-101", "subject": "Fundamentals of Genetics - Notes Part 1", "info": "Free Notes · 33 पेज · Cell, Cell Organelles, Nucleus, Chromosome Structure & Classification", "notes": "papers/BSc_Sem1_GPB101_Genetics_Notes_Part1.pdf", "free": true}]}];
 /* B.Sc. Natural Farming: content.json 'naturalFarming' (semester jaisa format, har course: notesEnc + paperEnc + solutionEnc, paid pack) */
 var NF = [];
 /* B.Sc. Natural Farming syllabus PDFs (free): content.json 'nfSyllabus' */
@@ -325,7 +325,7 @@ function api(params, body){
   var opt=body?{method:'POST',body:JSON.stringify(body),headers:{'Content-Type':'text/plain;charset=utf-8'}}:{};
   return fetch(url,opt).then(function(r){return r.json();}).then(function(j){ if(j.error) throw new Error(j.error); return j; });
 }
-var CATS=[{id:'comp',name:'Entrance Exam',ic:'🎯',sub:'Sugarcane Supervisor (UPSSSC) Test Series, eBooks और Ask AI'},{id:'sem',name:'Semester Exam',ic:'🎓',sub:'B.Sc. Agriculture semester papers + solution'},{id:'nf',name:'B.Sc. Natural Farming',ic:'🌿',sub:'Natural Farming semester notes + model paper (हल सहित)'}];
+var CATS=[{id:'comp',name:'Entrance Exam',ic:'🎯',sub:'Sugarcane Supervisor (UPSSSC) Test Series, eBooks और Ask AI'},{id:'sem',name:'Semester Exam',ic:'🎓',sub:'B.Sc. Agriculture semester notes, papers + solution'},{id:'nf',name:'B.Sc. Natural Farming',ic:'🌿',sub:'Natural Farming semester notes + model paper (हल सहित)'}];
 function curCat(){ var c=get('cat','comp'); return CATS.filter(function(x){return x.id===c;})[0]||CATS[0]; }
 var SV={menu:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h11"/></svg>',
  bell:'<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.8V3.5a1.5 1.5 0 0 0-3 0v.7A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>'};
@@ -510,7 +510,7 @@ function home(){
     if(!nfn) h+='<div class="card" data-goto="nf" style="cursor:pointer"><b>🌿 B.Sc. Natural Farming</b><div class="muted small" style="margin-top:4px">Semester notes और हल सहित model paper जल्द आ रहे हैं।</div></div>';
   } else if(cat==='sem'){
     h+='<h2 class="sec">Semester <span>Papers</span></h2>';
-    SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+='<div class="card link" data-goto="semester" style="cursor:pointer"><span class="ic" style="background:#1f5f3a;font-family:var(--display);font-size:13px;color:var(--gold)">'+esc(x.code)+'</span><span><b>'+esc(x.subject)+'</b><span class="muted small">'+esc(g.title)+' · Paper + Solution</span></span></div>'; }); });
+    SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+='<div class="card link" data-goto="semester" style="cursor:pointer"><span class="ic" style="background:#1f5f3a;font-family:var(--display);font-size:13px;color:var(--gold)">'+esc(x.code)+'</span><span><b>'+esc(x.subject)+'</b><span class="muted small">'+esc(g.title)+' · '+(x.paper?'Paper + Solution':'Free Notes')+'</span></span></div>'; }); });
   } else {
     h+='<h2 class="sec">अगला <span>टेस्ट</span></h2>'+testCard(next);
   }
@@ -1029,7 +1029,7 @@ function semCard(g,x){
   var body=open?btn('notes','📘 Notes पढ़ें','gold')+btn('paper','Model Paper','ghost')+btn('solution','Solution देखें','gold')
     :(IS_TWA?'':'<button class="btn gold" data-buy="'+esc(g.pack)+'">🔓 ₹'+packPrice(g.pack)+' में पूरा Semester खोलें</button>');
   return '<div class="card ebook"><div class="cover"><span>'+esc(x.code)+'</span><small>Sem '+g.sem+'</small></div><div style="flex:1;min-width:0"><b>'+esc(x.subject)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(x.info||g.title)+'</div>'
-   +'<div class="chips">'+(x.free?'<span class="chip done">Free Sample</span>':open?'<span class="chip done">✔ खुला है</span>':'<span class="chip" style="color:var(--gold)">'+lockTxt+'</span>')+(x.pages?'<span class="chip">Solution: '+x.pages+' पेज</span>':'')+'</div>'
+   +'<div class="chips">'+(x.free?'<span class="chip done">'+(x.notes&&!x.paper?'FREE Notes':'Free Sample')+'</span>':open?'<span class="chip done">✔ खुला है</span>':'<span class="chip" style="color:var(--gold)">'+lockTxt+'</span>')+(x.pages&&x.solution?'<span class="chip">Solution: '+x.pages+' पेज</span>':'')+'</div>'
    +'<div class="row" style="flex-wrap:wrap;gap:8px">'+body+'</div></div></div>';
 }
 function packPrice(id){ var b=EBOOKS.filter(function(e){return e.id===id;})[0]; return b?b.price:100; }
@@ -1074,7 +1074,7 @@ function bindNf(){
 }
 function semester(){ mineSoon();
   activeTab('semester');
-  var h=topbar()+'<main class="page"><h2 class="sec">B.Sc. Agriculture <span>Semester</span></h2><p class="muted small" style="margin:0">Semester exam के लिए PYQ + model question paper और gold-medalist style हल (English + हिंदी)।</p>';
+  var h=topbar()+'<main class="page"><h2 class="sec">B.Sc. Agriculture <span>Semester</span></h2><p class="muted small" style="margin:0">Semester exam के लिए free notes, model question paper और gold-medalist style हल।</p>';
   SEMESTER.forEach(function(g){
     var pk=g.pack&&EBOOKS.filter(function(e){return e.id===g.pack;})[0];
     if(pk && !packOpen(g.pack)) h+='<div class="card" style="border-color:var(--gold);background:radial-gradient(120% 140% at 100% 0%,#4a3a05 0%,#141a10 65%)"><b style="font-size:18px">📚 '+esc(pk.title)+'</b><div class="muted small" style="margin:4px 0 8px">'+esc(pk.sub)+' · '+pk.pages+' पेज. एक बार ₹'+pk.price+' - सभी papers हमेशा के लिए खुलेंगे।'+(autoPay()?' Payment होते ही अपने आप खुल जाएगा।':'')+'</div><div class="row" style="flex-wrap:wrap;gap:8px"><button class="btn gold" data-buy="'+pk.id+'">₹'+pk.price+' में खरीदें</button><button class="btn ghost" data-code="'+pk.id+'">'+(autoPay()?'पहले खरीदा है?':'🔑 Password डालें')+'</button></div></div>';
