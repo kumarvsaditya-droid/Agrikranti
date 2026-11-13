@@ -81,14 +81,15 @@ function doPost(e) {
 function content() {
   var c = CacheService.getScriptCache(), s = c.get('content');
   if (s) return JSON.parse(s);
-  try { var t = UrlFetchApp.fetch(CONTENT_URL + '?t=' + Date.now(), { muteHttpExceptions: true }).getContentText();
-    var j = JSON.parse(t), small = { ebooks: (j.ebooks || []).map(function (x) { return { id: x.id, title: x.title, price: x.price }; }) };
+  try { var t = UrlFetchApp.fetch(CONTENT_URL + '?t=' + Date.now(), { muteHttpExceptions: true }).getContentText(), j;
+    try { j = JSON.parse(t); } catch (x) { j = JSON.parse(UrlFetchApp.fetch('https://kumarvsaditya-droid.github.io/Agrikranti/content.json?t=' + Date.now(), { muteHttpExceptions: true }).getContentText()); }
+    var small = { ebooks: (j.ebooks || []).map(function (x) { return { id: x.id, title: x.title, price: x.price }; }) };
     try { c.put('content', JSON.stringify(small), 300); } catch (x) {}
     return small;
   } catch (e) { return { ebooks: [] }; }
 }
 function bookInfo(id) {
-  if (!id) return null;
+  id = String(id || ''); if (!/^[a-z0-9_-]{2,30}$/i.test(id)) return null;
   var e = (content().ebooks || []).filter(function (x) { return x.id === id; })[0];
   var price = e ? Number(e.price) : OLD_PRICES[id];
   if (!price || price <= 0) return null;
@@ -113,7 +114,7 @@ function myBooks(mobile, b) {
   checkOrders(mobile, (b && b.orders) || []);
   var res = {}, rows = sheet().getDataRange().getValues(), found = false;
   for (var i = 1; i < rows.length; i++) if (String(rows[i][2]).replace(/\D/g, '').slice(-10) === mobile && rows[i][3]) { res[String(rows[i][3])] = keyOf(String(rows[i][3])); found = true; }
-  if (!found) { scanRazorpay(mobile);
+  if (!found) { syncRecent();
     rows = sheet().getDataRange().getValues();
     for (var k = 1; k < rows.length; k++) if (String(rows[k][2]).replace(/\D/g, '').slice(-10) === mobile && rows[k][3]) res[String(rows[k][3])] = keyOf(String(rows[k][3])); }
   return res;
@@ -133,18 +134,20 @@ function checkOrders(mobile, list) {
     }
   });
 }
-/* Purane khareedar (jinka verify kabhi pahuncha hi nahi): Razorpay ke pichhle 60 din ke paid orders dekho */
-function scanRazorpay(mobile) {
+/* Razorpay ke pichhle 60 din ke paid orders jo Sheet mein nahi hain (verify kabhi pahuncha hi nahi) - poore app ke liye 10 minute mein ek baar */
+function syncRecent() {
   var c = CacheService.getScriptCache();
-  if (c.get('scan_' + mobile)) return; c.put('scan_' + mobile, '1', 600);
+  if (c.get('scan_all')) return; c.put('scan_all', '1', 600);
+  var have = {}, rows = sheet().getDataRange().getValues();
+  for (var i = 1; i < rows.length; i++) { have[String(rows[i][6])] = 1; have[String(rows[i][5])] = 1; }
   var from = Math.floor(Date.now() / 1000) - 60 * 86400;
-  for (var skip = 0; skip < 500; skip += 100) {
+  for (var skip = 0; skip < 1000; skip += 100) {
     var r = rzp('get', '/orders?count=100&skip=' + skip + '&from=' + from), items = r.items || [];
     items.forEach(function (o) {
-      if (!o.notes || o.notes.mobile !== mobile || !(o.status === 'paid' || o.amount_paid >= o.amount)) return;
+      if (have[o.id] || !o.notes || !o.notes.book || !o.notes.mobile || !(o.status === 'paid' || o.amount_paid >= o.amount)) return;
       var ps = rzp('get', '/orders/' + encodeURIComponent(o.id) + '/payments'), pid = '';
       (ps.items || []).forEach(function (p) { if (p.status === 'captured' || p.status === 'authorized') pid = p.id; });
-      if (pid) record(o.notes.book, mobile, o.notes.name || '', Math.round(o.amount / 100), pid, o.id);
+      if (pid && !have[pid]) record(o.notes.book, String(o.notes.mobile), o.notes.name || '', Math.round(o.amount / 100), pid, o.id);
     });
     if (items.length < 100) break;
   }
@@ -249,5 +252,12 @@ function check(m, b) {
 }
 function out(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
 
-/* Code paste karne ke baad ek baar Run karein (permission ke liye) */
-function setup() { Logger.log('Razorpay keys: ' + (RAZORPAY_KEY_ID && RAZORPAY_KEY_SECRET ? 'OK (' + RAZORPAY_KEY_ID + ')' : 'NAHI MILI - Script Properties dekhein') + ' | Sheet: ' + sheet().getParent().getUrl() + ' | Books: ' + JSON.stringify(content().ebooks.map(function (x) { return x.id + '=' + x.price; }))); }
+/* Code paste karne ke baad ek baar Run karein (permission ke liye + keys ki jaanch) */
+function setup() {
+  Logger.log('Sales Sheet: ' + sheet().getParent().getUrl());
+  if (!RAZORPAY_KEY_ID || !RAZORPAY_KEY_SECRET) { Logger.log('❌ Razorpay keys nahi mili. Project Settings > Script Properties mein RAZORPAY_KEY_ID aur RAZORPAY_KEY_SECRET daalein.'); return; }
+  var r = UrlFetchApp.fetch('https://api.razorpay.com/v1/orders?count=1', { muteHttpExceptions: true, headers: { Authorization: 'Basic ' + Utilities.base64Encode(RAZORPAY_KEY_ID + ':' + RAZORPAY_KEY_SECRET) } });
+  Logger.log(r.getResponseCode() === 200 ? '✅ Razorpay keys SAHI hain (' + RAZORPAY_KEY_ID + ')' : '❌ Razorpay ne mana kiya (' + r.getResponseCode() + ')');
+  Logger.log('Books: ' + JSON.stringify(content().ebooks.filter(function (x) { return x.price > 0; }).map(function (x) { return x.id + '=₹' + x.price; })));
+  Logger.log('Ab Deploy > Manage deployments > Edit > New version > Deploy karein.');
+}
