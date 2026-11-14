@@ -230,6 +230,7 @@ var CONFIG = {
   youtube: 'https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG',
   instagram: 'https://www.instagram.com/agrikranti1928',
   whatsapp: 'https://chat.whatsapp.com/FP6cEJLOWLyK5Rt31PJGMA?s=cl&p=a&iam=2',
+  jobGroup: 'https://chat.whatsapp.com/BpXazOvtvXzGiEyDlaIwUg',   // job alert poster ke niche wala channel/group link
   telegram: 'https://t.me/Agrikranti_Aditya_Kumar',
   telegramName: '@Agrikranti_Aditya_Kumar',
   upiId: 'kumarvsaditya1@ibl',       // PhonePe scanner ka UPI ID
@@ -564,9 +565,57 @@ function fillJobsHome(){ var el=document.getElementById('jobsHome'); if(!el) ret
   el.innerHTML='<div class="card" data-goto="updates" style="cursor:pointer;border-color:#e53935;background:linear-gradient(135deg,#3a0d0d,#1a1410);padding:12px 14px"><b style="color:#ff6b6b">🔔 '+n+' नई Agriculture Job Alert'+(un.length?' · 🎓 '+un.length+' University':'')+(pri.length?' · ⭐ '+pri.length+' UP/Bihar':'')+'</b><div class="small" style="margin-top:4px;line-height:1.35">'+esc(top.title)+'</div><div class="muted small" style="margin-top:4px">सभी देखें →</div></div>'; }
 function loadJobs(){ var i=0, bust='?t='+Math.floor(Date.now()/600000);
   (function next(){ if(i>=JOBS_URLS.length) return; fetch(JOBS_URLS[i++]+bust,{cache:'no-store'}).then(function(r){ if(!r.ok) throw 0; return r.json(); }).then(function(j){ if(!j||!j.items) throw 0; JOBS=j; refreshBell(); if(document.getElementById('jobList')) drawJobs(); }).catch(next); })(); }
+/* ===== Job Alert Poster: har job ka branded poster (logo + Aditya Kumar) -> WhatsApp channel/group pe share ===== */
+function jpImg(src){ return new Promise(function(ok){ var i=new Image(); i.onload=function(){ ok(i); }; i.onerror=function(){ ok(null); }; i.src=src; }); }
+function jpWrap(c,t,maxW){ var w=String(t).split(/\s+/), L=[], cur=''; w.forEach(function(x){ var tr=cur?cur+' '+x:x; if(c.measureText(tr).width>maxW&&cur){ L.push(cur); cur=x; } else cur=tr; }); if(cur) L.push(cur); return L; }
+function jpRound(c,x,y,w,h,r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
+function jobPoster(x){
+  var W=1080,H=1350, cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
+  var fl=[]; try{ ['700 60px Teko','800 50px Mukta','700 30px Mukta','500 28px Mukta'].forEach(function(f){ fl.push(document.fonts.load(f,'अ A')); }); }catch(e){}
+  return Promise.all([jpImg('icons/logo.png'),jpImg('img/aditya.jpg')].concat(fl.map(function(p){ return p.catch(function(){}); }))).then(function(r){ var logo=r[0], me=r[1];
+    var g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#13201a'); g.addColorStop(1,'#050806'); c.fillStyle=g; c.fillRect(0,0,W,H);
+    c.strokeStyle='rgba(63,207,94,.07)'; c.lineWidth=2; for(var k=-H;k<W;k+=46){ c.beginPath(); c.moveTo(k,H); c.lineTo(k+H,0); c.stroke(); }
+    c.fillStyle='#f2b705'; c.fillRect(0,0,W,12); c.fillRect(0,H-12,W,12);
+    /* header: logo + brand + naam */
+    if(logo) c.drawImage(logo,40,40,190,190);
+    c.textBaseline='alphabetic'; c.fillStyle='#f2b705'; c.font='700 100px Teko'; c.fillText('AGRIKRANTI 1928',255,128);
+    c.fillStyle='#ffffff'; c.font='800 46px Mukta'; c.fillText('Aditya Kumar',258,185);
+    c.fillStyle='#3fcf5e'; c.font='500 28px Mukta'; c.fillText('M.Sc. Soil Science (Gold Medalist)',258,225);
+    /* red alert band */
+    var by=268; c.fillStyle='#d32f2f'; c.fillRect(0,by,W,96); c.fillStyle='#fff'; c.font='700 78px Teko'; c.textAlign='center'; c.fillText('AGRICULTURE JOB ALERT',W/2,by+76); c.textAlign='left';
+    /* chips */
+    var chips=[]; if(x.uni) chips.push([x.uni,'#1e88e5','#fff']); else if(x.region) chips.push([x.region==='UP'?'उत्तर प्रदेश':(x.region==='Bihar'?'बिहार':x.region),'#f2b705','#111']);
+    chips.push([x.tag||'Update','#3fcf5e','#0e1410']); chips.push([jobsDate(x.ts),'#26332b','#fff']);
+    var cx=60, cy=410; c.font='700 32px Mukta'; chips.forEach(function(ch){ var w=c.measureText(ch[0]).width+44; jpRound(c,cx,cy,w,58,29); c.fillStyle=ch[1]; c.fill(); c.fillStyle=ch[2]; c.fillText(ch[0],cx+22,cy+41); cx+=w+16; });
+    /* title card */
+    var tx=60, ty=500, tw=W-120, th=470; jpRound(c,tx,ty,tw,th,26); c.fillStyle='rgba(255,255,255,.05)'; c.fill(); c.strokeStyle='rgba(242,183,5,.55)'; c.lineWidth=3; c.stroke();
+    var fs=64, lines; do{ c.font='800 '+fs+'px Mukta'; lines=jpWrap(c,x.title,tw-70); fs-=4; } while(lines.length*fs*1.32>th-110 && fs>30); fs+=4;
+    var lh=fs*1.32, y0=ty+Math.max(40,(th-80-lines.length*lh)/2)+fs; c.fillStyle='#fff'; lines.forEach(function(l,i){ c.fillText(l,tx+36,y0+i*lh); });
+    c.fillStyle='#9fb3a6'; c.font='500 28px Mukta'; c.fillText('स्रोत: '+(x.source||'News')+'   |   पूरी जानकारी नीचे दिए लिंक में',tx+36,ty+th-30);
+    /* photo bottom-right, fade into background */
+    if(me){ var ph=345, pw=me.width*ph/me.height, px=W-pw-20, py=H-12-ph, t=document.createElement('canvas'); t.width=pw; t.height=ph; var q=t.getContext('2d'); q.drawImage(me,0,0,pw,ph);
+      q.globalCompositeOperation='destination-in'; var mx=q.createLinearGradient(0,0,pw,0); mx.addColorStop(0,'rgba(0,0,0,0)'); mx.addColorStop(.2,'#000'); mx.addColorStop(.8,'#000'); mx.addColorStop(1,'rgba(0,0,0,0)'); q.fillStyle=mx; q.fillRect(0,0,pw,ph);
+      var my=q.createLinearGradient(0,0,0,ph); my.addColorStop(0,'rgba(0,0,0,0)'); my.addColorStop(.18,'#000'); my.addColorStop(1,'#000'); q.fillStyle=my; q.fillRect(0,0,pw,ph); c.drawImage(t,px,py); }
+    /* CTA bottom-left */
+    var bx=60, bY=1010; c.fillStyle='#f2b705'; c.font='700 60px Teko'; c.fillText('रोज़ नई JOB ALERT के लिए',bx,bY+50);
+    jpRound(c,bx,bY+78,600,74,37); c.fillStyle='#25D366'; c.fill(); c.fillStyle='#08130b'; c.font='800 36px Mukta'; c.fillText('WhatsApp Channel Join करें',bx+40,bY+128);
+    c.fillStyle='#ffffff'; c.font='500 25px Mukta'; c.fillText('लिंक नीचे मैसेज में है  |  Agrikranti App पर Free Test',bx,bY+196);
+    c.fillStyle='#7f9387'; c.font='500 22px Mukta'; c.fillText('आवेदन से पहले विभाग की Official Website ज़रूर जाँचें',bx,bY+234);
+    c.fillStyle='#3fcf5e'; c.font='700 30px Mukta'; c.fillText('YouTube: @agrikranti1928',bx,bY+290);
+    return cv; }); }
+function jobShareText(x){ var R={UP:'उत्तर प्रदेश',Bihar:'बिहार'};
+  return '🔔 *Agriculture Job Alert*\n\n*'+x.title+'*\n\n📍 '+(x.uni||R[x.region]||x.region||'All India')+' | '+(x.tag||'Update')+' | '+jobsDate(x.ts)+'\n🔗 पूरी खबर: '+x.link
+   +'\n\n📲 रोज़ नई Agriculture Job Alert के लिए हमारा WhatsApp Channel join करें:\n'+(CONFIG.jobGroup||CONFIG.whatsapp)
+   +'\n\n📱 Agrikranti App (Free Test + Job Alert): '+APP_URL+'\n▶️ YouTube: https://youtube.com/@agrikranti1928\n\n- Aditya Kumar | Agrikranti 1928'; }
+function jobShare(x,btn){ var txt=jobShareText(x), old=btn?btn.innerHTML:''; if(btn){ btn.disabled=true; btn.innerHTML='Poster बन रहा है...'; }
+  var done=function(){ if(btn){ btn.disabled=false; btn.innerHTML=old; } };
+  var wa=function(){ window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank','noopener'); };
+  jobPoster(x).then(function(cv){ cv.toBlob(function(b){ done(); var f=new File([b],'agrikranti-job-'+x.id+'.png',{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){ navigator.share({files:[f],text:txt}).catch(function(e){ if(e&&e.name!=='AbortError') wa(); }); return; }
+    var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=f.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(wa,600); },'image/png'); }).catch(function(){ done(); wa(); }); }
 function jobCard(x,s){ var sy=sylFor(x.title); return '<div class="card" style="padding:0;overflow:hidden"><a href="'+esc(x.link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;padding:12px 14px">'
   +(x.ts>s?'<span class="chip" style="background:#e53935;color:#fff">NEW</span> ':'')+(x.uni?'<span class="chip" style="background:#1e88e5;color:#fff">🎓 '+esc(x.uni)+'</span> ':(x.region?'<span class="chip" style="background:var(--gold);color:#111">⭐ '+esc(x.region)+'</span> ':''))+'<span class="chip">'+esc(x.tag||'Update')+'</span>'
-  +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div><div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'+(sy?'<button class="btn gold" data-sylgo="'+esc(sy.id)+'" style="display:block;width:100%;border-radius:0;padding:9px">📄 इस परीक्षा का Free Syllabus (PDF)</button>':'')+'</div>'; }
+  +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div><div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'+(sy?'<button class="btn gold" data-sylgo="'+esc(sy.id)+'" style="display:block;width:100%;border-radius:0;padding:9px">📄 इस परीक्षा का Free Syllabus (PDF)</button>':'')+'<button class="btn" data-jp="'+esc(x.id)+'" style="display:block;width:100%;border-radius:0;padding:9px;background:#25D366;color:#08130b;font-weight:800">📲 Poster बनाकर WhatsApp पर भेजें</button></div>'; }
 function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
   if(!JOBS){ el.innerHTML='<div class="card muted small">Job alerts लोड हो रहे हैं...</div>'; return; }
   var s=+(el.getAttribute('data-seen')||jobsSeen()), F=[['all','सभी'],['UNI','🎓 University'],['UP','⭐ UP'],['Bihar','⭐ Bihar'],['Notification','भर्ती'],['Admission','प्रवेश'],['Result','Result'],['Admit Card','Admit Card']];
@@ -579,6 +628,7 @@ function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
    +(list.length?'':'<div class="card empty">इस filter में अभी कोई खबर नहीं।</div>')
    +'<div class="muted small" style="margin:8px 2px">हर 3 घंटे में अपने आप अपडेट होता है (आखिरी: '+jobsDate(JOBS.updated)+'). ये खबरें समाचार वेबसाइटों से हैं - आवेदन से पहले विभाग की आधिकारिक वेबसाइट पर जानकारी ज़रूर जाँचें।</div>';
   el.querySelectorAll('[data-jf]').forEach(function(b){ b.onclick=function(){ JOBF=b.getAttribute('data-jf'); drawJobs(); }; });
+  el.querySelectorAll('[data-jp]').forEach(function(b){ b.onclick=function(){ var id=b.getAttribute('data-jp'), x=JOBS.items.filter(function(y){ return y.id===id; })[0]; if(x) jobShare(x,b); }; });
   el.querySelectorAll('[data-sylgo]').forEach(function(b){ b.onclick=function(){ go('syllabus',b.getAttribute('data-sylgo')); }; });
   setTimeout(function(){ set('jobsSeen',Math.floor(Date.now()/1000)); refreshBell(); try{ navigator.serviceWorker&&navigator.serviceWorker.controller&&navigator.serviceWorker.controller.postMessage({type:'jobs-seen',ts:Math.floor(Date.now()/1000)}); }catch(e){} },1500); }
 function notifCard(){ if(!('Notification' in window)||!('serviceWorker' in navigator)) return ''; if(Notification.permission==='granted') return '<div class="card small" style="padding:10px 14px">🔔 Job Alert notification <b style="color:#8EE05A">चालू है</b> - नई खबर आने पर फ़ोन पर सूचना आएगी (App install होना चाहिए)।</div>';
