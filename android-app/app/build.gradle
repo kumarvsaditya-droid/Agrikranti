@@ -6,7 +6,7 @@ android {
         applicationId 'com.agrikranti1928.app'
         minSdk 24
         targetSdk 34
-        versionCode (System.getenv('APP_VERSION_CODE') ?: '2').toInteger()
+        versionCode = Integer.parseInt(System.getenv('APP_VERSION_CODE') ?: '2')
         versionName '2.0.0'
     }
     signingConfigs {
