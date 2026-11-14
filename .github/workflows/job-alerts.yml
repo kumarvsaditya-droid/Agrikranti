@@ -16,6 +16,8 @@ jobs:
       - uses: actions/checkout@v4
         with: { ref: main }
       - run: python3 jobs/fetch_jobs.py
+        env:
+          GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
       - name: Save jobs.json (main + gh-pages)
         run: |
           [ -z "$(git status --porcelain -- jobs.json)" ] && { echo "no change"; exit 0; }

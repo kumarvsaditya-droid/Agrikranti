@@ -153,11 +153,20 @@ def main():
     un = [x for x in items if x.get('uni')]
     pri = [x for x in items if x.get('region') and not x.get('uni')]; rest = [x for x in items if not x.get('region') and not x.get('uni')]
     items = (un[:CFG.get('uni_keep', 30)] + pri[:50] + rest)[:KEEP]   # pehle Gorakhpur kshetra ki university, phir UP/Bihar
+    for x in items:   # pehle nikali details (AI) wapas jodo
+        o = old.get(x['id'])
+        if o:
+            for f in ('d', 'dtry', 'durl'):
+                if f in o and f not in x: x[f] = o[f]
+    try:
+        import details; details.enrich(items, now)
+    except Exception as e: print('details module ERR', e)
     new = {'updated': now, 'count': len(items), 'items': items, 'pages_seen': new_seen}
     prev = None
     try: prev = json.load(open(OUT, encoding='utf-8'))
     except Exception: pass
-    if prev and [x['id'] for x in prev.get('items', [])] == [x['id'] for x in items] and prev.get('pages_seen', {}) == new_seen:
+    sig = lambda L: [(x['id'], x.get('d'), x.get('dtry')) for x in L]
+    if prev and sig(prev.get('items', [])) == sig(items) and prev.get('pages_seen', {}) == new_seen:
         print('koi nayi khabar nahi'); return
     json.dump(new, open(OUT, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print('jobs.json:', len(items), 'khabrein,', len([x for x in items if x['id'] not in old]), 'nayi')
