@@ -23,3 +23,9 @@
 ## Result analysis (14 Nov 2026)
 - After a test: pie chart (sahi/galat/chhode), section-wise weak areas, coloured question grid (green/red/grey); tap a box = full solution + expected question.
 - Each question can have `s` (section code: SOIL, AGRO, HORT, PATH, ENTO, GPB, PHY, EXT, ECO, AH, MET, CANE, FOOD, ENGG, GK, COMP, UPGK) and `x` (expected question text, shown at end of solution). Missing `s` = keyword auto-detect (secOf in index.html). Admin question form edits both.
+
+## Security + Android app (14 Nov 2026)
+- Student Android app = `android-app/` (own WebView, not TWA). FLAG_SECURE: screenshots, screen recording, recent-apps preview are black. Only github.io/Agrikranti, razorpay and script.google open inside; all other links open outside. Debugging, file access, http all off. JS bridge `AKNative` (shareText/shareFile) works only on our own site; index.html polyfills navigator.share with it. Back button calls `window.akBack()`.
+- CI (`.github/workflows/android.yml`) builds `Agrikranti.apk` + `.aab` into branch `android-build`. Permanent signing needs repo secrets `ANDROID_KEYSTORE_B64` + `ANDROID_KEY_PASS` (alias `agrikranti`); without them a throwaway test key is used (signing.txt says which). Admin app is still TWA.
+- Web: frame-busting (index + admin), job links only http(s) (`safeUrl`), copy/long-press/save/print/devtools shortcuts blocked (deterrent only).
+- OPEN: Gemini key is still shipped to browsers via content.json `gk`. Fix = deploy `ai_backend.gs` (Aditya's Google login), set `aiUrl`, then remove `gk` and rotate the key.
