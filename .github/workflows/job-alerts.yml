@@ -12,10 +12,11 @@ concurrency: job-alerts
 jobs:
   fetch:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
         with: { ref: main }
-      - run: python3 jobs/fetch_jobs.py
+      - run: python3 -u jobs/fetch_jobs.py
         env:
           GEMINI_KEY: ${{ secrets.GEMINI_KEY }}
       - name: Save jobs.json (main + gh-pages)

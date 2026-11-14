@@ -615,15 +615,11 @@ function jobPoster(x){
     c.fillStyle='#7f9387'; c.font='500 22px Mukta'; c.fillText('आवेदन से पहले विभाग की Official Notification ज़रूर पढ़ें',bx,bY+234);
     c.fillStyle='#3fcf5e'; c.font='700 30px Mukta'; c.fillText('YouTube: @agrikranti1928',bx,bY+290);
     return cv; }); }
-function jobShareText(x){ var R={UP:'उत्तर प्रदेश',Bihar:'बिहार'}, d=x.d||{}, rows=jobRows(x);
-  return '🔔 *Agriculture Job Alert*\n\n*'+x.title+'*\n'+(d.summary?'\n'+d.summary+'\n':'')
-   +'\n📍 '+(x.uni||R[x.region]||x.region||'All India')+' | '+(x.tag||'Update')+' | '+jobsDate(x.ts)
-   +(rows.length?'\n\n📋 *महत्वपूर्ण जानकारी*\n'+rows.map(function(r){ return (r[2]==='last_date'?'⏰ ':'▪️ ')+r[0]+': '+r[1]; }).join('\n'):'')
-   +'\n\n🔗 पूरी जानकारी: '+(x.durl||x.link)
-   +'\n\n📲 रोज़ नई Agriculture Job Alert के लिए हमारा WhatsApp Channel join करें:\n'+(CONFIG.jobGroup||CONFIG.whatsapp)
-   +'\n\n📱 Agrikranti App (Free Test + Job Alert): '+APP_URL+'\n▶️ YouTube: https://youtube.com/@agrikranti1928\n\n- Aditya Kumar | Agrikranti 1928'
-   +'\n\n_आवेदन से पहले Official Notification ज़रूर पढ़ें।_'; }
-function jobShare(x,btn){ var txt=jobShareText(x), old=btn?btn.innerHTML:''; if(btn){ btn.disabled=true; btn.innerHTML='Poster बन रहा है...'; }
+function jobShareText(x){ var d=x.d||{}, L=[];
+  if(d.total_posts) L.push('▪️ पद: '+d.total_posts); if(d.qualification) L.push('▪️ योग्यता: '+d.qualification); if(d.last_date) L.push('⏰ अंतिम तिथि: '+d.last_date);
+  return '🔔 *'+x.title+'*'+(L.length?'\n'+L.join('\n'):'')
+   +'\n\n📲 WhatsApp Group: '+(CONFIG.jobGroup||CONFIG.whatsapp)+'\n📱 App: '+APP_URL+'\n▶️ YouTube: https://youtube.com/@agrikranti1928'; }
+function jobShare(x,btn){ var txt=jobShareText(x), old=btn?btn.innerHTML:''; if(btn){ btn.disabled=true; btn.innerHTML='थोड़ा रुकें...'; }
   var done=function(){ if(btn){ btn.disabled=false; btn.innerHTML=old; } };
   var wa=function(){ window.open('https://wa.me/?text='+encodeURIComponent(txt),'_blank','noopener'); };
   jobPoster(x).then(function(cv){ cv.toBlob(function(b){ done(); var f=new File([b],'agrikranti-job-'+x.id+'.png',{type:'image/png'});
@@ -631,7 +627,7 @@ function jobShare(x,btn){ var txt=jobShareText(x), old=btn?btn.innerHTML:''; if(
     var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=f.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(wa,600); },'image/png'); }).catch(function(){ done(); wa(); }); }
 function jobCard(x,s){ var sy=sylFor(x.title); return '<div class="card" style="padding:0;overflow:hidden"><a href="'+esc(x.link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;padding:12px 14px">'
   +(x.ts>s?'<span class="chip" style="background:#e53935;color:#fff">NEW</span> ':'')+(x.uni?'<span class="chip" style="background:#1e88e5;color:#fff">🎓 '+esc(x.uni)+'</span> ':(x.region?'<span class="chip" style="background:var(--gold);color:#111">⭐ '+esc(x.region)+'</span> ':''))+'<span class="chip">'+esc(x.tag||'Update')+'</span>'
-  +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div>'+(x.d&&(x.d.total_posts||x.d.last_date)?'<div class="small" style="margin:2px 0 4px">'+(x.d.total_posts?'<span class="chip">पद: '+esc(x.d.total_posts)+'</span> ':'')+(x.d.last_date?'<span class="chip" style="background:#5a1414;color:#ffb4ab">अंतिम तिथि: '+esc(x.d.last_date)+'</span>':'')+'</div>':'')+'<div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'+(sy?'<button class="btn gold" data-sylgo="'+esc(sy.id)+'" style="display:block;width:100%;border-radius:0;padding:9px">📄 इस परीक्षा का Free Syllabus (PDF)</button>':'')+'<button class="btn" data-jp="'+esc(x.id)+'" style="display:block;width:100%;border-radius:0;padding:9px;background:#25D366;color:#08130b;font-weight:800">📲 Poster बनाकर WhatsApp पर भेजें</button></div>'; }
+  +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div>'+(x.d&&(x.d.total_posts||x.d.last_date)?'<div class="small" style="margin:2px 0 4px">'+(x.d.total_posts?'<span class="chip">पद: '+esc(x.d.total_posts)+'</span> ':'')+(x.d.last_date?'<span class="chip" style="background:#5a1414;color:#ffb4ab">अंतिम तिथि: '+esc(x.d.last_date)+'</span>':'')+'</div>':'')+'<div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'+(sy?'<button class="btn gold" data-sylgo="'+esc(sy.id)+'" style="display:block;width:100%;border-radius:0;padding:9px">📄 इस परीक्षा का Free Syllabus (PDF)</button>':'')+'<button class="btn" data-jp="'+esc(x.id)+'" style="display:block;width:100%;border-radius:0;padding:9px;background:#25D366;color:#08130b;font-weight:800">📲 WhatsApp पर Share करें</button></div>'; }
 function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
   if(!JOBS){ el.innerHTML='<div class="card muted small">Job alerts लोड हो रहे हैं...</div>'; return; }
   var s=+(el.getAttribute('data-seen')||jobsSeen()), F=[['all','सभी'],['UNI','🎓 University'],['UP','⭐ UP'],['Bihar','⭐ Bihar'],['Notification','भर्ती'],['Admission','प्रवेश'],['Result','Result'],['Admit Card','Admit Card']];

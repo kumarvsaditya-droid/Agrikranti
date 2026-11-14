@@ -4,7 +4,8 @@ import json, re, os, base64, html, time, urllib.request, urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'}
-MAX_PER_RUN = 15
+MAX_PER_RUN = 12
+BUDGET = 360   # details ke liye kul seconds har run mein
 MAX_TRIES = 3
 MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite']
 FIELDS = ['post_name', 'total_posts', 'qualification', 'age_limit', 'fee', 'salary', 'start_date', 'last_date', 'exam_date', 'selection', 'official_site', 'summary']
@@ -20,7 +21,7 @@ def key():
         return ''
 
 
-def get(url, data=None, headers=None, timeout=25):
+def get(url, data=None, headers=None, timeout=20):
     h = dict(UA); h.update(headers or {})
     req = urllib.request.Request(url, data=data, headers=h)
     with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -72,13 +73,15 @@ def gemini(k, title, text=None, pdf=None):
     last = None
     for m in MODELS:
         try:
-            raw = get('https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s' % (m, k), body, {'Content-Type': 'application/json'}, 60)[0]
+            raw = get('https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s' % (m, k), body, {'Content-Type': 'application/json'}, 45)[0]
             j = json.loads(raw)
             t = j['candidates'][0]['content']['parts'][0]['text']
             t = re.sub(r'^```(?:json)?|```$', '', t.strip()).strip()
             return json.loads(t)
         except Exception as e:
-            last = e; time.sleep(2)
+            last = e; print('  gemini', m, repr(e)[:120], flush=True)
+            if getattr(e, 'code', 0) not in (404, 429, 500, 503): break
+            time.sleep(2)
     raise last
 
 
@@ -101,12 +104,14 @@ def enrich(items, now):
     if not k: print('details: Gemini key nahi mili - skip'); return 0
     todo = [x for x in items if 'd' not in x and x.get('dtry', 0) < MAX_TRIES and now - x['ts'] <= 20 * 86400]
     todo.sort(key=lambda x: (0 if x.get('uni') else (1 if x.get('region') else 2), -x['ts']))
-    done = 0
+    done, t0 = 0, time.time()
+    print('details: %d baaki, is run mein %d' % (len(todo), min(len(todo), MAX_PER_RUN)), flush=True)
     for x in todo[:MAX_PER_RUN]:
+        if time.time() - t0 > BUDGET: print('details: samay khatam, baaki agle run mein', flush=True); break
         x['dtry'] = x.get('dtry', 0) + 1
         try:
             url = gnews_decode(x['link'])
-            raw, final, ctype = get(url, timeout=30)
+            raw, final, ctype = get(url, timeout=20)
             pdf = raw if ('pdf' in ctype.lower() or final.lower().split('?')[0].endswith('.pdf')) else None
             if pdf and len(pdf) > 15 * 1024 * 1024: raise ValueError('PDF bahut bada')
             text = None if pdf else page_text(raw)
@@ -115,8 +120,8 @@ def enrich(items, now):
             x['durl'] = final
             if d.get('relevant') is False: x['d'] = {}; print('details: relevant nahi', x['title'][:60]); continue
             x['d'] = clean(d); done += 1
-            print('details OK', len(x['d']), x['title'][:70])
+            print('details OK', len(x['d']), x['title'][:70], flush=True)
         except Exception as e:
-            print('details ERR', x['title'][:60], '-', repr(e)[:160])
+            print('details ERR', x['title'][:60], '-', repr(e)[:160], flush=True)
         time.sleep(2)
     return done
