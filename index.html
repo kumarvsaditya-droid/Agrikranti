@@ -113,6 +113,24 @@ ul.rules{margin:0;padding-left:18px;color:var(--muted);font-size:14px}
 .rv.ok{border-left-color:var(--ok)}.rv.bad{border-left-color:var(--bad)}.rv.skip{border-left-color:var(--warn)}
 .rv p{margin:4px 0}
 .rv .exp{background:var(--card2);border-radius:10px;padding:8px 10px;font-size:15px}
+.an .pie{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.pleg{display:flex;flex-direction:column;gap:6px;flex:1;min-width:150px}.pleg i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:8px;vertical-align:-2px}.pleg b{font-size:18px}
+.weakbox{background:#3a1717;border:1px solid #6b2a2a;border-radius:12px;padding:10px 12px}.weakbox.good{background:#163a20;border-color:#2c6b3a}
+.secs{display:flex;flex-direction:column;gap:10px;margin-top:8px}.sh{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:14px}.sh .muted{margin-left:auto}
+.sbar{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--card2);margin-top:4px}.sbar i{display:block;height:100%}
+.wk,.st{font-size:11px;font-weight:800;border-radius:99px;padding:0 8px}.wk{background:var(--bad);color:#2a0000}.st{background:var(--ok);color:#002a0b}
+.rlg span::before{background:var(--c)!important}
+.fchips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}.fchips button{border:1px solid var(--line);background:var(--card2);color:var(--muted);border-radius:99px;padding:3px 14px;font-weight:700;cursor:pointer}.fchips button.on{background:var(--gold);color:#241a00;border-color:var(--gold)}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(44px,1fr));gap:7px}
+.rgrid button{height:44px;border-radius:10px;border:0;font-weight:800;font-size:16px;cursor:pointer;color:#fff}
+.rgrid .ok{background:#1f9d3f}.rgrid .bad{background:#d63c3c}.rgrid .skip{background:#5f6b63}
+.solov{align-items:end}.solov .solcard{max-width:720px;max-height:90vh;display:flex;flex-direction:column}.solbody{overflow:auto;flex:1}
+.solhead{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.stag{font-weight:800;font-size:13px;border-radius:99px;padding:1px 10px;color:#fff}.stag.ok{background:#1f9d3f}.stag.bad{background:#d63c3c}.stag.skip{background:#5f6b63}
+.sopts{display:flex;flex-direction:column;gap:6px}.sopt{display:flex;gap:10px;align-items:flex-start;border:1.5px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card2)}
+.sopt.ok{border-color:var(--ok);background:#173d22}.sopt.bad{border-color:var(--bad);background:#3d1717}.sopt em{margin-left:auto;font-style:normal;font-size:12px;font-weight:800;white-space:nowrap}.sopt.ok em{color:var(--ok)}.sopt.bad em{color:var(--bad)}
+.solbox{margin-top:10px;background:var(--card2);border-radius:10px;padding:10px 12px;font-size:15px}.solbox b,.expbox b{display:block;margin-bottom:4px}
+.expbox{margin-top:10px;background:#3a2f05;border:1px solid var(--gold-d);border-radius:10px;padding:10px 12px;font-size:15px}.expbox b{color:var(--gold)}
+#sollist{display:flex;flex-direction:column;gap:10px}
 .tag{font-weight:800;font-size:13px}.tag.ok{color:var(--ok)}.tag.bad{color:var(--bad)}.tag.skip{color:var(--warn)}
 .tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px}
 table{border-collapse:collapse;width:100%;font-size:14px}
@@ -819,14 +837,75 @@ function review(res, fresh){
     +'<div class="grid2"><a class="btn" style="text-align:center;text-decoration:none;display:grid;place-items:center" target="_blank" rel="noopener" href="https://wa.me/?text='+encodeURIComponent('🌾 Agrikranti '+shortTitle(t)+'\nनाम: '+res.name+'\nअंक: '+res.score+'/'+res.max+' ('+pct+'%)\nसही '+res.correct+' | गलत '+res.wrong+' | छोड़े '+res.skipped+'\nसमय: '+mmss(res.timeTaken)+'\n\nAgrikranti पर टेस्ट दें: '+APP_URL)+'">WhatsApp पर भेजें</a>'
     +(CONFIG.backendUrl?'<button class="btn gold" data-lb="'+t.id+'">Leaderboard</button>':'<button class="btn gold" data-start="'+t.id+'">फिर से दें</button>')+'</div></div>';
   h+=shareCard();
-  h+='<h2 class="sec">उत्तर और <span>व्याख्या</span></h2>';
-  t.questions.forEach(function(q,i){
-    var a=res.answers[i], ch=(a===undefined||a===null)?null:Number(a), cls=ch===null?'skip':(ch===q.a?'ok':'bad'), tag=ch===null?'छोड़ा':(ch===q.a?'सही':'गलत');
-    h+='<div class="rv '+cls+'"><p><span class="tag '+cls+'">Q'+(i+1)+' · '+tag+'</span></p><p><b>'+fmt(q.q)+'</b></p>'+(ch!==null&&ch!==q.a?'<p>आपका उत्तर: <span style="color:var(--bad)">'+fmt(q.o[ch])+'</span></p>':'')
-      +'<p>सही उत्तर: <b style="color:var(--ok)">'+fmt(q.o[q.a])+'</b></p><p class="exp">'+fmt(q.e)+'</p></div>';
-  });
+  h+=analysisHTML(t,res);
   h+='<button class="btn ghost block" data-go2="tests">सभी टेस्ट</button></main>';
-  app.innerHTML=h; bindCommon();
+  app.innerHTML=h; bindCommon(); bindAnalysis(t,res);
+}
+/* ===== Result analysis: pie chart, section-wise weak area, coloured question boxes, tap = full solution ===== */
+var SEC_NAMES={SOIL:'मृदा विज्ञान',AGRO:'सस्य विज्ञान (Agronomy)',HORT:'उद्यान विज्ञान',PATH:'पादप रोग विज्ञान',ENTO:'कीट विज्ञान',GPB:'आनुवंशिकी व पादप प्रजनन',PHY:'पादप कार्यिकी व जैव रसायन',EXT:'कृषि प्रसार',ECO:'कृषि अर्थशास्त्र व विपणन',AH:'पशुपालन व डेयरी',MET:'कृषि मौसम विज्ञान',CANE:'गन्ना विशेष',FOOD:'खाद्य विज्ञान व पोषण',ENGG:'कृषि अभियंत्रण',GK:'योजनाएँ, संस्थान व सामान्य कृषि',COMP:'कम्प्यूटर ज्ञान',UPGK:'उत्तर प्रदेश सामान्य ज्ञान'};
+var SEC_KW=[['COMP',/computer|कम्प्यूटर|MS Word|Excel|PowerPoint|software|internet|इंटरनेट|byte|बाइट|cyber|साइबर/i],['CANE',/गन्न|sugarcane|cane|sett|ratoon|पेड़ी|चीनी|sucrose|jaggery|गुड़|ISMA|IISR|SBI/i],['SOIL',/मृदा|मिट्टी|soil|clay|humus|pH|CEC|ESP|SAR|lime|gypsum|उर्वरक|fertili|nitrogen|phosph|potass|nutrient|पोषक|colloid|horizon|laterite|alluvial|kaolin|montmor|illite|zinc|boron|micronutr/i],['ENTO',/कीट|insect|pest|borer|aphid|beetle|moth|larva|honey|मधुमक्खी|bee|lac|silk|termite|nematode|सूत्रकृमि|insecticid/i],['PATH',/रोग|disease|fung|virus|bacteri|blight|rust|smut|wilt|rot|mildew|pathogen|quarantine|mycoplasma|phytoplasma/i],['GPB',/breed|प्रजनन|hybrid|संकर|heterosis|gene|आनुवंश|chromosom|mutation|variety|किस्म|seed|बीज|polyploid|sterility|pollinat/i],['HORT',/उद्यान|fruit|फल|vegetable|सब्जी|mango|आम|banana|केला|citrus|grape|guava|flower|jam|jelly|horticult|nursery|grafting|budding|watermelon|tomato|potato/i],['AH',/पशु|गाय|cow|buffalo|भैंस|milk|दूध|dairy|poultry|मुर्गी|goat|bakri|sheep|breed of|livestock|animal/i],['MET',/मौसम|weather|IMD|rainfall|वर्षा|climate|जलवायु|temperature|humidity|monsoon|GHG|greenhouse|cloud|wind/i],['EXT',/प्रसार|extension|KVK|ATMA|communication|संचार|media|adoption|T&V|demonstration|farmer field/i],['ECO',/marketing|विपणन|market|बाजार|price|मूल्य|MSP|FCI|NABARD|credit|ऋण|cost|economic|demand|supply|surplus/i],['FOOD',/vitamin|विटामिन|protein|प्रोटीन|fat|वसा|food|खाद्य|FSSAI|nutrition|पोषण|mineral|carbohydr|enzyme/i],['PHY',/photosynth|प्रकाश संश्लेषण|hormone|हार्मोन|auxin|gibberell|cytokinin|ethylene|ABA|PGR|transpiration|photoperiod|respiration|germination|अंकुरण/i],['ENGG',/plough|हल|tractor|weeder|implement|यंत्र|harvester|drill|sprayer|irrigation|सिंचाई|drip|sprinkler/i],['AGRO',/crop|फसल|weed|खरपतवार|cropping|sowing|बुवाई|millet|tillage|organic|जैविक|agronomy|water requirement|mulch|herbicid/i]];
+function secOf(q){ if(q.s&&SEC_NAMES[q.s]) return q.s; var tx=q.q+' '+(q.e||''); for(var i=0;i<SEC_KW.length;i++){ if(SEC_KW[i][1].test(tx)) return SEC_KW[i][0]; } return 'GK'; }
+function stOf(q,res,i){ var a=res.answers[i]; if(a===undefined||a===null) return 'skip'; return Number(a)===q.a?'ok':'bad'; }
+function pieSVG(c,w,s){
+  var n=c+w+s||1, R=54, C=2*Math.PI*R, parts=[[c,'var(--ok)'],[w,'var(--bad)'],[s,'#7d8a81']], off=0, g='';
+  parts.forEach(function(p){ if(!p[0]) return; var L=p[0]/n*C; g+='<circle r="'+R+'" cx="70" cy="70" fill="none" stroke="'+p[1]+'" stroke-width="26" stroke-dasharray="'+L+' '+(C-L)+'" stroke-dashoffset="'+(-off)+'" transform="rotate(-90 70 70)"/>'; off+=L; });
+  return '<svg viewBox="0 0 140 140" width="150" height="150" role="img" aria-label="सही '+c+', गलत '+w+', छोड़े '+s+'"><circle r="'+R+'" cx="70" cy="70" fill="none" stroke="var(--card2)" stroke-width="26"/>'+g
+    +'<text x="70" y="66" text-anchor="middle" fill="var(--ink)" font-size="26" font-weight="800" font-family="Teko,Mukta,sans-serif">'+Math.round(c/n*100)+'%</text><text x="70" y="86" text-anchor="middle" fill="var(--muted)" font-size="12" font-family="Mukta,sans-serif">सही</text></svg>';
+}
+function secStats(t,res){
+  var m={}; t.questions.forEach(function(q,i){ var k=secOf(q), st=stOf(q,res,i); if(!m[k]) m[k]={k:k,n:0,ok:0,bad:0,skip:0}; m[k].n++; m[k][st]++; });
+  var arr=Object.keys(m).map(function(k){ var x=m[k]; x.pct=Math.round(x.ok/x.n*100); return x; });
+  arr.sort(function(a,b){ return a.pct-b.pct || b.n-a.n; }); return arr;
+}
+function analysisHTML(t,res){
+  var c=res.correct,w=res.wrong,s=res.skipped,n=c+w+s||1, P=function(x){return Math.round(x/n*100)+'%';};
+  var h='<div class="card an"><h2 class="sec" style="margin:0 0 8px">परिणाम <span>विश्लेषण</span></h2><div class="pie"><div>'+pieSVG(c,w,s)+'</div><div class="pleg">'
+    +'<div><i style="background:var(--ok)"></i>सही <b>'+c+'</b> <small>('+P(c)+')</small></div><div><i style="background:var(--bad)"></i>गलत <b>'+w+'</b> <small>('+P(w)+')</small></div><div><i style="background:#7d8a81"></i>छोड़े <b>'+s+'</b> <small>('+P(s)+')</small></div>'
+    +'<div class="muted small">गलत उत्तरों से कटे अंक: <b style="color:var(--bad)">'+(Math.round(w*TN(t)*100)/100)+'</b></div></div></div></div>';
+  var ss=secStats(t,res), weak=ss.filter(function(x){return x.n>=2 && x.pct<50;}).slice(0,3), strong=ss.slice().reverse().filter(function(x){return x.n>=2 && x.pct>=70;})[0];
+  h+='<div class="card an"><h2 class="sec" style="margin:0 0 6px">विषय-वार <span>प्रदर्शन</span></h2>';
+  if(weak.length) h+='<div class="weakbox">⚠️ <b>कमजोर विषय:</b> '+weak.map(function(x){return esc(SEC_NAMES[x.k])+' ('+x.pct+'%)';}).join(', ')+'<div class="small">इन विषयों को eBook / नोट्स से दोबारा पढ़ें, फिर टेस्ट फिर से दें।</div></div>';
+  else h+='<div class="weakbox good">✅ कोई विषय बहुत कमजोर नहीं है। ऐसे ही अभ्यास जारी रखें।</div>';
+  if(strong) h+='<div class="small" style="margin:6px 0">💪 <b>सबसे मजबूत:</b> '+esc(SEC_NAMES[strong.k])+' ('+strong.pct+'%)</div>';
+  h+='<div class="secs">';
+  ss.forEach(function(x){ var tag=x.n>=2&&x.pct<50?'<span class="wk">कमजोर</span>':(x.n>=2&&x.pct>=70?'<span class="st">मजबूत</span>':'');
+    h+='<div class="secrow"><div class="sh"><b>'+esc(SEC_NAMES[x.k])+'</b>'+tag+'<span class="muted small">'+x.ok+'/'+x.n+' · '+x.pct+'%</span></div><div class="sbar"><i style="width:'+(x.ok/x.n*100)+'%;background:var(--ok)"></i><i style="width:'+(x.bad/x.n*100)+'%;background:var(--bad)"></i><i style="width:'+(x.skip/x.n*100)+'%;background:#7d8a81"></i></div></div>'; });
+  h+='</div></div>';
+  h+='<div class="card an"><h2 class="sec" style="margin:0 0 6px">प्रश्न-वार <span>उत्तर</span></h2><p class="muted small" style="margin:0 0 8px">किसी भी नंबर पर tap करें: पूरा हल, व्याख्या और संभावित परीक्षा प्रश्न दिखेगा।</p>'
+    +'<div class="legend rlg"><span style="--c:var(--ok)">सही ('+c+')</span><span style="--c:var(--bad)">गलत ('+w+')</span><span style="--c:#7d8a81">छोड़े ('+s+')</span></div>'
+    +'<div class="fchips"><button class="on" data-f="all">सभी</button><button data-f="bad">गलत</button><button data-f="skip">छोड़े</button><button data-f="ok">सही</button></div><div class="rgrid">';
+  t.questions.forEach(function(q,i){ h+='<button class="'+stOf(q,res,i)+'" data-qi="'+i+'" aria-label="प्रश्न '+(i+1)+'">'+(i+1)+'</button>'; });
+  h+='</div></div><button class="btn ghost block" id="allsol">सभी प्रश्नों का हल एक साथ देखें</button><div id="sollist"></div>';
+  return h;
+}
+function solHTML(t,res,i){
+  var q=t.questions[i], st=stOf(q,res,i), a=res.answers[i], ch=st==='skip'?null:Number(a), tag={ok:'✔ सही',bad:'✘ गलत',skip:'— छोड़ा'}[st];
+  var h='<div class="solhead"><span class="stag '+st+'">Q'+(i+1)+' · '+tag+'</span><span class="muted small">'+esc(SEC_NAMES[secOf(q)])+'</span></div><div class="qtext" style="margin:8px 0">'+fmt(q.q)+'</div><div class="sopts">';
+  q.o.forEach(function(o,k){ var cl=k===q.a?'ok':(k===ch?'bad':''); h+='<div class="sopt '+cl+'"><b>'+'ABCDE'[k]+'</b><span>'+fmt(o)+'</span>'+(k===q.a?'<em>सही उत्तर</em>':(k===ch?'<em>आपका उत्तर</em>':''))+'</div>'; });
+  h+='</div>'+(st==='skip'?'<p class="small" style="color:#b9c4bc;margin:8px 0 0">आपने यह प्रश्न छोड़ा था। सही उत्तर: <b style="color:var(--ok)">'+fmt(q.o[q.a])+'</b></p>':'')
+    +'<div class="solbox"><b>📘 विस्तृत व्याख्या</b><div>'+fmt(q.e||'')+'</div></div>';
+  if(q.x) h+='<div class="expbox"><b>🎯 संभावित परीक्षा प्रश्न (Expected Question)</b><div>'+fmt(q.x)+'</div></div>';
+  return h;
+}
+function openSol(t,res,i,list){
+  var o=document.createElement('div'); o.className='overlay solov';
+  function draw(){ var pos=list.indexOf(i);
+    o.innerHTML='<div class="card solcard"><div class="row" style="justify-content:space-between"><b>विस्तृत हल</b><button class="iconbtn" id="sx" aria-label="बंद करें">✕</button></div><div class="solbody">'+solHTML(t,res,i)+'</div>'
+      +'<div class="row" style="margin-top:10px"><button class="btn ghost" id="sp"'+(pos<=0?' disabled':'')+'>← पिछला</button><button class="btn" id="sn"'+(pos>=list.length-1?' disabled':'')+'>अगला →</button></div></div>';
+    o.querySelector('#sx').onclick=function(){ o.remove(); };
+    o.querySelector('#sp').onclick=function(){ if(pos>0){ i=list[pos-1]; draw(); } };
+    o.querySelector('#sn').onclick=function(){ if(pos<list.length-1){ i=list[pos+1]; draw(); } };
+  }
+  o.onclick=function(e){ if(e.target===o) o.remove(); };
+  draw(); document.body.appendChild(o);
+}
+function bindAnalysis(t,res){
+  var f='all', grid=app.querySelector('.rgrid'); if(!grid) return;
+  function list(){ return t.questions.map(function(q,i){return i;}).filter(function(i){ return f==='all'||stOf(t.questions[i],res,i)===f; }); }
+  app.querySelectorAll('[data-f]').forEach(function(b){ b.onclick=function(){ f=b.getAttribute('data-f'); app.querySelectorAll('[data-f]').forEach(function(x){ x.classList.toggle('on',x===b); });
+    grid.querySelectorAll('button').forEach(function(x){ var i=+x.getAttribute('data-qi'); x.style.display=(f==='all'||stOf(t.questions[i],res,i)===f)?'':'none'; }); }; });
+  grid.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ openSol(t,res,+b.getAttribute('data-qi'),list()); }; });
+  var ab=document.getElementById('allsol'); if(ab) ab.onclick=function(){ var L=list(), w=document.getElementById('sollist'); w.innerHTML=L.map(function(i){ return '<div class="card rv '+stOf(t.questions[i],res,i)+'">'+solHTML(t,res,i)+'</div>'; }).join('') || '<p class="muted">इस filter में कोई प्रश्न नहीं है।</p>'; ab.style.display='none'; };
 }
 
 /* ================= eBooks ================= */

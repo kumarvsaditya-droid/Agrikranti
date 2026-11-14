@@ -359,11 +359,15 @@ function qForm(i){
    +q.o.map(function(o,k){ return '<label>विकल्प '+'ABCD'[k]+'</label><input id="o'+k+'" value="'+esc(o)+'">'; }).join('')
    +'<label>सही उत्तर</label><select id="qa">'+[0,1,2,3].map(function(k){ return '<option value="'+k+'"'+(k===q.a?' selected':'')+'>'+'ABCD'[k]+'</option>'; }).join('')+'</select>'
    +'<label>व्याख्या (explanation)</label><textarea id="qe">'+esc(q.e)+'</textarea>'
+   +'<label>विषय (Section) - result में कमजोर विषय दिखाने के लिए</label><select id="qs"><option value="">अपने आप पहचानें</option>'+[['SOIL','मृदा विज्ञान'],['AGRO','सस्य विज्ञान (Agronomy)'],['HORT','उद्यान विज्ञान'],['PATH','पादप रोग विज्ञान'],['ENTO','कीट विज्ञान'],['GPB','आनुवंशिकी व पादप प्रजनन'],['PHY','पादप कार्यिकी व जैव रसायन'],['EXT','कृषि प्रसार'],['ECO','कृषि अर्थशास्त्र व विपणन'],['AH','पशुपालन व डेयरी'],['MET','कृषि मौसम विज्ञान'],['CANE','गन्ना विशेष'],['FOOD','खाद्य विज्ञान व पोषण'],['ENGG','कृषि अभियंत्रण'],['GK','योजनाएँ, संस्थान व सामान्य कृषि'],['COMP','कम्प्यूटर ज्ञान'],['UPGK','उत्तर प्रदेश सामान्य ज्ञान']].map(function(x){ return '<option value="'+x[0]+'"'+(q.s===x[0]?' selected':'')+'>'+x[1]+'</option>'; }).join('')+'</select>'
+   +'<label>संभावित परीक्षा प्रश्न (Expected Question) - हल के अंत में दिखेगा</label><textarea id="qx" placeholder="जैसे: Liquid Rhizobium में न्यूनतम cell count? → 1 × 10^8 cells/ml">'+esc(q.x||'')+'</textarea>'
    +'<p class="muted small">Power लिखने के लिए ^ लगाएं, जैसे 10^6</p>'
    +'<div class="row" style="margin-top:10px"><button class="btn gold" id="sv">Save करें</button><button class="btn ghost" id="bk">वापस</button></div></div>';
   document.getElementById('bk').onclick=testsView;
   document.getElementById('sv').onclick=function(){
     var y={q:document.getElementById('qq').value.trim(),o:[0,1,2,3].map(function(k){ return document.getElementById('o'+k).value.trim(); }),a:+document.getElementById('qa').value,e:document.getElementById('qe').value.trim()};
+    var qs=document.getElementById('qs').value, qx=document.getElementById('qx').value.trim(); if(qs) y.s=qs; if(qx) y.x=qx;
+    if(i>=0 && t.questions[i].o.length>4){ y.o=t.questions[i].o.map(function(o,k){ return k<4?y.o[k]:o; }); }
     if(!y.q||y.o.some(function(o){return !o;})){ toast('प्रश्न और चारों विकल्प भरें'); return; }
     if(i>=0) t.questions[i]=y; else t.questions.push(y);
     this.disabled=true; saveTests('question '+(i>=0?'edit':'add')+' '+t.id).then(testsView);

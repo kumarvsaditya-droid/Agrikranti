@@ -19,3 +19,7 @@
 - Server also checks unpaid/unverified orders on Razorpay and scans the last 60 days of paid orders for that mobile, so "paid but not opened" fixes itself.
 - Max 4 devices per buyer (Sheet "Devices", delete row to reset). Template here has placeholders; the filled PRIVATE copy is only with Aditya.
 - Reader: if saved key fails, app fetches fresh key via `mine` and reopens.
+
+## Result analysis (14 Nov 2026)
+- After a test: pie chart (sahi/galat/chhode), section-wise weak areas, coloured question grid (green/red/grey); tap a box = full solution + expected question.
+- Each question can have `s` (section code: SOIL, AGRO, HORT, PATH, ENTO, GPB, PHY, EXT, ECO, AH, MET, CANE, FOOD, ENGG, GK, COMP, UPGK) and `x` (expected question text, shown at end of solution). Missing `s` = keyword auto-detect (secOf in index.html). Admin question form edits both.
