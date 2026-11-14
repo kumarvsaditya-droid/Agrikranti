@@ -1,6 +1,6 @@
 {
- "updated": 1794624927,
- "count": 100,
+ "updated": 1794625387,
+ "count": 98,
  "items": [
   {
    "id": "172a48581b",
@@ -12,7 +12,18 @@
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
    "added": 1794624927,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://nduat.org/pdf/1933.pdf",
+   "d": {
+    "post_name": "Guest Faculty",
+    "total_posts": "04",
+    "qualification": "B.V.Sc. & A.H. / M.V.Sc",
+    "salary": "Rs. 40,000/- per month",
+    "last_date": "23-11-2026",
+    "exam_date": "23-11-2026",
+    "selection": "Walk-in-Interview",
+    "summary": "एनडीयूएटी अयोध्या में गेस्ट फैकल्टी पद के लिए वॉक-इन-इंटरव्यू आयोजित किया जा रहा है।"
+   }
   },
   {
    "id": "6dbd97e2dd",
@@ -24,7 +35,17 @@
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
    "added": 1794624927,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://nduat.org/pdf/1934.pdf",
+   "d": {
+    "post_name": "Guest Faculty (Guest Teacher)",
+    "total_posts": "01",
+    "qualification": "M.Sc in Animal Biotechnology / M.Sc Ag in Molecular Biology and Biotechnology / Ph.D or NE",
+    "salary": "Rs.40,000/-per month या Rs.50,000/-per month",
+    "exam_date": "23.11.2026",
+    "selection": "Walk-in-Interview",
+    "summary": "यह नोटिस ANDUAT Ayodhya में Molecular Biology and Biotechnology विभाग के लिए Guest Faculty"
+   }
   },
   {
    "id": "5c4adfa049",
@@ -36,7 +57,18 @@
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
    "added": 1794589937,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://www.freejobalert.com/articles/nduat-guest-faculty-recruitment-2026-3081085",
+   "d": {
+    "post_name": "Guest Faculty",
+    "total_posts": "4",
+    "qualification": "B.V.Sc.& A.H./ M.V.Sc",
+    "salary": "₹40,000 /month",
+    "last_date": "23-11-2026",
+    "exam_date": "23-11-2026",
+    "selection": "Walk-in interview",
+    "summary": "एनडीयूएटी में 4 गेस्ट फैकल्टी पदों के लिए 23-11-2026 को वॉक-इन इंटरव्यू है।"
+   }
   },
   {
    "id": "a419c929af",
@@ -48,7 +80,21 @@
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
    "added": 1794589937,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://www.freejobalert.com/articles/nduat-associate-professor-recruitment-2026-apply-offline-for-7-posts-3081041",
+   "d": {
+    "post_name": "Associate Professor",
+    "total_posts": "7",
+    "qualification": "M.Phil/Ph.D, Post Graduate, B.V.Sc. & A.H",
+    "age_limit": "18 Years (Min), कोई ऊपरी आयु सीमा नहीं",
+    "fee": "Rs. 1500 (UR/OBC/EWS), Rs. 750 (SC/ST/PWD)",
+    "salary": "Rs. 1,31,400 /month",
+    "start_date": "03-11-2026",
+    "last_date": "05-12-2026",
+    "selection": "स्क्रीनिग और इंटरव्यू",
+    "official_site": "www.nduat.org",
+    "summary": "एनडीयूएटी ने 7 एसोसिएट प्रोफेसर पदों के लिए ऑफलाइन आवेदन मांगे हैं।"
+   }
   },
   {
    "id": "5de20e337b",
@@ -60,31 +106,19 @@
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
    "added": 1794465002,
-   "dtry": 1
-  },
-  {
-   "id": "cb55b64a8e",
-   "title": "RPCAU Pusa: Information and link for GAT-B qualified students for admission in M.Sc. (Ag) Molecular Biology and Biotechnology programme from the academic session 2023-2024",
-   "link": "https://rpcau.ac.in/wp-content/uploads/2024/04/Advt-flash-2.pdf",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793642455,
-   "tag": "Admission",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794506362,
-   "dtry": 1
-  },
-  {
-   "id": "e5adbdaf45",
-   "title": "RPCAU Pusa: Second call with information and link for GAT-B qualified students for admission in M.Sc. (Ag) Molecular Biology and Biotechnology programme from the academic session 2",
-   "link": "https://rpcau.ac.in/wp-content/uploads/2024/04/Advt-flash-1.pdf",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601592,
-   "tag": "Admission",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465503,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://www.freejobalert.com/articles/nduat-recruitment-2026-young-professional-i-yp-i-3079323",
+   "d": {
+    "post_name": "Young Professional-I",
+    "total_posts": "3",
+    "qualification": "Graduate degree in Agriculture / Agricultural Sciences",
+    "age_limit": "21 - 45 Years",
+    "salary": "₹30,000 /month",
+    "last_date": "16-11-2026",
+    "exam_date": "16-11-2026",
+    "selection": "Walk-in Interview",
+    "summary": "एनडीयूएटी ने Young Professional-I के 3 पदों पर भर्ती के लिए 16-11-2026 को वॉक-इन इंटरव्यू "
+   }
   },
   {
    "id": "ae816afe9c",
@@ -96,7 +130,14 @@
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
    "added": 1794465503,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://nduat.org/pdf/CORRIGENDUMS%20Walk-in-Interview.pdf",
+   "d": {
+    "post_name": "Farmer change Agent (FCA) / Boys Cadet Administrator / Instructor",
+    "exam_date": "02-11-2026 और 03-11-2026",
+    "selection": "Walk-in Interview",
+    "summary": "ANDUAT Ayodhya द्वारा विभिन्न पदों के वॉक-इन-इंटरव्यू की तिथियों में संशोधन किया गया है।"
+   }
   },
   {
    "id": "2fb37fe114",
@@ -108,7 +149,13 @@
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
    "added": 1794465503,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://nduat.org/pdf/Corrigendum%20Date%20Extension%20Notice.pdf",
+   "d": {
+    "post_name": "Faculty",
+    "last_date": "18-08-2026",
+    "summary": "ANDUAT Ayodhya ने Advertisement No. 1/2026 से 11/2026 तक आवेदन की अंतिम तिथि 18-08-2026 तक"
+   }
   },
   {
    "id": "8c1649c9d0",
@@ -120,7 +167,12 @@
    "region": "UP",
    "uni": "ANDUAT Ayodhya",
    "added": 1794465503,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://nduat.org/pdf/New%20Doc%2007-13-2026%2017.36.pdf",
+   "d": {
+    "post_name": "Subject Matter Specialist/Assistant Professor",
+    "summary": "यह दस्तावेज़ आचार्य नरेंद्र देव कृषि एवं प्रौद्योगिक विश्वविद्यालय, अयोध्या द्वारा जारी पर"
+   }
   },
   {
    "id": "13a5764d30",
@@ -132,7 +184,14 @@
    "region": "UP",
    "uni": "DDU Gorakhpur",
    "added": 1794465503,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://www.dduguadmission.in/pdf-files/notice_agriculture.pdf",
+   "d": {
+    "post_name": "RET 2025 Counselling",
+    "exam_date": "23-05-2026",
+    "selection": "Counselling",
+    "summary": "DDU गोरखपुर यूनिवर्सिटी ने RET 2025 की काउंसलिंग तिथि को संशोधित करके 23-05-2026 कर दिया ह"
+   }
   },
   {
    "id": "bb9507306e",
@@ -144,7 +203,14 @@
    "region": "UP",
    "uni": "DDU Gorakhpur",
    "added": 1794465503,
-   "dtry": 1
+   "dtry": 2,
+   "durl": "https://www.dduguadmission.in/pdf-files/merit_list_faculty_agriculture.pdf",
+   "d": {
+    "post_name": "Full-time PhD Programme 2025-26",
+    "selection": "मेरिट लिस्ट",
+    "official_site": "ddugu.ac.in",
+    "summary": "यह सूचना डीडीयू गोरखपुर यूनिवर्सिटी के फैकल्टी ऑफ एग्रीकल्चर में फुल-टाइम PhD प्रोग्राम 20"
+   }
   },
   {
    "id": "3520a37f7d",
@@ -155,51 +221,14 @@
    "tag": "Update",
    "region": "UP",
    "uni": "DDU Gorakhpur",
-   "added": 1794465321
-  },
-  {
-   "id": "4dca6e1c02",
-   "title": "RPCAU Pusa: Public Notice regarding Announcement for Written Examination and Interview for Advt. No.- RPCAU/02/2026",
-   "link": "https://rpcau.ac.in/advt-no-rpcau-02-2026-dated-24-01-2026-for-the-post-of-assistant-registrar-deputation-and-medical-officer-t-6-direct/",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601484,
-   "tag": "Update",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465321
-  },
-  {
-   "id": "08eef7263b",
-   "title": "RPCAU Pusa: Regarding Advt. notice for the post of SRF and YP-II",
-   "link": "https://rpcau.ac.in/advertisement-notice-for-the-post-of-srf-and-yp-ii-against-advertisement-no-09-cont-rpcau-2023-dated-02-12-2023/",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601484,
-   "tag": "Update",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465321
-  },
-  {
-   "id": "8984e85697",
-   "title": "RPCAU Pusa: Admission to Post Graduate Diploma Courses 2026-27",
-   "link": "https://rpcau.ac.in/admission-to-post-graduate-diploma-courses-2026-27/",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601274,
-   "tag": "Admission",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465189
-  },
-  {
-   "id": "1cf582c1b2",
-   "title": "RPCAU Pusa: Academic Calendar Notification 1st and 2nd semester for Academic session 2025-26 for UG, PG, and PG-Diploma programmes.",
-   "link": "https://rpcau.ac.in/wp-content/uploads/2025/11/IMG_20251112_0002.pdf",
-   "source": "RPCAU Pusa (Official)",
-   "ts": 1793601274,
-   "tag": "Notification",
-   "region": "Bihar",
-   "uni": "RPCAU Pusa",
-   "added": 1794465189
+   "added": 1794465321,
+   "dtry": 1,
+   "durl": "https://www.dduguadmission.in/pdf-files/spot-bsc-ag.jpeg",
+   "d": {
+    "post_name": "B.Sc. (Ag.) spot",
+    "qualification": "B.Sc. (Ag.)",
+    "summary": "यह सूचना दीनदयाल उपाध्याय गोरखपुर विश्वविद्यालय में बी.एससी. (कृषि) स्पॉट प्रवेश से संबंधि"
+   }
   },
   {
    "id": "99851dcad9",
@@ -210,7 +239,22 @@
    "tag": "Notification",
    "region": "UP",
    "uni": "",
-   "added": 1794496343
+   "added": 1794496343,
+   "dtry": 1,
+   "durl": "https://www.amarujala.com/education/upsssc-cane-supervisor-recruitment-2026-mains-exam-fee-link-active-for-1182-posts-exam-on-november-29-2026-11-12",
+   "d": {
+    "post_name": "गन्ना पर्यवेक्षक",
+    "total_posts": "1182",
+    "qualification": "कृषि में स्नातक, ओ लेवल कंप्यूटर प्रमाणपत्र और UP PET 2025 स्कोर",
+    "age_limit": "21-40 वर्ष",
+    "fee": "सामान्य/OBC: 200 रुपये, SC/ST: 80 रुपये, दिव्यांग: 0 रुपये",
+    "salary": "25,500 - 81,100 रुपये (पे मैट्रिक्स लेवल-4)",
+    "start_date": "12-11-2026",
+    "exam_date": "29-11-2026",
+    "selection": "मुख्य परीक्षा",
+    "official_site": "upsssc.gov.in",
+    "summary": "यूपीएसएसएससी ने गन्ना पर्यवेक्षक के 1,182 पदों की मुख्य परीक्षा के लिए 12 नवंबर से फीस जमा"
+   }
   },
   {
    "id": "1c7e009e78",
@@ -1112,6 +1156,50 @@
    "region": "",
    "uni": "",
    "added": 1794457132
+  },
+  {
+   "id": "ff5964e524",
+   "title": "ICAR IARI Young Professional-II (IT) Recruitment 2026: 2 Posts, Apply Online",
+   "link": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQQkxrc0ZsLUpzNVltUUc1RGZQNVFZZWQ3U1B4bUVKdmk5aXE3dWluMV9ZY2wtTnRVcWdDSHB5ZTVEZFVCdjkxUFNraGl4OVVZZlEwSy1ScXhNTTVmQUJERnpTNm1ha3Bhcnc1ZlZVTWh2Wnp2R2Z4enNXeWw5bDB4R3hHV3lKZTE4bEFsb3ZyWGRiRXlzTVUyYXptWVQzRUd4N21vNGxwY0tkOUE?oc=5",
+   "source": "FreeJobAlert.Com",
+   "ts": 1792047600,
+   "tag": "Notification",
+   "region": "",
+   "uni": "",
+   "added": 1794625387
+  },
+  {
+   "id": "3685a82e2e",
+   "title": "KEA Horticulture Recruitment Result 2026: Final marks list released for Assistant Horticulture Officer, Assistant Director posts",
+   "link": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQNFNnUlhkd183MDdZcFpmZ1pzYTRGR3RFaXRmWUtBTjBKdTltUkpENTRzOVRQSnh5d3BqSDFZajcyT2hKQzRoRGU3SE9XWlVSbmdPYk12RHgwVnhhR1M5NUd3WDQtY2hmTTNldjJOMkRtaUxHRzhFZ3hoUFlSdk9PNWYteTNOVHg0YkxQbnJrS1FnUdIBnwFBVV95cUxOXzFNTktkczg5MWxHVkc4Y0xQTlhxb1ZCZGZBZWtyVDZ4Uk5lTkFoVi1RdkRGRUNNa09SWk9uNkRBbkZyRzd6ZlVoT3VmYVVCeDY5Zk9ZeEl2cllpMnpEOFNRTGhqdUstOEoycVF2aGJJWXZHV2s3cUQ0ZVpoS2s5Y0NUUFA1MmlpTXBGLVN5dDNlb3NSbkJxdXRoMGlEVXc?oc=5",
+   "source": "EdexLive",
+   "ts": 1792047600,
+   "tag": "Result",
+   "region": "",
+   "uni": "",
+   "added": 1794625387
+  },
+  {
+   "id": "1f9cada9c6",
+   "title": "KVK Adilabad Senior Research Fellow Recruitment 2026 – Walkin",
+   "link": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQaVl2U2NNRTZrUWFuSS1aUjkxSG5KWlc0Q1JDNWhJblhvNkZPZXhjZTMzS0dtVXAzN0l2cW44anBZWThxa0dPb3NGZDZiTFIzQkNBd2F6YTg0VTNESzNXOXAyQkhLanIzbUhfRTNKUExNdmZGTXJkcmhFNkx2Z1BtTkR0UU1QZ0hDN0FfZ25IcE52ZkVCS1A2cHdQRlNWWWYtTGswREl4QjI?oc=5",
+   "source": "FreeJobAlert.Com",
+   "ts": 1792047600,
+   "tag": "Notification",
+   "region": "",
+   "uni": "",
+   "added": 1794625387
+  },
+  {
+   "id": "b21f3ba1bf",
+   "title": "जम्मू-कश्मीर में स्नातकों को मिलेगी नौकरी की सौगात, 560 पदों पर भर्ती का रास्ता साफ; सुलझेगा 20 साल पुराना विवाद - agriculture graduates in jammu and kashmir will receive jobs clea",
+   "link": "https://news.google.com/rss/articles/CBMitgJBVV95cUxQUzc5V3JRb3o4dWdmaldaMjFXak9hQ29rZVRZTzY2MDk2dl9xWWNrZUJBN0tpT3Z6bWdCaUpkWFQxeFB1SlZpeDJnMGMyU2h3bEFMVjZscmM3S0tKVFNUek8yQ0lqanFhTGdDZVF6QWlHZ3BHVEQxNkptZ2kybWMzdGFVRkpZQUpPa1ZKMTR2QmEyTjBwMmNMTlp5M0xjTDU5dm56b25lWmpUTDdPRTdlQTBuQWM1VUdiZEQtTUd5WXVaWl9FWGw3OHl6Ym5iOUNsOEFjLWZ3ZjRoWUFfVTZ3ZFVYeDEyZ0NKTlQyUDVzV0U3VlFlM0tUS1gxU1QyYXBsZmF2dWJ1eVhLM0w2RldDRE8zdExQb1F5czNXTzM2aEtraVgtS3ZydDhFX0NVc1d3R3FmakZB?oc=5",
+   "source": "Jagran",
+   "ts": 1792047600,
+   "tag": "Notification",
+   "region": "",
+   "uni": "",
+   "added": 1794625387
   }
  ],
  "pages_seen": {
