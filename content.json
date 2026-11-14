@@ -19,7 +19,7 @@
   "jobGroup": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2"
  },
  "notice": {
-  "text": "",
+  "text": "🆕 Bihar FSO Test Series लॉन्च! पहले 2 Full Mock Test FREE, पूरी Series सिर्फ ₹149",
   "link": "",
   "linkText": ""
  },
@@ -50,6 +50,15 @@
    "price": 99,
    "cover": "BHUMI<br>SUPOSHAN",
    "enc": "ebooks/enc/bookmwdw1xzo.bin"
+  },
+  {
+   "id": "fsots",
+   "kind": "tests",
+   "title": "Bihar FSO Test Series (20+ Full Mock Tests)",
+   "sub": "BTSC खाद्य संरक्षा पदाधिकारी · 100 प्रश्न/टेस्ट · रोज़ 2 नए टेस्ट",
+   "pages": 0,
+   "price": 149,
+   "cover": "FSO<br>TESTS"
   }
  ],
  "semester": [
@@ -84,6 +93,10 @@
  },
  "series": [
   {
+   "id": "bihar-fso",
+   "name": "Bihar FSO Test Series"
+  },
+  {
    "id": "ganna10",
    "name": "Sugarcane Supervisor - 10 Model Papers"
   },
@@ -93,6 +106,10 @@
   }
  ],
  "banners": [
+  {
+   "img": "img/banner-fso.jpg",
+   "go": "tests:bihar-fso"
+  },
   {
    "img": "img/banner-diwali.jpg",
    "link": "https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG"

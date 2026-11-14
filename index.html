@@ -255,6 +255,7 @@ sup{font-size:.7em}
 
 <script src="tests.js"></script>
 <script src="tests-ganna.js"></script>
+<script src="tests-fso.js"></script>
 <script src="akcrypto.js"></script>
 <script>
 /* ================= SETTINGS (yahin badlein) ================= */
@@ -335,7 +336,7 @@ function trackOpen(){
 window.addEventListener('appinstalled',function(){ if(!get('inst',0)){ set('inst',1); hit('installs'); } });
 document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href$=".pdf"]'); if(a) hit('pdf-opens'); });
 
-var SERIES=[{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}];
+var SERIES=[{id:'bihar-fso',name:'Bihar FSO Test Series'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}];
 /* ================= helpers ================= */
 var app = document.getElementById('app');
 function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:'#'; }
@@ -349,10 +350,29 @@ function hash(str){ var h=7; for(var i=0;i<str.length;i++) h=(h*31+str.charCodeA
 function shuffle(arr,seed){ var a=arr.slice(),s=seed||1; for(var i=a.length-1;i>0;i--){ s=(s*9301+49297)%233280; var j=Math.floor(s/233280*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
 function now(){ var d=new Date(); return ('0'+d.getDate()).slice(-2)+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+d.getFullYear()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2); }
 function testById(id){ return TESTS.filter(function(t){return t.id===id;})[0]; }
+/* ===== Paid test packs (Bihar FSO): encrypted tests, daily release by 'rel' date (IST) ===== */
+function todayIST(){ return new Date(Date.now()+330*60000).toISOString().slice(0,10); }
+function packOf(series){ return (window.TEST_PACKS||[]).filter(function(p){return p.series===series;})[0]; }
+var PACK_LOADING={}, PACK_TRIED={};
+function loadPacks(){ var jobs=[];
+  (window.TEST_PACKS||[]).forEach(function(p){ if(!packOpen(p.pack)) return;
+    p.stubs.forEach(function(st){ if(!st.ready||st.rel>todayIST()||testById(st.id)||PACK_LOADING[st.id]||PACK_TRIED[st.id]>2) return; PACK_LOADING[st.id]=1; PACK_TRIED[st.id]=(PACK_TRIED[st.id]||0)+1;
+      jobs.push(Promise.all([fetch(st.enc+'?v='+(st.v||1)).then(function(r){ if(!r.ok) throw new Error('nf'); return r.arrayBuffer(); }), keyFor(p.pack).then(AK.rawKey)])
+        .then(function(r){ return AK.aesDec(r[1],new Uint8Array(r[0])); })
+        .then(function(u){ var j=JSON.parse(new TextDecoder().decode(u)), o={}; for(var k in st) o[k]=st[k]; o.questions=j.questions||j; TESTS.push(o); })
+        .catch(function(e){ try{ console.log('pack load fail',st.id,e&&e.message); }catch(x){} }).then(function(){ delete PACK_LOADING[st.id]; })); }); });
+  return Promise.all(jobs); }
+function relDate(d){ var x=new Date(d+'T00:00:00'); return x.getDate()+' '+['जनवरी','फ़रवरी','मार्च','अप्रैल','मई','जून','जुलाई','अगस्त','सितंबर','अक्टूबर','नवंबर','दिसंबर'][x.getMonth()]; }
+function stubCard(st,p){
+  var open=packOpen(p.pack), later=st.rel>todayIST()||!st.ready, n=st.id.replace(/^[A-Z]+/,'');
+  var chip=open?(later?'<span class="chip">📅 '+relDate(st.rel)+' को खुलेगा</span>':'<span class="chip">⏳ खुल रहा है...</span>'):'<span class="chip" style="color:var(--gold)">🔒 ₹'+p.price+' Series में</span><span class="chip">📅 '+relDate(st.rel)+'</span>';
+  var btn=(!open&&!IS_TWA)?'<div class="row"><button class="btn gold" data-buy="'+esc(p.pack)+'">🔓 ₹'+p.price+' में पूरी Series खोलें</button></div>':'';
+  return '<div class="card tcard"><div class="tnum" style="opacity:.6">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(st))+'</h3><div class="chips"><span class="chip">'+st.nq+' प्रश्न</span><span class="chip">'+maxMarks(st)+' अंक</span><span class="chip">'+TD(st)+' मिनट</span>'+chip+'</div>'+btn+'</div></div>';
+}
 function TD(t){ return (t&&t.dur)||CONFIG.durationMin; }
 function TM(t){ return (t&&t.mpq)||CONFIG.marksPerQ; }
 function TN(t){ return (t&&t.neg!=null)?t.neg:CONFIG.negative; }
-function maxMarks(t){ return t.questions.length*TM(t); }
+function maxMarks(t){ return (t.questions&&t.questions.length||t.nq||0)*TM(t); }
 function shortTitle(t){ return t.title.split(' - ')[0]; }
 function topicOf(t){ return t.title.split(' - ').slice(1).join(' - '); }
 function profile(){ return get('profile',null); }
@@ -364,7 +384,7 @@ function api(params, body){
   var opt=body?{method:'POST',body:JSON.stringify(body),headers:{'Content-Type':'text/plain;charset=utf-8'}}:{};
   return fetch(url,opt).then(function(r){return r.json();}).then(function(j){ if(j.error) throw new Error(j.error); return j; });
 }
-var CATS=[{id:'comp',name:'Entrance Exam',ic:'🎯',sub:'Sugarcane Supervisor (UPSSSC) Test Series, eBooks और Ask AI'},{id:'sem',name:'Semester Exam',ic:'🎓',sub:'B.Sc. Agriculture semester notes, papers + solution'},{id:'nf',name:'B.Sc. Natural Farming',ic:'🌿',sub:'Natural Farming semester notes + model paper (हल सहित)'}];
+var CATS=[{id:'comp',name:'Entrance Exam',ic:'🎯',sub:'Bihar FSO + Sugarcane Supervisor Test Series, eBooks और Ask AI'},{id:'sem',name:'Semester Exam',ic:'🎓',sub:'B.Sc. Agriculture semester notes, papers + solution'},{id:'nf',name:'B.Sc. Natural Farming',ic:'🌿',sub:'Natural Farming semester notes + model paper (हल सहित)'}];
 function curCat(){ var c=get('cat','comp'); return CATS.filter(function(x){return x.id===c;})[0]||CATS[0]; }
 var SV={menu:'<svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h11"/></svg>',
  bell:'<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22zm7-6V11a7 7 0 0 0-5.5-6.8V3.5a1.5 1.5 0 0 0-3 0v.7A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg>'};
@@ -372,7 +392,7 @@ function topbar(extra){ var c=curCat(), n=(NOTICE?1:0)+jobsNew(); if(n>9) n='9+'
   return '<header class="topbar tb2"><div class="in"><button class="hb" data-menu="1" aria-label="Menu">'+SV.menu+'</button><button class="catbtn" data-cat="1"><img src="icons/logo.png" alt=""><span>'+esc(c.name)+'</span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button><div class="sp"></div>'+(extra||'')+'<button class="bell" data-upd="1" aria-label="सूचनाएँ">'+SV.bell+(n?'<i>'+n+'</i>':'')+'</button></div></header>'; }
 document.addEventListener('click',function(e){ if(!e.target.closest) return; var t=e.target.closest('[data-share]'); if(t){ e.preventDefault(); shareApp(); return; }
   if(e.target.closest('[data-menu]')){ openDrawer(); return; } if(e.target.closest('[data-cat]')){ go('cats'); return; } if(e.target.closest('[data-upd]')){ go('updates'); return; }
-  var g=e.target.closest('[data-goto]'); if(g){ e.preventDefault(); var v=g.getAttribute('data-goto'); if(v==='share') shareApp(); else go(v); } });
+  var g=e.target.closest('[data-goto]'); if(g){ e.preventDefault(); var v=g.getAttribute('data-goto'); if(v==='share') shareApp(); else if(v.indexOf('tests:')===0){ set('series',v.slice(6)); go('tests',v.slice(6)); } else go(v); } });
 function setNav(on){ document.getElementById('nav').hidden=!on; }
 function activeTab(t){ if(t==='semester'||t==='results'||t==='profile') t=''; document.querySelectorAll('.nav button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go')===t); }); }
 var ICON={
@@ -529,7 +549,8 @@ function bannerSlides(){
   sl.push('<div class="slide" style="background:radial-gradient(120% 140% at 0% 0%,#1d3a22 0%,#121a14 60%)"><img class="lg" src="icons/logo.png" alt=""><div><h3>AGRIKRANTI 1928</h3><p>'+esc(CONFIG.tagline)+'</p><span class="tag">Sugarcane Supervisor · '+TESTS.length+' Free Tests</span></div></div>');
   sl.push('<div class="slide" data-goto="ask" style="background:radial-gradient(120% 140% at 100% 0%,#4a3a05 0%,#141a10 65%)"><div style="font-size:64px;line-height:1">✨</div><div><h3>Agrikranti AI</h3><p>Agriculture का कोई भी doubt पूछें, आसान हिंदी में तुरंत जवाब।</p><span class="tag">अभी पूछें</span></div></div>');
   sl.push('<div class="slide" data-goto="semester" style="background:radial-gradient(120% 140% at 0% 100%,#0f4c45 0%,#121a14 65%)"><div style="font-size:60px;line-height:1">🎓</div><div><h3>Semester Papers</h3><p>B.Sc. Agriculture model paper + gold-medalist style पूरा solution।</p><span class="tag">Free PDF</span></div></div>');
-  var paid=EBOOKS.filter(function(b){return b.price;})[0];
+  var paid=EBOOKS.filter(function(b){return b.price&&b.kind!=='tests';})[0];
+  sl.push('<div class="slide" data-goto="tests:bihar-fso" style="background:radial-gradient(120% 140% at 100% 0%,#5c1a1a 0%,#121a14 65%)"><div style="font-size:60px;line-height:1">🧪</div><div><h3>Bihar FSO Test Series</h3><p>BTSC खाद्य संरक्षा पदाधिकारी · 20+ Full Mock · रोज़ 2 नए टेस्ट</p><span class="tag">पहले 2 टेस्ट FREE</span></div></div>');
   if(paid) sl.push('<div class="slide" data-goto="ebooks" style="background:radial-gradient(120% 140% at 100% 100%,#5c3a00 0%,#141a10 65%)"><div style="font-size:60px;line-height:1">📚</div><div><h3>'+esc(paid.title)+'</h3><p>'+esc(paid.pages)+' पेज · सिर्फ ₹'+paid.price+'</p><span class="tag">अभी खरीदें</span></div></div>');
   return sl;
 }
@@ -751,7 +772,7 @@ function linksPage(){
 /* ================= Tests ================= */
 function testCard(t){
   var b=bestFor(t.id), n=t.id.replace(/^[A-Z]+/,'');
-  return '<div class="card tcard"><div class="tnum">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(t))+'</h3><div class="chips"><span class="chip">'+t.questions.length+' प्रश्न</span><span class="chip">'+maxMarks(t)+' अंक</span><span class="chip">'+TD(t)+' मिनट</span>'+(TN(t)?'<span class="chip">-'+TN(t)+' negative</span>':'')+(b?'<span class="chip done">Best '+b.score+'/'+b.max+'</span>':'')+'</div>'
+  return '<div class="card tcard"><div class="tnum">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(t))+'</h3><div class="chips"><span class="chip">'+t.questions.length+' प्रश्न</span><span class="chip">'+maxMarks(t)+' अंक</span><span class="chip">'+TD(t)+' मिनट</span>'+(TN(t)?'<span class="chip">-'+TN(t)+' negative</span>':'')+(t.free?'<span class="chip done">FREE</span>':'')+(b?'<span class="chip done">Best '+b.score+'/'+b.max+'</span>':'')+'</div>'
     +'<div class="row"><button class="btn" data-start="'+t.id+'">'+(b?'फिर से दें':'टेस्ट शुरू करें')+'</button>'+(b?'<button class="btn ghost" data-review="'+t.id+'">उत्तर देखें</button>':'')+(CONFIG.backendUrl?'<button class="btn ghost" data-lb="'+t.id+'">Leaderboard</button>':'')+'</div></div></div>';
 }
 function seriesOf(t){ return t.series||(SERIES[0]&&SERIES[0].id); }
@@ -760,12 +781,20 @@ function tests(sid){
   var cur=sid||get('series',SERIES[0].id); if(!SERIES.some(function(x){return x.id===cur;})) cur=SERIES[0].id;
   var list=TESTS.filter(function(t){ return seriesOf(t)===cur; }), sr=SERIES.filter(function(x){return x.id===cur;})[0];
   var h=topbar()+'<main class="page"><h2 class="sec">Test <span>Series</span></h2>';
-  h+='<div class="pills">'+SERIES.map(function(x){ var n=TESTS.filter(function(t){return seriesOf(t)===x.id;}).length; return '<button class="pill'+(x.id===cur?' on':'')+'" data-sr="'+esc(x.id)+'">'+esc(x.name)+' <i>'+n+'</i></button>'; }).join('')+'</div>';
-  h+='<div class="card" style="padding:12px 14px;background:radial-gradient(120% 140% at 100% 0%,#1d3a22 0%,var(--card) 60%)"><b style="color:var(--gold)">'+esc(sr.name)+'</b><div class="muted small">'+(cur==='sugarcane'?'UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी · ':'')+(list[0]?'हर टेस्ट: '+list[0].questions.length+' प्रश्न × '+TM(list[0])+' अंक = '+maxMarks(list[0])+' अंक · '+TD(list[0])+' मिनट':'')+'</div></div>';
-  if(!list.length) h+='<div class="card empty">इस series के test जल्द आ रहे हैं।</div>';
+  h+='<div class="pills">'+SERIES.map(function(x){ var pk=packOf(x.id), n=TESTS.filter(function(t){return seriesOf(t)===x.id;}).length+(pk?pk.stubs.filter(function(st){return !testById(st.id);}).length:0); return '<button class="pill'+(x.id===cur?' on':'')+'" data-sr="'+esc(x.id)+'">'+esc(x.name)+' <i>'+n+'</i></button>'; }).join('')+'</div>';
+  h+='<div class="card" style="padding:12px 14px;background:radial-gradient(120% 140% at 100% 0%,#1d3a22 0%,var(--card) 60%)"><b style="color:var(--gold)">'+esc(sr.name)+'</b><div class="muted small">'+(cur==='sugarcane'?'UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी · ':cur==='bihar-fso'?'BTSC खाद्य संरक्षा पदाधिकारी (Advt. 29/2026) · असली परीक्षा पैटर्न · ':'')+(list[0]?'हर टेस्ट: '+list[0].questions.length+' प्रश्न × '+TM(list[0])+' अंक = '+maxMarks(list[0])+' अंक · '+TD(list[0])+' मिनट':'')+'</div></div>';
+  var pk=packOf(cur);
+  if(pk){ var po=packOpen(pk.pack);
+    h+='<div class="card" style="padding:12px 14px;border-color:var(--gold)">'+(po?'<b style="color:var(--green)">✔ आपकी पूरी Series खुली है</b><div class="muted small">रोज़ 2 नए टेस्ट अपने आप खुलेंगे।</div>'
+      :'<b style="color:var(--gold)">पहले '+pk.free+' टेस्ट FREE · पूरी Series (20+ टेस्ट) सिर्फ ₹'+pk.price+'</b><div class="muted small">रोज़ 2 नए Full Length टेस्ट · हर प्रश्न की व्याख्या · Hindi + English</div>'+(IS_TWA?'':'<div class="row" style="margin-top:8px"><button class="btn gold" data-buy="'+esc(pk.pack)+'">🔓 ₹'+pk.price+' में खरीदें</button></div>'))+'</div>'; }
+  list.sort(function(a,b){ return a.id<b.id?-1:a.id>b.id?1:0; });
+  if(!list.length && !pk) h+='<div class="card empty">इस series के test जल्द आ रहे हैं।</div>';
   list.forEach(function(t){ h+=testCard(t); });
+  if(pk) pk.stubs.forEach(function(st){ if(!testById(st.id)) h+=stubCard(st,pk); });
   h+='</main>'; app.innerHTML=h; bindCommon();
   app.querySelectorAll('[data-sr]').forEach(function(b){ b.onclick=function(){ set('series',b.getAttribute('data-sr')); tests(b.getAttribute('data-sr')); }; });
+  app.querySelectorAll('[data-buy]').forEach(function(x){ x.onclick=function(){ buyBook(x.getAttribute('data-buy')); }; });
+  if(pk && packOpen(pk.pack) && pk.stubs.some(function(st){ return st.ready&&st.rel<=todayIST()&&!testById(st.id)&&!PACK_LOADING[st.id]&&!(PACK_TRIED[st.id]>2); })) loadPacks().then(function(){ if(CURV==='tests') tests(cur); });
 }
 function bindCommon(){
   app.querySelectorAll('[data-start]').forEach(function(b){ b.onclick=function(){ go('register',b.getAttribute('data-start')); }; });
@@ -961,11 +990,11 @@ function bindBooks(){
 function buyBook(id){
   hit('buy-clicks');
   var bk=EBOOKS.filter(function(e){return e.id===id;})[0];
-  if(autoPay() && bk && bk.enc) return payForm(bk);
+  if(autoPay() && bk && (bk.enc||bk.kind==='tests')) return payForm(bk);
   var b=EBOOKS.filter(function(e){return e.id===id;})[0], p=profile()||{};
   var msg='नमस्ते सर, मैंने Agrikranti eBook "'+b.title+'" के लिए ₹'+b.price+' का payment किया है।\nनाम: '+(p.name||'')+'\nमोबाइल: '+(p.mobile||'')+'\n(Payment screenshot साथ में भेज रहा/रही हूँ)';
   var o=document.createElement('div'); o.className='overlay';
-  o.innerHTML='<div class="card" style="display:flex;flex-direction:column;gap:10px;max-height:92vh;overflow:auto"><div class="row" style="justify-content:space-between"><b>'+(b.pack?'Semester Pack':'eBook')+' खरीदें - ₹'+b.price+'</b><button class="iconbtn" id="x">✕</button></div>'
+  o.innerHTML='<div class="card" style="display:flex;flex-direction:column;gap:10px;max-height:92vh;overflow:auto"><div class="row" style="justify-content:space-between"><b>'+(b.kind==='tests'?'Test Series':b.pack?'Semester Pack':'eBook')+' खरीदें - ₹'+b.price+'</b><button class="iconbtn" id="x">✕</button></div>'
     +'<div class="muted small">'+esc(b.title)+'</div>'
     +'<div class="small" style="text-align:center;background:#3a2f05;border-radius:10px;padding:8px">Amount: <b style="color:var(--gold);font-size:18px">₹'+b.price+'</b> (UPI app में यह amount खुद डालें)</div>'
     +'<img src="img/upi-qr.png" alt="UPI QR - '+esc(CONFIG.payeeName)+'" style="width:100%;border-radius:12px;background:#fff">'
@@ -984,7 +1013,9 @@ function buyBook(id){
 /* ===== Automatic payment (Razorpay) ===== */
 function payApi(body){ return fetch(CONFIG.payUrl,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}).then(function(r){ return r.json(); }); }
 function loadRzp(){ if(window.Razorpay) return Promise.resolve(); return new Promise(function(res,rej){ var sc=document.createElement('script'); sc.src='https://checkout.razorpay.com/v1/checkout.js'; sc.onload=res; sc.onerror=rej; document.head.appendChild(sc); }); }
-function grant(b,m,key,pid,name){ var u=unlocked(); u[b.id]={m:m,k:key,p:pid}; set('unlocked',u); if(name && !profile()) set('profile',{name:name,mobile:m}); hit('book-unlocks'); ebooks(); openReader(b.id); }
+function grant(b,m,key,pid,name){ var u=unlocked(); u[b.id]={m:m,k:key,p:pid}; set('unlocked',u); if(name && !profile()) set('profile',{name:name,mobile:m}); hit('book-unlocks');
+  if(b.kind==='tests'){ var pk=(window.TEST_PACKS||[]).filter(function(p){return p.pack===b.id;})[0]; if(pk) set('series',pk.series); loadPacks().then(function(){ go('tests',pk&&pk.series); alert('✅ पूरी Test Series खुल गई! रोज़ 2 नए टेस्ट अपने आप खुलेंगे।'); }); return; }
+  ebooks(); openReader(b.id); }
 /* Payment ke baad book kabhi na atke: har payment yaad rakho, verify fail ho to apne aap dobara try karo (abhi + har baar app khulne par) */
 function pendAll(){ return get('paypend',{}); }
 function pendSave(id,x){ var a=pendAll(); if(x) a[id]=x; else delete a[id]; set('paypend',a); }
@@ -1013,7 +1044,7 @@ function syncMine(silent){
     Object.keys(r.books).forEach(function(id){ var k=r.books[id]; if(!k) return; var cur=u[id]||{};
       if(cur.k!==k){ if(!cur.k&&!cur.c){ n++; var bk=EBOOKS.filter(function(e){return e.id===id;})[0]; if(bk) names.push(bk.title); } u[id]={m:p.mobile,k:k,p:cur.p||'auto'}; } });
     Object.keys(pendAll()).forEach(function(oid){ var x=pendAll()[oid]; if(x.m===p.mobile&&r.books[x.b]) pendSave(oid,null); });
-    set('unlocked',u);
+    set('unlocked',u); loadPacks().then(function(){ if(CURV==='tests') tests(); });
     if(n){ hit('book-unlocks'); if(!silent) alert('✅ आपकी खरीदी हुई book अपने आप खुल गई:\n'+names.join('\n')); if(CURV==='ebooks') ebooks(); else if(CURV==='semester') semester(); }
     return n;
   }).catch(function(){ MINE_BUSY=false; return 0; });
@@ -1028,10 +1059,10 @@ function retryPending(){
 }
 function payForm(b){
   var p=profile()||{}, o=document.createElement('div'); o.className='overlay';
-  o.innerHTML='<form class="card" id="pf2" style="display:flex;flex-direction:column;gap:10px"><div class="row" style="justify-content:space-between"><b>'+(b.pack?'Semester Pack':'eBook')+' खरीदें - ₹'+b.price+'</b><button class="iconbtn" type="button" id="px">✕</button></div><div class="muted small">'+esc(b.title)+'</div>'
+  o.innerHTML='<form class="card" id="pf2" style="display:flex;flex-direction:column;gap:10px"><div class="row" style="justify-content:space-between"><b>'+(b.kind==='tests'?'Test Series':b.pack?'Semester Pack':'eBook')+' खरीदें - ₹'+b.price+'</b><button class="iconbtn" type="button" id="px">✕</button></div><div class="muted small">'+esc(b.title)+'</div>'
    +'<label class="small" for="pn2">आपका नाम</label><input id="pn2" maxlength="40" value="'+esc(p.name||'')+'">'
    +'<label class="small" for="pm2">मोबाइल नंबर</label><input id="pm2" inputmode="numeric" maxlength="10" value="'+esc(p.mobile||'')+'">'
-   +'<div class="muted small">UPI, PhonePe, GPay, Card या Net Banking से pay करें। Payment होते ही book इसी app में अपने आप खुल जाएगी।</div>'
+   +'<div class="muted small">UPI, PhonePe, GPay, Card या Net Banking से pay करें। Payment होते ही '+(b.kind==='tests'?'पूरी Test Series':'book')+' इसी app में अपने आप खुल जाएगी।</div>'
    +'<div class="err" id="pe2"></div><button class="btn gold block" type="submit" id="pb2">₹'+b.price+' Pay करें</button><div class="muted small" style="text-align:center">🔒 सुरक्षित payment</div></form>';
   document.body.appendChild(o);
   o.querySelector('#px').onclick=function(){ o.remove(); };
@@ -1185,7 +1216,7 @@ function mineSoon(){ if(Date.now()-MINE_T>30000){ MINE_T=Date.now(); syncMine(fa
 function ebooks(){
   activeTab('ebooks'); mineSoon();
   var h=topbar()+'<main class="page"><h2 class="sec">Downloads / <span>eBooks</span></h2><p class="muted small" style="margin:0">'+(IS_TWA?'सभी free notes और samples यहाँ पढ़ें।':autoPay()?'Free sample तुरंत पढ़ें। Full book: "खरीदें" दबाकर UPI / PhonePe / GPay / Card से pay करें - payment होते ही book अपने आप खुल जाएगी।':'Free sample तुरंत पढ़ें। Full book खरीदने के लिए QR scan करके PhonePe / GPay / Paytm किसी भी UPI app से payment करें।')+'</p>';
-  EBOOKS.forEach(function(b){ h+=ebookCard(b); });
+  EBOOKS.forEach(function(b){ if(b.kind!=='tests') h+=ebookCard(b); });
   if(!IS_TWA && !autoPay()) h+='<div class="card"><b>Payment के लिए</b><div class="muted small" style="margin:4px 0 8px">'+esc(CONFIG.payeeName)+' · UPI: '+esc(CONFIG.upiId)+'</div><img src="img/upi-qr.png" alt="UPI QR" style="width:100%;max-width:320px;border-radius:12px;display:block;margin:0 auto;background:#fff"><a class="btn ghost block" style="text-align:center;text-decoration:none;margin-top:8px" href="img/upi-qr.png" download="Agrikranti_UPI_QR.png">QR Download करें</a></div>';
   h+='<h2 class="sec">Semester <span>Papers</span></h2>';
   SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+=semCard(g,x); }); });
@@ -1473,7 +1504,7 @@ if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navig
 /* start */
 /* Play Store (TWA) mode: Google Play policy ke kaaran app ke andar paid eBook / payment nahi dikhte */
 var IS_TWA=(function(){ try{ if(/[?&]source=twa/.test(location.search)||document.referrer.indexOf('android-app://')===0) localStorage.setItem('ak_twa','1'); return localStorage.getItem('ak_twa')==='1'; }catch(e){ return /[?&]source=twa/.test(location.search); } })();
-loadContent().then(function(){ setTimeout(processUnlockLink,800); if(autoPay()){ setTimeout(retryPending,2500); setTimeout(function(){ syncMine(false); },4000); } regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else if(/[?&]go=updates/.test(location.search)||location.hash==='#updates') go('updates'); else if(/[?&]go=nf/.test(location.search)) go('nf',(location.search.match(/[?&]t=(syl|notes)/)||[])[1]); else if(/[?&]go=syllabus/.test(location.search)||/^#syllabus/.test(location.hash)) go('syllabus',(location.search.match(/[?&]s=([\w-]+)/)||location.hash.match(/#syllabus-([\w-]+)/)||[])[1]); else go('home'); sessionCheck(); loadSyl(); loadJobs(); setInterval(loadJobs,15*60*1000); });
+loadContent().then(function(){ setTimeout(processUnlockLink,800); loadPacks().then(function(){ if(CURV==='tests') tests(); }); if(autoPay()){ setTimeout(retryPending,2500); setTimeout(function(){ syncMine(false); },4000); } regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else if(/[?&]go=updates/.test(location.search)||location.hash==='#updates') go('updates'); else if(/[?&]go=tests/.test(location.search)){ var gs=(location.search.match(/[?&]s=([\w-]+)/)||[])[1]; if(gs) set('series',gs); go('tests',gs); } else if(/[?&]go=nf/.test(location.search)) go('nf',(location.search.match(/[?&]t=(syl|notes)/)||[])[1]); else if(/[?&]go=syllabus/.test(location.search)||/^#syllabus/.test(location.hash)) go('syllabus',(location.search.match(/[?&]s=([\w-]+)/)||location.hash.match(/#syllabus-([\w-]+)/)||[])[1]); else go('home'); sessionCheck(); loadSyl(); loadJobs(); setInterval(loadJobs,15*60*1000); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden) sessionCheck(); });
 </script>
 </body>

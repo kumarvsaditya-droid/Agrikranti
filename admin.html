@@ -149,10 +149,10 @@ function boot(fresh){
 document.getElementById('logout').onclick=function(){ ls('ak_admin_token',null); TOKEN=null; loginView(); };
 
 /* ---------- Tabs ---------- */
-var TABS=[['dash','🏠 Dashboard'],['students','👥 Students'],['buyers','🧾 खरीदार'],['sales','💰 eBook बिक्री'],['banners','🖼️ Banners'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['stats','📊 Stats'],['settings','⚙️ Settings'],['backup','💾 Backup'],['help','❓ मदद']];
+var TABS=[['dash','🏠 Dashboard'],['students','👥 Students'],['buyers','🧾 खरीदार'],['sales','💰 eBook बिक्री'],['banners','🖼️ Banners'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['fsokey','🔑 FSO Test Key'],['stats','📊 Stats'],['settings','⚙️ Settings'],['backup','💾 Backup'],['help','❓ मदद']];
 function renderTabs(){ var n=document.getElementById('tabs'); n.innerHTML=TABS.map(function(t){ return '<button data-t="'+t[0]+'" class="'+(t[0]===TAB?'on':'')+'">'+t[1]+'</button>'; }).join('');
   n.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ TAB=b.getAttribute('data-t'); renderTabs(); show(TAB); }; }); }
-function show(t){ window.scrollTo(0,0); ({dash:dashView,banners:bannersView,backup:backupView,help:helpView,students:studentsView,buyers:buyersView,sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,settings:settingsView}[t])(); }
+function show(t){ window.scrollTo(0,0); ({dash:dashView,banners:bannersView,backup:backupView,help:helpView,students:studentsView,buyers:buyersView,sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,fsokey:fsoKeyView,settings:settingsView}[t])(); }
 
 /* ---------- Stats ---------- */
 function getCount(key){ return fetch(STATS_API+'/get/'+STATS_NS+'/'+key).then(function(r){ return r.ok?r.json():{value:0}; }).then(function(j){ return j.value||0; }).catch(function(){ return null; }); }
@@ -410,6 +410,18 @@ function ulLink(x){ var t=x.b+'|'+x.m+'|'+x.c+'|'+x.w; return 'https://kumarvsad
 function waMsg(x,book){ return 'नमस्ते '+x.n+' 🙏\nAgrikranti eBook "'+book+'" खरीदने के लिए धन्यवाद।\n\n'+(x.saved===false?'👉 इस link पर tap करें, book app में तुरंत खुल जाएगी:\n'+ulLink(x)+'\n(पहले app में अपने नंबर '+x.m+' से login करें।)':'🔑 आपका Password = आपकी जन्मतिथि: *'+x.c+'*\n\nकैसे खोलें:\n1. App खोलें: https://kumarvsaditya-droid.github.io/Agrikranti/\n2. अपने नंबर '+x.m+' से login करें\n3. Downloads → "'+book+'" → "🔑 Password डालें"\n4. मोबाइल नंबर '+x.m+' और जन्मतिथि '+x.c+' लिखें → Unlock\n\nया सीधे इस link पर tap करें:\n'+ulLink(x))+'\n\n(यह book सिर्फ आपके लिए है, हर पेज पर आपका नाम-नंबर रहेगा।)'; }
 function dobDigits(v){ var d=String(v||'').replace(/\D/g,''); if(d.length!==8) return ''; var dd=+d.slice(0,2), mm=+d.slice(2,4), yy=+d.slice(4); if(dd<1||dd>31||mm<1||mm>12||yy<1950||yy>new Date().getFullYear()) return ''; return d; }
 function bookTitle(id){ var b=(C.ebooks||[]).filter(function(e){return e.id===id;})[0]; return b?b.title:id; }
+/* Bihar FSO paid test pack ki chaabi (= payment server jo key deta hai). Claude ko ek baar bhejein, wo tests isi se lock karega. */
+function fsoKeyView(){
+  if(!PINK){ var saved=ls('ak_admin_pin');
+    if(saved){ M.innerHTML='<div class="card muted">PIN जाँच हो रहा है...</div>'; pinUnlock(saved).then(function(k){ PINK=k; fsoKeyView(); }).catch(function(){ ls('ak_admin_pin',null); fsoKeyView(); }); return; }
+    M.innerHTML='<div class="card"><h2>Admin PIN डालें</h2><input id="pin" type="password" inputmode="numeric" maxlength="12" placeholder="Admin PIN"><div class="row" style="margin-top:10px"><button class="btn" id="pg">खोलें</button></div></div>';
+    document.getElementById('pg').onclick=function(){ var v=document.getElementById('pin').value.trim(); pinUnlock(v).then(function(k){ PINK=k; ls('ak_admin_pin',v); fsoKeyView(); }).catch(function(){ toast('❌ PIN गलत है'); }); }; return; }
+  M.innerHTML='<div class="card muted">Key बन रही है...</div>';
+  payMasterKey().then(function(MK){ if(!MK) throw new Error('nomaster'); return itemKey(MK,'fsots'); }).then(function(K){ var k=AK.b64e(K);
+    M.innerHTML='<div class="card"><h2>🔑 Bihar FSO Test Key</h2><p class="muted small">यह key Claude को chat में भेजें। इसी से paid FSO tests lock होंगे और ₹149 payment के बाद student के फोन में अपने आप खुलेंगे। इसे किसी और को न दें।</p><textarea id="fk" readonly style="width:100%;height:70px">FSO-KEY: '+k+'</textarea><div class="row" style="margin-top:8px"><button class="btn gold" id="fc">Copy करें</button></div></div>';
+    document.getElementById('fc').onclick=function(){ var t=document.getElementById('fk'); t.select(); try{ navigator.clipboard.writeText(t.value); }catch(e){ document.execCommand('copy'); } toast('✅ Copy हो गई - अब Claude को भेजें'); };
+  }).catch(function(){ M.innerHTML='<div class="card warn">Master key नहीं मिली (payMasterW)। Claude को बताएं।</div>'; });
+}
 function salesView(){
   var paid=(C.ebooks||[]).filter(function(b){ return b.price>0 && b.enc; });
   if(!PINK){
