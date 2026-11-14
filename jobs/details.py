@@ -5,7 +5,7 @@ import json, re, os, base64, html, time, urllib.request, urllib.parse
 HERE = os.path.dirname(os.path.abspath(__file__))
 UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'}
 MAX_PER_RUN = 12
-BUDGET = 360   # details ke liye kul seconds har run mein
+BUDGET = 480   # details ke liye kul seconds har run mein
 MAX_TRIES = 3
 MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite']
 FIELDS = ['post_name', 'total_posts', 'qualification', 'age_limit', 'fee', 'salary', 'start_date', 'last_date', 'exam_date', 'selection', 'official_site', 'summary']
@@ -22,6 +22,7 @@ def key():
 
 
 def get(url, data=None, headers=None, timeout=20):
+    url = urllib.parse.quote(url, safe=':/?&=%#+,;@!$~*()\'')
     h = dict(UA); h.update(headers or {})
     req = urllib.request.Request(url, data=data, headers=h)
     with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -65,22 +66,41 @@ official_site (official website domain only, like upsssc.gov.in), summary (one p
 relevant (true if the source really is about this headline, else false)."""
 
 
+_MODELS = None
+def models(k):
+    """Is key par jo flash model abhi chal rahe hain, unki list (purane naam band ho jaate hain)."""
+    global _MODELS
+    if _MODELS is not None: return _MODELS
+    names = []
+    try:
+        j = json.loads(get('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200&key=' + k)[0])
+        for m in j.get('models', []):
+            n = m['name'].split('/')[-1]
+            if 'generateContent' in m.get('supportedGenerationMethods', []) and 'flash' in n and not re.search(r'image|tts|audio|live|thinking|exp|preview', n): names.append(n)
+    except Exception as e: print('  models list ERR', repr(e)[:120], flush=True)
+    def rank(n):
+        v = re.search(r'(\d+(?:\.\d+)?)', n); return (0 if 'latest' in n else 1, -(float(v.group(1)) if v else 0), 'lite' in n, n)
+    names.sort(key=rank)
+    _MODELS = (names or MODELS)[:4]; print('  models:', _MODELS, flush=True)
+    return _MODELS
+
+
 def gemini(k, title, text=None, pdf=None):
     parts = [{'text': PROMPT.format(title=title)}]
     if pdf: parts.append({'inline_data': {'mime_type': 'application/pdf', 'data': base64.b64encode(pdf).decode()}})
     else: parts.append({'text': 'SOURCE:\n' + text})
     body = json.dumps({'contents': [{'parts': parts}], 'generationConfig': {'temperature': 0, 'responseMimeType': 'application/json'}}).encode()
     last = None
-    for m in MODELS:
+    for m in models(k):
         try:
-            raw = get('https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s' % (m, k), body, {'Content-Type': 'application/json'}, 45)[0]
+            raw = get('https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s' % (m, k), body, {'Content-Type': 'application/json'}, 90)[0]
             j = json.loads(raw)
             t = j['candidates'][0]['content']['parts'][0]['text']
             t = re.sub(r'^```(?:json)?|```$', '', t.strip()).strip()
             return json.loads(t)
         except Exception as e:
             last = e; print('  gemini', m, repr(e)[:120], flush=True)
-            if getattr(e, 'code', 0) not in (404, 429, 500, 503): break
+            if getattr(e, 'code', 0) not in (404, 429, 500, 503) and not isinstance(e, TimeoutError): break
             time.sleep(2)
     raise last
 
