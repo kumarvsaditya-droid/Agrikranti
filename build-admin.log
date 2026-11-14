@@ -1,0 +1,201 @@
++ echo 'JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64 ANDROID_SDK_ROOT=/usr/local/lib/android/sdk ANDROID_HOME=/usr/local/lib/android/sdk'
+JAVA_HOME=/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64 ANDROID_SDK_ROOT=/usr/local/lib/android/sdk ANDROID_HOME=/usr/local/lib/android/sdk
++ SDK=/usr/local/lib/android/sdk
+++ tail -1
+++ ls -d /usr/local/lib/android/sdk/cmdline-tools/latest/bin
++ export PATH=/usr/local/lib/android/sdk/cmdline-tools/latest/bin:/usr/local/lib/android/sdk/cmdline-tools/latest/bin:/home/runner/work/_temp/.gradle-actions/gradle-installations/installs/gradle-8.7/bin:/opt/hostedtoolcache/node/20.20.2/x64/bin:/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ PATH=/usr/local/lib/android/sdk/cmdline-tools/latest/bin:/usr/local/lib/android/sdk/cmdline-tools/latest/bin:/home/runner/work/_temp/.gradle-actions/gradle-installations/installs/gradle-8.7/bin:/opt/hostedtoolcache/node/20.20.2/x64/bin:/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64/bin:/snap/bin:/home/runner/.local/bin:/opt/pipx_bin:/home/runner/.cargo/bin:/home/runner/.config/composer/vendor/bin:/usr/local/.ghcup/bin:/home/runner/.dotnet/tools:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
++ command -v bubblewrap
++ npm i -g @bubblewrap/cli
+npm warn deprecated phin@3.7.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+npm warn deprecated google-p12-pem@3.1.4: Package is no longer maintained
+npm warn deprecated @types/gapi.client.androidpublisher@3.0.2: use @types/gapi.client.androidpublisher-v3 instead; see https://github.com/Maxim-Mazurok/google-api-typings-generator/issues/652 for details
+npm warn deprecated uuid@8.3.2: uuid@10 and below is no longer supported.  For ESM codebases, update to uuid@latest.  For CommonJS codebases, use uuid@11 (but be aware this version will likely be deprecated in 2028).
+
+added 281 packages in 8s
+
+40 packages are looking for funding
+  run `npm fund` for details
++ bubblewrap --version
+,-----.        ,--.  ,--.  ,--.
+|  |) /_,--.,--|  |-.|  |-.|  |,---.,--.   ,--,--.--.,--,--.,---.
+|  .-.  |  ||  | .-. | .-. |  | .-. |  |.'.|  |  .--' ,-.  | .-. |
+|  '--' '  ''  | `-' | `-' |  \   --|   .'.   |  |  \ '-'  | '-' '
+`------' `----' `---' `---'`--'`----'--'   '--`--'   `--`--|  |-'
+                                                           `--'    
+? Do you want Bubblewrap to install the JDK (recommended)?
+  (Enter "No" to use your own JDK 17 installation) (Y/n) [57D[57C+ mkdir -p /home/runner/.bubblewrap
++ echo '{"jdkPath":"/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64","androidSdkPath":"/usr/local/lib/android/sdk"}'
++ cat /home/runner/.bubblewrap/config.json
+{"jdkPath":"/opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/17.0.21-9/x64","androidSdkPath":"/usr/local/lib/android/sdk"}
++ yes
++ sdkmanager --licenses
+yes: standard output: Broken pipe
++ sdkmanager 'build-tools;34.0.0' 'platforms;android-34'
++ SRC=android-admin
++ OUT=AgrikrantiAdmin
++ rm -rf work
++ mkdir -p work
++ cp android-admin/twa-manifest.json work/
++ cd work
++ keytool -genkeypair -keystore android.keystore -alias android -keyalg RSA -keysize 2048 -validity 10000 -storepass testpass123 -keypass testpass123 -dname CN=Test
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 10,000 days
+	for: CN=Test
++ yes ''
++ timeout 600 bubblewrap update --skipVersionUpgrade --manifest=./twa-manifest.json
+,-----.        ,--.  ,--.  ,--.
+|  |) /_,--.,--|  |-.|  |-.|  |,---.,--.   ,--,--.--.,--,--.,---.
+|  .-.  |  ||  | .-. | .-. |  | .-. |  |.'.|  |  .--' ,-.  | .-. |
+|  '--' '  ''  | `-' | `-' |  \   --|   .'.   |  |  \ '-'  | '-' '
+`------' `----' `---' `---'`--'`----'--'   '--`--'   `--`--|  |-'
+                                                           `--'    
+Generating Android Project.
+
+Project updated successfully.
+Build it by running bubblewrap build
+yes: standard output: Broken pipe
++ ls -la
+total 360
+drwxr-xr-x  4 runner runner   4096 Nov 14 06:22 .
+drwxr-xr-x 15 runner runner   4096 Nov 14 06:22 ..
+-rw-r--r--  1 runner runner   2554 Nov 14 06:22 android.keystore
+drwxr-xr-x  3 runner runner   4096 Nov 14 06:22 app
+-rw-rw-rw-  1 runner runner   1130 Nov 14 06:22 build.gradle
+drwxr-xr-x  3 runner runner   4096 Nov 14 06:22 gradle
+-rw-rw-rw-  1 runner runner    751 Nov 14 06:22 gradle.properties
+-rwxr-xr-x  1 runner runner   8706 Nov 14 06:22 gradlew
+-rw-rw-rw-  1 runner runner   2918 Nov 14 06:22 gradlew.bat
+-rw-r--r--  1 runner runner     40 Nov 14 06:22 manifest-checksum.txt
+-rw-rw-rw-  1 runner runner     15 Nov 14 06:22 settings.gradle
+-rw-r--r--  1 runner runner 308771 Nov 14 06:22 store_icon.png
+-rw-r--r--  1 runner runner   1521 Nov 14 06:22 twa-manifest.json
++ '[' -f gradlew ']'
++ chmod +x gradlew
++ ./gradlew bundleRelease assembleRelease --no-daemon --stacktrace
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+> Task :app:generateShorcutsFile UP-TO-DATE
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preReleaseBuild UP-TO-DATE
+> Task :app:generateReleaseResValues
+> Task :app:mapReleaseSourceSetPaths
+> Task :app:generateReleaseResources
+> Task :app:createReleaseCompatibleScreenManifests
+> Task :app:extractDeepLinksRelease
+
+> Task :app:processReleaseMainManifest
+package="com.agrikranti1928.admin" found in source AndroidManifest.xml: /home/runner/work/Agrikranti/Agrikranti/work/app/src/main/AndroidManifest.xml.
+Setting the namespace via the package attribute in the source AndroidManifest.xml is no longer supported, and the value is ignored.
+Recommendation: remove package="com.agrikranti1928.admin" from the source AndroidManifest.xml: /home/runner/work/Agrikranti/Agrikranti/work/app/src/main/AndroidManifest.xml.
+
+> Task :app:processReleaseManifest
+> Task :app:processApplicationManifestReleaseForBundle
+> Task :app:checkReleaseAarMetadata
+> Task :app:packageReleaseResources
+> Task :app:parseReleaseLocalResources
+> Task :app:extractReleaseVersionControlInfo
+> Task :app:mergeReleaseShaders
+> Task :app:compileReleaseShaders NO-SOURCE
+> Task :app:generateReleaseAssets UP-TO-DATE
+> Task :app:mergeReleaseResources
+> Task :app:mergeReleaseAssets
+> Task :app:processReleaseManifestForPackage
+> Task :app:javaPreCompileRelease
+> Task :app:checkReleaseDuplicateClasses
+> Task :app:mergeReleaseArtProfile
+> Task :app:extractProguardFiles
+> Task :app:processReleaseJavaRes NO-SOURCE
+> Task :app:mergeReleaseStartupProfile
+> Task :app:mergeReleaseJniLibFolders
+> Task :app:mergeReleaseNativeLibs NO-SOURCE
+> Task :app:stripReleaseDebugSymbols NO-SOURCE
+> Task :app:writeReleaseAppMetadata
+> Task :app:collectReleaseDependencies
+> Task :app:configureReleaseDependencies
+> Task :app:extractReleaseNativeSymbolTables NO-SOURCE
+> Task :app:processReleaseResources
+> Task :app:parseReleaseIntegrityConfig
+> Task :app:mergeReleaseJavaResource
+> Task :app:bundleReleaseResources
+> Task :app:compileReleaseJavaWithJavac
+> Task :app:mergeReleaseGeneratedProguardFiles
+> Task :app:mergeReleaseNativeDebugMetadata NO-SOURCE
+> Task :app:compressReleaseAssets
+> Task :app:sdkReleaseDependencyData
+> Task :app:writeReleaseSigningConfigVersions
+> Task :app:optimizeReleaseResources
+> Task :app:expandReleaseArtProfileWildcards
+> Task :app:minifyReleaseWithR8
+> Task :app:buildReleasePreBundle
+> Task :app:compileReleaseArtProfile
+> Task :app:packageRelease
+> Task :app:createReleaseApkListingFileRedirect
+> Task :app:assembleRelease
+> Task :app:packageReleaseBundle
+> Task :app:signReleaseBundle
+> Task :app:produceReleaseBundleIdeListingFile
+> Task :app:createReleaseBundleListingFileRedirect
+> Task :app:bundleRelease
+gradle/actions: Writing build results to /home/runner/work/_temp/.gradle-actions/build-results/__run_2-1794637358778.json
+[Incubating] Problems report is available at: file:///home/runner/work/Agrikranti/Agrikranti/work/build/reports/problems/problems-report.html
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD SUCCESSFUL in 26s
+45 actionable tasks: 45 executed
+++ ls -d /usr/local/lib/android/sdk/build-tools/34.0.0 /usr/local/lib/android/sdk/build-tools/35.0.0 /usr/local/lib/android/sdk/build-tools/35.0.1 /usr/local/lib/android/sdk/build-tools/36.0.0 /usr/local/lib/android/sdk/build-tools/36.1.0 /usr/local/lib/android/sdk/build-tools/37.0.0
+++ sort -V
+++ tail -1
++ BT=/usr/local/lib/android/sdk/build-tools/37.0.0
++ /usr/local/lib/android/sdk/build-tools/37.0.0/zipalign -f -p 4 app/build/outputs/apk/release/app-release-unsigned.apk aligned.apk
++ /usr/local/lib/android/sdk/build-tools/37.0.0/apksigner sign --ks android.keystore --ks-pass pass:testpass123 --out ../AgrikrantiAdmin-test.apk aligned.apk
++ cp app/build/outputs/bundle/release/app-release.aab ../AgrikrantiAdmin-unsigned.aab
++ ls -la ..
+total 7780
+drwxr-xr-x 15 runner runner    4096 Nov 14 06:23 .
+drwxr-xr-x  3 runner runner    4096 Nov 14 06:21 ..
+drwxr-xr-x  7 runner runner    4096 Nov 14 06:21 .git
+drwxr-xr-x  3 runner runner    4096 Nov 14 06:21 .github
+-rw-r--r--  1 runner runner      74 Nov 14 06:21 .gitignore
+-rw-r--r--  1 runner runner       0 Nov 14 06:21 .nojekyll
+-rw-r--r--  1 runner runner  228270 Nov 14 06:22 Agrikranti.aab
+-rw-r--r--  1 runner runner  209139 Nov 14 06:22 Agrikranti.apk
+-rw-r--r--  1 runner runner 2950932 Nov 14 06:23 AgrikrantiAdmin-test.apk
+-rw-r--r--  1 runner runner   30051 Nov 14 06:23 AgrikrantiAdmin-test.apk.idsig
+-rw-r--r--  1 runner runner 2992563 Nov 14 06:23 AgrikrantiAdmin-unsigned.aab
+drwxr-xr-x  3 runner runner    4096 Nov 14 06:21 _src
+-rw-r--r--  1 runner runner     841 Nov 14 06:21 admin-sw.js
+-rw-r--r--  1 runner runner   96531 Nov 14 06:21 admin.html
+-rw-r--r--  1 runner runner     532 Nov 14 06:21 admin.webmanifest
+-rw-r--r--  1 runner runner    6565 Nov 14 06:21 ai_backend.gs
+-rw-r--r--  1 runner runner    3178 Nov 14 06:21 akcrypto.js
+drwxr-xr-x  2 runner runner    4096 Nov 14 06:21 android
+drwxr-xr-x  2 runner runner    4096 Nov 14 06:21 android-admin
+drwxr-xr-x  4 runner runner    4096 Nov 14 06:22 android-app
+-rw-r--r--  1 runner runner    9626 Nov 14 06:23 build-admin.log
+-rw-r--r--  1 runner runner    3154 Nov 14 06:22 build-app.log
+-rw-r--r--  1 runner runner    2649 Nov 14 06:21 contact.html
+-rw-r--r--  1 runner runner    4117 Nov 14 06:21 content.json
+-rw-r--r--  1 runner runner    1763 Nov 14 06:21 delete-account.html
+drwxr-xr-x  3 runner runner    4096 Nov 14 06:21 ebooks
+drwxr-xr-x  2 runner runner    4096 Nov 14 06:21 icons
+drwxr-xr-x  2 runner runner    4096 Nov 14 06:21 img
+-rw-r--r--  1 runner runner  187709 Nov 14 06:21 index.html
+drwxr-xr-x  2 runner runner    4096 Nov 14 06:21 jobs
+-rw-r--r--  1 runner runner   85670 Nov 14 06:21 jobs.json
+-rw-r--r--  1 runner runner     722 Nov 14 06:21 manifest.webmanifest
+drwxr-xr-x  3 runner runner    4096 Nov 14 06:21 papers
+-rw-r--r--  1 runner runner    3901 Nov 14 06:21 privacy.html
+-rw-r--r--  1 runner runner    2810 Nov 14 06:21 refund.html
+-rw-r--r--  1 runner runner    2378 Nov 14 06:21 shipping.html
+-rw-r--r--  1 runner runner      30 Nov 14 06:21 signing.txt
+-rw-r--r--  1 runner runner    3613 Nov 14 06:21 sw.js
+drwxr-xr-x  2 runner runner    4096 Nov 14 06:21 syllabus
+-rw-r--r--  1 runner runner    3793 Nov 14 06:21 terms.html
+-rw-r--r--  1 runner runner  790390 Nov 14 06:21 tests-ganna.js
+-rw-r--r--  1 runner runner  232491 Nov 14 06:21 tests.js
+drwxr-xr-x  6 runner runner    4096 Nov 14 06:23 work
