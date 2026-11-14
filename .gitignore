@@ -1,0 +1,4 @@
+android-app/.gradle/
+android-app/app/build/
+android-app/build/
+*.keystore

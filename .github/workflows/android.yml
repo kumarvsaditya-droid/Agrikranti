@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['android/**', 'android-admin/**', '.github/workflows/android.yml']
+    paths: ['android/**', 'android-admin/**', 'android-app/**', '.github/workflows/android.yml']
 permissions:
   contents: write
 jobs:
@@ -15,17 +15,34 @@ jobs:
         with: { distribution: temurin, java-version: '17' }
       - uses: actions/setup-node@v4
         with: { node-version: '20' }
-      - name: Build TWA with Bubblewrap
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: '8.7' }
+      - name: Build student app (WebView + screenshot block)
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_B64 }}
+          KS_PASS_SECRET: ${{ secrets.ANDROID_KEY_PASS }}
         run: |
-          bash android/build.sh android Agrikranti > build.log 2>&1 || (echo "BUILD FAILED" >> build.log)
+          cd android-app
+          if [ -n "$KS_B64" ] && [ -n "$KS_PASS_SECRET" ]; then
+            echo "$KS_B64" | base64 -d > release.keystore; export KS_PASS="$KS_PASS_SECRET"; export KS_ALIAS=agrikranti; echo "SIGNING=permanent" > ../signing.txt
+          else
+            keytool -genkeypair -keystore release.keystore -alias agrikranti -keyalg RSA -keysize 2048 -validity 10000 -storepass testpass123 -keypass testpass123 -dname "CN=Agrikranti Test" ; echo "SIGNING=test (secret missing)" > ../signing.txt
+          fi
+          export APP_VERSION_CODE=$((100 + ${GITHUB_RUN_NUMBER}))
+          gradle assembleRelease bundleRelease --no-daemon --stacktrace > ../build-app.log 2>&1 || { echo "BUILD FAILED" >> ../build-app.log; tail -80 ../build-app.log; exit 0; }
+          cp app/build/outputs/apk/release/app-release.apk ../Agrikranti.apk
+          cp app/build/outputs/bundle/release/app-release.aab ../Agrikranti.aab
+          rm -f release.keystore
+      - name: Build admin app (TWA)
+        run: |
           bash android/build.sh android-admin AgrikrantiAdmin > build-admin.log 2>&1 || (echo "BUILD FAILED" >> build-admin.log)
       - name: Save outputs to android-build branch
         if: always()
         run: |
-          mkdir -p /tmp/out && cp -f *.log Agrikranti*.apk Agrikranti*.aab /tmp/out/ 2>/dev/null || true
+          mkdir -p /tmp/out && cp -f *.log signing.txt Agrikranti*.apk Agrikranti*.aab /tmp/out/ 2>/dev/null || true
           git config user.name "build-bot"; git config user.email "build-bot@users.noreply.github.com"
           git checkout --orphan android-build
           git rm -rf . > /dev/null 2>&1 || true
-          cp /tmp/out/* . ; rm -rf work 2>/dev/null || true
+          cp /tmp/out/* . ; rm -rf work android-app 2>/dev/null || true
           echo "Built from ${GITHUB_SHA}" > BUILD.txt
           git add -A && git commit -m "Android build ${GITHUB_SHA}" && git push -f origin android-build

@@ -2,6 +2,21 @@
 <html lang="hi">
 <head>
 <meta charset="utf-8">
+<script>
+/* Security: kisi doosri website ke frame ke andar app na khule (clickjacking se bachav) */
+(function(){ try{ if(window.top!==window.self){ window.top.location=window.self.location.href; } }catch(e){ document.documentElement.style.display='none'; } })();
+/* Android app (AKNative) mein share ka support */
+(function(){ var N=window.AKNative; if(!N) return;
+  function rd(f){ return new Promise(function(res,rej){ var r=new FileReader(); r.onload=function(){ res(String(r.result).split(',')[1]||''); }; r.onerror=rej; r.readAsDataURL(f); }); }
+  try{
+    Object.defineProperty(navigator,'canShare',{configurable:true,value:function(){ return true; }});
+    Object.defineProperty(navigator,'share',{configurable:true,value:function(d){ d=d||{}; var t=[d.title,d.text,d.url].filter(Boolean).join('\n');
+      if(d.files&&d.files.length){ var f=d.files[0]; return rd(f).then(function(b){ N.shareFile(b,f.type||'image/png',f.name||'share.png',[d.text,d.url].filter(Boolean).join(' ')); }); }
+      N.shareText(t); return Promise.resolve(); }});
+  }catch(e){}
+})();
+</script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0e1410">
 <meta name="description" content="Agrikranti 1928 - Agriculture competitive exam test series, eBooks aur notes">
@@ -25,6 +40,10 @@
   --display:'Teko','Mukta',system-ui,sans-serif; --body:'Mukta','Noto Sans Devanagari',system-ui,sans-serif;
   color-scheme:dark;
 }
+/* Security: content copy / long-press menu band (input boxes mein typing chalti rahe) */
+body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea,[contenteditable]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
+img{-webkit-user-drag:none;user-drag:none}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%}
 body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;-webkit-tap-highlight-color:transparent}
@@ -319,6 +338,7 @@ document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.
 var SERIES=[{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}];
 /* ================= helpers ================= */
 var app = document.getElementById('app');
+function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:'#'; }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 function fmt(s){ return esc(s).replace(/(\d+)\^(\d+)/g,'$1<sup>$2</sup>').replace(/\n/g,'<br>'); }
 function get(k,d){ try{ var v=JSON.parse(localStorage.getItem('ak_'+k)); return v==null?d:v; }catch(e){ return d; } }
@@ -399,6 +419,18 @@ function go(view, arg){
   var f=document.getElementById('fab'); if(f) f.hidden=(view==='quiz'||view==='ask'||view==='register');
   ({home:home, tests:tests, ebooks:ebooks, semester:semester, ask:askAI, cats:catsPage, updates:updatesPage, syllabus:syllabusPage, nf:nfPage, links:linksPage, results:results, profile:profilePage, register:register, quiz:startQuiz, review:review, leaderboard:leaderboard, admin:adminLogin}[view]||home)(arg);
 }
+
+/* Android back button: pehle khula popup band, phir Home, phir app band */
+window.akBack=function(){ var ov=document.querySelectorAll('.overlay,.reader'); if(ov.length){ ov[ov.length-1].remove(); return true; }
+  if(typeof CURV!=='undefined' && CURV && CURV!=='home' && CURV!=='quiz'){ go('home'); return true; } if(CURV==='quiz'){ return true; } return false; };
+/* Security deterrent: right-click / long-press menu, save / print / source / devtools shortcut band */
+document.addEventListener('contextmenu',function(e){ if(!/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) e.preventDefault(); });
+document.addEventListener('dragstart',function(e){ if(e.target.tagName==='IMG') e.preventDefault(); });
+document.addEventListener('keydown',function(e){ var k=(e.key||'').toLowerCase(), c=e.ctrlKey||e.metaKey;
+  if(k==='f12' || (c&&e.shiftKey&&/^[ijc]$/.test(k)) || (c&&/^[spu]$/.test(k)) || k==='printscreen'){ e.preventDefault(); e.stopPropagation(); } },true);
+document.addEventListener('keyup',function(e){ if((e.key||'')==='PrintScreen'){ try{ navigator.clipboard.writeText(''); }catch(x){} } });
+window.addEventListener('beforeprint',function(){ document.body.style.visibility='hidden'; });
+window.addEventListener('afterprint',function(){ document.body.style.visibility=''; });
 document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ var v=b.getAttribute('data-go'); if(v==='wa'){ window.open(CONFIG.whatsapp,'_blank','noopener'); return; } go(v); }; });
 
 /* ===== Login / Logout ===== */
@@ -643,7 +675,7 @@ function jobShare(x,btn){ var txt=jobShareText(x), old=btn?btn.innerHTML:''; if(
   jobPoster(x).then(function(cv){ cv.toBlob(function(b){ done(); var f=new File([b],'agrikranti-job-'+x.id+'.png',{type:'image/png'});
     if(navigator.canShare&&navigator.canShare({files:[f]})){ navigator.share({files:[f],text:txt}).catch(function(e){ if(e&&e.name!=='AbortError') wa(); }); return; }
     var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=f.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(wa,600); },'image/png'); }).catch(function(){ done(); wa(); }); }
-function jobCard(x,s){ var sy=sylFor(x.title); return '<div class="card" style="padding:0;overflow:hidden"><a href="'+esc(x.link)+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;padding:12px 14px">'
+function jobCard(x,s){ var sy=sylFor(x.title); return '<div class="card" style="padding:0;overflow:hidden"><a href="'+esc(safeUrl(x.link))+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;padding:12px 14px">'
   +(x.ts>s?'<span class="chip" style="background:#e53935;color:#fff">NEW</span> ':'')+(x.uni?'<span class="chip" style="background:#1e88e5;color:#fff">🎓 '+esc(x.uni)+'</span> ':(x.region?'<span class="chip" style="background:var(--gold);color:#111">⭐ '+esc(x.region)+'</span> ':''))+'<span class="chip">'+esc(x.tag||'Update')+'</span>'
   +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div>'+(x.d&&(x.d.total_posts||x.d.last_date)?'<div class="small" style="margin:2px 0 4px">'+(x.d.total_posts?'<span class="chip">पद: '+esc(x.d.total_posts)+'</span> ':'')+(x.d.last_date?'<span class="chip" style="background:#5a1414;color:#ffb4ab">अंतिम तिथि: '+esc(x.d.last_date)+'</span>':'')+'</div>':'')+'<div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'+(sy?'<button class="btn gold" data-sylgo="'+esc(sy.id)+'" style="display:block;width:100%;border-radius:0;padding:9px">📄 इस परीक्षा का Free Syllabus (PDF)</button>':'')+'<button class="btn" data-jp="'+esc(x.id)+'" style="display:block;width:100%;border-radius:0;padding:9px;background:#25D366;color:#08130b;font-weight:800">📲 WhatsApp पर Share करें</button></div>'; }
 function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
