@@ -256,6 +256,7 @@ sup{font-size:.7em}
 <script src="tests.js"></script>
 <script src="tests-ganna.js"></script>
 <script src="tests-fso.js"></script>
+<script src="tests-icar.js"></script>
 <script src="akcrypto.js"></script>
 <script>
 /* ================= SETTINGS (yahin badlein) ================= */
@@ -337,7 +338,7 @@ function trackOpen(){
 window.addEventListener('appinstalled',function(){ if(!get('inst',0)){ set('inst',1); hit('installs'); } });
 document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href$=".pdf"]'); if(a) hit('pdf-opens'); });
 
-var SERIES=[{id:'bihar-fso',name:'Bihar FSO Test Series'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}];
+var SERIES=[{id:'icar-t3t4',name:'ICAR T-3/T-4 Full Mock'},{id:'bihar-fso',name:'Bihar FSO Test Series'},{id:'ganna10',name:'Sugarcane Supervisor - 10 Model Papers'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}];
 /* ================= helpers ================= */
 var app = document.getElementById('app');
 function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:'#'; }
@@ -551,6 +552,7 @@ function bannerSlides(){
   sl.push('<div class="slide" data-goto="ask" style="background:radial-gradient(120% 140% at 100% 0%,#4a3a05 0%,#141a10 65%)"><div style="font-size:64px;line-height:1">✨</div><div><h3>Agrikranti AI</h3><p>Agriculture का कोई भी doubt पूछें, आसान हिंदी में तुरंत जवाब।</p><span class="tag">अभी पूछें</span></div></div>');
   sl.push('<div class="slide" data-goto="semester" style="background:radial-gradient(120% 140% at 0% 100%,#0f4c45 0%,#121a14 65%)"><div style="font-size:60px;line-height:1">🎓</div><div><h3>Semester Papers</h3><p>B.Sc. Agriculture model paper + gold-medalist style पूरा solution।</p><span class="tag">Free PDF</span></div></div>');
   var paid=EBOOKS.filter(function(b){return b.price&&b.kind!=='tests';})[0];
+  sl.push('<div class="slide" data-goto="tests:icar-t3t4" style="background:radial-gradient(120% 140% at 100% 0%,#1d4a22 0%,#121a14 65%)"><div style="font-size:60px;line-height:1">🌾</div><div><h3>ICAR T-3 & T-4 Agriculture</h3><p>30 Days Full Mock · Powered by Aditya Kumar (Gold Medalist)</p><span class="tag">Test 01 FREE · पूरी Series ₹149</span></div></div>');
   sl.push('<div class="slide" data-goto="tests:bihar-fso" style="background:radial-gradient(120% 140% at 100% 0%,#5c1a1a 0%,#121a14 65%)"><div style="font-size:60px;line-height:1">🧪</div><div><h3>Bihar FSO Test Series</h3><p>BTSC खाद्य संरक्षा पदाधिकारी · 20+ Full Mock · रोज़ 2 नए टेस्ट</p><span class="tag">पहले 2 टेस्ट FREE</span></div></div>');
   if(paid) sl.push('<div class="slide" data-goto="ebooks" style="background:radial-gradient(120% 140% at 100% 100%,#5c3a00 0%,#141a10 65%)"><div style="font-size:60px;line-height:1">📚</div><div><h3>'+esc(paid.title)+'</h3><p>'+esc(paid.pages)+' पेज · सिर्फ ₹'+paid.price+'</p><span class="tag">अभी खरीदें</span></div></div>');
   return sl;
@@ -568,6 +570,10 @@ function home(){
   var next = TESTS.filter(function(t){ return !done[t.id]; })[0] || TESTS[0];
   var h=topbar(installBtnHtml())+'<main class="page">';
   h+='<div class="hello">Hello, '+esc(p?p.name:'Student')+' 👋</div>';
+  /* 📌 Pinned: ICAR T-3/T-4 Full Mock Test Series */
+  var ipk=packOf('icar-t3t4');
+  if(ipk){ var io=packOpen(ipk.pack);
+    h+='<div class="card" data-goto="tests:icar-t3t4" style="cursor:pointer;padding:12px 14px;border:2px solid var(--gold);background:radial-gradient(120% 140% at 100% 0%,#1d4a22 0%,var(--card) 60%)"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><div style="min-width:0"><div class="small" style="color:var(--gold);font-weight:800">📌 NEW LAUNCH · ASRB 2026-27</div><b style="font-size:18px">ICAR T-3 & T-4 Agriculture</b><div class="muted small">30 Days Full Mock · Paper I + Paper II · Hindi + English</div></div><span class="btn gold" style="white-space:nowrap">'+(io?'टेस्ट दें →':'Test 01 FREE →')+'</span></div></div>'; }
   /* 📌 Pinned: Bihar FSO Test Series (hamesha sabse upar) */
   var fpk=packOf('bihar-fso');
   if(fpk){ var fo=packOpen(fpk.pack), fn=TESTS.filter(function(t){return t.series==='bihar-fso';}).length;
@@ -817,11 +823,11 @@ function tests(sid){
   var list=TESTS.filter(function(t){ return seriesOf(t)===cur; }), sr=SERIES.filter(function(x){return x.id===cur;})[0];
   var h=topbar()+'<main class="page"><h2 class="sec">Test <span>Series</span></h2>';
   h+='<div class="pills">'+SERIES.map(function(x){ var pk=packOf(x.id), n=TESTS.filter(function(t){return seriesOf(t)===x.id;}).length+(pk?pk.stubs.filter(function(st){return !testById(st.id);}).length:0); return '<button class="pill'+(x.id===cur?' on':'')+'" data-sr="'+esc(x.id)+'">'+esc(x.name)+' <i>'+n+'</i></button>'; }).join('')+'</div>';
-  h+='<div class="card" style="padding:12px 14px;background:radial-gradient(120% 140% at 100% 0%,#1d3a22 0%,var(--card) 60%)"><b style="color:var(--gold)">'+esc(sr.name)+'</b><div class="muted small">'+(cur==='sugarcane'?'UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी · ':cur==='bihar-fso'?'BTSC खाद्य संरक्षा पदाधिकारी (Advt. 29/2026) · असली परीक्षा पैटर्न · ':'')+(list[0]?'हर टेस्ट: '+list[0].questions.length+' प्रश्न × '+TM(list[0])+' अंक = '+maxMarks(list[0])+' अंक · '+TD(list[0])+' मिनट':'')+'</div></div>';
+  h+='<div class="card" style="padding:12px 14px;background:radial-gradient(120% 140% at 100% 0%,#1d3a22 0%,var(--card) 60%)"><b style="color:var(--gold)">'+esc(sr.name)+'</b><div class="muted small">'+(cur==='icar-t3t4'?'ASRB 2026-27 · हर टेस्ट में Paper I (100 प्रश्न, 100 अंक, 60 मिनट, -0.25) और Paper II (100 प्रश्न, 300 अंक, 120 मिनट, -1) अलग-अलग · Powered by Aditya Kumar (Gold Medalist)':cur==='sugarcane'?'UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी · ':cur==='bihar-fso'?'BTSC खाद्य संरक्षा पदाधिकारी (Advt. 29/2026) · असली परीक्षा पैटर्न · ':'')+(list[0]&&cur!=='icar-t3t4'?'हर टेस्ट: '+list[0].questions.length+' प्रश्न × '+TM(list[0])+' अंक = '+maxMarks(list[0])+' अंक · '+TD(list[0])+' मिनट':'')+'</div></div>';
   var pk=packOf(cur);
   if(pk){ var po=packOpen(pk.pack);
-    h+='<div class="card" style="padding:12px 14px;border-color:var(--gold)">'+(po?'<b style="color:var(--green)">✔ आपकी पूरी Series खुली है</b><div class="muted small">रोज़ 2 नए टेस्ट अपने आप खुलेंगे।</div>'
-      :'<b style="color:var(--gold)">पहले '+pk.free+' टेस्ट FREE · पूरी Series (20+ टेस्ट) सिर्फ ₹'+pk.price+'</b><div class="muted small">रोज़ 2 नए Full Length टेस्ट · हर प्रश्न की व्याख्या · Hindi + English</div>'+(IS_TWA?'':'<div class="row" style="margin-top:8px"><button class="btn gold" data-buy="'+esc(pk.pack)+'">🔓 ₹'+pk.price+' में खरीदें</button></div>'))+'</div>'; }
+    h+='<div class="card" style="padding:12px 14px;border-color:var(--gold)">'+(po?'<b style="color:var(--green)">✔ आपकी पूरी Series खुली है</b><div class="muted small">'+(pk.daily?esc(pk.daily)+' - अपने आप खुलेगा।':'रोज़ 2 नए टेस्ट अपने आप खुलेंगे।')+'</div>'
+      :'<b style="color:var(--gold)">पहले '+pk.free+' टेस्ट FREE · पूरी Series ('+(pk.total?esc(pk.total):'20+ टेस्ट')+') सिर्फ ₹'+pk.price+'</b><div class="muted small">'+(pk.daily?esc(pk.daily):'रोज़ 2 नए Full Length टेस्ट')+' · हर प्रश्न की व्याख्या व Source · Hindi + English</div>'+(IS_TWA?'':'<div class="row" style="margin-top:8px"><button class="btn gold" data-buy="'+esc(pk.pack)+'">🔓 ₹'+pk.price+' में खरीदें</button></div>'))+'</div>'; }
   list.sort(function(a,b){ return a.id<b.id?-1:a.id>b.id?1:0; });
   if(!list.length && !pk) h+='<div class="card empty">इस series के test जल्द आ रहे हैं।</div>';
   list.forEach(function(t){ h+=testCard(t); });
@@ -883,6 +889,8 @@ function tick(){ var r=remaining(), el=document.getElementById('tm'); if(el){ el
 function renderQ(){
   var n=S.order.length, qi=S.order[S.cur], q=S.test.questions[qi], done=Object.keys(S.answers).length;
   var h='<div class="qbar"><div class="in"><b>'+esc(shortTitle(S.test))+'</b><span class="timer" id="tm">'+mmss(remaining())+'</span><button class="btn gold" id="sub" style="min-height:38px;padding:6px 14px">Submit</button></div><div class="prog"><i style="width:'+(done/n*100)+'%"></i></div></div>';
+  var SC=S.test.secs; if(SC&&S.test.fixed){ var cs=0; SC.forEach(function(x,k){ if(S.cur>=x.f) cs=k; });
+    h+='<div class="pills" style="padding:8px 12px 0;margin:0">'+SC.map(function(x,k){ var to=k<SC.length-1?SC[k+1].f:n, dn=0; for(var j=x.f;j<to;j++){ if(S.answers[S.order[j]]!==undefined) dn++; } return '<button class="pill'+(k===cs?' on':'')+'" data-sec="'+x.f+'">'+esc(x.n)+' <i>'+dn+'/'+(to-x.f)+'</i></button>'; }).join('')+'</div>'; }
   h+='<main class="page"><div class="card"><div class="muted small" style="font-weight:700">प्रश्न '+(S.cur+1)+' / '+n+' · '+done+' हल किए</div><div class="qtext">'+fmt(q.q)+'</div><div class="opts">';
   S.optOrder[qi].forEach(function(oi,k){ h+='<button class="opt'+(S.answers[qi]===oi?' sel':'')+'" data-o="'+oi+'"><b>'+'ABCDE'[k]+'</b><span>'+fmt(q.o[oi])+'</span></button>'; });
   h+='</div><div class="qnav"><button class="btn ghost" id="pv"'+(S.cur===0?' disabled':'')+'>पिछला</button><button class="btn ghost" id="mk">'+(S.marks[qi]?'Unmark':'Review')+'</button><button class="btn" id="nx">'+(S.cur===n-1?'अंतिम':'अगला')+'</button></div>'
@@ -893,6 +901,7 @@ function renderQ(){
   app.innerHTML=h;
   app.querySelectorAll('.opt').forEach(function(b){ b.onclick=function(){ S.answers[qi]=Number(b.getAttribute('data-o')); save(); renderQ(); }; });
   app.querySelectorAll('[data-g]').forEach(function(b){ b.onclick=function(){ S.cur=Number(b.getAttribute('data-g')); save(); renderQ(); window.scrollTo(0,0); }; });
+  app.querySelectorAll('[data-sec]').forEach(function(b){ b.onclick=function(){ S.cur=Number(b.getAttribute('data-sec')); save(); renderQ(); window.scrollTo(0,0); }; });
   document.getElementById('pv').onclick=function(){ if(S.cur>0){S.cur--; save(); renderQ(); window.scrollTo(0,0);} };
   document.getElementById('nx').onclick=function(){ if(S.cur<n-1){S.cur++; save(); renderQ(); window.scrollTo(0,0);} else confirmSubmit(); };
   document.getElementById('mk').onclick=function(){ S.marks[qi]=!S.marks[qi]; save(); renderQ(); };
@@ -938,7 +947,7 @@ function review(res, fresh){
   app.innerHTML=h; bindCommon(); bindAnalysis(t,res);
 }
 /* ===== Result analysis: pie chart, section-wise weak area, coloured question boxes, tap = full solution ===== */
-var SEC_NAMES={SOIL:'मृदा विज्ञान',AGRO:'सस्य विज्ञान (Agronomy)',HORT:'उद्यान विज्ञान',PATH:'पादप रोग विज्ञान',ENTO:'कीट विज्ञान',GPB:'आनुवंशिकी व पादप प्रजनन',PHY:'पादप कार्यिकी व जैव रसायन',EXT:'कृषि प्रसार',ECO:'कृषि अर्थशास्त्र व विपणन',AH:'पशुपालन व डेयरी',MET:'कृषि मौसम विज्ञान',CANE:'गन्ना विशेष',FOOD:'खाद्य विज्ञान व पोषण',ENGG:'कृषि अभियंत्रण',GK:'योजनाएँ, संस्थान व सामान्य कृषि',COMP:'कम्प्यूटर ज्ञान',UPGK:'उत्तर प्रदेश सामान्य ज्ञान'};
+var SEC_NAMES={SOIL:'मृदा विज्ञान',AGRO:'सस्य विज्ञान (Agronomy)',HORT:'उद्यान विज्ञान',PATH:'पादप रोग विज्ञान',ENTO:'कीट विज्ञान',GPB:'आनुवंशिकी व पादप प्रजनन',PHY:'पादप कार्यिकी व जैव रसायन',EXT:'कृषि प्रसार',ECO:'कृषि अर्थशास्त्र व विपणन',AH:'पशुपालन व डेयरी',MET:'कृषि मौसम विज्ञान',CANE:'गन्ना विशेष',FOOD:'खाद्य विज्ञान व पोषण',ENGG:'कृषि अभियंत्रण',GK:'योजनाएँ, संस्थान व सामान्य कृषि',COMP:'कम्प्यूटर ज्ञान',UPGK:'उत्तर प्रदेश सामान्य ज्ञान',GS:'सामान्य ज्ञान (GK)',ENG:'General English',QA:'संख्यात्मक अभियोग्यता (Quant)',GAG:'सामान्य कृषि (General Agriculture)',ECOL:'पारिस्थितिकी, पर्यावरण व जलवायु',AGFOR:'कृषि वानिकी व वन',WEED:'खरपतवार विज्ञान',IRR:'सिंचाई व जल प्रबंधन',GEN:'कोशिका विज्ञान व आनुवंशिकी',SEED:'बीज विज्ञान, IPR व WTO',PNUT:'पादप पोषण व जल संबंध',PP:'पादप संरक्षण (कीट-रोग, IPM)',FSEC:'खाद्य उत्पादन, सुरक्षा व PDS',BIOT:'जैव प्रौद्योगिकी',FMIC:'खाद्य सूक्ष्मजीव, रसायन व सुरक्षा'};
 var SEC_KW=[['COMP',/computer|कम्प्यूटर|MS Word|Excel|PowerPoint|software|internet|इंटरनेट|byte|बाइट|cyber|साइबर/i],['CANE',/गन्न|sugarcane|cane|sett|ratoon|पेड़ी|चीनी|sucrose|jaggery|गुड़|ISMA|IISR|SBI/i],['SOIL',/मृदा|मिट्टी|soil|clay|humus|pH|CEC|ESP|SAR|lime|gypsum|उर्वरक|fertili|nitrogen|phosph|potass|nutrient|पोषक|colloid|horizon|laterite|alluvial|kaolin|montmor|illite|zinc|boron|micronutr/i],['ENTO',/कीट|insect|pest|borer|aphid|beetle|moth|larva|honey|मधुमक्खी|bee|lac|silk|termite|nematode|सूत्रकृमि|insecticid/i],['PATH',/रोग|disease|fung|virus|bacteri|blight|rust|smut|wilt|rot|mildew|pathogen|quarantine|mycoplasma|phytoplasma/i],['GPB',/breed|प्रजनन|hybrid|संकर|heterosis|gene|आनुवंश|chromosom|mutation|variety|किस्म|seed|बीज|polyploid|sterility|pollinat/i],['HORT',/उद्यान|fruit|फल|vegetable|सब्जी|mango|आम|banana|केला|citrus|grape|guava|flower|jam|jelly|horticult|nursery|grafting|budding|watermelon|tomato|potato/i],['AH',/पशु|गाय|cow|buffalo|भैंस|milk|दूध|dairy|poultry|मुर्गी|goat|bakri|sheep|breed of|livestock|animal/i],['MET',/मौसम|weather|IMD|rainfall|वर्षा|climate|जलवायु|temperature|humidity|monsoon|GHG|greenhouse|cloud|wind/i],['EXT',/प्रसार|extension|KVK|ATMA|communication|संचार|media|adoption|T&V|demonstration|farmer field/i],['ECO',/marketing|विपणन|market|बाजार|price|मूल्य|MSP|FCI|NABARD|credit|ऋण|cost|economic|demand|supply|surplus/i],['FOOD',/vitamin|विटामिन|protein|प्रोटीन|fat|वसा|food|खाद्य|FSSAI|nutrition|पोषण|mineral|carbohydr|enzyme/i],['PHY',/photosynth|प्रकाश संश्लेषण|hormone|हार्मोन|auxin|gibberell|cytokinin|ethylene|ABA|PGR|transpiration|photoperiod|respiration|germination|अंकुरण/i],['ENGG',/plough|हल|tractor|weeder|implement|यंत्र|harvester|drill|sprayer|irrigation|सिंचाई|drip|sprinkler/i],['AGRO',/crop|फसल|weed|खरपतवार|cropping|sowing|बुवाई|millet|tillage|organic|जैविक|agronomy|water requirement|mulch|herbicid/i]];
 function secOf(q){ if(q.s&&SEC_NAMES[q.s]) return q.s; var tx=q.q+' '+(q.e||''); for(var i=0;i<SEC_KW.length;i++){ if(SEC_KW[i][1].test(tx)) return SEC_KW[i][0]; } return 'GK'; }
 function stOf(q,res,i){ var a=res.answers[i]; if(a===undefined||a===null) return 'skip'; return Number(a)===q.a?'ok':'bad'; }
@@ -981,6 +990,7 @@ function solHTML(t,res,i){
   h+='</div>'+(st==='skip'?'<p class="small" style="color:#b9c4bc;margin:8px 0 0">आपने यह प्रश्न छोड़ा था। सही उत्तर: <b style="color:var(--ok)">'+fmt(q.o[q.a])+'</b></p>':'')
     +'<div class="solbox"><b>📘 विस्तृत व्याख्या</b><div>'+fmt(q.e||'')+'</div></div>';
   if(q.x) h+='<div class="expbox"><b>🎯 संभावित परीक्षा प्रश्न (Expected Question)</b><div>'+fmt(q.x)+'</div></div>';
+  if(q.src) h+='<div class="small" style="margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:10px"><b>📚 Source / संदर्भ:</b> '+esc(q.src)+(q.lv||q.cls?'<div class="muted" style="margin-top:2px">'+esc([q.lv,q.cls].filter(Boolean).join(' · '))+'</div>':'')+'</div>';
   return h;
 }
 function openSol(t,res,i,list){

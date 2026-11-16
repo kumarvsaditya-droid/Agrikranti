@@ -149,7 +149,7 @@ function boot(fresh){
 document.getElementById('logout').onclick=function(){ ls('ak_admin_token',null); TOKEN=null; loginView(); };
 
 /* ---------- Tabs ---------- */
-var TABS=[['dash','🏠 Dashboard'],['students','👥 Students'],['buyers','🧾 खरीदार'],['sales','💰 eBook बिक्री'],['banners','🖼️ Banners'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['fsokey','🔑 FSO Test Key'],['stats','📊 Stats'],['settings','⚙️ Settings'],['backup','💾 Backup'],['help','❓ मदद']];
+var TABS=[['dash','🏠 Dashboard'],['students','👥 Students'],['buyers','🧾 खरीदार'],['sales','💰 eBook बिक्री'],['banners','🖼️ Banners'],['notice','📢 सूचना'],['semester','🎓 Semester'],['ebooks','📚 eBooks'],['tests','📝 Tests'],['fsokey','🔑 Test Series Keys'],['stats','📊 Stats'],['settings','⚙️ Settings'],['backup','💾 Backup'],['help','❓ मदद']];
 function renderTabs(){ var n=document.getElementById('tabs'); n.innerHTML=TABS.map(function(t){ return '<button data-t="'+t[0]+'" class="'+(t[0]===TAB?'on':'')+'">'+t[1]+'</button>'; }).join('');
   n.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ TAB=b.getAttribute('data-t'); renderTabs(); show(TAB); }; }); }
 function show(t){ window.scrollTo(0,0); ({dash:dashView,banners:bannersView,backup:backupView,help:helpView,students:studentsView,buyers:buyersView,sales:salesView,stats:statsView,notice:noticeView,semester:semView,ebooks:ebookView,tests:testsView,fsokey:fsoKeyView,settings:settingsView}[t])(); }
@@ -417,9 +417,10 @@ function fsoKeyView(){
     M.innerHTML='<div class="card"><h2>Admin PIN डालें</h2><input id="pin" type="password" inputmode="numeric" maxlength="12" placeholder="Admin PIN"><div class="row" style="margin-top:10px"><button class="btn" id="pg">खोलें</button></div></div>';
     document.getElementById('pg').onclick=function(){ var v=document.getElementById('pin').value.trim(); pinUnlock(v).then(function(k){ PINK=k; ls('ak_admin_pin',v); fsoKeyView(); }).catch(function(){ toast('❌ PIN गलत है'); }); }; return; }
   M.innerHTML='<div class="card muted">Key बन रही है...</div>';
-  payMasterKey().then(function(MK){ if(!MK) throw new Error('nomaster'); return itemKey(MK,'fsots'); }).then(function(K){ var k=AK.b64e(K);
-    M.innerHTML='<div class="card"><h2>🔑 Bihar FSO Test Key</h2><p class="muted small">यह key Claude को chat में भेजें। इसी से paid FSO tests lock होंगे और ₹149 payment के बाद student के फोन में अपने आप खुलेंगे। इसे किसी और को न दें।</p><textarea id="fk" readonly style="width:100%;height:70px">FSO-KEY: '+k+'</textarea><div class="row" style="margin-top:8px"><button class="btn gold" id="fc">Copy करें</button></div></div>';
-    document.getElementById('fc').onclick=function(){ var t=document.getElementById('fk'); t.select(); try{ navigator.clipboard.writeText(t.value); }catch(e){ document.execCommand('copy'); } toast('✅ Copy हो गई - अब Claude को भेजें'); };
+  var packs=(C.ebooks||[]).filter(function(b){ return b.kind==='tests'; });
+  payMasterKey().then(function(MK){ if(!MK) throw new Error('nomaster'); return Promise.all(packs.map(function(b){ return itemKey(MK,b.id); })); }).then(function(keys){
+    M.innerHTML=packs.map(function(b,i){ var pre=(b.id==='fsots'?'FSO':b.id.toUpperCase())+'-KEY: '; return '<div class="card"><h2>🔑 '+esc(b.title)+'</h2><p class="muted small">यह key Claude को chat में भेजें। इसी से इस series के paid tests lock होंगे और ₹'+b.price+' payment के बाद student के फोन में अपने आप खुलेंगे। इसे किसी और को न दें।</p><textarea id="fk'+i+'" readonly style="width:100%;height:70px">'+pre+AK.b64e(keys[i])+'</textarea><div class="row" style="margin-top:8px"><button class="btn gold" data-fc="'+i+'">Copy करें</button></div></div>'; }).join('');
+    M.querySelectorAll('[data-fc]').forEach(function(bt){ bt.onclick=function(){ var t=document.getElementById('fk'+bt.getAttribute('data-fc')); t.select(); try{ navigator.clipboard.writeText(t.value); }catch(e){ document.execCommand('copy'); } toast('✅ Copy हो गई - अब Claude को भेजें'); }; });
   }).catch(function(){ M.innerHTML='<div class="card warn">Master key नहीं मिली (payMasterW)। Claude को बताएं।</div>'; });
 }
 function salesView(){

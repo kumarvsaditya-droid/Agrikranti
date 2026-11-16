@@ -592,91 +592,95 @@
      ]
     },
     {
-     "name": "Paper II: Group (A) Field/Farm & Laboratory Technician (Agriculture)",
+     "name": "Paper II: Group (A) Field/Farm & Laboratory Technician (Agriculture) - 20 units",
      "hi": "पेपर II: समूह (A) फील्ड/फार्म व प्रयोगशाला तकनीशियन (कृषि)",
      "marks": "100 प्रश्न / 300 अंक",
      "topics": [
       [
-       "Ecology, natural resources and their conservation, environmental pollution, climate change and international conventions, greenhouse effect, remote sensing, GIS, drones in agriculture",
-       "पारिस्थितिकी, प्राकृतिक संसाधन व संरक्षण, पर्यावरण प्रदूषण, जलवायु परिवर्तन व अंतरराष्ट्रीय समझौते, ग्रीनहाउस प्रभाव, रिमोट सेंसिंग, GIS, कृषि में ड्रोन"
+       "Ecology and its relevance to man, natural resources, their sustainable management and conservation; physical and social environment as factors of crop distribution and production; agro-ecology; cropping pattern as indicator of environment; environmental pollution and hazards; climate change, international conventions and global initiatives; greenhouse effect and global warming; remote sensing, GIS and drones in agriculture",
+       "पारिस्थितिकी व मानव से संबंध, प्राकृतिक संसाधन व उनका टिकाऊ प्रबंधन व संरक्षण; फसल वितरण व उत्पादन के कारक के रूप में भौतिक व सामाजिक पर्यावरण; कृषि पारिस्थितिकी; पर्यावरण सूचक के रूप में फसल प्रारूप; पर्यावरण प्रदूषण व खतरे; जलवायु परिवर्तन, अंतरराष्ट्रीय समझौते व वैश्विक पहल; ग्रीनहाउस प्रभाव व वैश्विक तापन; रिमोट सेंसिंग, GIS व कृषि में ड्रोन"
       ],
       [
-       "Cropping patterns in agro-climatic zones, organic and precision farming, package of practices of cereals, pulses, oilseeds, fibres, sugar, commercial and fodder crops",
-       "कृषि-जलवायु क्षेत्रों में फसल प्रारूप, जैविक व परिशुद्ध खेती, अनाज, दलहन, तिलहन, रेशा, शर्करा, व्यावसायिक व चारा फसलों की उत्पादन तकनीक"
+       "Cropping patterns in different agro-climatic zones; impact of high-yielding and short-duration varieties/hybrids on cropping patterns; concepts of cropping and farming systems; organic and precision farming; package of practices of cereals, pulses, oilseeds, fibres, sugar, commercial and fodder crops",
+       "विभिन्न कृषि-जलवायु क्षेत्रों में फसल प्रारूप; अधिक उपज व कम अवधि वाली किस्मों/संकरों का प्रभाव; फसल व कृषि प्रणाली; जैविक व परिशुद्ध खेती; अनाज, दलहन, तिलहन, रेशा, शर्करा, व्यावसायिक व चारा फसलों की उत्पादन तकनीक"
       ],
       [
-       "Agroforestry, forest ecology, wildlife management, forest mensuration, forest products",
-       "कृषि वानिकी, वन पारिस्थितिकी, वन्यजीव प्रबंधन, वन मापन, वन उत्पाद"
+       "Agroforestry and silviculture; forest ecology; agroforestry systems; wildlife management; forest mensuration; forest soil science, climatology and extension; social forestry; natural forests and propagation of forest plants; forest products and value addition; conservation of forest flora and fauna",
+       "कृषि वानिकी व वनवर्धन; वन पारिस्थितिकी; कृषि वानिकी प्रणालियाँ; वन्यजीव प्रबंधन; वन मापन; वन मृदा, जलवायु व प्रसार; सामाजिक वानिकी; प्राकृतिक वन व वन पौधों का प्रवर्धन; वन उत्पाद व मूल्य संवर्धन; वन वनस्पति व जीवों का संरक्षण"
       ],
       [
-       "Weeds: characteristics, dissemination; cultural, biological and chemical control",
-       "खरपतवार: लक्षण, फैलाव; सस्य, जैविक व रासायनिक नियंत्रण"
+       "Weeds: characteristics, dissemination, association with crops and multiplication; cultural, biological and chemical control of weeds",
+       "खरपतवार: लक्षण, फैलाव, फसलों के साथ संबंध व गुणन; सस्य, जैविक व रासायनिक नियंत्रण"
       ],
       [
-       "Soil physical, chemical and biological properties, soils of India, soil fertility, soil testing and fertilizer recommendation, INM, biofertilizers, problem soils, soil conservation, watershed management, dryland agriculture",
-       "मृदा के भौतिक, रासायनिक व जैविक गुण, भारत की मृदाएँ, मृदा उर्वरता, मृदा परीक्षण व उर्वरक संस्तुति, समन्वित पोषक प्रबंधन, जैव उर्वरक, समस्याग्रस्त मृदाएँ, मृदा संरक्षण, जलागम प्रबंधन, बारानी कृषि"
+       "Soil physical, chemical and biological properties; soil formation; soils of India; mineral and organic constituents; essential plant nutrients and beneficial elements; soil fertility, soil testing and fertilizer recommendations; integrated nutrient management; biofertilizers; losses and use efficiency of nitrogen, biological N fixation; efficient use of phosphorus and potassium; problem soils and their reclamation; GHG emission factors; soil conservation, soil erosion and watershed management; dryland agriculture and rainfed technology",
+       "मृदा के भौतिक, रासायनिक व जैविक गुण; मृदा निर्माण; भारत की मृदाएँ; खनिज व जैविक घटक; आवश्यक व लाभकारी पोषक तत्व; मृदा उर्वरता, मृदा परीक्षण व उर्वरक संस्तुति; समन्वित पोषक प्रबंधन; जैव उर्वरक; नाइट्रोजन की हानि व उपयोग दक्षता, जैविक नाइट्रोजन स्थिरीकरण; फॉस्फोरस व पोटैशियम का दक्ष उपयोग; समस्याग्रस्त मृदाएँ व सुधार; GHG उत्सर्जन कारक; मृदा संरक्षण, अपरदन व जलागम प्रबंधन; बारानी कृषि व वर्षा-आधारित तकनीक"
       ],
       [
-       "Water-use efficiency, rainwater harvesting, drip and sprinkler irrigation, drainage of water-logged soils, irrigation projects in India",
-       "जल उपयोग दक्षता, वर्षा जल संचयन, ड्रिप व स्प्रिंकलर सिंचाई, जलभराव वाली मृदा का जल निकास, भारत की सिंचाई परियोजनाएँ"
+       "Water-use efficiency and irrigation scheduling; run-off losses; rainwater harvesting; drip and sprinkler irrigation; drainage of water-logged soils; quality of irrigation water and effect of industrial effluents; irrigation projects in India",
+       "जल उपयोग दक्षता व सिंचाई निर्धारण; अपवाह हानि; वर्षा जल संचयन; ड्रिप व स्प्रिंकलर सिंचाई; जलभराव वाली मृदा का जल निकास; सिंचाई जल की गुणवत्ता व औद्योगिक बहिःस्राव का प्रभाव; भारत की सिंचाई परियोजनाएँ"
       ],
       [
-       "Farm management, resource use and budgeting, marketing management, agricultural price policy, crop insurance",
-       "फार्म प्रबंधन, संसाधन उपयोग व बजट, विपणन प्रबंधन, कृषि मूल्य नीति, फसल बीमा"
+       "Farm management, farm planning, resource use and budgeting; economics of farming systems; marketing strategies, market intelligence and price fluctuations; co-operatives; types and systems of farming; agricultural price policy; crop insurance",
+       "फार्म प्रबंधन, फार्म योजना, संसाधन उपयोग व बजट; कृषि प्रणालियों का अर्थशास्त्र; विपणन रणनीति, बाज़ार सूचना व मूल्य उतार-चढ़ाव; सहकारिता; खेती के प्रकार व प्रणालियाँ; कृषि मूल्य नीति; फसल बीमा"
       ],
       [
-       "Agricultural extension, socio-economic survey, training of extension workers, role of KVKs",
-       "कृषि प्रसार, सामाजिक-आर्थिक सर्वेक्षण, प्रसार कार्यकर्ताओं का प्रशिक्षण, KVK की भूमिका"
+       "Agricultural extension: importance, role and evaluation methods; socio-economic survey and farm size categories; landless labourers; training of extension workers; role of KVKs; NGO and self-help group approach",
+       "कृषि प्रसार: महत्व, भूमिका व मूल्यांकन विधियाँ; सामाजिक-आर्थिक सर्वेक्षण व जोत आकार वर्ग; भूमिहीन मज़दूर; प्रसार कार्यकर्ताओं का प्रशिक्षण; KVK की भूमिका; NGO व स्वयं सहायता समूह"
       ],
       [
-       "Agricultural engineering: farm power and machinery, soil and water conservation, irrigation and drainage, agricultural structures, food processing, renewable energy, automation",
-       "कृषि अभियांत्रिकी: कृषि शक्ति व यंत्र, मृदा-जल संरक्षण, सिंचाई व जल निकास, कृषि संरचनाएँ, खाद्य प्रसंस्करण, नवीकरणीय ऊर्जा, स्वचालन"
+       "Agricultural engineering: farm power and machinery design; soil and water conservation; irrigation and drainage; agricultural structures; food processing; renewable energy; mechanised crop production techniques; agricultural automation",
+       "कृषि अभियांत्रिकी: कृषि शक्ति व यंत्र डिज़ाइन; मृदा-जल संरक्षण; सिंचाई व जल निकास; कृषि संरचनाएँ; खाद्य प्रसंस्करण; नवीकरणीय ऊर्जा; यंत्रीकृत फसल उत्पादन; कृषि स्वचालन"
       ],
       [
-       "Cell structure and cell cycle, laws of heredity, chromosome structure and aberrations, polyploidy, mutation, cytoplasmic inheritance",
-       "कोशिका संरचना व कोशिका चक्र, आनुवंशिकता के नियम, गुणसूत्र संरचना व विकृतियाँ, बहुगुणिता, उत्परिवर्तन, कोशिकाद्रव्यी वंशागति"
+       "Cell structure and function, cell cycle; genetic material; laws of heredity; chromosome structure and aberrations; linkage and crossing over; polyploidy, euploids and aneuploids; mutation; heritability; sterility and incompatibility; cytoplasmic inheritance; sex-linked, sex-influenced and sex-limited characters",
+       "कोशिका संरचना व कार्य, कोशिका चक्र; आनुवंशिक पदार्थ; वंशागति के नियम; गुणसूत्र संरचना व विकृतियाँ; सहलग्नता व जीन विनिमय; बहुगुणिता, सुगुणित व असुगुणित; उत्परिवर्तन; वंशागतित्व; बंध्यता व असंगतता; कोशिकाद्रव्यी वंशागति; लिंग-सहलग्न, लिंग-प्रभावित व लिंग-सीमित लक्षण"
       ],
       [
-       "History of plant breeding, origin and domestication of crops, genetic resources, recombinant DNA, molecular markers, heterosis, CRISPR-Cas9 and genome editing, doubled haploids, apomixis, genomic selection",
-       "पादप प्रजनन का इतिहास, फसलों का उद्भव व पालतूकरण, आनुवंशिक संसाधन, पुनर्योगज DNA, आणविक मार्कर, संकर ओज, CRISPR-Cas9 व जीनोम संपादन, द्विगुणित अगुणित, असंगजनन, जीनोमिक चयन"
+       "History of plant breeding; modes of reproduction, selfing and crossing techniques; origin and domestication of crops, centres of origin, law of homologous series; genetic resources and their conservation; recombinant DNA; molecular markers; pure-line, pedigree, mass and recurrent selection; combining ability; heterosis; somatic hybridisation; breeding for disease and pest resistance; interspecific and intergeneric hybridisation; genetic engineering and GM crops; CRISPR-Cas9 and genome editing; doubled haploids; apomixis; genomic selection, predictive and speed breeding; tissue culture; genomics, proteomics and bioinformatics",
+       "पादप प्रजनन का इतिहास; प्रजनन विधियाँ, स्वपरागण व संकरण तकनीक; फसलों का उद्भव व पालतूकरण, उद्भव केंद्र, समजात श्रेणी नियम; आनुवंशिक संसाधन व संरक्षण; पुनर्योगज DNA; आणविक मार्कर; शुद्ध वंशक्रम, वंशावली, सामूहिक व आवर्ती चयन; संयोजन क्षमता; संकर ओज; कायिक संकरण; रोग-कीट प्रतिरोध प्रजनन; अंतरजातीय व अंतरवंशीय संकरण; आनुवंशिक अभियांत्रिकी व GM फसलें; CRISPR-Cas9 व जीनोम संपादन; द्विगुणित अगुणित; असंगजनन; जीनोमिक चयन, प्रेडिक्टिव व स्पीड ब्रीडिंग; ऊतक संवर्धन; जीनोमिक्स, प्रोटियोमिक्स व बायोइन्फॉर्मेटिक्स"
       ],
       [
-       "Seed production and processing, seed certification, DNA fingerprinting and seed registration, IPR and WTO issues",
-       "बीज उत्पादन व प्रसंस्करण, बीज प्रमाणीकरण, DNA फिंगरप्रिंटिंग व बीज पंजीकरण, IPR व WTO मुद्दे"
+       "Seed production and processing; seed certification, seed testing and storage; DNA fingerprinting and seed registration; role of public and private sectors in seed production and marketing; IPR and WTO issues",
+       "बीज उत्पादन व प्रसंस्करण; बीज प्रमाणीकरण, परीक्षण व भंडारण; DNA फिंगरप्रिंटिंग व बीज पंजीकरण; बीज उत्पादन व विपणन में सार्वजनिक-निजी क्षेत्र; IPR व WTO मुद्दे"
       ],
       [
-       "Plant physiology, soil-water-plant relationship, enzymes and pigments, photosynthesis, respiration, growth and development, photoperiodism, vernalization, plant growth substances, stress physiology",
-       "पादप कार्यिकी, मृदा-जल-पौधा संबंध, एंजाइम व वर्णक, प्रकाश-संश्लेषण, श्वसन, वृद्धि व विकास, दीप्तिकालिता, वसंतीकरण, पादप वृद्धि नियामक, तनाव कार्यिकी"
+       "Plant nutrition: absorption, translocation and metabolism of nutrients; soil-water-plant relationship",
+       "पादप पोषण: पोषक तत्वों का अवशोषण, स्थानांतरण व उपापचय; मृदा-जल-पौधा संबंध"
       ],
       [
-       "Fruits, plantation crops, vegetables, spices, flowers; protected cultivation and high-tech horticulture; medicinal and aromatic plants",
-       "फल, बागानी फसलें, सब्ज़ियाँ, मसाले, फूल; संरक्षित खेती व हाई-टेक उद्यानिकी; औषधीय व सुगंधित पौधे"
+       "Enzymes and plant pigments; photosynthesis (modern concepts and influencing factors); aerobic and anaerobic respiration; C3, C4 and CAM pathways; water, pH, carbohydrate, protein and fat metabolism; growth and development; photoperiodism and vernalization; plant growth substances; seed development, germination and dormancy; stress physiology (drought, salt and water-logging)",
+       "एंजाइम व पादप वर्णक; प्रकाश-संश्लेषण (आधुनिक अवधारणा व प्रभावी कारक); वायवीय व अवायवीय श्वसन; C3, C4 व CAM पथ; जल, pH, कार्बोहाइड्रेट, प्रोटीन व वसा उपापचय; वृद्धि व विकास; दीप्तिकालिता व वसंतीकरण; पादप वृद्धि नियामक; बीज विकास, अंकुरण व सुप्तावस्था; तनाव कार्यिकी (सूखा, लवण, जलभराव)"
       ],
       [
-       "Diagnosis of pests and diseases, integrated pest and disease management, storage pests, biological control, epidemiology and forecasting, pesticides and their mode of action",
-       "कीट-रोग पहचान, समन्वित कीट-रोग प्रबंधन, भंडारण कीट, जैविक नियंत्रण, रोग महामारी विज्ञान व पूर्वानुमान, कीटनाशी व उनकी क्रिया-विधि"
+       "Major fruits, plantation crops, vegetables, spices and flower crops with package of practices; protected cultivation and high-tech horticulture; post-harvest technology and value addition of fruits and vegetables; landscaping and commercial floriculture; medicinal and aromatic plants; role of fruits and vegetables in human nutrition",
+       "प्रमुख फल, बागानी फसलें, सब्ज़ियाँ, मसाले व फूल - उत्पादन तकनीक; संरक्षित खेती व हाई-टेक उद्यानिकी; तुड़ाई उपरांत तकनीक व फल-सब्ज़ी मूल्य संवर्धन; भूदृश्य व व्यावसायिक पुष्प उत्पादन; औषधीय व सुगंधित पौधे; मानव पोषण में फल-सब्ज़ियाँ"
       ],
       [
-       "Food science and technology: food processing, preservation, packaging, quality control, nutrition, functional foods, AI in food systems",
-       "खाद्य विज्ञान व प्रौद्योगिकी: प्रसंस्करण, परिरक्षण, पैकेजिंग, गुणवत्ता नियंत्रण, पोषण, कार्यात्मक खाद्य, खाद्य प्रणाली में AI"
+       "Diagnosis of pests and diseases of field crops, vegetables, orchard and plantation crops, their economic importance and classification; integrated pest and disease management; storage pests; biological control; epidemiology and forecasting; plant quarantine; pesticides, their formulations and modes of action",
+       "खेत फसलों, सब्ज़ियों, बागों व बागानी फसलों के कीट-रोगों की पहचान, आर्थिक महत्व व वर्गीकरण; समन्वित कीट-रोग प्रबंधन; भंडारण कीट; जैविक नियंत्रण; महामारी विज्ञान व पूर्वानुमान; पादप संगरोध; कीटनाशी, उनके फॉर्मूलेशन व क्रिया-विधि"
       ],
       [
-       "Food production and consumption trends in India, food security, Public Distribution System, nutrient deficiency",
-       "भारत में खाद्य उत्पादन व उपभोग की प्रवृत्ति, खाद्य सुरक्षा, सार्वजनिक वितरण प्रणाली, पोषक तत्वों की कमी"
+       "Food science and technology: physical, chemical and biological make-up of food; food processing, preservation and packaging; quality control; nutrition; cereal and fruit product technology; functional foods; sustainability; AI in food systems",
+       "खाद्य विज्ञान व प्रौद्योगिकी: भोजन की भौतिक, रासायनिक व जैविक संरचना; प्रसंस्करण, परिरक्षण व पैकेजिंग; गुणवत्ता नियंत्रण; पोषण; अनाज व फल उत्पाद तकनीक; कार्यात्मक खाद्य; टिकाऊपन; खाद्य प्रणाली में AI"
       ],
       [
-       "Biotechnology: cell biology, genetics, molecular biology, bioinformatics, genetic engineering",
-       "जैव-प्रौद्योगिकी: कोशिका विज्ञान, आनुवंशिकी, आणविक जीव विज्ञान, बायोइन्फॉर्मेटिक्स, आनुवंशिक अभियांत्रिकी"
+       "Food production and consumption trends in India; food security and population growth; grain surplus; national and international food policies; procurement, distribution and foodgrain availability; per capita food expenditure and poverty trends; Public Distribution System, BPL population and Targeted PDS; globalisation and processing constraints; National Dietary Guidelines and food-based dietary approaches; micronutrient deficiency and protein energy malnutrition; work capacity of women and children; foodgrain productivity",
+       "भारत में खाद्य उत्पादन व उपभोग की प्रवृत्ति; खाद्य सुरक्षा व जनसंख्या वृद्धि; अनाज अधिशेष; राष्ट्रीय व अंतरराष्ट्रीय खाद्य नीतियाँ; खरीद, वितरण व खाद्यान्न उपलब्धता; प्रति व्यक्ति खाद्य व्यय व गरीबी; सार्वजनिक वितरण प्रणाली, BPL व लक्षित PDS; वैश्वीकरण व प्रसंस्करण बाधाएँ; राष्ट्रीय आहार दिशानिर्देश; सूक्ष्म पोषक कमी व प्रोटीन-ऊर्जा कुपोषण; महिलाओं-बच्चों की कार्य क्षमता; खाद्यान्न उत्पादकता"
       ],
       [
-       "Food microbiology, food chemistry, food processing techniques, food safety, engineering in food business",
-       "खाद्य सूक्ष्मजीव विज्ञान, खाद्य रसायन, खाद्य प्रसंस्करण तकनीक, खाद्य सुरक्षा, खाद्य व्यवसाय में अभियांत्रिकी"
+       "Biotechnology: cell biology, genetics, molecular biology, bioinformatics and genetic engineering",
+       "जैव-प्रौद्योगिकी: कोशिका विज्ञान, आनुवंशिकी, आणविक जीव विज्ञान, बायोइन्फॉर्मेटिक्स व आनुवंशिक अभियांत्रिकी"
+      ],
+      [
+       "Food microbiology and food chemistry; food processing techniques - production, processing and preservation; food safety; principles of food science and fundamentals of food technology; epidemiology; engineering in food business",
+       "खाद्य सूक्ष्मजीव विज्ञान व खाद्य रसायन; खाद्य प्रसंस्करण तकनीक - उत्पादन, प्रसंस्करण व परिरक्षण; खाद्य सुरक्षा; खाद्य विज्ञान के सिद्धांत व खाद्य प्रौद्योगिकी के मूल तत्व; महामारी विज्ञान; खाद्य व्यवसाय में अभियांत्रिकी"
       ]
      ]
     }
    ],
    "verified": "official",
-   "note": "Exam scheme और syllabus ICAR के आधिकारिक कार्यालय ज्ञापन (icar.org.in) से मिलाया गया है। पद संख्या व तिथियाँ ASRB अधिसूचना से asrb.gov.in पर ज़रूर मिलाएँ।"
+   "note": "Scheme व syllabus ICAR कार्यालय ज्ञापन F.No. TS-19(6)/2024-Estt.IV दिनांक 28.09.2026 (icar.org.in) से मिलाया गया है; Paper II में आधिकारिक 20 इकाइयाँ हैं (पिछले संस्करण में इकाई 13-14 एक साथ थीं)। पद संख्या व तिथियाँ ASRB अधिसूचना F.No. 2(2)/2025-Exam दिनांक 11.11.2026 से मिलाएँ।"
   },
   {
    "id": "ibps-afo",

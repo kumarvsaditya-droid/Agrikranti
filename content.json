@@ -19,7 +19,7 @@
   "jobGroup": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2"
  },
  "notice": {
-  "text": "🆕 Bihar FSO Test Series लॉन्च! पहले 2 Full Mock Test FREE, पूरी Series सिर्फ ₹149",
+  "text": "🆕 ICAR T-3 & T-4 Agriculture 30 Days Full Mock Test Series लॉन्च! Test 01 (Paper I + Paper II) FREE, पूरी Series सिर्फ ₹149",
   "link": "",
   "linkText": ""
  },
@@ -50,6 +50,15 @@
    "price": 99,
    "cover": "BHUMI<br>SUPOSHAN",
    "enc": "ebooks/enc/bookmwdw1xzo.bin"
+  },
+  {
+   "id": "icarts",
+   "kind": "tests",
+   "title": "ICAR T-3 & T-4 Agriculture - 30 Days Full Mock Test Series",
+   "sub": "ASRB 2026-27 · हर टेस्ट में Paper I + Paper II · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
+   "pages": 0,
+   "price": 149,
+   "cover": "ICAR<br>T-3 T-4"
   },
   {
    "id": "fsots",
@@ -92,6 +101,10 @@
   }
  },
  "series": [
+  {
+   "id": "icar-t3t4",
+   "name": "ICAR T-3/T-4 Full Mock"
+  },
   {
    "id": "bihar-fso",
    "name": "Bihar FSO Test Series"
