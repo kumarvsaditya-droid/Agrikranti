@@ -120,6 +120,10 @@
  ],
  "banners": [
   {
+   "img": "img/banner-icar.jpg",
+   "go": "tests:icar-t3t4"
+  },
+  {
    "img": "img/banner-fso.jpg",
    "go": "tests:bihar-fso"
   },
