@@ -114,6 +114,11 @@ ul.rules{margin:0;padding-left:18px;color:var(--muted);font-size:14px}
 .opt b{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font-size:14px}
 .opt.sel{border-color:var(--green);background:rgba(63,207,94,.12)}
 .opt.sel b{background:var(--green);color:#06210e}
+.opt.ok{border-color:var(--ok);background:rgba(79,211,106,.16)}.opt.ok b{background:var(--ok);color:#06210e}
+.opt.bad{border-color:var(--bad);background:rgba(255,107,107,.14)}.opt.bad b{background:var(--bad);color:#2a0606}.opt.lock{cursor:default}
+.instsol{margin-top:12px;border-radius:12px;padding:10px 12px;border:1.5px solid var(--line)}.instsol.ok{border-color:var(--ok)}.instsol.bad{border-color:var(--bad)}
+.instsol .vh{font-weight:800;font-size:16px}.instsol.ok .vh{color:var(--ok)}.instsol.bad .vh{color:var(--bad)}
+.flist{margin:4px 0 0;padding-left:18px}.flist li{margin:6px 0;line-height:1.45}
 .qnav{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
 .pal{display:grid;grid-template-columns:repeat(auto-fill,minmax(40px,1fr));gap:6px}
 .pal button{height:40px;border-radius:9px;border:1.5px solid var(--line);background:var(--card2);color:var(--ink);font-weight:800;cursor:pointer}
@@ -817,6 +822,10 @@ function testCard(t){
   return '<div class="card tcard"><div class="tnum">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(t))+'</h3><div class="chips"><span class="chip">'+t.questions.length+' प्रश्न</span><span class="chip">'+maxMarks(t)+' अंक</span><span class="chip">'+TD(t)+' मिनट</span>'+(TN(t)?'<span class="chip">-'+TN(t)+' negative</span>':'')+(t.free?'<span class="chip done">FREE</span>':'')+(b?'<span class="chip done">Best '+b.score+'/'+b.max+'</span>':'')+'</div>'
     +'<div class="row"><button class="btn" data-start="'+t.id+'">'+(b?'फिर से दें':'टेस्ट शुरू करें')+'</button>'+(b?'<button class="btn ghost" data-review="'+t.id+'">उत्तर देखें</button>':'')+(CONFIG.backendUrl?'<button class="btn ghost" data-lb="'+t.id+'">Leaderboard</button>':'')+'</div></div></div>';
 }
+var INST_SERIES={ganna10:1,sugarcane:1};
+function instOf(t){ return !!(t&&(t.inst||INST_SERIES[t.series])); }
+function factsOf(q){ var L=[]; if(q.x) L.push(q.x.replace(/\n\s*उत्तर\s*:\s*/,' → ')); (q.f||[]).forEach(function(f){ L.push(f); }); return L; }
+function factBox(q){ var L=factsOf(q); if(!L.length) return ''; return '<div class="expbox"><b>🎯 इससे जुड़े परीक्षा-उपयोगी तथ्य (Related Exam Facts)</b><ul class="flist">'+L.map(function(f){ return '<li>'+fmt(f)+'</li>'; }).join('')+'</ul></div>'; }
 function seriesOf(t){ return t.series||(SERIES[0]&&SERIES[0].id); }
 var TS_OPEN=null;
 function seriesBanner(id){ return (window.BANNERS||[]).filter(function(b){ return b.go==='tests:'+id && b.img; })[0]; }
@@ -880,7 +889,7 @@ function register(testId){
 function rules(t){
   var p=profile();
   var h=topbar()+'<main class="page"><div class="card" style="display:flex;flex-direction:column;gap:12px"><div class="row"><div class="tnum">'+t.id.replace(/^[A-Z]+/,'')+'</div><div style="flex:1;min-width:0"><b>'+esc(topicOf(t))+'</b><div class="muted small">'+esc(p.name)+' · '+esc(p.mobile)+'</div></div></div>'
-    +'<ul class="rules"><li>'+t.questions.length+' प्रश्न, कुल '+maxMarks(t)+' अंक, समय '+TD(t)+' मिनट।</li><li>हर सही उत्तर पर '+TM(t)+' अंक'+(TN(t)?', गलत पर -'+TN(t):', गलत पर कोई कटौती नहीं')+'।</li>'+(t.fixed?'<li>प्रश्न असली परीक्षा की तरह विषय-क्रम में आएँगे।</li>':'<li>प्रश्न और विकल्प हर बार अलग क्रम में आएँगे।</li>')+'<li>समय पूरा होते ही टेस्ट अपने आप submit होगा। बीच में ऐप बंद हो जाए तो वहीं से जारी रख सकते हैं।</li></ul>'
+    +'<ul class="rules"><li>'+t.questions.length+' प्रश्न, कुल '+maxMarks(t)+' अंक, समय '+TD(t)+' मिनट।</li><li>हर सही उत्तर पर '+TM(t)+' अंक'+(TN(t)?', गलत पर -'+TN(t):', गलत पर कोई कटौती नहीं')+'।</li>'+(instOf(t)?'<li><b>नया पैटर्न:</b> विकल्प चुनते ही सही उत्तर, छोटी व्याख्या और उससे जुड़े परीक्षा-उपयोगी तथ्य वहीं दिख जाएँगे। एक बार चुना उत्तर बदला नहीं जा सकेगा।</li>':'')+(t.fixed?'<li>प्रश्न असली परीक्षा की तरह विषय-क्रम में आएँगे।</li>':'<li>प्रश्न और विकल्प हर बार अलग क्रम में आएँगे।</li>')+'<li>समय पूरा होते ही टेस्ट अपने आप submit होगा। बीच में ऐप बंद हो जाए तो वहीं से जारी रख सकते हैं।</li></ul>'
     +'<button class="btn gold block" id="go">टेस्ट शुरू करें</button><button class="btn ghost block" id="bk">वापस</button></div></main>';
   app.innerHTML=h;
   document.getElementById('go').onclick=function(){ go('quiz',{testId:t.id}); };
@@ -909,20 +918,25 @@ function renderQ(){
   var SC=S.test.secs; if(SC&&S.test.fixed){ var cs=0; SC.forEach(function(x,k){ if(S.cur>=x.f) cs=k; });
     h+='<div class="pills" style="padding:8px 12px 0;margin:0">'+SC.map(function(x,k){ var to=k<SC.length-1?SC[k+1].f:n, dn=0; for(var j=x.f;j<to;j++){ if(S.answers[S.order[j]]!==undefined) dn++; } return '<button class="pill'+(k===cs?' on':'')+'" data-sec="'+x.f+'">'+esc(x.n)+' <i>'+dn+'/'+(to-x.f)+'</i></button>'; }).join('')+'</div>'; }
   h+='<main class="page"><div class="card"><div class="muted small" style="font-weight:700">प्रश्न '+(S.cur+1)+' / '+n+' · '+done+' हल किए</div><div class="qtext">'+fmt(q.q)+'</div><div class="opts">';
-  S.optOrder[qi].forEach(function(oi,k){ h+='<button class="opt'+(S.answers[qi]===oi?' sel':'')+'" data-o="'+oi+'"><b>'+'ABCDE'[k]+'</b><span>'+fmt(q.o[oi])+'</span></button>'; });
-  h+='</div><div class="qnav"><button class="btn ghost" id="pv"'+(S.cur===0?' disabled':'')+'>पिछला</button><button class="btn ghost" id="mk">'+(S.marks[qi]?'Unmark':'Review')+'</button><button class="btn" id="nx">'+(S.cur===n-1?'अंतिम':'अगला')+'</button></div>'
-    +'<div class="row" style="margin-top:8px"><button class="btn ghost" id="cl" style="min-height:38px;padding:6px 12px">उत्तर हटाएं</button></div></div>';
+  var IM=instOf(S.test), AN=S.answers[qi]!==undefined&&S.answers[qi]!==null, LK=IM&&AN;
+  S.optOrder[qi].forEach(function(oi,k){ var cl=LK?(oi===q.a?' ok lock':(S.answers[qi]===oi?' bad lock':' lock')):(S.answers[qi]===oi?' sel':''); h+='<button class="opt'+cl+'" data-o="'+oi+'"><b>'+'ABCDE'[k]+'</b><span>'+fmt(q.o[oi])+'</span></button>'; });
+  h+='</div>';
+  if(LK){ var okk=Number(S.answers[qi])===q.a, ck='ABCDE'[S.optOrder[qi].indexOf(q.a)];
+    h+='<div class="instsol '+(okk?'ok':'bad')+'"><div class="vh">'+(okk?'✔ सही उत्तर!':'✘ गलत उत्तर')+'</div>'+(okk?'':'<div style="margin-top:2px">सही उत्तर: <b style="color:var(--ok)">('+ck+') '+fmt(q.o[q.a])+'</b></div>')
+      +(q.e?'<div class="solbox"><b>📘 व्याख्या (Explanation)</b><div>'+fmt(q.e)+'</div></div>':'')+factBox(q)+'</div>'; }
+  h+='<div class="qnav"><button class="btn ghost" id="pv"'+(S.cur===0?' disabled':'')+'>पिछला</button><button class="btn ghost" id="mk">'+(S.marks[qi]?'Unmark':'Review')+'</button><button class="btn" id="nx">'+(S.cur===n-1?'अंतिम':'अगला')+'</button></div>'
+    +(IM?'':'<div class="row" style="margin-top:8px"><button class="btn ghost" id="cl" style="min-height:38px;padding:6px 12px">उत्तर हटाएं</button></div>')+'</div>';
   h+='<div class="card" style="display:flex;flex-direction:column;gap:10px"><div class="legend"><span style="--c:var(--green-d)">हल किया</span><span style="--c:var(--gold)">Review</span><span style="--c:var(--line)">बाकी</span></div><div class="pal">';
   S.order.forEach(function(qq,k){ h+='<button data-g="'+k+'" class="'+(S.answers[qq]!==undefined?'ans ':'')+(S.marks[qq]?'mark ':'')+(k===S.cur?'cur':'')+'">'+(k+1)+'</button>'; });
   h+='</div></div></main>';
   app.innerHTML=h;
-  app.querySelectorAll('.opt').forEach(function(b){ b.onclick=function(){ S.answers[qi]=Number(b.getAttribute('data-o')); save(); renderQ(); }; });
+  app.querySelectorAll('.opt').forEach(function(b){ b.onclick=function(){ if(LK) return; S.answers[qi]=Number(b.getAttribute('data-o')); save(); renderQ(); }; });
   app.querySelectorAll('[data-g]').forEach(function(b){ b.onclick=function(){ S.cur=Number(b.getAttribute('data-g')); save(); renderQ(); window.scrollTo(0,0); }; });
   app.querySelectorAll('[data-sec]').forEach(function(b){ b.onclick=function(){ S.cur=Number(b.getAttribute('data-sec')); save(); renderQ(); window.scrollTo(0,0); }; });
   document.getElementById('pv').onclick=function(){ if(S.cur>0){S.cur--; save(); renderQ(); window.scrollTo(0,0);} };
   document.getElementById('nx').onclick=function(){ if(S.cur<n-1){S.cur++; save(); renderQ(); window.scrollTo(0,0);} else confirmSubmit(); };
   document.getElementById('mk').onclick=function(){ S.marks[qi]=!S.marks[qi]; save(); renderQ(); };
-  document.getElementById('cl').onclick=function(){ delete S.answers[qi]; save(); renderQ(); };
+  var clb=document.getElementById('cl'); if(clb) clb.onclick=function(){ delete S.answers[qi]; save(); renderQ(); };
   document.getElementById('sub').onclick=confirmSubmit;
 }
 function confirmSubmit(){
@@ -1006,7 +1020,7 @@ function solHTML(t,res,i){
   q.o.forEach(function(o,k){ var cl=k===q.a?'ok':(k===ch?'bad':''); h+='<div class="sopt '+cl+'"><b>'+'ABCDE'[k]+'</b><span>'+fmt(o)+'</span>'+(k===q.a?'<em>सही उत्तर</em>':(k===ch?'<em>आपका उत्तर</em>':''))+'</div>'; });
   h+='</div>'+(st==='skip'?'<p class="small" style="color:#b9c4bc;margin:8px 0 0">आपने यह प्रश्न छोड़ा था। सही उत्तर: <b style="color:var(--ok)">'+fmt(q.o[q.a])+'</b></p>':'')
     +'<div class="solbox"><b>📘 विस्तृत व्याख्या</b><div>'+fmt(q.e||'')+'</div></div>';
-  if(q.x) h+='<div class="expbox"><b>🎯 संभावित परीक्षा प्रश्न (Expected Question)</b><div>'+fmt(q.x)+'</div></div>';
+  if(instOf(t)) h+=factBox(q); else if(q.x) h+='<div class="expbox"><b>🎯 संभावित परीक्षा प्रश्न (Expected Question)</b><div>'+fmt(q.x)+'</div></div>';
   if(q.src) h+='<div class="small" style="margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:10px"><b>📚 Source / संदर्भ:</b> '+esc(q.src)+(q.lv||q.cls?'<div class="muted" style="margin-top:2px">'+esc([q.lv,q.cls].filter(Boolean).join(' · '))+'</div>':'')+'</div>';
   return h;
 }
