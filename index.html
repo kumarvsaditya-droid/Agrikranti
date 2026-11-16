@@ -394,7 +394,7 @@ function topbar(extra){ var c=curCat(), n=(NOTICE?1:0)+jobsNew(); if(n>9) n='9+'
   return '<header class="topbar tb2"><div class="in"><button class="hb" data-menu="1" aria-label="Menu">'+SV.menu+'</button><button class="catbtn" data-cat="1"><img src="icons/logo.png" alt=""><span>'+esc(c.name)+'</span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button><div class="sp"></div>'+(extra||'')+'<button class="bell" data-upd="1" aria-label="सूचनाएँ">'+SV.bell+(n?'<i>'+n+'</i>':'')+'</button></div></header>'; }
 document.addEventListener('click',function(e){ if(!e.target.closest) return; var t=e.target.closest('[data-share]'); if(t){ e.preventDefault(); shareApp(); return; }
   if(e.target.closest('[data-menu]')){ openDrawer(); return; } if(e.target.closest('[data-cat]')){ go('cats'); return; } if(e.target.closest('[data-upd]')){ go('updates'); return; }
-  var g=e.target.closest('[data-goto]'); if(g){ e.preventDefault(); var v=g.getAttribute('data-goto'); if(v==='share') shareApp(); else if(v.indexOf('tests:')===0){ set('series',v.slice(6)); go('tests',v.slice(6)); } else go(v); } });
+  var g=e.target.closest('[data-goto]'); if(g){ e.preventDefault(); var v=g.getAttribute('data-goto'); if(v==='share') shareApp(); else if(v.indexOf('tests:')===0){ set('series',v.slice(6)); go('tests',v.slice(6)); } else { if(v==='tests') TS_OPEN=null; go(v); } } });
 function setNav(on){ document.getElementById('nav').hidden=!on; }
 function activeTab(t){ if(t==='semester'||t==='results'||t==='profile') t=''; document.querySelectorAll('.nav button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go')===t); }); }
 var ICON={
@@ -444,6 +444,7 @@ function go(view, arg){
 
 /* Android back button: pehle khula popup band, phir Home, phir app band */
 window.akBack=function(){ var ov=document.querySelectorAll('.overlay,.reader'); if(ov.length){ ov[ov.length-1].remove(); return true; }
+  if(typeof CURV!=='undefined' && CURV==='tests' && TS_OPEN){ TS_OPEN=null; window.scrollTo(0,0); seriesHub(); return true; }
   if(typeof CURV!=='undefined' && CURV && CURV!=='home' && CURV!=='quiz'){ go('home'); return true; } if(CURV==='quiz'){ return true; } return false; };
 /* Security deterrent: right-click / long-press menu, save / print / source / devtools shortcut band */
 document.addEventListener('contextmenu',function(e){ if(!/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) e.preventDefault(); });
@@ -453,7 +454,7 @@ document.addEventListener('keydown',function(e){ var k=(e.key||'').toLowerCase()
 document.addEventListener('keyup',function(e){ if((e.key||'')==='PrintScreen'){ try{ navigator.clipboard.writeText(''); }catch(x){} } });
 window.addEventListener('beforeprint',function(){ document.body.style.visibility='hidden'; });
 window.addEventListener('afterprint',function(){ document.body.style.visibility=''; });
-document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ var v=b.getAttribute('data-go'); if(v==='wa'){ window.open(CONFIG.whatsapp,'_blank','noopener'); return; } go(v); }; });
+document.querySelectorAll('.nav button').forEach(function(b){ b.onclick=function(){ var v=b.getAttribute('data-go'); if(v==='wa'){ window.open(CONFIG.whatsapp,'_blank','noopener'); return; } if(v==='tests') TS_OPEN=null; go(v); }; });
 
 /* ===== Login / Logout ===== */
 function devId(){ var d=get('dev',''); if(!d){ d=Date.now().toString(36)+Math.random().toString(36).slice(2,10); set('dev',d); } return d; }
@@ -817,12 +818,28 @@ function testCard(t){
     +'<div class="row"><button class="btn" data-start="'+t.id+'">'+(b?'फिर से दें':'टेस्ट शुरू करें')+'</button>'+(b?'<button class="btn ghost" data-review="'+t.id+'">उत्तर देखें</button>':'')+(CONFIG.backendUrl?'<button class="btn ghost" data-lb="'+t.id+'">Leaderboard</button>':'')+'</div></div></div>';
 }
 function seriesOf(t){ return t.series||(SERIES[0]&&SERIES[0].id); }
+var TS_OPEN=null;
+function seriesBanner(id){ return (window.BANNERS||[]).filter(function(b){ return b.go==='tests:'+id && b.img; })[0]; }
+function seriesCount(id){ var pk=packOf(id); return TESTS.filter(function(t){return seriesOf(t)===id;}).length+(pk?pk.stubs.filter(function(st){return !testById(st.id);}).length:0); }
+/* Test Series hub: pehle har exam ka banner, tap karne par us exam ke saare mock test */
+function seriesHub(){
+  var h=topbar()+'<main class="page"><h2 class="sec">Test <span>Series</span></h2><p class="muted small" style="margin:-4px 0 4px">अपना exam चुनें, banner पर tap करते ही उसके सारे Mock Test खुल जाएँगे।</p>';
+  SERIES.forEach(function(x){ var b=seriesBanner(x.id), n=seriesCount(x.id);
+    if(b) h+='<div class="card" data-sr="'+esc(x.id)+'" style="cursor:pointer;padding:0;overflow:hidden"><img src="'+esc(b.img)+'" alt="" style="display:block;width:100%;height:auto"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;padding:10px 14px"><b style="min-width:0">'+esc(x.name)+'</b><span class="btn gold" style="white-space:nowrap;font-size:14px;padding:8px 12px">'+n+' Mock देखें →</span></div></div>';
+    else h+='<div class="card" data-sr="'+esc(x.id)+'" style="cursor:pointer;padding:14px;border:2px solid var(--gold);background:radial-gradient(120% 140% at 100% 0%,#1d4a22 0%,var(--card) 60%)"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:10px"><div style="min-width:0"><b style="font-size:17px">'+esc(x.name)+'</b><div class="muted small">'+n+' Mock Test</div></div><span class="btn gold" style="white-space:nowrap;font-size:14px;padding:8px 12px">खोलें →</span></div></div>';
+  });
+  h+='</main>'; app.innerHTML=h; bindCommon();
+  app.querySelectorAll('[data-sr]').forEach(function(b){ b.onclick=function(){ var id=b.getAttribute('data-sr'); set('series',id); window.scrollTo(0,0); tests(id); }; });
+}
 function tests(sid){
   activeTab('tests');
-  var cur=sid||get('series',SERIES[0].id); if(!SERIES.some(function(x){return x.id===cur;})) cur=SERIES[0].id;
+  if(sid) TS_OPEN=sid;
+  if(!TS_OPEN || !SERIES.some(function(x){return x.id===TS_OPEN;})){ TS_OPEN=null; return seriesHub(); }
+  var cur=TS_OPEN;
   var list=TESTS.filter(function(t){ return seriesOf(t)===cur; }), sr=SERIES.filter(function(x){return x.id===cur;})[0];
   var h=topbar()+'<main class="page"><h2 class="sec">Test <span>Series</span></h2>';
-  h+='<div class="pills">'+SERIES.map(function(x){ var pk=packOf(x.id), n=TESTS.filter(function(t){return seriesOf(t)===x.id;}).length+(pk?pk.stubs.filter(function(st){return !testById(st.id);}).length:0); return '<button class="pill'+(x.id===cur?' on':'')+'" data-sr="'+esc(x.id)+'">'+esc(x.name)+' <i>'+n+'</i></button>'; }).join('')+'</div>';
+  h+='<button class="btn ghost" id="tsAll" style="margin-bottom:4px">← सभी Test Series</button>';
+  var bn=seriesBanner(cur); if(bn) h+='<div class="card" style="padding:0;overflow:hidden"><img src="'+esc(bn.img)+'" alt="" style="display:block;width:100%;height:auto"></div>';
   h+='<div class="card" style="padding:12px 14px;background:radial-gradient(120% 140% at 100% 0%,#1d3a22 0%,var(--card) 60%)"><b style="color:var(--gold)">'+esc(sr.name)+'</b><div class="muted small">'+(cur==='icar-t3t4'?'ASRB 2026-27 · हर टेस्ट में Paper I (100 प्रश्न, 100 अंक, 60 मिनट, -0.25) और Paper II (100 प्रश्न, 300 अंक, 120 मिनट, -1) अलग-अलग · Powered by Aditya Kumar (Gold Medalist)':cur==='sugarcane'?'UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी · ':cur==='bihar-fso'?'BTSC खाद्य संरक्षा पदाधिकारी (Advt. 29/2026) · असली परीक्षा पैटर्न · ':'')+(list[0]&&cur!=='icar-t3t4'?'हर टेस्ट: '+list[0].questions.length+' प्रश्न × '+TM(list[0])+' अंक = '+maxMarks(list[0])+' अंक · '+TD(list[0])+' मिनट':'')+'</div></div>';
   var pk=packOf(cur);
   if(pk){ var po=packOpen(pk.pack);
@@ -833,7 +850,7 @@ function tests(sid){
   list.forEach(function(t){ h+=testCard(t); });
   if(pk) pk.stubs.forEach(function(st){ if(!testById(st.id)) h+=stubCard(st,pk); });
   h+='</main>'; app.innerHTML=h; bindCommon();
-  app.querySelectorAll('[data-sr]').forEach(function(b){ b.onclick=function(){ set('series',b.getAttribute('data-sr')); tests(b.getAttribute('data-sr')); }; });
+  var ta=document.getElementById('tsAll'); if(ta) ta.onclick=function(){ TS_OPEN=null; window.scrollTo(0,0); seriesHub(); };
   app.querySelectorAll('[data-buy]').forEach(function(x){ x.onclick=function(){ buyBook(x.getAttribute('data-buy')); }; });
   if(pk && packOpen(pk.pack) && pk.stubs.some(function(st){ return st.ready&&st.rel<=todayIST()&&!testById(st.id)&&!PACK_LOADING[st.id]&&!(PACK_TRIED[st.id]>2); })) loadPacks().then(function(){ if(CURV==='tests') tests(cur); });
 }
