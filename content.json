@@ -19,7 +19,7 @@
   "jobGroup": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2"
  },
  "notice": {
-  "text": "🆕 ICAR T-3 & T-4 Agriculture 30 Days Full Mock Test Series लॉन्च! Test 01 (Paper I + Paper II) FREE, पूरी Series सिर्फ ₹149",
+  "text": "🎯 UPSSSC Sugarcane Supervisor (गन्ना पर्यवेक्षक): सभी 10 Model Paper + 10 Topic Test एकदम FREE! अभी App में टेस्ट दें",
   "link": "",
   "linkText": ""
  },
@@ -102,23 +102,31 @@
  },
  "series": [
   {
-   "id": "icar-t3t4",
-   "name": "ICAR T-3/T-4 Full Mock"
-  },
-  {
-   "id": "bihar-fso",
-   "name": "Bihar FSO Test Series"
-  },
-  {
    "id": "ganna10",
    "name": "Sugarcane Supervisor - 10 Model Papers"
   },
   {
    "id": "sugarcane",
    "name": "Sugarcane Supervisor Test Series"
+  },
+  {
+   "id": "icar-t3t4",
+   "name": "ICAR T-3/T-4 Full Mock"
+  },
+  {
+   "id": "bihar-fso",
+   "name": "Bihar FSO Test Series"
   }
  ],
  "banners": [
+  {
+   "img": "img/banner-ganna.jpg",
+   "go": "tests:ganna10"
+  },
+  {
+   "img": "img/banner-ganna-tests.jpg",
+   "go": "tests:sugarcane"
+  },
   {
    "img": "img/banner-icar.jpg",
    "go": "tests:icar-t3t4"
