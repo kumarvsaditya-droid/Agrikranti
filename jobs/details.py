@@ -1,6 +1,6 @@
 """Har nayi job khabar ka poora article padh kar Gemini se details nikalta hai (pad, yogyata, umar, fees, tithi...).
 Sirf wahi details rakhta hai jo article/notice mein likhi hain. jobs.json ke item mein 'd' (details) aur 'durl' (asli article link) jodta hai."""
-import json, re, os, base64, html, time, urllib.request, urllib.parse
+import json, re, os, base64, html, time, urllib.request, urllib.parse, urllib.error
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'}
@@ -139,7 +139,10 @@ def pick(title, text, n=2400):
 def backend(url, title, text):
     ctx = 'Headline: ' + title + ('\n' + pick(title, text) if text else '\n(Article nahi mila - sirf headline se summary do, baaki sab null)')
     body = json.dumps({'q': BQ, 'context': ctx[:2500]}).encode()
-    raw = get(url, body, {'Content-Type': 'text/plain;charset=utf-8'}, 90)[0]
+    try:
+        raw = get(url, body, {'Content-Type': 'text/plain;charset=utf-8'}, 90)[0]
+    except urllib.error.HTTPError as e:
+        raise ValueError('backend HTTP %s %s %s' % (e.code, (e.geturl() or '')[:70], e.read()[:150]))
     j = json.loads(raw)
     if j.get('error'): raise ValueError('backend: ' + str(j['error'])[:100])
     t = j.get('answer', '')
@@ -178,6 +181,10 @@ def enrich(items, now):
     k, bu = key(), backend_url()
     if not k and not bu: print('details: na Gemini key, na AI backend - skip'); return 0
     print('details: ' + ('Gemini key' if k else 'Agrikranti AI backend') + ' se', flush=True)
+    if not k:
+        try: r = get(bu, timeout=30); print('backend check:', r[1][:60], r[0][:120], flush=True)
+        except urllib.error.HTTPError as e: print('backend check HTTP', e.code, (e.geturl() or '')[:80], e.read()[:200], flush=True)
+        except Exception as e: print('backend check ERR', repr(e)[:150], flush=True)
     todo = [x for x in items if ('d' not in x or (x['d'] and 'summary' not in x['d'])) and x.get('dtry', 0) < MAX_TRIES and now - x['ts'] <= 20 * 86400]
     todo.sort(key=lambda x: (0 if (x.get('region') and not x.get('uni')) else (1 if x.get('uni') else 2), -x['ts']))   # pehle UP/Bihar, phir University, phir baaki
     done, t0 = 0, time.time()
@@ -187,7 +194,10 @@ def enrich(items, now):
         x['dtry'] = x.get('dtry', 0) + 1
         text, pdf, final = None, None, None
         try:
-            url = gnews_decode(x['link'])
+            try: url = gnews_decode(x['link'])
+            except urllib.error.HTTPError as e:
+                if e.code != 429: raise
+                time.sleep(25); url = gnews_decode(x['link'])
             raw, final, ctype = get(url, timeout=20)
             pdf = raw if ('pdf' in ctype.lower() or final.lower().split('?')[0].endswith('.pdf')) else None
             if pdf and len(pdf) > 15 * 1024 * 1024: raise ValueError('PDF bahut bada')
@@ -207,6 +217,6 @@ def enrich(items, now):
             x['d'] = clean(d); done += 1
             print('details OK', len(x['d']), x['title'][:70], flush=True)
         except Exception as e:
-            print('details ERR', x['title'][:60], '-', repr(e)[:160], flush=True)
-        time.sleep(2)
+            print('details ERR', x['title'][:60], '-', repr(e)[:220], flush=True)
+        time.sleep(5)
     return done
