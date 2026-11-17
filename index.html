@@ -343,7 +343,7 @@ function trackOpen(){
 window.addEventListener('appinstalled',function(){ if(!get('inst',0)){ set('inst',1); hit('installs'); } });
 document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href$=".pdf"]'); if(a) hit('pdf-opens'); });
 
-var SERIES=[{id:'icar-t3t4',name:'ICAR T-3/T-4 Full Mock'},{id:'bihar-fso',name:'Bihar FSO Test Series'},{id:'ganna10',name:'Sugarcane Supervisor - 10 Model Papers'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'}];
+var SERIES=[{id:'ganna10',name:'Sugarcane Supervisor - 10 Model Papers'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'},{id:'icar-t3t4',name:'ICAR T-3/T-4 Full Mock'},{id:'bihar-fso',name:'Bihar FSO Test Series'}];
 /* ================= helpers ================= */
 var app = document.getElementById('app');
 function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:'#'; }
@@ -576,6 +576,9 @@ function home(){
   var next = TESTS.filter(function(t){ return !done[t.id]; })[0] || TESTS[0];
   var h=topbar(installBtnHtml())+'<main class="page">';
   h+='<div class="hello">Hello, '+esc(p?p.name:'Student')+' 👋</div>';
+  /* 📌 Pinned: Sugarcane Supervisor - sab Model Paper FREE */
+  var gn=TESTS.filter(function(t){return t.series==='ganna10'||t.series==='sugarcane';}).length;
+  if(gn) h+='<div class="card" data-goto="tests:ganna10" style="cursor:pointer;padding:0;overflow:hidden;border:2px solid var(--gold)"><img src="img/banner-ganna.jpg" alt="Sugarcane Supervisor FREE Model Papers" style="display:block;width:100%;height:auto"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;padding:10px 14px"><div style="min-width:0"><div class="small" style="color:var(--gold);font-weight:800">📌 UPSSSC गन्ना पर्यवेक्षक 2026</div><b>सभी '+gn+' Model Paper + Test एकदम FREE</b></div><span class="btn gold" style="white-space:nowrap">FREE टेस्ट दें →</span></div></div>';
   /* 📌 Pinned: ICAR T-3/T-4 Full Mock Test Series */
   var ipk=packOf('icar-t3t4');
   if(ipk){ var io=packOpen(ipk.pack);
@@ -824,7 +827,7 @@ function linksPage(){
 /* ================= Tests ================= */
 function testCard(t){
   var b=bestFor(t.id), n=t.id.replace(/^[A-Z]+/,'');
-  return '<div class="card tcard"><div class="tnum">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(t))+'</h3><div class="chips"><span class="chip">'+t.questions.length+' प्रश्न</span><span class="chip">'+maxMarks(t)+' अंक</span><span class="chip">'+TD(t)+' मिनट</span>'+(TN(t)?'<span class="chip">-'+TN(t)+' negative</span>':'')+(t.free?'<span class="chip done">FREE</span>':'')+(b?'<span class="chip done">Best '+b.score+'/'+b.max+'</span>':'')+'</div>'
+  return '<div class="card tcard"><div class="tnum">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(t))+'</h3><div class="chips"><span class="chip">'+t.questions.length+' प्रश्न</span><span class="chip">'+maxMarks(t)+' अंक</span><span class="chip">'+TD(t)+' मिनट</span>'+(TN(t)?'<span class="chip">-'+TN(t)+' negative</span>':'')+((t.free||INST_SERIES[t.series])?'<span class="chip done">FREE</span>':'')+(b?'<span class="chip done">Best '+b.score+'/'+b.max+'</span>':'')+'</div>'
     +'<div class="row"><button class="btn" data-start="'+t.id+'">'+(b?'फिर से दें':'टेस्ट शुरू करें')+'</button>'+(b?'<button class="btn ghost" data-review="'+t.id+'">उत्तर देखें</button>':'')+(CONFIG.backendUrl?'<button class="btn ghost" data-lb="'+t.id+'">Leaderboard</button>':'')+'</div></div></div>';
 }
 var INST_SERIES={ganna10:1,sugarcane:1};
@@ -855,6 +858,8 @@ function tests(sid){
   h+='<button class="btn ghost" id="tsAll" style="margin-bottom:4px">← सभी Test Series</button>';
   var bn=seriesBanner(cur); if(bn) h+='<div class="card" style="padding:0;overflow:hidden"><img src="'+esc(bn.img)+'" alt="" style="display:block;width:100%;height:auto"></div>';
   h+='<div class="card" style="padding:12px 14px;background:radial-gradient(120% 140% at 100% 0%,#1d3a22 0%,var(--card) 60%)"><b style="color:var(--gold)">'+esc(sr.name)+'</b><div class="muted small">'+(cur==='icar-t3t4'?'ASRB 2026-27 · हर टेस्ट में Paper I (100 प्रश्न, 100 अंक, 60 मिनट, -0.25) और Paper II (100 प्रश्न, 300 अंक, 120 मिनट, -1) अलग-अलग · Powered by Aditya Kumar (Gold Medalist)':cur==='sugarcane'?'UPSSSC गन्ना पर्यवेक्षक (Sugarcane Supervisor) परीक्षा की तैयारी · ':cur==='bihar-fso'?'BTSC खाद्य संरक्षा पदाधिकारी (Advt. 29/2026) · असली परीक्षा पैटर्न · ':'')+(list[0]&&cur!=='icar-t3t4'?'हर टेस्ट: '+list[0].questions.length+' प्रश्न × '+TM(list[0])+' अंक = '+maxMarks(list[0])+' अंक · '+TD(list[0])+' मिनट':'')+'</div></div>';
+  if(INST_SERIES[cur]){ var wtxt='UPSSSC Sugarcane Supervisor (गन्ना पर्यवेक्षक) 2026 - 10 Model Paper + 10 Topic Test एकदम FREE! Agrikranti App में अभी टेस्ट दें: '+location.origin+location.pathname;
+    h+='<div class="card" style="padding:12px 14px;border:2px solid var(--green);background:#0f2a14"><b style="color:var(--green);font-size:17px">✅ सभी Model Paper और Test एकदम FREE</b><div class="muted small" style="margin:2px 0 10px">कोई पेमेंट नहीं · हर प्रश्न की व्याख्या · अपने दोस्तों को भी भेजें</div><div class="row"><a class="btn gold" style="text-decoration:none" href="https://wa.me/?text='+encodeURIComponent(wtxt)+'" target="_blank" rel="noopener">📲 WhatsApp पर Share करें</a><button class="btn ghost" data-sr2="'+(cur==='ganna10'?'sugarcane':'ganna10')+'">'+(cur==='ganna10'?'10 Topic Test देखें':'10 Model Paper देखें')+'</button></div></div>'; }
   var pk=packOf(cur);
   if(pk){ var po=packOpen(pk.pack);
     h+='<div class="card" style="padding:12px 14px;border-color:var(--gold)">'+(po?'<b style="color:var(--green)">✔ आपकी पूरी Series खुली है</b><div class="muted small">'+(pk.daily?esc(pk.daily)+' - अपने आप खुलेगा।':'रोज़ 2 नए टेस्ट अपने आप खुलेंगे।')+'</div>'
@@ -864,6 +869,7 @@ function tests(sid){
   list.forEach(function(t){ h+=testCard(t); });
   if(pk) pk.stubs.forEach(function(st){ if(!testById(st.id)) h+=stubCard(st,pk); });
   h+='</main>'; app.innerHTML=h; bindCommon();
+  app.querySelectorAll('[data-sr2]').forEach(function(x){ x.onclick=function(){ window.scrollTo(0,0); tests(x.getAttribute('data-sr2')); }; });
   var ta=document.getElementById('tsAll'); if(ta) ta.onclick=function(){ TS_OPEN=null; window.scrollTo(0,0); seriesHub(); };
   app.querySelectorAll('[data-buy]').forEach(function(x){ x.onclick=function(){ buyBook(x.getAttribute('data-buy')); }; });
   if(pk && packOpen(pk.pack) && pk.stubs.some(function(st){ return st.ready&&st.rel<=todayIST()&&!testById(st.id)&&!PACK_LOADING[st.id]&&!(PACK_TRIED[st.id]>2); })) loadPacks().then(function(){ if(CURV==='tests') tests(cur); });
