@@ -182,9 +182,9 @@ def enrich(items, now):
     if not k and not bu: print('details: na Gemini key, na AI backend - skip'); return 0
     print('details: ' + ('Gemini key' if k else 'Agrikranti AI backend') + ' se', flush=True)
     if not k:
-        try: r = get(bu, timeout=30); print('backend check:', r[1][:60], r[0][:120], flush=True)
-        except urllib.error.HTTPError as e: print('backend check HTTP', e.code, (e.geturl() or '')[:80], e.read()[:200], flush=True)
-        except Exception as e: print('backend check ERR', repr(e)[:150], flush=True)
+        try: get(bu, timeout=30)
+        except Exception as e:
+            print('details: AI backend band hai (%s). GitHub secret GEMINI_KEY daalein - skip' % repr(e)[:60], flush=True); return 0
     todo = [x for x in items if ('d' not in x or (x['d'] and 'summary' not in x['d'])) and x.get('dtry', 0) < MAX_TRIES and now - x['ts'] <= 20 * 86400]
     todo.sort(key=lambda x: (0 if (x.get('region') and not x.get('uni')) else (1 if x.get('uni') else 2), -x['ts']))   # pehle UP/Bihar, phir University, phir baaki
     done, t0 = 0, time.time()
