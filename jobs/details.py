@@ -4,8 +4,8 @@ import json, re, os, base64, html, time, urllib.request, urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 UA = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'}
-MAX_PER_RUN = 12
-BUDGET = 480   # details ke liye kul seconds har run mein
+MAX_PER_RUN = 25
+BUDGET = 780   # details ke liye kul seconds har run mein
 MAX_TRIES = 3
 MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite']
 FIELDS = ['post_name', 'total_posts', 'qualification', 'age_limit', 'fee', 'salary', 'start_date', 'last_date', 'exam_date', 'selection', 'official_site', 'summary']
@@ -17,6 +17,14 @@ def key():
     try:
         c = json.load(open(os.path.join(HERE, '..', 'content.json'), encoding='utf-8'))['config']
         return base64.b64decode(c['gk']).decode()[::-1]
+    except Exception:
+        return ''
+
+
+def backend_url():
+    """Gemini key na ho to app ka 'Agrikranti AI' backend (Apps Script, key wahin chhupi hai) istemal karein."""
+    try:
+        return json.load(open(os.path.join(HERE, '..', 'content.json'), encoding='utf-8'))['config'].get('aiUrl', '').strip()
     except Exception:
         return ''
 
@@ -59,10 +67,11 @@ PROMPT = """You extract recruitment / admission details for an Indian agricultur
 Headline: {title}
 Use ONLY facts written in the source below. Never guess, never use outside knowledge. If a field is not clearly stated, return null for it.
 Write values in short Hindi (Devanagari) and keep English technical terms, degree names, numbers and dates as they are. Dates as DD-MM-YYYY when the source gives a full date.
-Each value at most 70 characters. Return JSON only with these keys:
+Each value except summary at most 70 characters. Return JSON only with these keys:
 post_name (post / course name), total_posts (number of posts or seats), qualification, age_limit, fee (application fee), salary (pay / stipend),
 start_date (apply start), last_date (last date to apply / walk-in date), exam_date (exam or interview date), selection (selection process),
-official_site (official website domain only, like upsssc.gov.in), summary (one plain Hindi sentence about what this notice is),
+official_site (official website domain only, like upsssc.gov.in),
+summary (2 - 3 short, simple Hindi sentences, max 230 characters in total: what this news is, for which post / exam / course, the key number or date, and what the candidate should do next only if the source says it),
 relevant (true if the source really is about this headline, else false)."""
 
 
@@ -105,6 +114,52 @@ def gemini(k, title, text=None, pdf=None):
     raise last
 
 
+BQ = ('Return ONLY a JSON object, no other text, no markdown. Use ONLY facts in the given context (an agriculture job / exam / admission news). '
+      'Never guess; use null when a fact is missing. Hindi (Devanagari) values, keep English terms, numbers, dates as DD-MM-YYYY. Keys: '
+      'summary (2-3 short simple Hindi sentences, max 230 chars: what the news is, which post/exam, key number/date, what candidate should do, only if stated), '
+      'post_name, total_posts, qualification, age_limit, fee, salary, start_date, last_date, exam_date, selection, official_site (domain only), relevant (true/false).')
+
+
+def pick(title, text, n=2400):
+    """Article ke sabse kaam ke vakya (headline ke shabd, tithi, sankhya) chunta hai - backend ko 2500 akshar hi jaate hain."""
+    words = {w for w in re.findall(r'[0-9A-Za-zऀ-ॿ]{3,}', title.lower())}
+    lines = [l.strip() for l in text.split('\n') if 40 <= len(l.strip()) <= 700]
+    sc = []
+    for i, l in enumerate(lines):
+        lw = set(re.findall(r'[0-9A-Za-zऀ-ॿ]{3,}', l.lower()))
+        s = len(words & lw) * 2 + len(re.findall(r'\d{1,2}[./-]\d{1,2}[./-]\d{2,4}|\d{1,2}\s+(?:नवंबर|दिसंबर|जनवरी|फरवरी|मार्च|अप्रैल|मई|जून|जुलाई|अगस्त|सितंबर|अक्टूबर|november|december|january|february|march|april|may|june|july|august|september|october)', l, re.I))
+        sc.append((s, i))
+    keep, tot = set(), 0
+    for s, i in sorted(sc, reverse=True):
+        if s <= 0 or tot > n: break
+        keep.add(i); tot += len(lines[i]) + 1
+    return '\n'.join(lines[i] for i in sorted(keep))[:n]
+
+
+def backend(url, title, text):
+    ctx = 'Headline: ' + title + ('\n' + pick(title, text) if text else '\n(Article nahi mila - sirf headline se summary do, baaki sab null)')
+    body = json.dumps({'q': BQ, 'context': ctx[:2500]}).encode()
+    raw = get(url, body, {'Content-Type': 'text/plain;charset=utf-8'}, 90)[0]
+    j = json.loads(raw)
+    if j.get('error'): raise ValueError('backend: ' + str(j['error'])[:100])
+    t = j.get('answer', '')
+    m = re.search(r'\{.*\}', t, re.S)
+    if not m: raise ValueError('backend JSON nahi: ' + t[:80])
+    return json.loads(m.group(0))
+
+
+def pdf_text(pdf):
+    """PDF se text (runner par pdftotext ho to)."""
+    try:
+        import subprocess, tempfile
+        with tempfile.NamedTemporaryFile(suffix='.pdf') as f:
+            f.write(pdf); f.flush()
+            r = subprocess.run(['pdftotext', '-layout', '-l', '4', f.name, '-'], capture_output=True, timeout=60)
+            return r.stdout.decode('utf-8', 'ignore')
+    except Exception:
+        return ''
+
+
 def clean(d):
     out = {}
     for f in FIELDS:
@@ -112,7 +167,7 @@ def clean(d):
         if v is None: continue
         v = re.sub(r'\s+', ' ', str(v)).strip(' .,-')
         if not v or v.lower() in ('null', 'none', 'n/a', 'na', 'not mentioned', 'not specified', '-') or 'उपलब्ध नहीं' in v or 'उल्लेख नहीं' in v: continue
-        out[f] = v[:90]
+        out[f] = v[:260] if f == 'summary' else v[:90]
     if 'official_site' in out:
         out['official_site'] = re.sub(r'^https?://', '', out['official_site']).split('/')[0].lower()
         if not re.match(r'^[a-z0-9.-]+\.[a-z]{2,}$', out['official_site']): out.pop('official_site')
@@ -120,25 +175,35 @@ def clean(d):
 
 
 def enrich(items, now):
-    k = key()
-    if not k: print('details: Gemini key nahi mili - skip'); return 0
-    todo = [x for x in items if 'd' not in x and x.get('dtry', 0) < MAX_TRIES and now - x['ts'] <= 20 * 86400]
-    todo.sort(key=lambda x: (0 if x.get('uni') else (1 if x.get('region') else 2), -x['ts']))
+    k, bu = key(), backend_url()
+    if not k and not bu: print('details: na Gemini key, na AI backend - skip'); return 0
+    print('details: ' + ('Gemini key' if k else 'Agrikranti AI backend') + ' se', flush=True)
+    todo = [x for x in items if ('d' not in x or (x['d'] and 'summary' not in x['d'])) and x.get('dtry', 0) < MAX_TRIES and now - x['ts'] <= 20 * 86400]
+    todo.sort(key=lambda x: (0 if (x.get('region') and not x.get('uni')) else (1 if x.get('uni') else 2), -x['ts']))   # pehle UP/Bihar, phir University, phir baaki
     done, t0 = 0, time.time()
     print('details: %d baaki, is run mein %d' % (len(todo), min(len(todo), MAX_PER_RUN)), flush=True)
     for x in todo[:MAX_PER_RUN]:
         if time.time() - t0 > BUDGET: print('details: samay khatam, baaki agle run mein', flush=True); break
         x['dtry'] = x.get('dtry', 0) + 1
+        text, pdf, final = None, None, None
         try:
             url = gnews_decode(x['link'])
             raw, final, ctype = get(url, timeout=20)
             pdf = raw if ('pdf' in ctype.lower() or final.lower().split('?')[0].endswith('.pdf')) else None
             if pdf and len(pdf) > 15 * 1024 * 1024: raise ValueError('PDF bahut bada')
-            text = None if pdf else page_text(raw)
-            if not pdf and len(text) < 300: raise ValueError('article mein text nahi')
-            d = gemini(k, x['title'], text, pdf)
-            x['durl'] = final
-            if d.get('relevant') is False: x['d'] = {}; print('details: relevant nahi', x['title'][:60]); continue
+            text = page_text(raw) if not pdf else (pdf_text(pdf) if not k else None)
+            if not pdf and len(text) < 300: text = None
+        except Exception as e:
+            print('details article ERR', x['title'][:50], '-', repr(e)[:120], flush=True)
+        try:
+            if k and (text or pdf): d = gemini(k, x['title'], text, pdf)
+            elif bu: d = backend(bu, x['title'], text or '')
+            else: raise ValueError('article nahi mila')
+            if final: x['durl'] = final
+            if (text or pdf) and d.get('relevant') is False:
+                d = {'summary': d.get('summary')} if d.get('summary') else {}
+            if not (text or pdf):   # sirf headline se: baaki khaane mat bharo
+                d = {'summary': d.get('summary')} if d.get('summary') else {}
             x['d'] = clean(d); done += 1
             print('details OK', len(x['d']), x['title'][:70], flush=True)
         except Exception as e:

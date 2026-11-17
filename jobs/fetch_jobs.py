@@ -152,7 +152,7 @@ def main():
     items.sort(key=lambda x: x['ts'], reverse=True)
     un = [x for x in items if x.get('uni')]
     pri = [x for x in items if x.get('region') and not x.get('uni')]; rest = [x for x in items if not x.get('region') and not x.get('uni')]
-    items = (un[:CFG.get('uni_keep', 30)] + pri[:50] + rest)[:KEEP]   # pehle Gorakhpur kshetra ki university, phir UP/Bihar
+    items = (pri[:50] + un[:CFG.get('uni_keep', 30)] + rest)[:KEEP]   # pehle UP/Bihar ki khabar, phir University, phir baaki
     for x in items:   # pehle nikali details (AI) wapas jodo
         o = old.get(x['id'])
         if o:
