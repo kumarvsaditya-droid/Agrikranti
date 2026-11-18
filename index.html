@@ -372,7 +372,8 @@ function loadPacks(){ var jobs=[];
 function relDate(d){ var x=new Date(d+'T00:00:00'); return x.getDate()+' '+['जनवरी','फ़रवरी','मार्च','अप्रैल','मई','जून','जुलाई','अगस्त','सितंबर','अक्टूबर','नवंबर','दिसंबर'][x.getMonth()]; }
 function stubCard(st,p){
   var open=packOpen(p.pack), later=st.rel>todayIST()||!st.ready, n=st.id.replace(/^[A-Z]+/,'');
-  var chip=open?(later?'<span class="chip">📅 '+relDate(st.rel)+' को खुलेगा</span>':'<span class="chip">⏳ खुल रहा है...</span>'):'<span class="chip" style="color:var(--gold)">🔒 ₹'+p.price+' Series में</span><span class="chip">📅 '+relDate(st.rel)+'</span>';
+  var due=!st.ready&&st.rel<=todayIST(), dchip=due?'⏳ जल्द जुड़ रहा है':'📅 '+relDate(st.rel)+(open?' को खुलेगा':'');
+  var chip=open?(later?'<span class="chip">'+dchip+'</span>':'<span class="chip">⏳ खुल रहा है...</span>'):'<span class="chip" style="color:var(--gold)">🔒 ₹'+p.price+' Series में</span><span class="chip">'+dchip+'</span>';
   var btn=(!open&&!IS_TWA)?'<div class="row"><button class="btn gold" data-buy="'+esc(p.pack)+'">🔓 ₹'+p.price+' में पूरी Series खोलें</button></div>':'';
   return '<div class="card tcard"><div class="tnum" style="opacity:.6">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(st))+'</h3><div class="chips"><span class="chip">'+st.nq+' प्रश्न</span><span class="chip">'+maxMarks(st)+' अंक</span><span class="chip">'+TD(st)+' मिनट</span>'+chip+'</div>'+btn+'</div></div>';
 }
