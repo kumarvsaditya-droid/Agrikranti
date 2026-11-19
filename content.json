@@ -124,7 +124,7 @@
  ],
  "banners": [
   {
-   "img": "img/banner-iffco.jpg",
+   "img": "img/banner-iffco2.jpg",
    "go": "tests:iffco-agt"
   },
   {
