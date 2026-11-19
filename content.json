@@ -19,9 +19,9 @@
   "jobGroup": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2"
  },
  "notice": {
-  "text": "🎯 UPSSSC Sugarcane Supervisor (गन्ना पर्यवेक्षक): सभी 10 Model Paper + 10 Topic Test एकदम FREE! अभी App में टेस्ट दें",
-  "link": "",
-  "linkText": ""
+  "text": "🔥 IFFCO AGT 2026 - 19 Nov 1 PM Shift का पूरा पेपर (100 प्रश्न, memory based) हल सहित FREE! अभी App में टेस्ट दें और PDF डाउनलोड करें",
+  "link": "https://kumarvsaditya-droid.github.io/Agrikranti/?go=tests&s=iffco-agt",
+  "linkText": "टेस्ट दें"
  },
  "ebooks": [
   {
@@ -102,6 +102,10 @@
  },
  "series": [
   {
+   "id": "iffco-agt",
+   "name": "IFFCO AGT 2026 Shift Papers"
+  },
+  {
    "id": "ganna10",
    "name": "Sugarcane Supervisor - 10 Model Papers"
   },
@@ -119,6 +123,10 @@
   }
  ],
  "banners": [
+  {
+   "img": "img/banner-iffco.jpg",
+   "go": "tests:iffco-agt"
+  },
   {
    "img": "img/banner-ganna.jpg",
    "go": "tests:ganna10"
