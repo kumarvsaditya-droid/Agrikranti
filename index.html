@@ -578,23 +578,9 @@ function home(){
   var next = TESTS.filter(function(t){ return !done[t.id]; })[0] || TESTS[0];
   var h=topbar(installBtnHtml())+'<main class="page">';
   h+='<div class="hello">Hello, '+esc(p?p.name:'Student')+' 👋</div>';
-  /* 📌 Pinned: IFFCO AGT 2026 shift paper (memory based) FREE */
-  var ifn=TESTS.filter(function(t){return t.series==='iffco-agt';}).length;
-  if(ifn) h+='<div class="card" data-goto="tests:iffco-agt" style="cursor:pointer;padding:0;overflow:hidden;border:2px solid var(--gold)"><img src="img/banner-iffco2.jpg" alt="IFFCO AGT 2026 Shift Paper FREE" style="display:block;width:100%;height:auto"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;padding:10px 14px"><div style="min-width:0"><div class="small" style="color:var(--gold);font-weight:800">📌 NEW · IFFCO AGT 2026</div><b>19 Nov 1 PM + 5 PM Shift Papers · 100-100 प्रश्न हल सहित FREE</b></div><span class="btn gold" style="white-space:nowrap">टेस्ट दें →</span></div></div>';
-  /* 📌 Pinned: Sugarcane Supervisor - sab Model Paper FREE */
-  var gn=TESTS.filter(function(t){return t.series==='ganna10'||t.series==='sugarcane';}).length;
-  if(gn) h+='<div class="card" data-goto="tests:ganna10" style="cursor:pointer;padding:0;overflow:hidden;border:2px solid var(--gold)"><img src="img/banner-ganna.jpg" alt="Sugarcane Supervisor FREE Model Papers" style="display:block;width:100%;height:auto"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;padding:10px 14px"><div style="min-width:0"><div class="small" style="color:var(--gold);font-weight:800">📌 UPSSSC गन्ना पर्यवेक्षक 2026</div><b>सभी '+gn+' Model Paper + Test एकदम FREE</b></div><span class="btn gold" style="white-space:nowrap">FREE टेस्ट दें →</span></div></div>';
-  /* 📌 Pinned: ICAR T-3/T-4 Full Mock Test Series */
-  var ipk=packOf('icar-t3t4');
-  if(ipk){ var io=packOpen(ipk.pack);
-    h+='<div class="card" data-goto="tests:icar-t3t4" style="cursor:pointer;padding:12px 14px;border:2px solid var(--gold);background:radial-gradient(120% 140% at 100% 0%,#1d4a22 0%,var(--card) 60%)"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><div style="min-width:0"><div class="small" style="color:var(--gold);font-weight:800">📌 NEW LAUNCH · ASRB 2026-27</div><b style="font-size:18px">ICAR T-3 & T-4 Agriculture</b><div class="muted small">30 Days Full Mock · Paper I + Paper II · Hindi + English<br><b style="color:var(--green)">NEW: T-3 2016 Original Paper (Official Key) + Model Paper 01, दोनों हल सहित PDF FREE</b></div></div><span class="btn gold" style="white-space:nowrap">'+(io?'टेस्ट दें →':'Test 01 FREE →')+'</span></div></div>'; }
-  /* 📌 Pinned: Bihar FSO Test Series (hamesha sabse upar) */
-  var fpk=packOf('bihar-fso');
-  if(fpk){ var fo=packOpen(fpk.pack), fn=TESTS.filter(function(t){return t.series==='bihar-fso';}).length;
-    h+='<div class="card" data-goto="tests:bihar-fso" style="cursor:pointer;padding:12px 14px;border:2px solid var(--gold);background:radial-gradient(120% 140% at 100% 0%,#5c1a1a 0%,var(--card) 60%)"><div class="row" style="justify-content:space-between;align-items:center;gap:10px"><div style="min-width:0"><div class="small" style="color:var(--gold);font-weight:800">📌 PINNED · NEW</div><b style="font-size:18px">Bihar FSO Test Series</b><div class="muted small">BTSC खाद्य संरक्षा पदाधिकारी · '+fn+' टेस्ट खुले · रोज़ 2 नए</div></div><span class="btn gold" style="white-space:nowrap">'+(fo?'टेस्ट दें →':'2 FREE टेस्ट →')+'</span></div></div>'; }
+  /* Home par pinned cards / notice nahi; sirf banner slider. Saare test 'Test Series' tab mein */
   var sl=bannerSlides();
   h+='<div class="banner"><div class="slides" id="slides">'+sl.join('')+'</div><div class="dots2" id="dots2">'+sl.map(function(x,i){ return '<b class="'+(i?'':'on')+'"></b>'; }).join('')+'</div></div>';
-  if(NOTICE) h+='<div class="card" data-goto="updates" style="cursor:pointer;border-color:var(--gold);background:#2a2205;padding:12px 14px"><b style="color:var(--gold)">📢 '+esc(NOTICE.text.split('\n')[0].slice(0,90))+'</b></div>';
   h+='<div id="jobsHome"></div><div class="tiles">'+tilesFor(cat)+'</div>';
   var prog=get('progress',null);
   if(prog && testById(prog.testId)){
@@ -609,7 +595,7 @@ function home(){
     h+='<h2 class="sec">Semester <span>Papers</span></h2>';
     SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+='<div class="card link" data-goto="semester" style="cursor:pointer"><span class="ic" style="background:#1f5f3a;font-family:var(--display);font-size:13px;color:var(--gold)">'+esc(x.code)+'</span><span><b>'+esc(x.subject)+'</b><span class="muted small">'+esc(g.title)+' · '+(x.paper?'Paper + Solution':'Free Notes')+'</span></span></div>'; }); });
   } else {
-    h+='<h2 class="sec">अगला <span>टेस्ट</span></h2>'+testCard(next);
+    h+='<div class="card" data-goto="tests" style="cursor:pointer;padding:14px;border-color:var(--gold)"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:10px"><div style="min-width:0"><b style="font-size:17px">📝 सभी टेस्ट</b><div class="muted small">IFFCO, गन्ना पर्यवेक्षक, ICAR T-3/T-4, Bihar FSO - सब Test Series tab में</div></div><span class="btn gold" style="white-space:nowrap">खोलें →</span></div></div>';
   }
   h+=shareCard();
   h+='</main>';
