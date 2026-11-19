@@ -262,6 +262,7 @@ sup{font-size:.7em}
 <script src="tests-ganna.js"></script>
 <script src="tests-fso.js"></script>
 <script src="tests-icar.js"></script>
+<script src="tests-iffco.js"></script>
 <script src="akcrypto.js"></script>
 <script>
 /* ================= SETTINGS (yahin badlein) ================= */
@@ -343,7 +344,7 @@ function trackOpen(){
 window.addEventListener('appinstalled',function(){ if(!get('inst',0)){ set('inst',1); hit('installs'); } });
 document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href$=".pdf"]'); if(a) hit('pdf-opens'); });
 
-var SERIES=[{id:'ganna10',name:'Sugarcane Supervisor - 10 Model Papers'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'},{id:'icar-t3t4',name:'ICAR T-3/T-4 Full Mock'},{id:'bihar-fso',name:'Bihar FSO Test Series'}];
+var SERIES=[{id:'iffco-agt',name:'IFFCO AGT 2026 Shift Papers'},{id:'ganna10',name:'Sugarcane Supervisor - 10 Model Papers'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'},{id:'icar-t3t4',name:'ICAR T-3/T-4 Full Mock'},{id:'bihar-fso',name:'Bihar FSO Test Series'}];
 /* ================= helpers ================= */
 var app = document.getElementById('app');
 function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:'#'; }
@@ -577,6 +578,9 @@ function home(){
   var next = TESTS.filter(function(t){ return !done[t.id]; })[0] || TESTS[0];
   var h=topbar(installBtnHtml())+'<main class="page">';
   h+='<div class="hello">Hello, '+esc(p?p.name:'Student')+' 👋</div>';
+  /* 📌 Pinned: IFFCO AGT 2026 shift paper (memory based) FREE */
+  var ifn=TESTS.filter(function(t){return t.series==='iffco-agt';}).length;
+  if(ifn) h+='<div class="card" data-goto="tests:iffco-agt" style="cursor:pointer;padding:0;overflow:hidden;border:2px solid var(--gold)"><img src="img/banner-iffco.jpg" alt="IFFCO AGT 2026 Shift Paper FREE" style="display:block;width:100%;height:auto"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;padding:10px 14px"><div style="min-width:0"><div class="small" style="color:var(--gold);font-weight:800">📌 NEW · IFFCO AGT 2026</div><b>19 Nov 1 PM Shift Paper · 100 प्रश्न हल सहित FREE</b></div><span class="btn gold" style="white-space:nowrap">टेस्ट दें →</span></div></div>';
   /* 📌 Pinned: Sugarcane Supervisor - sab Model Paper FREE */
   var gn=TESTS.filter(function(t){return t.series==='ganna10'||t.series==='sugarcane';}).length;
   if(gn) h+='<div class="card" data-goto="tests:ganna10" style="cursor:pointer;padding:0;overflow:hidden;border:2px solid var(--gold)"><img src="img/banner-ganna.jpg" alt="Sugarcane Supervisor FREE Model Papers" style="display:block;width:100%;height:auto"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;padding:10px 14px"><div style="min-width:0"><div class="small" style="color:var(--gold);font-weight:800">📌 UPSSSC गन्ना पर्यवेक्षक 2026</div><b>सभी '+gn+' Model Paper + Test एकदम FREE</b></div><span class="btn gold" style="white-space:nowrap">FREE टेस्ट दें →</span></div></div>';
