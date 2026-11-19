@@ -152,7 +152,14 @@ def main():
     items.sort(key=lambda x: x['ts'], reverse=True)
     un = [x for x in items if x.get('uni')]
     pri = [x for x in items if x.get('region') and not x.get('uni')]; rest = [x for x in items if not x.get('region') and not x.get('uni')]
-    items = (pri[:50] + un[:CFG.get('uni_keep', 30)] + rest)[:KEEP]   # pehle UP/Bihar ki khabar, phir University, phir baaki
+    # Admit Card / Result / Exam Date wali khabar kabhi na kate (har bucket se), baaki jagah pehle UP/Bihar, phir University, phir baaki
+    hot = [x for x in items if x.get('tag') in ('Admit Card', 'Result', 'Exam Date')][:CFG.get('exam_keep', 50)]
+    keep_ids = [x['id'] for x in hot]
+    for x in pri[:50] + un[:CFG.get('uni_keep', 30)] + rest:
+        if len(keep_ids) >= KEEP: break
+        if x['id'] not in keep_ids: keep_ids.append(x['id'])
+    keep_ids = set(keep_ids)
+    items = [x for x in pri + un + rest if x['id'] in keep_ids]
     for x in items:   # pehle nikali details (AI) wapas jodo
         o = old.get(x['id'])
         if o:
