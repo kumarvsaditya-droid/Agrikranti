@@ -150,6 +150,12 @@ def main():
     for i, x in old.items():   # purani (abhi bhi 30 din ke andar) khabrein bhi rakhein
         if i not in {y['id'] for y in items} and now - x['ts'] <= MAX_DAYS * 86400 and norm(x['title']) not in seen and not x.get('source', '').endswith('(Official)') and accept(x['title'], x.get('source', '')) is not None: items.append(x)
     items.sort(key=lambda x: x['ts'], reverse=True)
+    # ek hi khabar ki 50 copy na aaye (jaise UGC NET schedule): har topic ki max N, 'prefer' wali (Env Science) pehle
+    for name, rx, cap, pref in CFG.get('topic_caps', []):
+        grp = [x for x in items if re.search(rx, x['title'], re.I)]
+        grp.sort(key=lambda x: (not (pref and re.search(pref, x['title'], re.I)), -x['ts']))
+        drop = {x['id'] for x in grp[cap:]}
+        items = [x for x in items if x['id'] not in drop]
     un = [x for x in items if x.get('uni')]
     pri = [x for x in items if x.get('region') and not x.get('uni')]; rest = [x for x in items if not x.get('region') and not x.get('uni')]
     # Admit Card / Result / Exam Date wali khabar kabhi na kate (har bucket se), baaki jagah pehle UP/Bihar, phir University, phir baaki
