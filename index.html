@@ -578,7 +578,9 @@ function home(){
   var next = TESTS.filter(function(t){ return !done[t.id]; })[0] || TESTS[0];
   var h=topbar(installBtnHtml())+'<main class="page">';
   h+='<div class="hello">Hello, '+esc(p?p.name:'Student')+' 👋</div>';
-  /* Home par koi pinned card / banner / notice nahi - saare test 'Test Series' tab mein */
+  /* Home par pinned cards / notice nahi; sirf banner slider. Saare test 'Test Series' tab mein */
+  var sl=bannerSlides();
+  h+='<div class="banner"><div class="slides" id="slides">'+sl.join('')+'</div><div class="dots2" id="dots2">'+sl.map(function(x,i){ return '<b class="'+(i?'':'on')+'"></b>'; }).join('')+'</div></div>';
   h+='<div id="jobsHome"></div><div class="tiles">'+tilesFor(cat)+'</div>';
   var prog=get('progress',null);
   if(prog && testById(prog.testId)){
