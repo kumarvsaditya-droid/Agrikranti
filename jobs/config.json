@@ -1,6 +1,6 @@
 {
  "max_days": 30,
- "keep": 100,
+ "keep": 150,
  "queries": [
   [
    "UPSSSC AGTA",
@@ -16,6 +16,22 @@
   ],
   [
    "UPPSC agriculture",
+   "en"
+  ],
+  [
+   "UPSSSC सिटी स्लिप",
+   "hi"
+  ],
+  [
+   "UPSSSC city slip",
+   "en"
+  ],
+  [
+   "गन्ना पर्यवेक्षक सिटी स्लिप",
+   "hi"
+  ],
+  [
+   "UPSSSC cane supervisor exam city",
    "en"
   ],
   [
@@ -121,15 +137,239 @@
   [
    "कृषि तकनीकी सहायक भर्ती",
    "hi"
+  ],
+  [
+   "UPSSSC admit card",
+   "en"
+  ],
+  [
+   "UPSSSC AGTA admit card",
+   "en"
+  ],
+  [
+   "UPSSSC AGTA result",
+   "en"
+  ],
+  [
+   "UPSSSC cane supervisor result",
+   "en"
+  ],
+  [
+   "गन्ना पर्यवेक्षक एडमिट कार्ड",
+   "hi"
+  ],
+  [
+   "UPSSSC कृषि एडमिट कार्ड",
+   "hi"
+  ],
+  [
+   "यूपी कृषि परीक्षा रिजल्ट",
+   "hi"
+  ],
+  [
+   "UPCATET",
+   "en"
+  ],
+  [
+   "BPSC agriculture admit card",
+   "en"
+  ],
+  [
+   "BPSC कृषि एडमिट कार्ड",
+   "hi"
+  ],
+  [
+   "BSSC admit card",
+   "en"
+  ],
+  [
+   "BTSC admit card",
+   "en"
+  ],
+  [
+   "Bihar krishi samanvayak result",
+   "en"
+  ],
+  [
+   "बिहार कृषि एडमिट कार्ड",
+   "hi"
+  ],
+  [
+   "बिहार कृषि रिजल्ट",
+   "hi"
+  ],
+  [
+   "IBPS AFO admit card",
+   "en"
+  ],
+  [
+   "IBPS SO admit card",
+   "en"
+  ],
+  [
+   "IBPS SO result",
+   "en"
+  ],
+  [
+   "ASRB admit card",
+   "en"
+  ],
+  [
+   "ASRB result",
+   "en"
+  ],
+  [
+   "ICAR technical assistant admit card",
+   "en"
+  ],
+  [
+   "ICAR technician admit card",
+   "en"
+  ],
+  [
+   "NABARD grade A admit card",
+   "en"
+  ],
+  [
+   "IFFCO AGT admit card",
+   "en"
+  ],
+  [
+   "IFFCO AGT result",
+   "en"
+  ],
+  [
+   "National Seeds Corporation admit card",
+   "en"
+  ],
+  [
+   "ICAR AIEEA",
+   "en"
+  ],
+  [
+   "agriculture admit card",
+   "en"
+  ],
+  [
+   "agriculture exam result",
+   "en"
+  ],
+  [
+   "agriculture answer key",
+   "en"
+  ],
+  [
+   "कृषि एडमिट कार्ड",
+   "hi"
+  ],
+  [
+   "कृषि परीक्षा परिणाम",
+   "hi"
+  ],
+  [
+   "कृषि भर्ती परीक्षा तिथि",
+   "hi"
+  ],
+  [
+   "UGC NET environmental science",
+   "en"
+  ],
+  [
+   "UGC NET environmental science exam date",
+   "en"
+  ],
+  [
+   "UGC NET subject wise exam schedule",
+   "en"
+  ],
+  [
+   "UGC NET exam date",
+   "en"
+  ],
+  [
+   "UGC NET city intimation slip",
+   "en"
+  ],
+  [
+   "UGC NET admit card",
+   "en"
+  ],
+  [
+   "UGC NET result",
+   "en"
+  ],
+  [
+   "यूजीसी नेट पर्यावरण विज्ञान",
+   "hi"
+  ],
+  [
+   "यूजीसी नेट परीक्षा तिथि",
+   "hi"
+  ],
+  [
+   "यूजीसी नेट एडमिट कार्ड",
+   "hi"
+  ],
+  [
+   "CSIR NET exam date",
+   "en"
+  ],
+  [
+   "ASRB NET exam date",
+   "en"
+  ],
+  [
+   "ICAR AICE JRF SRF PhD",
+   "en"
+  ],
+  [
+   "IARI PhD admission",
+   "en"
+  ],
+  [
+   "agriculture supervisor recruitment",
+   "en"
+  ],
+  [
+   "कृषि पर्यवेक्षक भर्ती",
+   "hi"
+  ],
+  [
+   "state PSC agriculture officer exam",
+   "en"
+  ],
+  [
+   "fertilizer company recruitment agriculture",
+   "en"
+  ],
+  [
+   "NFL agriculture trainee",
+   "en"
+  ],
+  [
+   "KRIBHCO recruitment",
+   "en"
+  ],
+  [
+   "Bihar food safety officer",
+   "en"
+  ],
+  [
+   "animal husbandry recruitment",
+   "en"
+  ],
+  [
+   "पशुपालन विभाग भर्ती",
+   "hi"
   ]
  ],
- "agri_regex": "agri|agro|krishi|कृषि|AGTA|ganna|गन्ना|cane supervisor|ICAR|horticult|उद्यान|AFO|agriculture field officer|NABARD|KVK|कृषि विज्ञान|kisan salahkar|किसान सलाहकार|soil|मृदा|plant protection|पौध संरक्षण|फसल रक्षक|fisheries|मत्स्य|Matsya|seed certification|बीज प्रमाणीकरण",
- "job_regex": "recruit|vacanc|bharti|भर्ती|बहाली|notification|अधिसूचना|नोटिफिकेशन|admit card|एडमिट|प्रवेश पत्र|result|रिजल्ट|परिणाम|exam date|परीक्षा तिथि|answer key|आंसर की|cut ?off|कटऑफ|apply|आवेदन|\\bposts\\b|पदों|पद पर|रिक्ति|syllabus|सिलेबस|merit list|मेरिट|walk-?in|exam calendar|परीक्षा कैलेंडर|shortlist",
- "exclude_regex": "किस्त|installment|pm kisan|पीएम किसान|मंडी|mandi|मौसम|weather|loan|ऋण|subsidy|सब्सिडी|अनुदान|योजना|yojana|scheme|stock|share price|IPO|शेयर|cricket|क्रिकेट|election|चुनाव|मौत|death|died|हमला|attack|हंगामा|आरोप|fraud|फर्जी|धोखा|घोटाला|scam|सेवानिवृत्त|retire|विदाई|farewell|प्रदर्शन|protest|सफलता|success story|बनीं|बने|minister|मंत्री|workers|ILO|Iowa|Turkmenistan|forest guard|वन रक्षक|वनरक्षक|police|पुलिस|arrest|गिरफ्तार|सम्मान|award|सस्पेंड|suspend|निलंबित|रिश्वत|bribe|county government|kenya|nigeria|\\bUSA\\b|\\bUK\\b|GKY|Gramin Kaushal|ग्रामीण कौशल|DDU Junction|डीडीयू जंक्शन|मुगलसराय|Mughalsarai|\\btrains?\\b|ट्रेन|रेल|hospital|अस्पताल|BRD Medical|बीआरडी मेडिकल|मेडिकल कॉलेज|\\bQ[1-4]\\b.{0,12}results|revenue|EBITDA|net profit|quarterly results|तिमाही नतीजे|मुनाफा|SOC Analyst|cyber security",
+ "agri_regex": "agri|agro|krishi|कृषि|AGTA|ganna|गन्ना|cane supervisor|ICAR|horticult|उद्यान|AFO|agriculture field officer|NABARD|KVK|कृषि विज्ञान|kisan salahkar|किसान सलाहकार|soil|मृदा|plant protection|पौध संरक्षण|फसल रक्षक|fisheries|मत्स्य|Matsya|seed certification|बीज प्रमाणीकरण|IBPS SO|ASRB|IFFCO AGT|Agriculture Graduate Trainee|UPCATET|AIEEA|National Seeds|UGC[ -]?NET|यूजीसी[ -]?नेट|CSIR[ -]?NET|ASRB[ -]?NET|ICAR[ -]?NET|environmental scien|पर्यावरण विज्ञान|AICE|krishi parvekshak|कृषि पर्यवेक्षक|\\bNFL\\b|KRIBHCO|fertili[sz]er|उर्वरक|food safety officer|खाद्य सुरक्षा अधिकारी|animal husbandry|पशुपालन|veterinary|पशु चिकित्सा",
+ "job_regex": "recruit|vacanc|bharti|भर्ती|बहाली|notification|अधिसूचना|नोटिफिकेशन|admit card|एडमिट|प्रवेश पत्र|result|रिजल्ट|परिणाम|exam date|परीक्षा तिथि|answer key|आंसर की|cut ?off|कटऑफ|apply|आवेदन|\\bposts\\b|पदों|पद पर|रिक्ति|syllabus|सिलेबस|merit list|मेरिट|walk-?in|exam calendar|परीक्षा कैलेंडर|shortlist|hall ticket|call letter|कॉल लेटर|score ?card|स्कोर कार्ड|city slip|city intimation|exam city|सिटी स्लिप|सिटी इंटीमेशन|शहर सूचना|schedule|date ?sheet|time ?table|डेटशीट|शेड्यूल|dates? (out|released|announced)|तारीख|डेट जारी|exam on|exam from|परीक्षा \\d|subject.?wise",
+ "exclude_regex": "किस्त|installment|pm kisan|पीएम किसान|मंडी|mandi|मौसम|weather|loan|ऋण|subsidy|सब्सिडी|अनुदान|योजना|yojana|scheme|stock|share price|IPO|शेयर|cricket|क्रिकेट|election|चुनाव|मौत|death|died|हमला|attack|हंगामा|आरोप|fraud|फर्जी|धोखा|घोटाला|scam|सेवानिवृत्त|retire|विदाई|farewell|प्रदर्शन|protest|सफलता|success story|बनीं|बने|minister|मंत्री|workers|ILO|Iowa|Turkmenistan|forest guard|वन रक्षक|वनरक्षक|police|पुलिस|arrest|गिरफ्तार|सम्मान|award|सस्पेंड|suspend|निलंबित|रिश्वत|bribe|county government|kenya|nigeria|\\bUSA\\b|\\bUK\\b|GKY|Gramin Kaushal|ग्रामीण कौशल|DDU Junction|डीडीयू जंक्शन|मुगलसराय|Mughalsarai|\\btrains?\\b|ट्रेन|रेल|hospital|अस्पताल|BRD Medical|बीआरडी मेडिकल|मेडिकल कॉलेज|\\bQ[1-4]\\b.{0,12}results|revenue|EBITDA|net profit|quarterly results|तिमाही नतीजे|मुनाफा|SOC Analyst|cyber security|candidates urge|\\burge\\b|मांग",
  "tags": [
   [
    "Admit Card",
-   "admit|एडमिट|प्रवेश पत्र|hall ticket"
+   "admit|एडमिट|प्रवेश पत्र|hall ticket|call letter|कॉल लेटर|city slip|city intimation|exam city|सिटी स्लिप|सिटी इंटीमेशन|शहर सूचना"
   ],
   [
    "Result",
@@ -141,7 +381,7 @@
   ],
   [
    "Exam Date",
-   "exam date|परीक्षा तिथि|exam calendar|परीक्षा कैलेंडर|schedule|time ?table|समय सारणी|date ?sheet|परीक्षा कार्यक्रम"
+   "exam date|परीक्षा तिथि|exam calendar|परीक्षा कैलेंडर|schedule|time ?table|समय सारणी|date ?sheet|परीक्षा कार्यक्रम|dates? (out|released|announced)|तारीख|डेट जारी|शेड्यूल|डेटशीट|subject.?wise|exam on|exam from"
   ],
   [
    "Notification",
@@ -340,5 +580,26 @@
    "job"
   ]
  ],
- "official_skip_regex": "tender|निविदा|quotation|e-?procurement|GeM|auction|नीलामी|login|privacy|sitemap|RTI|NIRF|NAAC|IQAC|anti.?ragging|grievance|membership|brochure|archived|guideline|international student|bus service|Controller of Exam|Examination Cell|Medical Officer|Driver|Clerk|Stenographer|Security|हॉस्टल|hostel|fee structure|Post Graduate-Forms|^\\W*(admissions?|recruitments?|results?|admit card|notices?|notice and results|notification and circular|exam schedule|course order and time table|faculty of agriculture|faculty agriculture|new faculty requirements \\d+)\\W*$|^\\W*department of|^\\W*collaborating institutes|guest ?house|lokpal|roster|gallery|convocation|दीक्षांत|^\\W*institute of|event|photo|vice ?chancellor|कुलपति|mou\\b|newsletter|annual report"
+ "official_skip_regex": "tender|निविदा|quotation|e-?procurement|GeM|auction|नीलामी|login|privacy|sitemap|RTI|NIRF|NAAC|IQAC|anti.?ragging|grievance|membership|brochure|archived|guideline|international student|bus service|Controller of Exam|Examination Cell|Medical Officer|Driver|Clerk|Stenographer|Security|हॉस्टल|hostel|fee structure|Post Graduate-Forms|^\\W*(admissions?|recruitments?|results?|admit card|notices?|notice and results|notification and circular|exam schedule|course order and time table|faculty of agriculture|faculty agriculture|new faculty requirements \\d+)\\W*$|^\\W*department of|^\\W*collaborating institutes|guest ?house|lokpal|roster|gallery|convocation|दीक्षांत|^\\W*institute of|event|photo|vice ?chancellor|कुलपति|mou\\b|newsletter|annual report",
+ "exam_keep": 50,
+ "topic_caps": [
+  [
+   "UGC NET",
+   "UGC[ -]?NET|यूजीसी[ -]?नेट",
+   8,
+   "environment|पर्यावरण"
+  ],
+  [
+   "CSIR NET",
+   "(?<!UGC )CSIR",
+   3,
+   ""
+  ],
+  [
+   "ICAR Technical Assistant 1393",
+   "technical assistant|टेक्निकल असिस्टेंट|1393",
+   6,
+   ""
+  ]
+ ]
 }
