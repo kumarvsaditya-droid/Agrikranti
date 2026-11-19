@@ -823,7 +823,7 @@ function testCard(t){
     +'<div class="row"><button class="btn" data-start="'+t.id+'">'+(b?'फिर से दें':'टेस्ट शुरू करें')+'</button>'+(b?'<button class="btn ghost" data-review="'+t.id+'">उत्तर देखें</button>':'')+(CONFIG.backendUrl?'<button class="btn ghost" data-lb="'+t.id+'">Leaderboard</button>':'')+'</div>'
     +(t.pdf||t.qpdf?'<div class="row" style="margin-top:6px">'+(t.pdf?'<a class="btn gold" style="text-decoration:none" target="_blank" rel="noopener" href="'+esc(t.pdf)+'">📄 हल सहित PDF (FREE)</a>':'')+(t.qpdf?'<a class="btn ghost" style="text-decoration:none" target="_blank" rel="noopener" href="'+esc(t.qpdf)+'">प्रश्न पत्र PDF</a>':'')+'</div>':'')+'</div></div>';
 }
-var INST_SERIES={ganna10:1,sugarcane:1};
+var INST_SERIES={ganna10:1,sugarcane:1,'ugc-evs':1};
 function instOf(t){ return !!(t&&(t.inst||INST_SERIES[t.series])); }
 function factsOf(q){ var L=[]; if(q.x) L.push(q.x.replace(/\n\s*उत्तर\s*:\s*/,' → ')); (q.f||[]).forEach(function(f){ L.push(f); }); return L; }
 function factBox(q){ var L=factsOf(q); if(!L.length) return ''; return '<div class="expbox"><b>🎯 इससे जुड़े परीक्षा-उपयोगी तथ्य (Related Exam Facts)</b><ul class="flist">'+L.map(function(f){ return '<li>'+fmt(f)+'</li>'; }).join('')+'</ul></div>'; }
