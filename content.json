@@ -137,6 +137,10 @@
  ],
  "banners": [
   {
+   "img": "img/banner-ugc-evs.jpg",
+   "go": "tests:ugc-evs"
+  },
+  {
    "img": "img/banner-iffco2.jpg",
    "go": "tests:iffco-agt"
   },
