@@ -52,6 +52,15 @@
    "enc": "ebooks/enc/bookmwdw1xzo.bin"
   },
   {
+   "id": "ugcevs",
+   "kind": "tests",
+   "title": "UGC NET Environmental Science (089) - 10 Test Series (Dec 2026)",
+   "sub": "5 Sectional + 5 Full Mock · 1000 Unique प्रश्न · Paper II · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
+   "pages": 0,
+   "price": 99,
+   "cover": "UGC NET<br>EVS"
+  },
+  {
    "id": "icarts",
    "kind": "tests",
    "title": "ICAR T-3 & T-4 Agriculture - 30 Days Full Mock Test Series",
@@ -101,6 +110,10 @@
   }
  },
  "series": [
+  {
+   "id": "ugc-evs",
+   "name": "UGC NET Environmental Science (089) - Dec 2026"
+  },
   {
    "id": "iffco-agt",
    "name": "IFFCO AGT 2026 Shift Papers"
