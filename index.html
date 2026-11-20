@@ -263,6 +263,7 @@ sup{font-size:.7em}
 <script src="tests-fso.js"></script>
 <script src="tests-icar.js"></script>
 <script src="tests-iffco.js"></script>
+<script src="tests-iffco-mains.js"></script>
 <script src="tests-ugcevs.js"></script>
 <script src="akcrypto.js"></script>
 <script>
@@ -345,7 +346,7 @@ function trackOpen(){
 window.addEventListener('appinstalled',function(){ if(!get('inst',0)){ set('inst',1); hit('installs'); } });
 document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href$=".pdf"]'); if(a) hit('pdf-opens'); });
 
-var SERIES=[{id:'ugc-evs',name:'UGC NET Environmental Science (089) - Dec 2026'},{id:'iffco-agt',name:'IFFCO AGT 2026 Shift Papers'},{id:'ganna10',name:'Sugarcane Supervisor - 10 Model Papers'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'},{id:'icar-t3t4',name:'ICAR T-3/T-4 Full Mock'},{id:'bihar-fso',name:'Bihar FSO Test Series'}];
+var SERIES=[{id:'ugc-evs',name:'UGC NET Environmental Science (089) - Dec 2026'},{id:'iffco-agt',name:'IFFCO AGT 2026 Shift Papers'},{id:'iffco-mains',name:'IFFCO AGT 2026 Mains - 10 Full Mock (₹99)'},{id:'ganna10',name:'Sugarcane Supervisor - 10 Model Papers'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'},{id:'icar-t3t4',name:'ICAR T-3/T-4 Full Mock'},{id:'bihar-fso',name:'Bihar FSO Test Series'}];
 /* ================= helpers ================= */
 var app = document.getElementById('app');
 function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:'#'; }
@@ -596,7 +597,7 @@ function home(){
     h+='<h2 class="sec">Semester <span>Papers</span></h2>';
     SEMESTER.forEach(function(g){ g.papers.forEach(function(x){ h+='<div class="card link" data-goto="semester" style="cursor:pointer"><span class="ic" style="background:#1f5f3a;font-family:var(--display);font-size:13px;color:var(--gold)">'+esc(x.code)+'</span><span><b>'+esc(x.subject)+'</b><span class="muted small">'+esc(g.title)+' · '+(x.paper?'Paper + Solution':'Free Notes')+'</span></span></div>'; }); });
   } else {
-    h+='<div class="card" data-goto="tests" style="cursor:pointer;padding:14px;border-color:var(--gold)"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:10px"><div style="min-width:0"><b style="font-size:17px">📝 सभी टेस्ट</b><div class="muted small">IFFCO, गन्ना पर्यवेक्षक, ICAR T-3/T-4, Bihar FSO - सब Test Series tab में</div></div><span class="btn gold" style="white-space:nowrap">खोलें →</span></div></div>';
+    h+='<div class="card" data-goto="tests" style="cursor:pointer;padding:14px;border-color:var(--gold)"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:10px"><div style="min-width:0"><b style="font-size:17px">📝 सभी टेस्ट</b><div class="muted small">IFFCO Prelims + Mains, गन्ना पर्यवेक्षक, ICAR T-3/T-4, Bihar FSO - सब Test Series tab में</div></div><span class="btn gold" style="white-space:nowrap">खोलें →</span></div></div>';
   }
   h+=shareCard();
   h+='</main>';

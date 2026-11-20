@@ -61,6 +61,15 @@
    "cover": "UGC NET<br>EVS"
   },
   {
+   "id": "iffcomains",
+   "kind": "tests",
+   "title": "IFFCO AGT 2026 Mains (Final Online Test) - 10 Full Mock Test Series",
+   "sub": "19 Nov प्रीलिम्स पैटर्न · 70 Agri + 30 Numerical/Reasoning/GK/Safety · तुरंत हल + Related Facts · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
+   "pages": 0,
+   "price": 99,
+   "cover": "IFFCO<br>MAINS"
+  },
+  {
    "id": "icarts",
    "kind": "tests",
    "title": "ICAR T-3 & T-4 Agriculture - 30 Days Full Mock Test Series",
@@ -119,6 +128,10 @@
    "name": "IFFCO AGT 2026 Shift Papers"
   },
   {
+   "id": "iffco-mains",
+   "name": "IFFCO AGT 2026 Mains - 10 Full Mock (₹99)"
+  },
+  {
    "id": "ganna10",
    "name": "Sugarcane Supervisor - 10 Model Papers"
   },
@@ -139,6 +152,10 @@
   {
    "img": "img/banner-ugc-evs.jpg",
    "go": "tests:ugc-evs"
+  },
+  {
+   "img": "img/banner-iffco-mains.jpg",
+   "go": "tests:iffco-mains"
   },
   {
    "img": "img/banner-iffco2.jpg",
