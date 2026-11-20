@@ -363,7 +363,7 @@ function testById(id){ return TESTS.filter(function(t){return t.id===id;})[0]; }
 /* ===== Paid test packs (Bihar FSO): encrypted tests, daily release by 'rel' date (IST) ===== */
 function todayIST(){ return new Date(Date.now()+330*60000).toISOString().slice(0,10); }
 function packOf(series){ return (window.TEST_PACKS||[]).filter(function(p){return p.series===series;})[0]; }
-var PACK_LOADING={}, PACK_TRIED={};
+var PACK_LOADING={}, PACK_TRIED={}; var ICAR_TAB='P1';
 function loadPacks(){ var jobs=[];
   (window.TEST_PACKS||[]).forEach(function(p){ if(!packOpen(p.pack)) return;
     p.stubs.forEach(function(st){ if(!st.ready||st.rel>todayIST()||testById(st.id)||PACK_LOADING[st.id]||PACK_TRIED[st.id]>2) return; PACK_LOADING[st.id]=1; PACK_TRIED[st.id]=(PACK_TRIED[st.id]||0)+1;
@@ -863,12 +863,22 @@ function tests(sid){
   if(cur==='ugc-evs'){ var allc=[]; list.forEach(function(t){ allc.push({id:t.id,h:testCard(t)}); }); if(pk) pk.stubs.forEach(function(st){ if(!testById(st.id)) allc.push({id:st.id,h:stubCard(st,pk)}); });
     [['NETP','📘 Paper I - General Paper','Teaching & Research Aptitude · 50 प्रश्न · 100 अंक · 60 मिनट · No negative'],['EVS','📗 Paper II - Environmental Science (Code 89)','100 प्रश्न · 200 अंक · 120 मिनट · No negative']].forEach(function(g){ var it=allc.filter(function(x){ return x.id.indexOf(g[0])===0; }).sort(function(a,b){ return a.id<b.id?-1:a.id>b.id?1:0; });
       if(it.length){ h+='<div class="card" style="padding:10px 14px;margin-top:14px;border:2px solid var(--green);background:#0f2a14"><b style="color:var(--green);font-size:17px">'+g[1]+'</b><div class="muted small">'+g[2]+'</div></div>'; it.forEach(function(x){ h+=x.h; }); } });
+  } else if(cur==='icar-t3t4'){ var allI=[]; list.forEach(function(t){ allI.push({id:t.id,h:testCard(t)}); }); if(pk) pk.stubs.forEach(function(st){ if(!testById(st.id)) allI.push({id:st.id,h:stubCard(st,pk)}); });
+    var IG={P1:['📘 Prelims (Paper I)','GK, English, Quant, General Agriculture · 100 प्रश्न · 100 अंक · 60 मिनट · -0.25',function(x){ return /^ICAR(0[1-9]|[12]\d|30)-P1$/.test(x.id); }],
+            P2:['📗 Mains (Paper II)','Group A Agriculture (20 Units) · 100 प्रश्न · 300 अंक · 120 मिनट · -1',function(x){ return /^ICAR(0[1-9]|[12]\d|30)-P2$/.test(x.id); }],
+            FREE:['🎁 PYQ + Model Paper (FREE)','ICAR T-3 2016 Original Paper (Official Key) + Model Paper, हल सहित PDF',function(x){ return /^ICAR00/.test(x.id); }]};
+    if(!IG[ICAR_TAB]) ICAR_TAB='P1';
+    h+='<div class="row" style="gap:6px;margin:14px 0 4px;flex-wrap:nowrap">'+['P1','P2','FREE'].map(function(k){ return '<button class="btn'+(ICAR_TAB===k?' gold':' ghost')+'" data-itab="'+k+'" style="flex:1;padding:10px 4px;font-size:14px">'+(k==='P1'?'📘 Prelims':k==='P2'?'📗 Mains':'🎁 FREE')+'</button>'; }).join('')+'</div>';
+    var g=IG[ICAR_TAB], it=allI.filter(g[2]).sort(function(a,b){ return a.id<b.id?-1:a.id>b.id?1:0; });
+    h+='<div class="card" style="padding:10px 14px;margin-top:8px;border:2px solid var(--green);background:#0f2a14"><b style="color:var(--green);font-size:17px">'+g[0]+'</b><div class="muted small">'+g[1]+'</div></div>';
+    it.forEach(function(x){ h+=x.h; });
   } else {
   list.forEach(function(t){ h+=testCard(t); });
   if(pk) pk.stubs.forEach(function(st){ if(!testById(st.id)) h+=stubCard(st,pk); });
   }
   h+='</main>'; app.innerHTML=h; bindCommon();
   app.querySelectorAll('[data-sr2]').forEach(function(x){ x.onclick=function(){ window.scrollTo(0,0); tests(x.getAttribute('data-sr2')); }; });
+  app.querySelectorAll('[data-itab]').forEach(function(x){ x.onclick=function(){ ICAR_TAB=x.getAttribute('data-itab'); tests(cur); }; });
   var ta=document.getElementById('tsAll'); if(ta) ta.onclick=function(){ TS_OPEN=null; window.scrollTo(0,0); seriesHub(); };
   app.querySelectorAll('[data-buy]').forEach(function(x){ x.onclick=function(){ buyBook(x.getAttribute('data-buy')); }; });
   if(pk && packOpen(pk.pack) && pk.stubs.some(function(st){ return st.ready&&st.rel<=todayIST()&&!testById(st.id)&&!PACK_LOADING[st.id]&&!(PACK_TRIED[st.id]>2); })) loadPacks().then(function(){ if(CURV==='tests') tests(cur); });
