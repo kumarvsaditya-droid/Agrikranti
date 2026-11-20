@@ -346,7 +346,7 @@ function trackOpen(){
 window.addEventListener('appinstalled',function(){ if(!get('inst',0)){ set('inst',1); hit('installs'); } });
 document.addEventListener('click',function(e){ var a=e.target.closest&&e.target.closest('a[href$=".pdf"]'); if(a) hit('pdf-opens'); });
 
-var SERIES=[{id:'ugc-evs',name:'UGC NET Environmental Science (089) - Dec 2026'},{id:'iffco-agt',name:'IFFCO AGT 2026 Shift Papers'},{id:'iffco-mains',name:'IFFCO AGT 2026 Mains - 10 Full Mock (₹99)'},{id:'ganna10',name:'Sugarcane Supervisor - 10 Model Papers'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'},{id:'icar-t3t4',name:'ICAR T-3/T-4 Full Mock'},{id:'bihar-fso',name:'Bihar FSO Test Series'}];
+var SERIES=[{id:'ugc-evs',name:'UGC NET Environmental Science (089) - Dec 2026'},{id:'iffco-agt',name:'IFFCO AGT 2026 Shift Papers'},{id:'iffco-mains',name:'IFFCO AGT 2026 Mains Mock Test (₹99)'},{id:'ganna10',name:'Sugarcane Supervisor - 10 Model Papers'},{id:'sugarcane',name:'Sugarcane Supervisor Test Series'},{id:'icar-t3t4',name:'ICAR T-3/T-4 Full Mock'},{id:'bihar-fso',name:'Bihar FSO Test Series'}];
 /* ================= helpers ================= */
 var app = document.getElementById('app');
 function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:'#'; }
