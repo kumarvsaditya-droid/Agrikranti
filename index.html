@@ -893,7 +893,7 @@ function bindCommon(){
 
 /* Direct test link: ?go=test&t=IFFCO02 seedha us test ka start page kholta hai */
 function deepBook(){ var m=location.search.match(/[?&]go=book&b=([\w-]+)/); if(!m) return false; var id=m[1]; try{ history.replaceState(null,'',location.pathname); }catch(e){}
-  go('ebooks'); setTimeout(function(){ var b=EBOOKS.filter(function(e){return e.id===id;})[0]; if(!b) return; if(b.price && !isOpen(b)) buyBook(id); else { var c=app.querySelector('[data-read="'+id+'"]'); if(c) c.scrollIntoView({block:'center'}); } },700); return true; }
+  go('ebooks'); setTimeout(function(){ var b=EBOOKS.filter(function(e){return e.id===id;})[0]; if(!b) return; if(b.price && !isOpen(b)) buyBook(id); else if(b.enc) openReader(id); else if(b.file) location.href=b.file; },700); return true; }
 function deepTest(){ var m=location.search.match(/[?&]go=test&t=([\w-]+)|[?&]t=([\w-]+)&go=test(?!s)/); if(!m) return false; var id=m[1]||m[2], t=testById(id); try{ history.replaceState(null,'',location.pathname); }catch(e){}
   if(!t){ go('tests'); return true; } if(t.series) set('series',t.series); go('register',t.id); return true; }
 function testLink(id){ return APP_URL+'?go=test&t='+id; }
