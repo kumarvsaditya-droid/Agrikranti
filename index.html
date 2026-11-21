@@ -479,7 +479,7 @@ function loginPage(msg){
   var srv=hasServer();
   app.innerHTML='<main class="page" style="min-height:100vh;justify-content:center;padding-bottom:40px">'
    +'<div style="text-align:center"><img src="icons/logo.png" alt="" style="width:110px;height:110px;border-radius:50%;box-shadow:0 0 0 3px var(--gold),0 0 26px rgba(63,207,94,.35)"><h1 style="font-family:var(--display);color:var(--gold);font-size:40px;margin:12px 0 0;line-height:1">AGRIKRANTI 1928</h1><p class="muted small" style="margin:4px 0 0">'+esc(CONFIG.tagline)+'</p></div>'
-   +(msg?'<div class="card" style="border-color:var(--bad);color:var(--bad)">'+esc(msg)+'</div>':'')
+   +(msg?'<div class="card" style="border-color:var(--bad);color:var(--bad)">'+esc(msg)+'</div>':'')+(function(){ var mb=location.search.match(/[?&]go=book&b=([\w-]+)/); if(!mb) return ''; var bk=(window.EBOOKS||[]).filter(function(e){return e.id===mb[1];})[0]; return '<div class="card" style="border-color:var(--gold);text-align:center">📖 <b>'+esc(bk?bk.title:'eBook')+'</b><div class="small" style="margin-top:4px">बस नाम और मोबाइल से login करें, उसके बाद book सीधे खुलेगी।</div></div>'; })()
    +'<form class="card" id="lg" novalidate style="display:flex;flex-direction:column;gap:12px"><h2 class="sec" style="margin:0">Login / <span>Register</span></h2>'
    +'<div id="st1" style="display:flex;flex-direction:column;gap:12px"><div><label for="ln">आपका नाम</label><input id="ln" autocomplete="name" maxlength="40" placeholder="जैसे: Rahul Kumar"></div>'
    +'<div><label for="lm">मोबाइल नंबर</label><input id="lm" inputmode="numeric" maxlength="10" placeholder="10 अंकों का नंबर"></div>'
