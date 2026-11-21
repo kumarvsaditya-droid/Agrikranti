@@ -161,6 +161,10 @@
  ],
  "banners": [
   {
+   "img": "img/banner-ganna-book.jpg",
+   "go": "book:bookmwq5t74e"
+  },
+  {
    "img": "img/banner-ugc-evs.jpg",
    "go": "tests:ugc-evs"
   },
