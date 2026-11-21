@@ -86,6 +86,15 @@
    "pages": 0,
    "price": 149,
    "cover": "FSO<br>TESTS"
+  },
+  {
+   "id": "bookmwq5t74e",
+   "title": "Fast Revision Sugarcane Supervisor",
+   "sub": "13 subjects · Mind maps + concept diagrams · English + Hindi · Latest FRP/SAP/MSP",
+   "pages": 55,
+   "price": 11,
+   "cover": "FAST<br>REVISION",
+   "enc": "ebooks/enc/bookmwq5t74e.bin"
   }
  ],
  "semester": [
@@ -106,7 +115,8 @@
  "bookKeys": {
   "notes1": "wSiclV4IIDXWkVSvTiy6Z1wSaqPR2S9hLqMjoqmIYBhKAKrZ6whEvSpodWv9S0qD9YzvkfmNGHEaCGAP",
   "sem1": "18mYFrFVAFxvn8Emgoqav1Kbus6MkySaV0+SaT4/+mvi1PrNl3/4vk5h3xtZ8sSYY7tJc9oYOh3hOPJQ",
-  "bookmwdw1xzo": "L1pAXcS90uPOlcTV8CHC9h/vIETFS1WEVHN06S7Pow4H/LA+WN8owaVuoa0sjL1aSaqlznnvY/z580/x"
+  "bookmwdw1xzo": "L1pAXcS90uPOlcTV8CHC9h/vIETFS1WEVHN06S7Pow4H/LA+WN8owaVuoa0sjL1aSaqlznnvY/z580/x",
+  "bookmwq5t74e": "wGUBN5G1MpFNvmxp5x4AZP4gF9pdngcYzel7JanGi98onRBvo1SMbIQPhMoZBb/JvOJIYCY8Nkp4pWST"
  },
  "sales": "egP8d7syp8ir1dMMTmClpQ2nJHL8dsovaFxABg6JkAzmDH0ZWkDvjM9AxOx08nBhsjlVn2lY6zImQCocv3MRxFBqkfl4kAsRw0bTIym0UMpWihXKuh6/1D8XbPPoPA7voY6q8CNv8dVlEspxIjJ6X8hiP47Hu8yUmQmniSLy2NgAMeOjwI1S2msbxecDpcQcoTWNLsVu",
  "licenses": {
@@ -116,7 +126,8 @@
    "b22d1f2cebfe92381952727f": {
     "w": "4eSJ30zXMAMMJgEKBIo1LrWj3hx7qVtWDoMH+si9RgpYjpV9JrQttvg168QutDNWQcvayhv943p/hUQB"
    }
-  }
+  },
+  "bookmwq5t74e": {}
  },
  "series": [
   {
