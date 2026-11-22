@@ -109,6 +109,7 @@ ul.rules{margin:0;padding-left:18px;color:var(--muted);font-size:14px}
 .timer.low{color:#fff;background:var(--bad);border-color:var(--bad)}
 .prog{height:4px;background:var(--line)}.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--green),var(--gold))}
 .qtext{font-size:18px;font-weight:700;line-height:1.45;margin:6px 0 14px}
+.mtab{width:100%;table-layout:fixed;border-collapse:collapse;margin:8px 0;font-size:15px;line-height:1.35}.mtab th,.mtab td{border:1px solid rgba(255,255,255,.18);padding:6px 8px;white-space:normal;overflow-wrap:anywhere;word-break:normal;text-align:left;vertical-align:top}.mtab th{background:#16301c;color:var(--gold);font-weight:700}.mtab td{font-weight:600}
 .opts{display:flex;flex-direction:column;gap:10px}
 .opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;border:1.5px solid var(--line);background:var(--card2);color:var(--ink);border-radius:12px;padding:12px;cursor:pointer}
 .opt b{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:var(--bg);font-size:14px}
@@ -351,7 +352,11 @@ var SERIES=[{id:'ugc-evs',name:'UGC NET Environmental Science (089) - Dec 2026'}
 var app = document.getElementById('app');
 function safeUrl(u){ u=String(u==null?'':u).trim(); return /^https?:\/\//i.test(u)?u:'#'; }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
-function fmt(s){ return esc(s).replace(/(\d+)\^(\d+)/g,'$1<sup>$2</sup>').replace(/\n/g,'<br>'); }
+function fmtL(t){ return t.replace(/(\d+)\^(\d+)/g,'$1<sup>$2</sup>'); }
+function fmt(s){ var L=esc(s).split('\n'), out=[], tb=null;
+  function flush(){ if(!tb) return; var h='<table class="mtab">'; tb.forEach(function(r,i){ var tg=i===0?'th':'td'; h+='<tr>'+r.map(function(c){ return '<'+tg+'>'+fmtL(c.trim())+'</'+tg+'>'; }).join('')+'</tr>'; }); out.push({t:h+'</table>',b:1}); tb=null; }
+  L.forEach(function(l){ var x=l.trim(); if(/^\|.*\|$/.test(x)&&x.length>2){ (tb=tb||[]).push(x.slice(1,-1).split('|')); } else { flush(); out.push({t:fmtL(l),b:0}); } }); flush();
+  var h=''; out.forEach(function(o,i){ if(i>0&&!o.b&&!out[i-1].b) h+='<br>'; h+=o.t; }); return h; }
 function get(k,d){ try{ var v=JSON.parse(localStorage.getItem('ak_'+k)); return v==null?d:v; }catch(e){ return d; } }
 function set(k,v){ try{ localStorage.setItem('ak_'+k,JSON.stringify(v)); }catch(e){} }
 function del(k){ try{ localStorage.removeItem('ak_'+k); }catch(e){} }
