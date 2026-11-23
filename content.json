@@ -94,7 +94,14 @@
    "pages": 55,
    "price": 11,
    "cover": "FAST<br>REVISION",
-   "enc": "ebooks/enc/bookmwq5t74e.bin"
+   "enc": "ebooks/enc/bookmwq5t74e.bin",
+   "parts": [
+    {
+     "title": "\"One Shot One Liner\"",
+     "pages": 38,
+     "enc": "ebooks/enc/bookmwq5t74e-xmwsveoxx.bin"
+    }
+   ]
   }
  ],
  "semester": [
