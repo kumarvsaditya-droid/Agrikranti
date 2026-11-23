@@ -301,8 +301,12 @@ function ebookForm(i){
    +'<label>Cover पर लिखा (2 शब्द)</label><input id="bc" value="'+esc(String(b.cover||'').replace(/<br>/g,' '))+'">'
    +'<label>PDF (Free हो तो खुली, Paid हो तो lock होकर upload होगी) '+(b.file?'(अभी: '+esc(b.file)+')':'')+'</label><input id="bf" type="file" accept="application/pdf">'
    +'<div class="small" id="mkst" style="margin-top:6px;color:#9fb3a5">Paid PDF की चाबी जाँच हो रही है...</div>'
+   +((b.parts&&b.parts.length)?'<div class="small" style="margin-top:10px">🎁 इस book में जुड़ी Extra PDF:'+b.parts.map(function(pt,k){ return '<div class="row" style="gap:8px;margin-top:4px"><span style="flex:1">'+(k+2)+'. '+esc(pt.title)+(pt.pages?' ('+pt.pages+' पेज)':'')+'</span><button class="btn red small" data-dp="'+k+'">हटाएँ</button></div>'; }).join('')+'</div>':'')
+   +'<label style="margin-top:12px">🎁 Extra PDF जोड़ें (सिर्फ Paid book - जिसने book खरीदी उसे यह भी Free मिलेगी, ऊपर वाली PDF नहीं बदलेगी)</label><input id="xf" type="file" accept="application/pdf">'
+   +'<div class="grid2"><div><label>Extra PDF का नाम</label><input id="xt" placeholder="जैसे: One Shot One Liner"></div><div><label>Extra PDF के पेज</label><input id="xg" type="number" min="0"></div></div>'
    +'<div class="row" style="margin-top:12px"><button class="btn gold" id="sv">Save करें</button><button class="btn ghost" id="bk">वापस</button></div></div>';
   document.getElementById('bk').onclick=ebookView;
+  M.querySelectorAll('[data-dp]').forEach(function(x){ x.onclick=function(){ if(!confirm('यह Extra PDF हटाएँ?')) return; var y=Object.assign({},b); y.parts=(b.parts||[]).slice(); y.parts.splice(+x.getAttribute('data-dp'),1); if(!y.parts.length) delete y.parts; C.ebooks[i]=y; saveContent('extra pdf removed '+y.title).then(function(){ ebookForm(i); }); }; });
   payMasterKey().then(function(MK){ var el=document.getElementById('mkst'); if(!el) return;
     el.innerHTML=MK?'✅ <b style="color:#4fd36a">Paid PDF payment server वाली चाबी से lock होगी</b> - payment के बाद book अपने आप खुलेगी। (v3)'
       :(!PINK?'⚠️ <b style="color:#f2b705">पहले "💰 eBook बिक्री" tab में Admin PIN डालें</b>, फिर यहाँ आएँ।':'⚠️ <b style="color:#ff6b6b">Master चाबी नहीं मिली</b> - upload न करें, Claude को बताएँ।'); });
@@ -311,6 +315,20 @@ function ebookForm(i){
     var w=document.getElementById('bc').value.trim().split(/\s+/);
     var y=Object.assign({},b,{title:document.getElementById('bt').value.trim(),sub:document.getElementById('bs').value.trim(),price:+document.getElementById('bp').value||0,pages:+document.getElementById('bg').value||0,cover:w.slice(0,1).join(' ')+(w.length>1?'<br>'+w.slice(1).join(' '):'')});
     var f=document.getElementById('bf').files[0];
+    var xf=document.getElementById('xf').files[0];
+    if(xf){ if(!(y.price>0)){ toast('Extra PDF सिर्फ Paid book में जुड़ती है।',7000); btn.disabled=false; return; }
+      if(i<0||!b.enc){ toast('पहले book को उसकी main PDF के साथ Save करें, फिर Extra PDF जोड़ें।',8000); btn.disabled=false; return; }
+      if(f){ toast('एक बार में एक ही PDF चुनें: या main PDF बदलें या Extra PDF जोड़ें।',8000); btn.disabled=false; return; }
+      if(!PINK){ toast('पहले "💰 eBook बिक्री" tab में Admin PIN डालें।',7000); btn.disabled=false; return; }
+      var xt=document.getElementById('xt').value.trim()||('Part '+((y.parts||[]).length+2)), xg=+document.getElementById('xg').value||0;
+      toast('Extra PDF lock (encrypt) होकर upload हो रही है...',60000);
+      var xpath='ebooks/enc/'+y.id+'-x'+Date.now().toString(36)+'.bin';
+      payMasterKey().then(function(MK){ if(!MK) throw new Error('Master चाबी नहीं मिली - Admin PIN दोबारा डालें (page refresh करें)।'); return Promise.all([itemKey(MK,y.id),xf.arrayBuffer()]); })
+       .then(function(r){ return AK.rawKey(r[0]).then(function(k){ return AK.aesEnc(k,new Uint8Array(r[1])); }); })
+       .then(function(encd){ return putFile(xpath,AK.b64e(encd),'Admin: extra pdf '+y.id); })
+       .then(function(){ y.parts=(b.parts||[]).concat([{title:xt,pages:xg,enc:xpath}]); C.ebooks[i]=y; return saveContent('extra pdf '+xt+' in '+y.title); })
+       .then(ebookView).catch(function(e){ toast('❌ '+e.message,8000); btn.disabled=false; });
+      return; }
     if(y.price>0){ delete y.file;
       if(f){ if(!PINK){ toast('पहले "💰 eBook बिक्री" tab में Admin PIN डालें।',7000); btn.disabled=false; return; }
         toast('PDF lock (encrypt) होकर upload हो रही है...',60000);
