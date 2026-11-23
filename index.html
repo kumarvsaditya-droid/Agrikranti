@@ -1084,15 +1084,15 @@ function isOpen(b){ var u=unlocked()[b.id]; return !b.price || (u && (u.c||u.k))
 function autoPay(){ return !!(CONFIG.rzpKey && CONFIG.payUrl); }
 function ebookCard(b){
   var open=isOpen(b);
-  var readBtn=b.pack?'<button class="btn" data-read="'+b.id+'">📚 Papers खोलें</button>':b.price?'<button class="btn" data-read="'+b.id+'">📖 पढ़ें</button>':'<a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(b.file)+'">पढ़ें / डाउनलोड</a>';
-  return '<div class="card ebook"><div class="cover"><span>'+b.cover+'</span><small>Agrikranti</small></div><div style="flex:1;min-width:0"><b>'+esc(b.title)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(b.sub)+' · '+b.pages+' पेज</div>'
+  var readBtn=b.pack?'<button class="btn" data-read="'+b.id+'">📚 Papers खोलें</button>':b.price?'<button class="btn" data-read="'+b.id+'">📖 पढ़ें</button>'+(b.parts||[]).map(function(pt,i){ return '<button class="btn ghost" data-read="'+b.id+'" data-part="'+i+'">📖 '+esc(pt.title||('Part '+(i+2)))+'</button>'; }).join(''):'<a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(b.file)+'">पढ़ें / डाउनलोड</a>';
+  return '<div class="card ebook"><div class="cover"><span>'+b.cover+'</span><small>Agrikranti</small></div><div style="flex:1;min-width:0"><b>'+esc(b.title)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(b.sub)+' · '+b.pages+' पेज</div>'+((b.parts&&b.parts.length)?'<div class="small" style="margin:-4px 0 8px;color:var(--gold)">🎁 साथ में Free: '+b.parts.map(function(pt){ return esc(pt.title)+(pt.pages?' ('+pt.pages+' पेज)':''); }).join(', ')+'</div>':'')
     +'<div class="chips">'+(b.price?(open?'<span class="chip done">✔ खरीदी हुई</span>':'<span class="chip" style="color:var(--gold)">₹'+b.price+'</span>'):'<span class="chip done">Free</span>')+(b.price?'<span class="chip">🔒 सिर्फ App में पढ़ें</span>':'')+'</div>'
     +'<div class="row">'+(open?readBtn:'<button class="btn gold" data-buy="'+b.id+'">₹'+b.price+' में खरीदें</button>'+(b.enc?'<button class="btn ghost" data-code="'+b.id+'">'+(autoPay()?'पहले खरीदी है?':'🔑 Password डालें')+'</button>':''))+'</div></div></div>';
 }
 function bindBooks(){
   app.querySelectorAll('[data-buy]').forEach(function(x){ x.onclick=function(){ buyBook(x.getAttribute('data-buy')); }; });
   app.querySelectorAll('[data-code]').forEach(function(x){ x.onclick=function(){ var id=x.getAttribute('data-code'); if(autoPay()) restoreBox(EBOOKS.filter(function(e){return e.id===id;})[0]); else codeBox(id); }; });
-  app.querySelectorAll('[data-read]').forEach(function(x){ x.onclick=function(){ openReader(x.getAttribute('data-read')); }; });
+  app.querySelectorAll('[data-read]').forEach(function(x){ x.onclick=function(){ var pt=x.getAttribute('data-part'); openReader(x.getAttribute('data-read'),0,pt==null?null:+pt); }; });
 }
 function buyBook(id){
   hit('buy-clicks');
@@ -1257,11 +1257,12 @@ var PDFJS_URL='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js
 function loadPdfJs(){ if(window.pdfjsLib) return Promise.resolve(); return new Promise(function(res,rej){ var sc=document.createElement('script'); sc.src=PDFJS_URL; sc.onload=function(){ pdfjsLib.GlobalWorkerOptions.workerSrc=PDFJS_WORKER; res(); }; sc.onerror=rej; document.head.appendChild(sc); }); }
 function keyFor(id){ var u=unlocked()[id]; if(!u) return Promise.reject(new Error('lic')); return u.k?Promise.resolve(AK.b64d(u.k)):AK.licId(id,u.m,u.c).then(function(lid){ var w=(LIC[id]||{})[lid]; if(!w) throw new Error('lic'); return AK.licUnwrap(w.w||w,id,u.m,u.c); }); }
 function packOpen(id){ var u=unlocked()[id]; return !!(u&&(u.k||u.c)); }
-function openReader(id,again){
+function openReader(id,again,pi){
   var b=EBOOKS.filter(function(e){return e.id===id;})[0], u=unlocked()[id], p=profile()||{};
   if(b&&b.pack){ go('semester'); return; }
-  if(!b||!u||!b.enc) return;
-  readerOpen(b.title,b.enc,keyFor(id),(p.name?p.name+' · ':'')+u.m,!again?function(){ var uu=unlocked(); if(uu[id]&&uu[id].c&&uu[id].k){ delete uu[id].k; set('unlocked',uu); return openReader(id,1); } if(!autoPay()) return openReader(id,1); MINE_T=Date.now(); return syncMine(true).then(function(){ openReader(id,1); }); }:null);
+  var pt=(b&&pi!=null&&b.parts)?b.parts[pi]:null;
+  if(!b||!u||!(pt?pt.enc:b.enc)) return;
+  readerOpen(pt?(pt.title||b.title):b.title,pt?pt.enc:b.enc,keyFor(id),(p.name?p.name+' · ':'')+u.m,!again?function(){ var uu=unlocked(); if(uu[id]&&uu[id].c&&uu[id].k){ delete uu[id].k; set('unlocked',uu); return openReader(id,1,pi); } if(!autoPay()) return openReader(id,1,pi); MINE_T=Date.now(); return syncMine(true).then(function(){ openReader(id,1,pi); }); }:null);
 }
 function rtoast(ov,m){ var t=document.createElement('div'); t.textContent=m; t.style.cssText='position:absolute;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 14px;border-radius:10px;font-size:14px;z-index:9;max-width:90%;text-align:center'; ov.appendChild(t); setTimeout(function(){ t.remove(); },3500); }
 function readerOpen(title,encUrl,keyP,wm,onBadKey){
