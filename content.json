@@ -198,12 +198,12 @@
    "go": "tests:ganna10"
   },
   {
-   "img": "img/banner-ganna-tests.jpg",
-   "go": "tests:sugarcane"
-  },
-  {
    "img": "img/banner-icar.jpg",
    "go": "tests:icar-t3t4"
+  },
+  {
+   "img": "img/banner-ganna-tests.jpg",
+   "go": "tests:sugarcane"
   },
   {
    "img": "img/banner-fso.jpg",
