@@ -28,10 +28,12 @@
    "id": "nrsts",
    "kind": "tests",
    "title": "Nem Raj Sunda (14th Ed.) Complete Book Test Series - 45 Tests (4500 MCQ)",
-   "sub": "37 Chapter Tests + 8 Full Mock · 100 प्रश्न/टेस्ट · Hindi + English · हर विकल्प का हल · Test 01 FREE · Powered by Aditya Kumar (Gold Medalist)",
+   "sub": "Launch Offer: ₹299 की Series सिर्फ ₹149 (7 दिसंबर 2026 तक) · 37 Chapter Tests + 8 Full Mock · 100 प्रश्न/टेस्ट · Hindi + English · हर विकल्प का हल · Test 01 FREE · Powered by Aditya Kumar (Gold Medalist)",
    "pages": 0,
    "price": 149,
-   "cover": "NEM RAJ<br>SUNDA"
+   "cover": "NEM RAJ<br>SUNDA",
+   "mrp": 299,
+   "offerTill": "2026-12-07"
   },
   {
    "id": "icart3t4ol",
@@ -168,7 +170,7 @@
  "series": [
   {
    "id": "nrs-sunda",
-   "name": "Nem Raj Sunda Complete Book Test Series (₹149)"
+   "name": "Nem Raj Sunda Complete Book Test Series (Launch Offer ₹149)"
   },
   {
    "id": "ugc-evs",
@@ -201,7 +203,7 @@
  ],
  "banners": [
   {
-   "img": "img/banner-nrs.jpg",
+   "img": "img/banner-nrs-offer.jpg",
    "go": "tests:nrs-sunda"
   },
   {
