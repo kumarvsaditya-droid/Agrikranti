@@ -201,6 +201,10 @@
  ],
  "banners": [
   {
+   "img": "img/banner-nrs.jpg",
+   "go": "tests:nrs-sunda"
+  },
+  {
    "img": "img/banner-ganna-book.jpg",
    "go": "book:bookmwq5t74e"
   },
