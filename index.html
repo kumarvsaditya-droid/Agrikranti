@@ -688,19 +688,36 @@ function loadJobs(){ var i=0, bust='?t='+Math.floor(Date.now()/600000);
 function jpImg(src){ return new Promise(function(ok){ var i=new Image(); i.onload=function(){ ok(i); }; i.onerror=function(){ ok(null); }; i.src=src; }); }
 function jpWrap(c,t,maxW){ var w=String(t).split(/\s+/), L=[], cur=''; w.forEach(function(x){ var tr=cur?cur+' '+x:x; if(c.measureText(tr).width>maxW&&cur){ L.push(cur); cur=x; } else cur=tr; }); if(cur) L.push(cur); return L; }
 function jpRound(c,x,y,w,h,r){ c.beginPath(); c.moveTo(x+r,y); c.arcTo(x+w,y,x+w,y+h,r); c.arcTo(x+w,y+h,x,y+h,r); c.arcTo(x,y+h,x,y,r); c.arcTo(x,y,x+w,y,r); c.closePath(); }
-var JD_ROWS=[['post_name','पद / कोर्स'],['total_posts','कुल पद / सीटें'],['qualification','योग्यता'],['age_limit','आयु सीमा'],['fee','आवेदन शुल्क'],['salary','वेतन'],['start_date','आवेदन शुरू'],['last_date','अंतिम तिथि'],['exam_date','परीक्षा / इंटरव्यू'],['selection','चयन प्रक्रिया'],['official_site','Official Website']];
+var JD_DATES=[['start_date','आवेदन शुरू',1],['last_date','अंतिम तिथि',1],['admit_card','Admit Card',0],['exam_date','परीक्षा / इंटरव्यू',1],['result_date','Result / Answer Key',0]];
+var JD_INFO=[['post_name','पद / कोर्स'],['total_posts','कुल पद / सीटें'],['qualification','योग्यता'],['age_limit','आयु सीमा'],['fee','आवेदन शुल्क'],['salary','वेतन'],['selection','चयन प्रक्रिया'],['exam_pattern','परीक्षा पैटर्न'],['how_to_apply','आवेदन कैसे करें'],['official_site','Official Website']];
+var JD_ROWS=JD_INFO.slice(0,6).concat([['start_date','आवेदन शुरू'],['last_date','अंतिम तिथि'],['admit_card','Admit Card'],['exam_date','परीक्षा / इंटरव्यू'],['result_date','Result / Answer Key']]).concat(JD_INFO.slice(6));
 function jobRows(x){ var d=x.d||{}; return JD_ROWS.filter(function(r){ return d[r[0]]; }).map(function(r){ return [r[1],String(d[r[0]]),r[0]]; }); }
+/* तिथियाँ: मुख्य 3 हमेशा दिखें (न हों तो "घोषित नहीं"), बाकी तभी जब लिखी हों */
+function jobDates(x){ var d=x.d||{}, any=JD_DATES.some(function(r){ return d[r[0]]; });
+  return JD_DATES.filter(function(r){ return d[r[0]]||(any&&r[2]); }).map(function(r){ return [r[1],d[r[0]]?String(d[r[0]]):'अभी घोषित नहीं - Official Notice देखें',d[r[0]]?(r[0]==='last_date'?'hot':''):'muted']; }); }
+function jobInfo(x){ var d=x.d||{}; return JD_INFO.filter(function(r){ return d[r[0]]; }).map(function(r){ return [r[1],String(d[r[0]]),'']; }); }
+/* Syllabus: notification में लिखा हो तो वही, नहीं तो app की Free Syllabus PDF के मुख्य भाग */
+function jobSyl(x){ var d=x.d||{}, sy=sylFor(x.title);
+  if(d.syllabus) return {list:String(d.syllabus).split(/\s*[|;]\s*/).filter(Boolean).slice(0,8),pdf:sy};
+  if(sy&&sy.sections&&sy.sections.length) return {list:sy.sections.slice(0,8),pdf:sy};
+  return null; }
 function jobPoster(x){
-  var W=1080, rows=jobRows(x), m=document.createElement('canvas').getContext('2d');
+  var W=1080, tw=W-120, tx=60, m=document.createElement('canvas').getContext('2d');
   var fl=[]; try{ ['700 60px Teko','800 50px Mukta','700 30px Mukta','500 28px Mukta'].forEach(function(f){ fl.push(document.fonts.load(f,'अ A')); }); }catch(e){}
   return Promise.all([jpImg('icons/logo.png'),jpImg('img/aditya.jpg')].concat(fl.map(function(p){ return p.catch(function(){}); }))).then(function(r){ var logo=r[0], me=r[1];
-    /* pehle naap: title + details kitni jagah lenge */
-    var tw=W-120, tfs=rows.length?50:64, tl, maxT=rows.length?190:360;
+    var dates=jobDates(x), info=jobInfo(x), syl=jobSyl(x), rich=dates.length||info.length||syl;
+    /* title */
+    var tfs=rich?50:64, tl, maxT=rich?190:360;
     do{ m.font='800 '+tfs+'px Mukta'; tl=jpWrap(m,x.title,tw-70); tfs-=3; } while(tl.length*tfs*1.3>maxT && tfs>30); tfs+=3;
-    var tlh=tfs*1.3, th=Math.max(rows.length?150:420, tl.length*tlh+(rows.length?60:110));
-    var sumT=(x.d&&x.d.summary)||''; m.font='500 34px Mukta'; var sl=sumT?jpWrap(m,sumT,tw-72).slice(0,6):[], sh=sl.length?sl.length*48+92:0;
-    var LW=300, VW=tw-LW-60, rl=rows.map(function(rw){ m.font='700 32px Mukta'; return jpWrap(m,rw[1],VW); }), dh=rows.length?rl.reduce(function(s,L){ return s+L.length*42+22; },70):0;
-    var top=500, H=Math.max(1350, top+th+(sh?24+sh:0)+(rows.length?24+dh:0)+380);
+    var tlh=tfs*1.3, th=Math.max(rich?150:420, tl.length*tlh+(rich?60:110));
+    /* AI summary */
+    var sumT=(x.d&&x.d.summary)||''; m.font='500 34px Mukta'; var sl=sumT?jpWrap(m,sumT,tw-72).slice(0,8):[], sh=sl.length?sl.length*48+96:0;
+    /* tables: [label, value, style] -> naap */
+    var LW=290, VW=tw-LW-56;
+    function tMeasure(rows){ return rows.map(function(rw){ m.font=(rw[2]==='muted'?'500 28px':'700 31px')+' Mukta'; var L=jpWrap(m,rw[1],VW); m.font='700 29px Mukta'; var K=jpWrap(m,rw[0],LW-40); return {L:L,K:K,h:Math.max(L.length,K.length)*41+26}; }); }
+    var dm=tMeasure(dates), im=tMeasure(info), dh=dates.length?dm.reduce(function(s,a){ return s+a.h; },84):0, ih=info.length?im.reduce(function(s,a){ return s+a.h; },84):0;
+    var sItems=syl?syl.list.map(function(t){ m.font='600 31px Mukta'; return jpWrap(m,t,tw-110); }):[], syh=syl?sItems.reduce(function(s,L){ return s+L.length*42+12; },96)+(syl.pdf?54:10):0;
+    var top=500, gap=24, H=top+th+(sh?gap+sh:0)+(dh?gap+dh:0)+(ih?gap+ih:0)+(syh?gap+syh:0)+400; H=Math.max(1350,H);
     var cv=document.createElement('canvas'); cv.width=W; cv.height=H; var c=cv.getContext('2d');
     var g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#13201a'); g.addColorStop(1,'#050806'); c.fillStyle=g; c.fillRect(0,0,W,H);
     c.strokeStyle='rgba(63,207,94,.07)'; c.lineWidth=2; for(var k=-H;k<W;k+=46){ c.beginPath(); c.moveTo(k,H); c.lineTo(k+H,0); c.stroke(); }
@@ -713,22 +730,33 @@ function jobPoster(x){
     var chips=[]; if(x.uni) chips.push([x.uni,'#1e88e5','#fff']); else if(x.region) chips.push([x.region==='UP'?'उत्तर प्रदेश':(x.region==='Bihar'?'बिहार':x.region),'#f2b705','#111']);
     chips.push([x.tag||'Update','#3fcf5e','#0e1410']); chips.push([jobsDate(x.ts),'#26332b','#fff']);
     var cx=60, cy=410; c.font='700 32px Mukta'; chips.forEach(function(ch){ var w=c.measureText(ch[0]).width+44; jpRound(c,cx,cy,w,58,29); c.fillStyle=ch[1]; c.fill(); c.fillStyle=ch[2]; c.fillText(ch[0],cx+22,cy+41); cx+=w+16; });
-    /* title */
-    var tx=60, ty=top; jpRound(c,tx,ty,tw,th,26); c.fillStyle='rgba(255,255,255,.05)'; c.fill(); c.strokeStyle='rgba(242,183,5,.55)'; c.lineWidth=3; c.stroke();
-    var y0=ty+Math.max(34,(th-(rows.length?20:80)-tl.length*tlh)/2)+tfs; c.fillStyle='#fff'; c.font='800 '+tfs+'px Mukta'; tl.forEach(function(l,i){ c.fillText(l,tx+36,y0+i*tlh); });
-    if(!rows.length){ c.fillStyle='#9fb3a6'; c.font='500 28px Mukta'; c.fillText('स्रोत: '+(x.source||'News')+'   |   पूरी जानकारी नीचे दिए लिंक में',tx+36,ty+th-30); }
-    /* khabar sankshep mein (AI summary) */
-    var y=ty+th+24;
-    if(sh){ jpRound(c,tx,y,tw,sh,26); c.fillStyle='rgba(242,183,5,.07)'; c.fill(); c.strokeStyle='rgba(242,183,5,.45)'; c.lineWidth=3; c.stroke();
-      c.fillStyle='#f2b705'; c.font='700 46px Teko'; c.fillText('खबर संक्षेप में',tx+36,y+52);
-      c.fillStyle='#ffffff'; c.font='500 34px Mukta'; sl.forEach(function(l,i){ c.fillText(l,tx+36,y+100+i*48); }); y+=sh+24; }
-    /* details table */
-    if(rows.length){ jpRound(c,tx,y,tw,dh,26); c.fillStyle='rgba(63,207,94,.08)'; c.fill(); c.strokeStyle='rgba(63,207,94,.5)'; c.lineWidth=3; c.stroke();
-      c.fillStyle='#3fcf5e'; c.font='700 46px Teko'; c.fillText('महत्वपूर्ण जानकारी',tx+36,y+52); var ry=y+70;
-      rows.forEach(function(rw,i){ var L=rl[i], hgt=L.length*42+22; if(i){ c.strokeStyle='rgba(255,255,255,.08)'; c.lineWidth=2; c.beginPath(); c.moveTo(tx+30,ry); c.lineTo(tx+tw-30,ry); c.stroke(); }
-        var hot=rw[2]==='last_date'; c.fillStyle=hot?'#ff6b6b':'#f2b705'; c.font='700 30px Mukta'; c.fillText(rw[0],tx+36,ry+42);
-        c.fillStyle=hot?'#ff8a80':'#fff'; c.font='700 32px Mukta'; L.forEach(function(l,j){ c.fillText(l,tx+36+LW,ry+42+j*42); }); ry+=hgt; });
-      y+=dh; }
+    /* title box */
+    var ty=top; jpRound(c,tx,ty,tw,th,26); c.fillStyle='rgba(255,255,255,.05)'; c.fill(); c.strokeStyle='rgba(242,183,5,.55)'; c.lineWidth=3; c.stroke();
+    var y0=ty+Math.max(34,(th-(rich?20:80)-tl.length*tlh)/2)+tfs; c.fillStyle='#fff'; c.font='800 '+tfs+'px Mukta'; tl.forEach(function(l,i){ c.fillText(l,tx+36,y0+i*tlh); });
+    if(!rich){ c.fillStyle='#9fb3a6'; c.font='500 28px Mukta'; c.fillText('स्रोत: '+(x.source||'News')+'   |   पूरी जानकारी नीचे दिए लिंक में',tx+36,ty+th-30); }
+    var y=ty+th+gap;
+    function box(h,col,fill,head){ jpRound(c,tx,y,tw,h,26); c.fillStyle=fill; c.fill(); c.strokeStyle=col; c.lineWidth=3; c.stroke();
+      c.save(); jpRound(c,tx,y,tw,h,26); c.clip(); c.fillStyle=col; c.fillRect(tx,y,tw,66); c.restore();
+      c.fillStyle='#0b120d'; c.font='700 48px Teko'; c.fillText(head,tx+32,y+50); }
+    /* 1. AI se aasaan bhasha mein */
+    if(sh){ box(sh,'#f2b705','rgba(242,183,5,.07)','AI से आसान भाषा में समझें');
+      c.fillStyle='#ffffff'; c.font='500 34px Mukta'; sl.forEach(function(l,i){ c.fillText(l,tx+36,y+112+i*48); }); y+=sh+gap; }
+    /* 2,3. tables */
+    function table(rows,ms,h,col,fill,head){ box(h,col,fill,head); var ry=y+66+9;
+      c.fillStyle='rgba(255,255,255,.04)'; c.fillRect(tx+3,y+66,LW,h-69);
+      rows.forEach(function(rw,i){ var a=ms[i]; if(i){ c.strokeStyle='rgba(255,255,255,.12)'; c.lineWidth=2; c.beginPath(); c.moveTo(tx+3,ry); c.lineTo(tx+tw-3,ry); c.stroke(); }
+        var hot=rw[2]==='hot', mu=rw[2]==='muted';
+        if(hot){ c.fillStyle='rgba(211,47,47,.28)'; c.fillRect(tx+3,ry,tw-6,a.h); }
+        c.fillStyle=hot?'#ff8a80':col; c.font='700 29px Mukta'; a.K.forEach(function(l,j){ c.fillText(l,tx+26,ry+40+j*41); });
+        c.fillStyle=hot?'#ffffff':(mu?'#8a9a90':'#ffffff'); c.font=(mu?'500 28px':(hot?'800 32px':'700 31px'))+' Mukta'; a.L.forEach(function(l,j){ c.fillText(l,tx+LW+28,ry+40+j*41); }); ry+=a.h; });
+      c.strokeStyle='rgba(255,255,255,.14)'; c.lineWidth=2; c.beginPath(); c.moveTo(tx+LW+3,y+66); c.lineTo(tx+LW+3,y+h-3); c.stroke(); y+=h+gap; }
+    if(dh) table(dates,dm,dh,'#ff6b6b','rgba(211,47,47,.06)','महत्वपूर्ण तिथियाँ (Important Dates)');
+    if(ih) table(info,im,ih,'#3fcf5e','rgba(63,207,94,.07)','भर्ती विवरण (Details)');
+    /* 4. syllabus */
+    if(syh){ box(syh,'#64b5f6','rgba(100,181,246,.07)','Syllabus (मुख्य विषय)'); var sy=y+108;
+      sItems.forEach(function(L,i){ c.fillStyle='#64b5f6'; c.beginPath(); c.arc(tx+44,sy-10,8,0,7); c.fill(); c.fillStyle='#fff'; c.font='600 31px Mukta'; L.forEach(function(l,j){ c.fillText(l,tx+68,sy+j*42); }); sy+=L.length*42+12; });
+      if(syl.pdf){ c.fillStyle='#ffe08a'; c.font='700 27px Mukta'; c.fillText('पूरा Free Syllabus PDF (हिंदी + English): Agrikranti App में',tx+36,sy+24); }
+      y+=syh+gap; }
     /* photo + CTA */
     if(me){ var ph=345, pw=me.width*ph/me.height, px=W-pw-20, py=H-12-ph, t=document.createElement('canvas'); t.width=pw; t.height=ph; var q=t.getContext('2d'); q.drawImage(me,0,0,pw,ph);
       q.globalCompositeOperation='destination-in'; var mx=q.createLinearGradient(0,0,pw,0); mx.addColorStop(0,'rgba(0,0,0,0)'); mx.addColorStop(.2,'#000'); mx.addColorStop(.8,'#000'); mx.addColorStop(1,'rgba(0,0,0,0)'); q.fillStyle=mx; q.fillRect(0,0,pw,ph);
@@ -736,11 +764,14 @@ function jobPoster(x){
     var bx=60, bY=H-340; c.fillStyle='#f2b705'; c.font='700 60px Teko'; c.fillText('रोज़ नई JOB ALERT के लिए',bx,bY+50);
     jpRound(c,bx,bY+78,600,74,37); c.fillStyle='#25D366'; c.fill(); c.fillStyle='#08130b'; c.font='800 36px Mukta'; c.fillText('WhatsApp Channel Join करें',bx+40,bY+128);
     c.fillStyle='#ffffff'; c.font='500 25px Mukta'; c.fillText('लिंक नीचे मैसेज में है  |  Agrikranti App पर Free Test',bx,bY+196);
-    c.fillStyle='#7f9387'; c.font='500 22px Mukta'; c.fillText('आवेदन से पहले विभाग की Official Notification ज़रूर पढ़ें',bx,bY+234);
+    c.fillStyle='#7f9387'; c.font='500 22px Mukta'; c.fillText('AI सारांश समाचार/नोटिस से है - आवेदन से पहले Official Notification ज़रूर पढ़ें',bx,bY+234);
     c.fillStyle='#3fcf5e'; c.font='700 30px Mukta'; c.fillText('YouTube: @agrikranti1928',bx,bY+290);
     return cv; }); }
-function jobShareText(x){ var d=x.d||{}, L=jobRows(x).map(function(r){ return (r[2]==='last_date'?'⏰ ':'▪️ ')+r[0]+': '+r[1]; });
-  return '🔔 *'+x.title+'*'+(d.summary?'\n\n📰 '+d.summary:'')+(L.length?'\n\n'+L.join('\n'):'')
+function jobShareText(x){ var d=x.d||{}, D=jobDates(x).filter(function(r){ return r[2]!=='muted'; }), I=jobInfo(x), S=jobSyl(x);
+  return '🔔 *'+x.title+'*'+(d.summary?'\n\n🤖 *आसान भाषा में:* '+d.summary:'')
+   +(D.length?'\n\n📅 *महत्वपूर्ण तिथियाँ*\n'+D.map(function(r){ return (r[2]==='hot'?'⏰ ':'▪️ ')+r[0]+': '+r[1]; }).join('\n'):'')
+   +(I.length?'\n\n📋 *भर्ती विवरण*\n'+I.map(function(r){ return '▪️ '+r[0]+': '+r[1]; }).join('\n'):'')
+   +(S?'\n\n📚 *Syllabus*\n'+S.list.map(function(t){ return '• '+t; }).join('\n')+(S.pdf?'\n📄 पूरा Free Syllabus PDF: '+APP_URL+'?go=syllabus&s='+S.pdf.id:''):'')
    +(x.durl?'\n\n🔗 पूरी खबर: '+x.durl:'')+'\n\n_(आवेदन से पहले Official Notification ज़रूर पढ़ें)_'
    +'\n\n📲 WhatsApp Group: '+(CONFIG.jobGroup||CONFIG.whatsapp)+'\n📱 App: '+APP_URL+'\n▶️ YouTube: https://youtube.com/@agrikranti1928'; }
 function jobShare(x,btn){ var txt=jobShareText(x), old=btn?btn.innerHTML:''; if(btn){ btn.disabled=true; btn.innerHTML='थोड़ा रुकें...'; }
@@ -751,7 +782,7 @@ function jobShare(x,btn){ var txt=jobShareText(x), old=btn?btn.innerHTML:''; if(
     var a=document.createElement('a'); a.href=URL.createObjectURL(b); a.download=f.name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(wa,600); },'image/png'); }).catch(function(){ done(); wa(); }); }
 function jobCard(x,s){ var sy=sylFor(x.title); return '<div class="card" style="padding:0;overflow:hidden"><a href="'+esc(safeUrl(x.link))+'" target="_blank" rel="noopener" style="display:block;text-decoration:none;color:inherit;padding:12px 14px">'
   +(x.ts>s?'<span class="chip" style="background:#e53935;color:#fff">NEW</span> ':'')+(x.uni?'<span class="chip" style="background:#1e88e5;color:#fff">🎓 '+esc(x.uni)+'</span> ':(x.region?'<span class="chip" style="background:var(--gold);color:#111">⭐ '+esc(x.region)+'</span> ':''))+'<span class="chip">'+esc(x.tag||'Update')+'</span>'
-  +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div>'+(x.d&&x.d.summary?'<div class="small" style="margin:2px 0 6px;line-height:1.45;color:#cfe3d4;border-left:3px solid #3fcf5e;padding-left:8px">📰 '+esc(x.d.summary)+'</div>':'')+(x.d&&(x.d.total_posts||x.d.last_date)?'<div class="small" style="margin:2px 0 4px">'+(x.d.total_posts?'<span class="chip">पद: '+esc(x.d.total_posts)+'</span> ':'')+(x.d.last_date?'<span class="chip" style="background:#5a1414;color:#ffb4ab">अंतिम तिथि: '+esc(x.d.last_date)+'</span>':'')+'</div>':'')+'<div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'+(sy?'<button class="btn gold" data-sylgo="'+esc(sy.id)+'" style="display:block;width:100%;border-radius:0;padding:9px">📄 इस परीक्षा का Free Syllabus (PDF)</button>':'')+'<button class="btn" data-jp="'+esc(x.id)+'" style="display:block;width:100%;border-radius:0;padding:9px;background:#25D366;color:#08130b;font-weight:800">📲 WhatsApp पर Share करें</button></div>'; }
+  +'<div style="margin:6px 0 4px;font-weight:700;line-height:1.4">'+esc(x.title)+'</div>'+(x.d&&x.d.summary?'<div class="small" style="margin:2px 0 6px;line-height:1.45;color:#cfe3d4;border-left:3px solid #3fcf5e;padding-left:8px">📰 '+esc(x.d.summary)+'</div>':'')+(x.d&&(x.d.total_posts||x.d.last_date||x.d.exam_date)?'<div class="small" style="margin:2px 0 4px">'+(x.d.total_posts?'<span class="chip">पद: '+esc(x.d.total_posts)+'</span> ':'')+(x.d.last_date?'<span class="chip" style="background:#5a1414;color:#ffb4ab">अंतिम तिथि: '+esc(x.d.last_date)+'</span> ':'')+(x.d.exam_date?'<span class="chip" style="background:#14365a;color:#bfe0ff">परीक्षा: '+esc(x.d.exam_date)+'</span>':'')+'</div>':'')+'<div class="muted small">'+esc(x.source||'')+' · '+jobsDate(x.ts)+' · पूरी खबर पढ़ें ↗</div></a>'+(sy?'<button class="btn gold" data-sylgo="'+esc(sy.id)+'" style="display:block;width:100%;border-radius:0;padding:9px">📄 इस परीक्षा का Free Syllabus (PDF)</button>':'')+'<button class="btn" data-jp="'+esc(x.id)+'" style="display:block;width:100%;border-radius:0;padding:9px;background:#25D366;color:#08130b;font-weight:800">📲 Summary Image के साथ Share करें</button></div>'; }
 function drawJobs(){ var el=document.getElementById('jobList'); if(!el) return;
   if(!JOBS){ el.innerHTML='<div class="card muted small">Job alerts लोड हो रहे हैं...</div>'; return; }
   var s=+(el.getAttribute('data-seen')||jobsSeen()), F=[['all','सभी'],['UP','⭐ UP'],['Bihar','⭐ Bihar'],['UNI','🎓 University'],['Notification','भर्ती'],['Admission','प्रवेश'],['Result','Result'],['Admit Card','Admit Card']];

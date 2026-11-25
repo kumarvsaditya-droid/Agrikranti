@@ -169,7 +169,7 @@ def main():
     for x in items:   # pehle nikali details (AI) wapas jodo
         o = old.get(x['id'])
         if o:
-            for f in ('d', 'dtry', 'durl'):
+            for f in ('d', 'dtry', 'durl', 'dv'):
                 if f in o and f not in x: x[f] = o[f]
     try:
         import details; details.enrich(items, now)

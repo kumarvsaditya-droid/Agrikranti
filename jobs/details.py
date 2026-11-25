@@ -8,7 +8,8 @@ MAX_PER_RUN = 25
 BUDGET = 780   # details ke liye kul seconds har run mein
 MAX_TRIES = 3
 MODELS = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-flash-latest', 'gemini-2.5-flash-lite']
-FIELDS = ['post_name', 'total_posts', 'qualification', 'age_limit', 'fee', 'salary', 'start_date', 'last_date', 'exam_date', 'selection', 'official_site', 'summary']
+FIELDS = ['post_name', 'total_posts', 'qualification', 'age_limit', 'fee', 'salary', 'start_date', 'last_date', 'admit_card', 'exam_date', 'result_date', 'selection', 'exam_pattern', 'syllabus', 'how_to_apply', 'official_site', 'summary']
+DV = 2   # details ka version: naye khaane (syllabus, admit card...) aaye to purani details ek baar dobara banengi
 
 
 def key():
@@ -67,11 +68,15 @@ PROMPT = """You extract recruitment / admission details for an Indian agricultur
 Headline: {title}
 Use ONLY facts written in the source below. Never guess, never use outside knowledge. If a field is not clearly stated, return null for it.
 Write values in short Hindi (Devanagari) and keep English technical terms, degree names, numbers and dates as they are. Dates as DD-MM-YYYY when the source gives a full date.
-Each value except summary at most 70 characters. Return JSON only with these keys:
+Each value except summary, syllabus and exam_pattern at most 70 characters. Return JSON only with these keys:
 post_name (post / course name), total_posts (number of posts or seats), qualification, age_limit, fee (application fee), salary (pay / stipend),
-start_date (apply start), last_date (last date to apply / walk-in date), exam_date (exam or interview date), selection (selection process),
+start_date (apply start), last_date (last date to apply / walk-in date), admit_card (admit card / city slip release date or status),
+exam_date (exam or interview date), result_date (result / answer key date or status), selection (selection process),
+exam_pattern (number of questions, marks, time, negative marking - only if stated, max 90 chars),
+syllabus (main subjects / sections of the exam syllabus separated by " | ", max 160 chars, only if the source lists them),
+how_to_apply (online / offline / walk-in and where, max 70 chars),
 official_site (official website domain only, like upsssc.gov.in),
-summary (2 - 3 short, simple Hindi sentences, max 230 characters in total: what this news is, for which post / exam / course, the key number or date, and what the candidate should do next only if the source says it),
+summary (3 - 4 short, simple Hindi sentences that a student understands at a glance, max 320 characters in total: what this news is, for which post / exam / course, the key number and date, and what the candidate should do next only if the source says it),
 relevant (true if the source really is about this headline, else false)."""
 
 
@@ -116,8 +121,9 @@ def gemini(k, title, text=None, pdf=None):
 
 BQ = ('Return ONLY a JSON object, no other text, no markdown. Use ONLY facts in the given context (an agriculture job / exam / admission news). '
       'Never guess; use null when a fact is missing. Hindi (Devanagari) values, keep English terms, numbers, dates as DD-MM-YYYY. Keys: '
-      'summary (2-3 short simple Hindi sentences, max 230 chars: what the news is, which post/exam, key number/date, what candidate should do, only if stated), '
-      'post_name, total_posts, qualification, age_limit, fee, salary, start_date, last_date, exam_date, selection, official_site (domain only), relevant (true/false).')
+      'summary (3-4 short simple Hindi sentences, max 320 chars: what the news is, which post/exam, key number/date, what candidate should do, only if stated), '
+      'post_name, total_posts, qualification, age_limit, fee, salary, start_date, last_date, admit_card, exam_date, result_date, selection, '
+      'exam_pattern (questions/marks/time if stated), syllabus (main subjects separated by " | ", only if listed), how_to_apply, official_site (domain only), relevant (true/false).')
 
 
 def pick(title, text, n=2400):
@@ -170,7 +176,7 @@ def clean(d):
         if v is None: continue
         v = re.sub(r'\s+', ' ', str(v)).strip(' .,-')
         if not v or v.lower() in ('null', 'none', 'n/a', 'na', 'not mentioned', 'not specified', '-') or 'उपलब्ध नहीं' in v or 'उल्लेख नहीं' in v: continue
-        out[f] = v[:260] if f == 'summary' else v[:90]
+        out[f] = v[:340] if f == 'summary' else (v[:180] if f in ('syllabus', 'exam_pattern') else v[:90])
     if 'official_site' in out:
         out['official_site'] = re.sub(r'^https?://', '', out['official_site']).split('/')[0].lower()
         if not re.match(r'^[a-z0-9.-]+\.[a-z]{2,}$', out['official_site']): out.pop('official_site')
@@ -185,7 +191,9 @@ def enrich(items, now):
         try: get(bu, timeout=30)
         except Exception as e:
             print('details: AI backend band hai (%s). GitHub secret GEMINI_KEY daalein - skip' % repr(e)[:60], flush=True); return 0
-    todo = [x for x in items if ('d' not in x or (x['d'] and 'summary' not in x['d'])) and x.get('dtry', 0) < MAX_TRIES and now - x['ts'] <= 20 * 86400]
+    for x in items:   # naya version: jinki details purani hain unhe ek baar aur mauka
+        if x.get('d') and x.get('dv', 1) < DV and x.get('dtry', 0) >= MAX_TRIES: x['dtry'] = MAX_TRIES - 1
+    todo = [x for x in items if ('d' not in x or (x['d'] and ('summary' not in x['d'] or x.get('dv', 1) < DV))) and x.get('dtry', 0) < MAX_TRIES and now - x['ts'] <= 20 * 86400]
     todo.sort(key=lambda x: (0 if (x.get('region') and not x.get('uni')) else (1 if x.get('uni') else 2), -x['ts']))   # pehle UP/Bihar, phir University, phir baaki
     done, t0 = 0, time.time()
     print('details: %d baaki, is run mein %d' % (len(todo), min(len(todo), MAX_PER_RUN)), flush=True)
@@ -214,7 +222,9 @@ def enrich(items, now):
                 d = {'summary': d.get('summary')} if d.get('summary') else {}
             if not (text or pdf):   # sirf headline se: baaki khaane mat bharo
                 d = {'summary': d.get('summary')} if d.get('summary') else {}
-            x['d'] = clean(d); done += 1
+            nd = clean(d)
+            if x.get('d') and len(nd) < len(x['d']): nd = dict(x['d'], **nd)   # purani achhi details na khoyein
+            x['d'] = nd; x['dv'] = DV; done += 1
             print('details OK', len(x['d']), x['title'][:70], flush=True)
         except Exception as e:
             print('details ERR', x['title'][:60], '-', repr(e)[:220], flush=True)
