@@ -1,5 +1,6 @@
 """Har nayi job khabar ka poora article padh kar Gemini se details nikalta hai (pad, yogyata, umar, fees, tithi...).
 Sirf wahi details rakhta hai jo article/notice mein likhi hain. jobs.json ke item mein 'd' (details) aur 'durl' (asli article link) jodta hai."""
+# GEMINI_KEY GitHub secret se aata hai (25-11-2026 se).
 import json, re, os, base64, html, time, urllib.request, urllib.parse, urllib.error
 
 HERE = os.path.dirname(os.path.abspath(__file__))
