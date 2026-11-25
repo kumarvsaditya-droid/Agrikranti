@@ -368,6 +368,9 @@ function now(){ var d=new Date(); return ('0'+d.getDate()).slice(-2)+'-'+('0'+(d
 function testById(id){ return TESTS.filter(function(t){return t.id===id;})[0]; }
 /* ===== Paid test packs (Bihar FSO): encrypted tests, daily release by 'rel' date (IST) ===== */
 function todayIST(){ return new Date(Date.now()+330*60000).toISOString().slice(0,10); }
+function offerOn(x){ return !!(x&&x.mrp&&x.mrp>x.price&&(!x.offerTill||todayIST()<=x.offerTill)); }
+function pr(x){ return offerOn(x)?'<s style="opacity:.6;font-weight:400">₹'+x.mrp+'</s> ₹'+x.price:'₹'+x.price; }
+function offTxt(x){ return offerOn(x)?' · 🔥 Launch Offer ('+relDate(x.offerTill)+' तक)':''; }
 function packOf(series){ return (window.TEST_PACKS||[]).filter(function(p){return p.series===series;})[0]; }
 var PACK_LOADING={}, PACK_TRIED={}; var ICAR_TAB='P1';
 function loadPacks(){ var jobs=[];
@@ -382,8 +385,8 @@ function relDate(d){ var x=new Date(d+'T00:00:00'); return x.getDate()+' '+['ज
 function stubCard(st,p){
   var open=packOpen(p.pack), later=st.rel>todayIST()||!st.ready, n=st.id.replace(/^[A-Z]+/,'');
   var due=!st.ready&&st.rel<=todayIST(), dchip=due?'⏳ जल्द जुड़ रहा है':'📅 '+relDate(st.rel)+(open?' को खुलेगा':'');
-  var chip=open?(later?'<span class="chip">'+dchip+'</span>':'<span class="chip">⏳ खुल रहा है...</span>'):'<span class="chip" style="color:var(--gold)">🔒 ₹'+p.price+' Series में</span><span class="chip">'+dchip+'</span>';
-  var btn=(!open&&!IS_TWA)?'<div class="row"><button class="btn gold" data-buy="'+esc(p.pack)+'">🔓 ₹'+p.price+' में पूरी Series खोलें</button></div>':'';
+  var chip=open?(later?'<span class="chip">'+dchip+'</span>':'<span class="chip">⏳ खुल रहा है...</span>'):'<span class="chip" style="color:var(--gold)">🔒 '+pr(p)+' Series में</span><span class="chip">'+dchip+'</span>';
+  var btn=(!open&&!IS_TWA)?'<div class="row"><button class="btn gold" data-buy="'+esc(p.pack)+'">🔓 '+pr(p)+' में पूरी Series खोलें</button></div>':'';
   return '<div class="card tcard"><div class="tnum" style="opacity:.6">'+n+'</div><div style="flex:1;min-width:0"><h3>'+esc(topicOf(st))+'</h3><div class="chips"><span class="chip">'+st.nq+' प्रश्न</span><span class="chip">'+maxMarks(st)+' अंक</span><span class="chip">'+TD(st)+' मिनट</span>'+chip+'</div>'+btn+'</div></div>';
 }
 function TD(t){ return (t&&t.dur)||CONFIG.durationMin; }
@@ -894,7 +897,7 @@ function tests(sid){
   var pk=packOf(cur);
   if(pk){ var po=packOpen(pk.pack);
     h+='<div class="card" style="padding:12px 14px;border-color:var(--gold)">'+(po?'<b style="color:var(--green)">✔ आपकी पूरी Series खुली है</b><div class="muted small">'+(pk.daily?esc(pk.daily)+' - अपने आप खुलेगा।':'रोज़ 2 नए टेस्ट अपने आप खुलेंगे।')+'</div>'
-      :'<b style="color:var(--gold)">'+(pk.free?'पहले '+pk.free+' टेस्ट FREE · ':'')+'पूरी Series ('+(pk.total?esc(pk.total):'20+ टेस्ट')+') सिर्फ ₹'+pk.price+'</b><div class="muted small">'+(pk.daily?esc(pk.daily):'रोज़ 2 नए Full Length टेस्ट')+' · हर प्रश्न की व्याख्या व Source · Hindi + English</div>'+(IS_TWA?'':'<div class="row" style="margin-top:8px"><button class="btn gold" data-buy="'+esc(pk.pack)+'">🔓 ₹'+pk.price+' में खरीदें</button></div>'))+'</div>'; }
+      :'<b style="color:var(--gold)">'+(pk.free?'पहले '+pk.free+' टेस्ट FREE · ':'')+'पूरी Series ('+(pk.total?esc(pk.total):'20+ टेस्ट')+') सिर्फ '+pr(pk)+offTxt(pk)+'</b><div class="muted small">'+(pk.daily?esc(pk.daily):'रोज़ 2 नए Full Length टेस्ट')+' · हर प्रश्न की व्याख्या व Source · Hindi + English</div>'+(IS_TWA?'':'<div class="row" style="margin-top:8px"><button class="btn gold" data-buy="'+esc(pk.pack)+'">🔓 '+pr(pk)+' में खरीदें</button></div>'))+'</div>'; }
   EBOOKS.filter(function(e){ return e.series===cur && e.file && !e.price; }).forEach(function(e){ var wt=e.title+' - Agrikranti App में बिल्कुल FREE पढ़ें / डाउनलोड करें: '+location.origin+location.pathname;
     h+='<div class="card" style="padding:12px 14px;border:2px solid var(--green);background:#0f2a14"><b style="color:var(--green);font-size:17px">📗 FREE Notes: '+esc(e.title.replace(/ \(FREE\)$/,''))+'</b><div class="muted small" style="margin:2px 0 10px">'+esc(e.sub||'')+(e.pages?' · '+e.pages+' पेज':'')+' · सबके लिए FREE</div><div class="row" style="flex-wrap:wrap;gap:8px"><a class="btn gold" style="text-decoration:none" target="_blank" rel="noopener" href="'+esc(e.file)+'">📖 पढ़ें / डाउनलोड</a><a class="btn ghost" style="text-decoration:none" href="https://wa.me/?text='+encodeURIComponent(wt)+'" target="_blank" rel="noopener">📲 WhatsApp पर भेजें</a></div></div>'; });
   list.sort(function(a,b){ return a.id<b.id?-1:a.id>b.id?1:0; });
@@ -1120,8 +1123,8 @@ function ebookCard(b){
   var open=isOpen(b);
   var readBtn=b.pack?'<button class="btn" data-read="'+b.id+'">📚 Papers खोलें</button>':b.price?'<button class="btn" data-read="'+b.id+'">📖 पढ़ें</button>'+(b.parts||[]).map(function(pt,i){ return '<button class="btn ghost" data-read="'+b.id+'" data-part="'+i+'">📖 '+esc(pt.title||('Part '+(i+2)))+'</button>'; }).join(''):'<a class="btn" style="text-decoration:none;display:inline-grid;place-items:center" target="_blank" rel="noopener" href="'+esc(b.file)+'">पढ़ें / डाउनलोड</a>';
   return '<div class="card ebook"><div class="cover"><span>'+b.cover+'</span><small>Agrikranti</small></div><div style="flex:1;min-width:0"><b>'+esc(b.title)+'</b><div class="muted small" style="margin:2px 0 8px">'+esc(b.sub)+' · '+b.pages+' पेज</div>'+((b.parts&&b.parts.length)?'<div class="small" style="margin:-4px 0 8px;color:var(--gold)">🎁 साथ में Free: '+b.parts.map(function(pt){ return esc(pt.title)+(pt.pages?' ('+pt.pages+' पेज)':''); }).join(', ')+'</div>':'')
-    +'<div class="chips">'+(b.price?(open?'<span class="chip done">✔ खरीदी हुई</span>':'<span class="chip" style="color:var(--gold)">₹'+b.price+'</span>'):'<span class="chip done">Free</span>')+(b.price?'<span class="chip">🔒 सिर्फ App में पढ़ें</span>':'')+'</div>'
-    +'<div class="row">'+(open?readBtn:'<button class="btn gold" data-buy="'+b.id+'">₹'+b.price+' में खरीदें</button>'+(b.enc?'<button class="btn ghost" data-code="'+b.id+'">'+(autoPay()?'पहले खरीदी है?':'🔑 Password डालें')+'</button>':''))+'</div></div></div>';
+    +'<div class="chips">'+(b.price?(open?'<span class="chip done">✔ खरीदी हुई</span>':'<span class="chip" style="color:var(--gold)">'+pr(b)+'</span>'+(offerOn(b)?'<span class="chip" style="color:#ff7a59">🔥 Launch Offer · '+relDate(b.offerTill)+' तक</span>':'')):'<span class="chip done">Free</span>')+(b.price?'<span class="chip">🔒 सिर्फ App में पढ़ें</span>':'')+'</div>'
+    +'<div class="row">'+(open?readBtn:'<button class="btn gold" data-buy="'+b.id+'">'+pr(b)+' में खरीदें</button>'+(b.enc?'<button class="btn ghost" data-code="'+b.id+'">'+(autoPay()?'पहले खरीदी है?':'🔑 Password डालें')+'</button>':''))+'</div></div></div>';
 }
 function bindBooks(){
   app.querySelectorAll('[data-buy]').forEach(function(x){ x.onclick=function(){ buyBook(x.getAttribute('data-buy')); }; });
