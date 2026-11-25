@@ -25,6 +25,15 @@
  },
  "ebooks": [
   {
+   "id": "nrsts",
+   "kind": "tests",
+   "title": "Nem Raj Sunda (14th Ed.) Complete Book Test Series - 45 Tests (4500 MCQ)",
+   "sub": "37 Chapter Tests + 8 Full Mock · 100 प्रश्न/टेस्ट · Hindi + English · हर विकल्प का हल · Test 01 FREE · Powered by Aditya Kumar (Gold Medalist)",
+   "pages": 0,
+   "price": 149,
+   "cover": "NEM RAJ<br>SUNDA"
+  },
+  {
    "id": "icart3t4ol",
    "title": "ICAR T-3 / T-4 One Shot One Liner (FREE)",
    "sub": "ASRB 2026-27 · 372+ One-Liners · 17 Chapters · Flow Chart + Diagram · 2016 PYQ Facts · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
@@ -157,6 +166,10 @@
   "bookmwq5t74e": {}
  },
  "series": [
+  {
+   "id": "nrs-sunda",
+   "name": "Nem Raj Sunda Complete Book Test Series (₹149)"
+  },
   {
    "id": "ugc-evs",
    "name": "UGC NET Environmental Science (089) - Dec 2026"
