@@ -739,7 +739,7 @@ function jobPoster(x){
       c.save(); jpRound(c,tx,y,tw,h,26); c.clip(); c.fillStyle=col; c.fillRect(tx,y,tw,66); c.restore();
       c.fillStyle='#0b120d'; c.font='700 48px Teko'; c.fillText(head,tx+32,y+50); }
     /* 1. AI se aasaan bhasha mein */
-    if(sh){ box(sh,'#f2b705','rgba(242,183,5,.07)','AI से आसान भाषा में समझें');
+    if(sh){ box(sh,'#f2b705','rgba(242,183,5,.07)','सारांश (Summary)');
       c.fillStyle='#ffffff'; c.font='500 34px Mukta'; sl.forEach(function(l,i){ c.fillText(l,tx+36,y+112+i*48); }); y+=sh+gap; }
     /* 2,3. tables */
     function table(rows,ms,h,col,fill,head){ box(h,col,fill,head); var ry=y+66+9;
@@ -764,11 +764,11 @@ function jobPoster(x){
     var bx=60, bY=H-340; c.fillStyle='#f2b705'; c.font='700 60px Teko'; c.fillText('रोज़ नई JOB ALERT के लिए',bx,bY+50);
     jpRound(c,bx,bY+78,600,74,37); c.fillStyle='#25D366'; c.fill(); c.fillStyle='#08130b'; c.font='800 36px Mukta'; c.fillText('WhatsApp Channel Join करें',bx+40,bY+128);
     c.fillStyle='#ffffff'; c.font='500 25px Mukta'; c.fillText('लिंक नीचे मैसेज में है  |  Agrikranti App पर Free Test',bx,bY+196);
-    c.fillStyle='#7f9387'; c.font='500 22px Mukta'; c.fillText('AI सारांश समाचार/नोटिस से है - आवेदन से पहले Official Notification ज़रूर पढ़ें',bx,bY+234);
+    c.fillStyle='#7f9387'; c.font='500 22px Mukta'; c.fillText('आवेदन से पहले विभाग की Official Notification ज़रूर पढ़ें',bx,bY+234);
     c.fillStyle='#3fcf5e'; c.font='700 30px Mukta'; c.fillText('YouTube: @agrikranti1928',bx,bY+290);
     return cv; }); }
 function jobShareText(x){ var d=x.d||{}, D=jobDates(x).filter(function(r){ return r[2]!=='muted'; }), I=jobInfo(x), S=jobSyl(x);
-  return '🔔 *'+x.title+'*'+(d.summary?'\n\n🤖 *आसान भाषा में:* '+d.summary:'')
+  return '🔔 *'+x.title+'*'+(d.summary?'\n\n📝 *सारांश:* '+d.summary:'')
    +(D.length?'\n\n📅 *महत्वपूर्ण तिथियाँ*\n'+D.map(function(r){ return (r[2]==='hot'?'⏰ ':'▪️ ')+r[0]+': '+r[1]; }).join('\n'):'')
    +(I.length?'\n\n📋 *भर्ती विवरण*\n'+I.map(function(r){ return '▪️ '+r[0]+': '+r[1]; }).join('\n'):'')
    +(S?'\n\n📚 *Syllabus*\n'+S.list.map(function(t){ return '• '+t; }).join('\n')+(S.pdf?'\n📄 पूरा Free Syllabus PDF: '+APP_URL+'?go=syllabus&s='+S.pdf.id:''):'')
