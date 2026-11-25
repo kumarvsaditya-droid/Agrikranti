@@ -87,7 +87,7 @@ def models(k):
     if _MODELS is not None: return _MODELS
     names = []
     try:
-        j = json.loads(get('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200&key=' + k)[0])
+        j = json.loads(get('https://generativelanguage.googleapis.com/v1beta/models?pageSize=200', headers={'x-goog-api-key': k})[0])
         for m in j.get('models', []):
             n = m['name'].split('/')[-1]
             if 'generateContent' in m.get('supportedGenerationMethods', []) and 'flash' in n and not re.search(r'image|tts|audio|live|thinking|exp|preview', n): names.append(n)
@@ -107,7 +107,7 @@ def gemini(k, title, text=None, pdf=None):
     last = None
     for m in models(k):
         try:
-            raw = get('https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s' % (m, k), body, {'Content-Type': 'application/json'}, 90)[0]
+            raw = get('https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent' % m, body, {'Content-Type': 'application/json', 'x-goog-api-key': k}, 90)[0]
             j = json.loads(raw)
             t = j['candidates'][0]['content']['parts'][0]['text']
             t = re.sub(r'^```(?:json)?|```$', '', t.strip()).strip()
