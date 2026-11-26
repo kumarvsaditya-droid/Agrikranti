@@ -208,6 +208,9 @@ sup{font-size:.7em}
 .slide .tag{display:inline-block;margin-top:8px;background:var(--gold);color:#111;font-weight:800;font-size:12px;border-radius:99px;padding:2px 10px}
 .slide.teach{padding:0;align-items:stretch;overflow:hidden;gap:0}.slide.teach .tpic{width:46%;max-width:220px;object-fit:cover;object-position:top;align-self:flex-end;height:100%;min-height:168px;-webkit-mask-image:linear-gradient(to left,#000 70%,transparent);mask-image:linear-gradient(to left,#000 70%,transparent)}
 .slide.imgs{padding:0}.slide.imgs img{width:100%;display:block}
+.newb{position:absolute;top:6px;left:50%;transform:translateX(-50%);z-index:3;background:#e8202a;color:#fff;font-family:var(--display);font-size:15px;line-height:1;letter-spacing:1px;padding:3px 8px 1px;border-radius:6px;box-shadow:0 0 0 2px #fff,0 0 12px rgba(232,32,42,.8);animation:newblink 1s steps(1,end) infinite;pointer-events:none}
+@keyframes newblink{0%{opacity:1}50%{opacity:.15}}
+.slide.imgs,.card.hasnew{position:relative}
 .dots2{position:absolute;bottom:7px;left:0;right:0;display:flex;justify-content:center;gap:5px}
 .dots2 b{width:6px;height:6px;border-radius:3px;background:rgba(255,255,255,.35);transition:.2s}
 .dots2 b.on{width:16px;background:var(--gold)}
@@ -565,7 +568,7 @@ function tilesFor(cat){
 }
 function bannerSlides(){
   var sl=[];
-  if(window.BANNERS && BANNERS.length) BANNERS.forEach(function(b){ sl.push('<a class="slide imgs" '+(b.go?'data-goto="'+esc(b.go)+'" style="cursor:pointer"':b.link?'href="'+esc(b.link)+'" target="_blank" rel="noopener"':'')+'><img src="'+esc(b.img)+'" alt=""></a>'); });
+  if(window.BANNERS && BANNERS.length) BANNERS.forEach(function(b){ sl.push('<a class="slide imgs" '+(b.go?'data-goto="'+esc(b.go)+'" style="cursor:pointer"':b.link?'href="'+esc(b.link)+'" target="_blank" rel="noopener"':'')+'>'+(b.go&&b.go.indexOf('tests:')===0?newBadge(b.go.slice(6)):'')+'<img src="'+esc(b.img)+'" alt=""></a>'); });
   sl.push('<div class="slide teach" style="background:radial-gradient(120% 160% at 100% 100%,#1d3a22 0%,#0b0f0c 60%)"><div style="flex:1;min-width:0;padding:16px 0 16px 16px;z-index:1"><span class="tag" style="margin:0 0 8px">आपके Teacher</span><h3>Aditya Kumar</h3><p style="margin-top:6px"><b style="color:var(--gold)">M.Sc. (Ag.) Soil Science</b><br>Gold Medalist · DDUGU Gorakhpur</p><p>Agrikranti 1928 के साथ तैयारी करें</p></div><img src="img/aditya.jpg" alt="Aditya Kumar" class="tpic"></div>');
   sl.push('<div class="slide" style="background:radial-gradient(120% 140% at 0% 0%,#1d3a22 0%,#121a14 60%)"><img class="lg" src="icons/logo.png" alt=""><div><h3>AGRIKRANTI 1928</h3><p>'+esc(CONFIG.tagline)+'</p><span class="tag">Sugarcane Supervisor · '+TESTS.length+' Free Tests</span></div></div>');
   sl.push('<div class="slide" data-goto="ask" style="background:radial-gradient(120% 140% at 100% 0%,#4a3a05 0%,#141a10 65%)"><div style="font-size:64px;line-height:1">✨</div><div><h3>Agrikranti AI</h3><p>Agriculture का कोई भी doubt पूछें, आसान हिंदी में तुरंत जवाब।</p><span class="tag">अभी पूछें</span></div></div>');
@@ -870,14 +873,17 @@ function factsOf(q){ var L=[]; if(q.x) L.push(q.x.replace(/\n\s*उत्तर\
 function factBox(q){ var L=factsOf(q); if(!L.length) return ''; return '<div class="expbox"><b>🎯 इससे जुड़े परीक्षा-उपयोगी तथ्य (Related Exam Facts)</b><ul class="flist">'+L.map(function(f){ return '<li>'+fmt(f)+'</li>'; }).join('')+'</ul></div>'; }
 function seriesOf(t){ return t.series||(SERIES[0]&&SERIES[0].id); }
 var TS_OPEN=null;
+/* Poster ke upar blinking NEW (Sugarcane Supervisor wali series chhodkar) */
+var NO_NEW={ganna10:1,sugarcane:1};
+function newBadge(id){ return (id && !NO_NEW[id])?'<span class="newb">NEW</span>':''; }
 function seriesBanner(id){ return (window.BANNERS||[]).filter(function(b){ return b.go==='tests:'+id && b.img; })[0]; }
 function seriesCount(id){ var pk=packOf(id); return TESTS.filter(function(t){return seriesOf(t)===id;}).length+(pk?pk.stubs.filter(function(st){return !testById(st.id);}).length:0); }
 /* Test Series hub: pehle har exam ka banner, tap karne par us exam ke saare mock test */
 function seriesHub(){
   var h=topbar()+'<main class="page"><h2 class="sec">Test <span>Series</span></h2><p class="muted small" style="margin:-4px 0 4px">अपना exam चुनें, banner पर tap करते ही उसके सारे Mock Test खुल जाएँगे।</p>';
   SERIES.forEach(function(x){ var b=seriesBanner(x.id), n=seriesCount(x.id);
-    if(b) h+='<div class="card" data-sr="'+esc(x.id)+'" style="cursor:pointer;padding:0;overflow:hidden"><img src="'+esc(b.img)+'" alt="" style="display:block;width:100%;height:auto"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;padding:10px 14px"><b style="min-width:0">'+esc(x.name)+'</b><span class="btn gold" style="white-space:nowrap;font-size:14px;padding:8px 12px">'+n+' Mock देखें →</span></div></div>';
-    else h+='<div class="card" data-sr="'+esc(x.id)+'" style="cursor:pointer;padding:14px;border:2px solid var(--gold);background:radial-gradient(120% 140% at 100% 0%,#1d4a22 0%,var(--card) 60%)"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:10px"><div style="min-width:0"><b style="font-size:17px">'+esc(x.name)+'</b><div class="muted small">'+n+' Mock Test</div></div><span class="btn gold" style="white-space:nowrap;font-size:14px;padding:8px 12px">खोलें →</span></div></div>';
+    if(b) h+='<div class="card hasnew" data-sr="'+esc(x.id)+'" style="cursor:pointer;padding:0;overflow:hidden">'+newBadge(x.id)+'<img src="'+esc(b.img)+'" alt="" style="display:block;width:100%;height:auto"><div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:8px;padding:10px 14px"><b style="min-width:0">'+esc(x.name)+'</b><span class="btn gold" style="white-space:nowrap;font-size:14px;padding:8px 12px">'+n+' Mock देखें →</span></div></div>';
+    else h+='<div class="card hasnew" data-sr="'+esc(x.id)+'" style="cursor:pointer;padding:14px;border:2px solid var(--gold);background:radial-gradient(120% 140% at 100% 0%,#1d4a22 0%,var(--card) 60%)">'+newBadge(x.id)+'<div class="row" style="justify-content:space-between;align-items:center;flex-wrap:nowrap;gap:10px"><div style="min-width:0"><b style="font-size:17px">'+esc(x.name)+'</b><div class="muted small">'+n+' Mock Test</div></div><span class="btn gold" style="white-space:nowrap;font-size:14px;padding:8px 12px">खोलें →</span></div></div>';
   });
   h+='</main>'; app.innerHTML=h; bindCommon();
   app.querySelectorAll('[data-sr]').forEach(function(b){ b.onclick=function(){ var id=b.getAttribute('data-sr'); set('series',id); window.scrollTo(0,0); tests(id); }; });
