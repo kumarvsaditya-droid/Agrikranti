@@ -19,9 +19,9 @@
   "jobGroup": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2"
  },
  "notice": {
-  "text": "",
-  "link": "",
-  "linkText": ""
+  "text": "🚀 BPSC कृषि विभाग (सहायक निदेशक, 147 पद) की Test Series बहुत जल्द Agrikranti App में आ रही है। Update सबसे पहले पाने के लिए WhatsApp Group से जुड़ें।",
+  "link": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2",
+  "linkText": "WhatsApp Group Join करें"
  },
  "ebooks": [
   {
@@ -202,6 +202,14 @@
   }
  ],
  "banners": [
+  {
+   "img": "img/banner-bpsc-agri-2026.jpg",
+   "go": "updates"
+  },
+  {
+   "img": "img/banner-bpsc-ts-soon.jpg",
+   "go": "updates"
+  },
   {
    "img": "img/banner-nrs-offer.jpg",
    "go": "tests:nrs-sunda"

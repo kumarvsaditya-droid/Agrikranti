@@ -1,5 +1,5 @@
 /* Agrikranti service worker - app ko offline bhi chalata hai */
-var CACHE = 'agrikranti-v143';
+var CACHE = 'agrikranti-v144';
 var CORE = ['./', 'index.html', 'tests.js', 'tests-ganna.js', 'tests-fso.js', 'tests-icar.js', 'tests-iffco.js', 'tests-iffco-mains.js', 'tests-ugcevs.js', 'tests-nrs.js', 'manifest.webmanifest', 'icons/logo.png', 'icons/icon-192.png', 'icons/icon-512.png', 'img/upi-qr.png', 'akcrypto.js', 'img/aditya.jpg'];
 self.addEventListener('install', function (e) { e.waitUntil(caches.open(CACHE).then(function (c) { return c.addAll(CORE); })); self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
@@ -29,7 +29,7 @@ function checkJobs() {
       var pri = fresh.filter(function (x) { return x.region; }), top = pri[0] || fresh[0];
       if (self.navigator && self.navigator.setAppBadge) { try { self.navigator.setAppBadge(fresh.length); } catch (e) {} }
       return self.registration.showNotification(pri.length ? '⭐ ' + pri.length + ' नई UP/Bihar Agriculture Job Alert' : '🔔 ' + fresh.length + ' नई Agriculture Job Alert',
-        { body: top.title, icon: 'icons/notif-icon.png', badge: 'icons/badge-72.png', image: 'img/job-alert.jpg', tag: 'ak-jobs', renotify: true, data: { url: './?go=updates' } })
+        { body: top.title, icon: 'icons/notif-icon.png', badge: 'icons/badge-72.png', image: top.img || 'img/job-alert.jpg', tag: 'ak-jobs', renotify: true, data: { url: './?go=updates' } })
         .then(function () { return metaSet('/__jobs_last', newest); });
     });
   }).catch(function () {});

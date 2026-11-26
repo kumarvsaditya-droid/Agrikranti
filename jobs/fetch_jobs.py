@@ -174,6 +174,11 @@ def main():
     try:
         import details; details.enrich(items, now)
     except Exception as e: print('details module ERR', e)
+    # pinned.json: haath se daali khabar (poster ke saath), 'until' tak sabse upar, filter/30 din ka niyam nahi lagta
+    try:
+        pins = [p for p in json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'pinned.json'), encoding='utf-8')) if time.strftime('%Y-%m-%d', time.gmtime(now)) <= p.get('until', '9999')]
+        pid = {p['id'] for p in pins}; items = pins + [x for x in items if x['id'] not in pid]
+    except Exception as e: print('pinned ERR', e)
     new = {'updated': now, 'count': len(items), 'items': items, 'pages_seen': new_seen}
     prev = None
     try: prev = json.load(open(OUT, encoding='utf-8'))
