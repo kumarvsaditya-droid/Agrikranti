@@ -208,6 +208,16 @@
  ],
  "banners": [
   {
+   "img": "img/banner-fast-revision-update.jpg",
+   "go": "book:bookmwq5t74e",
+   "new": true
+  },
+  {
+   "img": "img/banner-free-ebooks.jpg",
+   "go": "ebooks",
+   "new": true
+  },
+  {
    "img": "img/banner-bpsc-agri-2026.jpg",
    "go": "updates"
   },
