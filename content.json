@@ -1,288 +1,292 @@
 {
- "config": {
-  "tagline": "Agriculture exam ki taiyari - Test Series, eBooks aur Notes",
-  "youtube": "https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG",
-  "instagram": "https://www.instagram.com/agrikranti1928",
-  "whatsapp": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2",
-  "telegram": "https://t.me/Agrikranti_Aditya_Kumar",
-  "telegramName": "@Agrikranti_Aditya_Kumar",
-  "upiId": "kumarvsaditya1@ibl",
-  "payeeName": "ADITYA KUMAR",
-  "marksPerQ": 2,
-  "negative": 0,
-  "durationMin": 60,
-  "aiUrl": "https://script.google.com/macros/s/AKfycbze--gm7GlqQ75FLpKyVAgra5scZU2aSzHRX3SVSnC8XuIlMKeU8I-g6A5cxK81LtLU/exec",
-  "gk": "",
-  "rzpKey": "rzp_live_TyAhAu8pDBy0tg",
-  "payUrl": "https://script.google.com/macros/s/AKfycbxSDZ-sbCEXWs0jwnwOp7h7Gf_nz5MYVflo-x0bK37yKfqV0WYlx4vaPjQmIXsIZfFu/exec",
-  "regUrl": "https://script.google.com/macros/s/AKfycbxH1DgOpZL1eOQecaDH_CMelhNyyn2MQ5Qfplk4XFzcw2gjtbqDDXq0aSFqRHDCG5oT/exec",
-  "jobGroup": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2"
- },
- "notice": {
-  "text": "🚀 BPSC कृषि विभाग (सहायक निदेशक, 147 पद) की Test Series बहुत जल्द Agrikranti App में आ रही है। Update सबसे पहले पाने के लिए WhatsApp Group से जुड़ें।",
-  "link": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2",
-  "linkText": "WhatsApp Group Join करें"
- },
- "ebooks": [
-  {
-   "id": "nrsts",
-   "kind": "tests",
-   "title": "Nem Raj Sunda (14th Ed.) Complete Book Test Series - 45 Tests (4000 MCQ)",
-   "sub": "Launch Offer: ₹299 की Series सिर्फ ₹149 (7 दिसंबर 2026 तक) · 37 Chapter Tests + 8 Full Mock · 100 प्रश्न/टेस्ट (Test 11-20: 50 प्रश्न) · Hindi + English · हर विकल्प का हल · Test 01 FREE · Powered by Aditya Kumar (Gold Medalist)",
-   "pages": 0,
-   "price": 149,
-   "cover": "NEM RAJ<br>SUNDA",
-   "mrp": 299,
-   "offerTill": "2026-12-07"
+  "config": {
+    "tagline": "Agriculture exam ki taiyari - Test Series, eBooks aur Notes",
+    "youtube": "https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG",
+    "instagram": "https://www.instagram.com/agrikranti1928",
+    "whatsapp": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2",
+    "telegram": "https://t.me/Agrikranti_Aditya_Kumar",
+    "telegramName": "@Agrikranti_Aditya_Kumar",
+    "upiId": "kumarvsaditya1@ibl",
+    "payeeName": "ADITYA KUMAR",
+    "marksPerQ": 2,
+    "negative": 0,
+    "durationMin": 60,
+    "aiUrl": "https://script.google.com/macros/s/AKfycbze--gm7GlqQ75FLpKyVAgra5scZU2aSzHRX3SVSnC8XuIlMKeU8I-g6A5cxK81LtLU/exec",
+    "gk": "",
+    "rzpKey": "rzp_live_TyAhAu8pDBy0tg",
+    "payUrl": "https://script.google.com/macros/s/AKfycbxSDZ-sbCEXWs0jwnwOp7h7Gf_nz5MYVflo-x0bK37yKfqV0WYlx4vaPjQmIXsIZfFu/exec",
+    "regUrl": "https://script.google.com/macros/s/AKfycbxH1DgOpZL1eOQecaDH_CMelhNyyn2MQ5Qfplk4XFzcw2gjtbqDDXq0aSFqRHDCG5oT/exec",
+    "jobGroup": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2"
   },
-  {
-   "id": "icart3t4ol",
-   "title": "ICAR T-3 / T-4 One Shot One Liner (FREE)",
-   "sub": "ASRB 2026-27 · 372+ One-Liners · 17 Chapters · Flow Chart + Diagram · 2016 PYQ Facts · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
-   "pages": 25,
-   "price": 0,
-   "file": "ebooks/Agrikranti_ICAR_T3_T4_One_Shot_One_Liner.pdf",
-   "cover": "T-3 T-4<br>ONE LINER",
-   "series": "icar-t3t4"
+  "notice": {
+    "text": "🚀 BPSC कृषि विभाग (सहायक निदेशक, 147 पद) की Test Series बहुत जल्द Agrikranti App में आ रही है। Update सबसे पहले पाने के लिए WhatsApp Group से जुड़ें।",
+    "link": "https://chat.whatsapp.com/LaRhSAbff2jJt7ot3Evc5Z?s=cl&p=a&iam=2",
+    "linkText": "WhatsApp Group Join करें"
   },
-  {
-   "id": "notes1",
-   "title": "Agriculture Complete Notes (Full)",
-   "sub": "Lecture 1 - 36 + extra notes · Agronomy, Soil Science, Horticulture, Breeding, Plant Protection, Extension, Animal Science",
-   "pages": 60,
-   "price": 99,
-   "cover": "FULL<br>NOTES",
-   "enc": "ebooks/enc/notes1.bin"
-  },
-  {
-   "id": "sample1",
-   "title": "Free Sample - Agriculture Notes",
-   "sub": "Full notes ke pehle 10 pages, pehle padhkar dekhein",
-   "pages": 10,
-   "price": 0,
-   "file": "ebooks/Agrikranti_Notes_Free_Sample.pdf",
-   "cover": "FREE<br>PDF"
-  },
-  {
-   "id": "bookmwdw1xzo",
-   "title": "Bhumi Suposhan (Soil Nutrition) - B.Sc. Natural Farming",
-   "sub": "Complete bilingual notes + 5 model papers",
-   "pages": 156,
-   "price": 99,
-   "cover": "BHUMI<br>SUPOSHAN",
-   "enc": "ebooks/enc/bookmwdw1xzo.bin"
-  },
-  {
-   "id": "ugcevs",
-   "kind": "tests",
-   "title": "UGC NET Environmental Science (089) - Paper I + Paper II Test Series (Dec 2026)",
-   "sub": "Paper I के 10 + Paper II के 10 टेस्ट · 1500 Unique प्रश्न · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
-   "pages": 0,
-   "price": 99,
-   "cover": "UGC NET<br>EVS"
-  },
-  {
-   "id": "iffcomains",
-   "kind": "tests",
-   "title": "IFFCO AGT 2026 Mains Mock Test Series - 10 Full Length Mains Mock",
-   "sub": "Final Online Test (Mains) · 70 Agri Science + 30 Numerical/Reasoning/GK/Safety · तुरंत हल + Related Facts · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
-   "pages": 0,
-   "price": 99,
-   "cover": "IFFCO<br>MAINS"
-  },
-  {
-   "id": "icarts",
-   "kind": "tests",
-   "title": "ICAR T-3 & T-4 Agriculture - 10 Full Mock Test Series (20 Papers)",
-   "sub": "ASRB 2026-27 · हर टेस्ट में Paper I + Paper II · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
-   "pages": 0,
-   "price": 149,
-   "cover": "ICAR<br>T-3 T-4"
-  },
-  {
-   "id": "fsots",
-   "kind": "tests",
-   "title": "Bihar FSO Test Series (20+ Full Mock Tests)",
-   "sub": "BTSC खाद्य संरक्षा पदाधिकारी · 100 प्रश्न/टेस्ट · रोज़ 2 नए टेस्ट",
-   "pages": 0,
-   "price": 149,
-   "cover": "FSO<br>TESTS"
-  },
-  {
-   "id": "fsonotes1",
-   "title": "Bihar FSO - Food Chemistry Complete Notes (FREE)",
-   "sub": "Bilingual (English + हिन्दी) · Carbohydrates, Proteins, Lipids, Pigments, Flavours, Enzymes & Browning, Vitamins + 131 One-Liners · Powered by Aditya Kumar (Gold Medalist)",
-   "pages": 53,
-   "price": 0,
-   "file": "ebooks/Agrikranti_Bihar_FSO_Food_Chemistry_Notes.pdf",
-   "cover": "FSO<br>NOTES",
-   "series": "bihar-fso"
-  },
-  {
-   "id": "bookmwq5t74e",
-   "title": "Fast Revision Sugarcane Supervisor",
-   "sub": "13 subjects · Mind maps + concept diagrams · English + Hindi · Latest FRP/SAP/MSP",
-   "pages": 55,
-   "price": 11,
-   "cover": "FAST<br>REVISION",
-   "enc": "ebooks/enc/bookmwq5t74e.bin",
-   "parts": [
+  "ebooks": [
     {
-     "title": "\"One Shot One Liner\"",
-     "pages": 38,
-     "enc": "ebooks/enc/bookmwq5t74e-xmwsveoxx.bin"
+      "id": "bookmwq5t74e",
+      "title": "Fast Revision Sugarcane Supervisor",
+      "sub": "13 subjects · Mind maps + concept diagrams · English + Hindi · Latest FRP/SAP/MSP",
+      "pages": 55,
+      "price": 11,
+      "cover": "FAST<br>REVISION",
+      "enc": "ebooks/enc/bookmwq5t74e.bin",
+      "parts": [
+        {
+          "title": "\"One Shot One Liner\"",
+          "pages": 38,
+          "enc": "ebooks/enc/bookmwq5t74e-xmwsveoxx.bin"
+        },
+        {
+          "title": "Agriculture 65/65 One-Liner",
+          "pages": 181,
+          "enc": "ebooks/enc/bookmwq5t74e-xmwyp8fj9.bin"
+        }
+      ],
+      "promo": [
+        "ganna10",
+        "sugarcane"
+      ]
     },
     {
-     "title": "Agriculture 65/65 One-Liner",
-     "pages": 181,
-     "enc": "ebooks/enc/bookmwq5t74e-xmwyp8fj9.bin"
-    }
-   ]
-  }
- ],
- "semester": [
-  {
-   "sem": 1,
-   "title": "B.Sc. Agriculture - 1st Semester",
-   "papers": [
+      "id": "nrsts",
+      "kind": "tests",
+      "title": "Nem Raj Sunda (14th Ed.) Complete Book Test Series - 45 Tests (4000 MCQ)",
+      "sub": "Launch Offer: ₹299 की Series सिर्फ ₹149 (7 दिसंबर 2026 तक) · 37 Chapter Tests + 8 Full Mock · 100 प्रश्न/टेस्ट (Test 11-20: 50 प्रश्न) · Hindi + English · हर विकल्प का हल · Test 01 FREE · Powered by Aditya Kumar (Gold Medalist)",
+      "pages": 0,
+      "price": 149,
+      "cover": "NEM RAJ<br>SUNDA",
+      "mrp": 299,
+      "offerTill": "2026-12-07"
+    },
     {
-     "code": "GPB-101",
-     "subject": "Fundamentals of Genetics - Notes Part 1",
-     "info": "Free Notes · 33 पेज · Cell, Cell Organelles, Nucleus, Chromosome Structure & Classification",
-     "notes": "papers/BSc_Sem1_GPB101_Genetics_Notes_Part1.pdf",
-     "free": true
+      "id": "icart3t4ol",
+      "title": "ICAR T-3 / T-4 One Shot One Liner (FREE)",
+      "sub": "ASRB 2026-27 · 372+ One-Liners · 17 Chapters · Flow Chart + Diagram · 2016 PYQ Facts · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
+      "pages": 25,
+      "price": 0,
+      "file": "ebooks/Agrikranti_ICAR_T3_T4_One_Shot_One_Liner.pdf",
+      "cover": "T-3 T-4<br>ONE LINER",
+      "series": "icar-t3t4"
+    },
+    {
+      "id": "notes1",
+      "title": "Agriculture Complete Notes (Full)",
+      "sub": "Lecture 1 - 36 + extra notes · Agronomy, Soil Science, Horticulture, Breeding, Plant Protection, Extension, Animal Science",
+      "pages": 60,
+      "price": 99,
+      "cover": "FULL<br>NOTES",
+      "enc": "ebooks/enc/notes1.bin"
+    },
+    {
+      "id": "sample1",
+      "title": "Free Sample - Agriculture Notes",
+      "sub": "Full notes ke pehle 10 pages, pehle padhkar dekhein",
+      "pages": 10,
+      "price": 0,
+      "file": "ebooks/Agrikranti_Notes_Free_Sample.pdf",
+      "cover": "FREE<br>PDF"
+    },
+    {
+      "id": "bookmwdw1xzo",
+      "title": "Bhumi Suposhan (Soil Nutrition) - B.Sc. Natural Farming",
+      "sub": "Complete bilingual notes + 5 model papers",
+      "pages": 156,
+      "price": 99,
+      "cover": "BHUMI<br>SUPOSHAN",
+      "enc": "ebooks/enc/bookmwdw1xzo.bin"
+    },
+    {
+      "id": "ugcevs",
+      "kind": "tests",
+      "title": "UGC NET Environmental Science (089) - Paper I + Paper II Test Series (Dec 2026)",
+      "sub": "Paper I के 10 + Paper II के 10 टेस्ट · 1500 Unique प्रश्न · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
+      "pages": 0,
+      "price": 99,
+      "cover": "UGC NET<br>EVS"
+    },
+    {
+      "id": "iffcomains",
+      "kind": "tests",
+      "title": "IFFCO AGT 2026 Mains Mock Test Series - 10 Full Length Mains Mock",
+      "sub": "Final Online Test (Mains) · 70 Agri Science + 30 Numerical/Reasoning/GK/Safety · तुरंत हल + Related Facts · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
+      "pages": 0,
+      "price": 99,
+      "cover": "IFFCO<br>MAINS"
+    },
+    {
+      "id": "icarts",
+      "kind": "tests",
+      "title": "ICAR T-3 & T-4 Agriculture - 10 Full Mock Test Series (20 Papers)",
+      "sub": "ASRB 2026-27 · हर टेस्ट में Paper I + Paper II · Hindi + English · Powered by Aditya Kumar (Gold Medalist)",
+      "pages": 0,
+      "price": 149,
+      "cover": "ICAR<br>T-3 T-4"
+    },
+    {
+      "id": "fsots",
+      "kind": "tests",
+      "title": "Bihar FSO Test Series (20+ Full Mock Tests)",
+      "sub": "BTSC खाद्य संरक्षा पदाधिकारी · 100 प्रश्न/टेस्ट · रोज़ 2 नए टेस्ट",
+      "pages": 0,
+      "price": 149,
+      "cover": "FSO<br>TESTS"
+    },
+    {
+      "id": "fsonotes1",
+      "title": "Bihar FSO - Food Chemistry Complete Notes (FREE)",
+      "sub": "Bilingual (English + हिन्दी) · Carbohydrates, Proteins, Lipids, Pigments, Flavours, Enzymes & Browning, Vitamins + 131 One-Liners · Powered by Aditya Kumar (Gold Medalist)",
+      "pages": 53,
+      "price": 0,
+      "file": "ebooks/Agrikranti_Bihar_FSO_Food_Chemistry_Notes.pdf",
+      "cover": "FSO<br>NOTES",
+      "series": "bihar-fso"
     }
-   ]
-  }
- ],
- "bookKeys": {
-  "notes1": "wSiclV4IIDXWkVSvTiy6Z1wSaqPR2S9hLqMjoqmIYBhKAKrZ6whEvSpodWv9S0qD9YzvkfmNGHEaCGAP",
-  "sem1": "18mYFrFVAFxvn8Emgoqav1Kbus6MkySaV0+SaT4/+mvi1PrNl3/4vk5h3xtZ8sSYY7tJc9oYOh3hOPJQ",
-  "bookmwdw1xzo": "L1pAXcS90uPOlcTV8CHC9h/vIETFS1WEVHN06S7Pow4H/LA+WN8owaVuoa0sjL1aSaqlznnvY/z580/x",
-  "bookmwq5t74e": "wGUBN5G1MpFNvmxp5x4AZP4gF9pdngcYzel7JanGi98onRBvo1SMbIQPhMoZBb/JvOJIYCY8Nkp4pWST"
- },
- "sales": "egP8d7syp8ir1dMMTmClpQ2nJHL8dsovaFxABg6JkAzmDH0ZWkDvjM9AxOx08nBhsjlVn2lY6zImQCocv3MRxFBqkfl4kAsRw0bTIym0UMpWihXKuh6/1D8XbPPoPA7voY6q8CNv8dVlEspxIjJ6X8hiP47Hu8yUmQmniSLy2NgAMeOjwI1S2msbxecDpcQcoTWNLsVu",
- "licenses": {
-  "notes1": {},
-  "sem1": {},
-  "bookmwdw1xzo": {
-   "b22d1f2cebfe92381952727f": {
-    "w": "4eSJ30zXMAMMJgEKBIo1LrWj3hx7qVtWDoMH+si9RgpYjpV9JrQttvg168QutDNWQcvayhv943p/hUQB"
-   }
+  ],
+  "semester": [
+    {
+      "sem": 1,
+      "title": "B.Sc. Agriculture - 1st Semester",
+      "papers": [
+        {
+          "code": "GPB-101",
+          "subject": "Fundamentals of Genetics - Notes Part 1",
+          "info": "Free Notes · 33 पेज · Cell, Cell Organelles, Nucleus, Chromosome Structure & Classification",
+          "notes": "papers/BSc_Sem1_GPB101_Genetics_Notes_Part1.pdf",
+          "free": true
+        }
+      ]
+    }
+  ],
+  "bookKeys": {
+    "notes1": "wSiclV4IIDXWkVSvTiy6Z1wSaqPR2S9hLqMjoqmIYBhKAKrZ6whEvSpodWv9S0qD9YzvkfmNGHEaCGAP",
+    "sem1": "18mYFrFVAFxvn8Emgoqav1Kbus6MkySaV0+SaT4/+mvi1PrNl3/4vk5h3xtZ8sSYY7tJc9oYOh3hOPJQ",
+    "bookmwdw1xzo": "L1pAXcS90uPOlcTV8CHC9h/vIETFS1WEVHN06S7Pow4H/LA+WN8owaVuoa0sjL1aSaqlznnvY/z580/x",
+    "bookmwq5t74e": "wGUBN5G1MpFNvmxp5x4AZP4gF9pdngcYzel7JanGi98onRBvo1SMbIQPhMoZBb/JvOJIYCY8Nkp4pWST"
   },
-  "bookmwq5t74e": {}
- },
- "series": [
-  {
-   "id": "nrs-sunda",
-   "name": "Nem Raj Sunda Complete Book Test Series (Launch Offer ₹149)"
+  "sales": "egP8d7syp8ir1dMMTmClpQ2nJHL8dsovaFxABg6JkAzmDH0ZWkDvjM9AxOx08nBhsjlVn2lY6zImQCocv3MRxFBqkfl4kAsRw0bTIym0UMpWihXKuh6/1D8XbPPoPA7voY6q8CNv8dVlEspxIjJ6X8hiP47Hu8yUmQmniSLy2NgAMeOjwI1S2msbxecDpcQcoTWNLsVu",
+  "licenses": {
+    "notes1": {},
+    "sem1": {},
+    "bookmwdw1xzo": {
+      "b22d1f2cebfe92381952727f": {
+        "w": "4eSJ30zXMAMMJgEKBIo1LrWj3hx7qVtWDoMH+si9RgpYjpV9JrQttvg168QutDNWQcvayhv943p/hUQB"
+      }
+    },
+    "bookmwq5t74e": {}
   },
-  {
-   "id": "ugc-evs",
-   "name": "UGC NET Environmental Science (089) - Dec 2026"
-  },
-  {
-   "id": "iffco-agt",
-   "name": "IFFCO AGT 2026 Shift Papers"
-  },
-  {
-   "id": "iffco-mains",
-   "name": "IFFCO AGT 2026 Mains Mock Test (₹99)"
-  },
-  {
-   "id": "ganna10",
-   "name": "Sugarcane Supervisor - 10 Model Papers"
-  },
-  {
-   "id": "sugarcane",
-   "name": "Sugarcane Supervisor Test Series"
-  },
-  {
-   "id": "icar-t3t4",
-   "name": "ICAR T-3/T-4 Full Mock"
-  },
-  {
-   "id": "bihar-fso",
-   "name": "Bihar FSO Test Series"
-  }
- ],
- "banners": [
-  {
-   "img": "img/banner-fast-revision-update.jpg",
-   "go": "book:bookmwq5t74e",
-   "new": true
-  },
-  {
-   "img": "img/banner-free-ebooks.jpg",
-   "go": "ebooks",
-   "new": true
-  },
-  {
-   "img": "img/banner-bpsc-agri-2026.jpg",
-   "go": "updates"
-  },
-  {
-   "img": "img/banner-bpsc-ts-soon.jpg",
-   "go": "updates"
-  },
-  {
-   "img": "img/banner-nrs-offer.jpg",
-   "go": "tests:nrs-sunda"
-  },
-  {
-   "img": "img/banner-ganna-book.jpg",
-   "go": "book:bookmwq5t74e"
-  },
-  {
-   "img": "img/banner-ugc-evs.jpg",
-   "go": "tests:ugc-evs"
-  },
-  {
-   "img": "img/banner-iffco-mains.jpg",
-   "go": "tests:iffco-mains"
-  },
-  {
-   "img": "img/banner-iffco2.jpg",
-   "go": "tests:iffco-agt"
-  },
-  {
-   "img": "img/banner-ganna.jpg",
-   "go": "tests:ganna10"
-  },
-  {
-   "img": "img/banner-icar.jpg",
-   "go": "tests:icar-t3t4"
-  },
-  {
-   "img": "img/banner-ganna-tests.jpg",
-   "go": "tests:sugarcane"
-  },
-  {
-   "img": "img/banner-fso.jpg",
-   "go": "tests:bihar-fso"
-  },
-  {
-   "img": "img/banner-diwali.jpg",
-   "link": "https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG"
-  },
-  {
-   "img": "img/banner-chhath.jpg",
-   "link": "https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG"
-  },
-  {
-   "img": "img/banner-main.jpg"
-  }
- ],
- "payMasterW": "ikd5dtLFVd2KlDksuwWu6QhVLkGSZLFC+Kl74iw2hhOwLoGiVztnEfwEiG55BhQwRm6udBMNqpGRlntEh9OR71HPSxNZ0s8h",
- "nfSyllabus": [
-  {
-   "id": "bsc-nf-ddugu",
-   "title": "B.Sc. Ag. (Hons.) Natural Farming - Complete Syllabus",
-   "hi": "बी.एससी. कृषि (ऑनर्स) प्राकृतिक खेती - पूरा syllabus (Semester I - VIII)",
-   "body": "IANS, DDU Gorakhpur University",
-   "pdf": "syllabus/bsc-natural-farming-ddugu.pdf",
-   "pages": 166,
-   "sub": "Semester-wise course distribution, credit hours, सभी courses का detailed theory + practical syllabus"
-  }
- ]
+  "series": [
+    {
+      "id": "nrs-sunda",
+      "name": "Nem Raj Sunda Complete Book Test Series (Launch Offer ₹149)"
+    },
+    {
+      "id": "ugc-evs",
+      "name": "UGC NET Environmental Science (089) - Dec 2026"
+    },
+    {
+      "id": "iffco-agt",
+      "name": "IFFCO AGT 2026 Shift Papers"
+    },
+    {
+      "id": "iffco-mains",
+      "name": "IFFCO AGT 2026 Mains Mock Test (₹99)"
+    },
+    {
+      "id": "ganna10",
+      "name": "Sugarcane Supervisor - 10 Model Papers"
+    },
+    {
+      "id": "sugarcane",
+      "name": "Sugarcane Supervisor Test Series"
+    },
+    {
+      "id": "icar-t3t4",
+      "name": "ICAR T-3/T-4 Full Mock"
+    },
+    {
+      "id": "bihar-fso",
+      "name": "Bihar FSO Test Series"
+    }
+  ],
+  "banners": [
+    {
+      "img": "img/banner-fast-revision-update.jpg",
+      "go": "book:bookmwq5t74e",
+      "new": true
+    },
+    {
+      "img": "img/banner-free-ebooks.jpg",
+      "go": "ebooks",
+      "new": true
+    },
+    {
+      "img": "img/banner-bpsc-agri-2026.jpg",
+      "go": "updates"
+    },
+    {
+      "img": "img/banner-bpsc-ts-soon.jpg",
+      "go": "updates"
+    },
+    {
+      "img": "img/banner-nrs-offer.jpg",
+      "go": "tests:nrs-sunda"
+    },
+    {
+      "img": "img/banner-ganna-book.jpg",
+      "go": "book:bookmwq5t74e"
+    },
+    {
+      "img": "img/banner-ugc-evs.jpg",
+      "go": "tests:ugc-evs"
+    },
+    {
+      "img": "img/banner-iffco-mains.jpg",
+      "go": "tests:iffco-mains"
+    },
+    {
+      "img": "img/banner-iffco2.jpg",
+      "go": "tests:iffco-agt"
+    },
+    {
+      "img": "img/banner-ganna.jpg",
+      "go": "tests:ganna10"
+    },
+    {
+      "img": "img/banner-icar.jpg",
+      "go": "tests:icar-t3t4"
+    },
+    {
+      "img": "img/banner-ganna-tests.jpg",
+      "go": "tests:sugarcane"
+    },
+    {
+      "img": "img/banner-fso.jpg",
+      "go": "tests:bihar-fso"
+    },
+    {
+      "img": "img/banner-diwali.jpg",
+      "link": "https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG"
+    },
+    {
+      "img": "img/banner-chhath.jpg",
+      "link": "https://youtube.com/@agrikranti1928?si=Qw-0KZ0QuNSLlvgG"
+    },
+    {
+      "img": "img/banner-main.jpg"
+    }
+  ],
+  "payMasterW": "ikd5dtLFVd2KlDksuwWu6QhVLkGSZLFC+Kl74iw2hhOwLoGiVztnEfwEiG55BhQwRm6udBMNqpGRlntEh9OR71HPSxNZ0s8h",
+  "nfSyllabus": [
+    {
+      "id": "bsc-nf-ddugu",
+      "title": "B.Sc. Ag. (Hons.) Natural Farming - Complete Syllabus",
+      "hi": "बी.एससी. कृषि (ऑनर्स) प्राकृतिक खेती - पूरा syllabus (Semester I - VIII)",
+      "body": "IANS, DDU Gorakhpur University",
+      "pdf": "syllabus/bsc-natural-farming-ddugu.pdf",
+      "pages": 166,
+      "sub": "Semester-wise course distribution, credit hours, सभी courses का detailed theory + practical syllabus"
+    }
+  ]
 }
