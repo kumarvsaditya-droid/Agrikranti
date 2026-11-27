@@ -333,7 +333,7 @@ function applyContent(c){
   if(c.naturalFarming) NF=c.naturalFarming;
   if(c.nfSyllabus) NFSYL=c.nfSyllabus;
   NOTICE=(c.notice&&c.notice.text)?c.notice:null;
-  window.BANNERS=(c.banners||[]).filter(function(b){return b&&b.img;});
+  window.BANNERS=(c.banners||[]).filter(function(b){ if(!b||!b.img) return false; if(window.IS_TWA && b.go && b.go.indexOf('book:')===0){ var bid=b.go.slice(5), bk=(c.ebooks||[]).filter(function(e){return e.id===bid;})[0]; if(!bk||bk.price) return false; } return true; });
   window.LIC=c.licenses||{}; window.BPASS=c.bookPass||{};
   window.PAY_MW=c.payMasterW||''; window.BOOK_KW=c.bookKeys||{}; window.PAID_IDS=(c.ebooks||[]).filter(function(b){return b&&b.price;}).map(function(b){return b.id;});
   if(c.series&&c.series.length) SERIES=c.series;
@@ -424,7 +424,7 @@ function topbar(extra){ var c=curCat(), n=(NOTICE?1:0)+jobsNew(); if(n>9) n='9+'
   return '<header class="topbar tb2"><div class="in"><button class="hb" data-menu="1" aria-label="Menu">'+SV.menu+'</button><button class="catbtn" data-cat="1"><img src="icons/logo.png" alt=""><span>'+esc(c.name)+'</span><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M6 9l6 6 6-6z"/></svg></button><div class="sp"></div>'+(extra||'')+'<button class="bell" data-upd="1" aria-label="सूचनाएँ">'+SV.bell+(n?'<i>'+n+'</i>':'')+'</button></div></header>'; }
 document.addEventListener('click',function(e){ if(!e.target.closest) return; var t=e.target.closest('[data-share]'); if(t){ e.preventDefault(); shareApp(); return; }
   if(e.target.closest('[data-menu]')){ openDrawer(); return; } if(e.target.closest('[data-cat]')){ go('cats'); return; } if(e.target.closest('[data-upd]')){ go('updates'); return; }
-  var g=e.target.closest('[data-goto]'); if(g){ e.preventDefault(); var v=g.getAttribute('data-goto'); if(v==='share') shareApp(); else if(v.indexOf('tests:')===0){ set('series',v.slice(6)); go('tests',v.slice(6)); } else if(v.indexOf('book:')===0){ var bid=v.slice(5); go('ebooks'); setTimeout(function(){ var bb=EBOOKS.filter(function(e){return e.id===bid;})[0]; if(bb && bb.price && !isOpen(bb)) buyBook(bid); },400); } else { if(v==='tests') TS_OPEN=null; go(v); } } });
+  var g=e.target.closest('[data-goto]'); if(g){ e.preventDefault(); var v=g.getAttribute('data-goto'); if(v==='share') shareApp(); else if(v.indexOf('tests:')===0){ set('series',v.slice(6)); go('tests',v.slice(6)); } else if(v.indexOf('book:')===0){ var bid=v.slice(5); go('ebooks'); setTimeout(function(){ var bb=EBOOKS.filter(function(e){return e.id===bid;})[0]; if(!bb) return; if(bb.price && !isOpen(bb)) buyBook(bid); else if(bb.enc) openReader(bid); else if(bb.file) window.open(bb.file,'_blank'); },400); } else { if(v==='tests') TS_OPEN=null; go(v); } } });
 function setNav(on){ document.getElementById('nav').hidden=!on; }
 function activeTab(t){ if(t==='semester'||t==='results'||t==='profile') t=''; document.querySelectorAll('.nav button').forEach(function(b){ b.classList.toggle('on', b.getAttribute('data-go')===t); }); }
 var ICON={
