@@ -41,6 +41,7 @@
   color-scheme:dark;
 }
 /* Security: content copy / long-press menu band (input boxes mein typing chalti rahe) */
+.shield{position:fixed;inset:0;z-index:2147483647;background:#000;display:none}.shield.on{display:block}
 body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input,textarea,[contenteditable]{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 img{-webkit-user-drag:none;user-drag:none}
@@ -481,6 +482,16 @@ document.addEventListener('contextmenu',function(e){ if(!/^(INPUT|TEXTAREA)$/.te
 document.addEventListener('dragstart',function(e){ if(e.target.tagName==='IMG') e.preventDefault(); });
 document.addEventListener('keydown',function(e){ var k=(e.key||'').toLowerCase(), c=e.ctrlKey||e.metaKey;
   if(k==='f12' || (c&&e.shiftKey&&/^[ijc]$/.test(k)) || (c&&/^[spu]$/.test(k)) || k==='printscreen'){ e.preventDefault(); e.stopPropagation(); } },true);
+/* Screenshot / screen share se bachav: app chhupte hi ya focus jaate hi poori screen kaali */
+(function(){ var sh=document.createElement('div'); sh.className='shield'; document.documentElement.appendChild(sh);
+  var on=function(){ sh.classList.add('on'); }, off=function(){ sh.classList.remove('on'); };
+  document.addEventListener('visibilitychange',function(){ if(document.hidden) on(); else setTimeout(off,150); });
+  window.addEventListener('blur',function(){ setTimeout(function(){ var a=document.activeElement; if(a&&a.tagName==='IFRAME') return; if(!document.hasFocus()) on(); },0); });
+  window.addEventListener('focus',function(){ setTimeout(off,150); });
+  window.addEventListener('pagehide',on); window.addEventListener('pageshow',function(){ setTimeout(off,150); });
+  document.addEventListener('keydown',function(e){ var k=(e.key||'').toLowerCase(); if(k==='printscreen'||(e.metaKey&&e.shiftKey)){ on(); setTimeout(off,2000); } },true);
+  window.addEventListener('beforeprint',on); window.addEventListener('afterprint',off);
+})();
 document.addEventListener('keyup',function(e){ if((e.key||'')==='PrintScreen'){ try{ navigator.clipboard.writeText(''); }catch(x){} } });
 window.addEventListener('beforeprint',function(){ document.body.style.visibility='hidden'; });
 window.addEventListener('afterprint',function(){ document.body.style.visibility=''; });
@@ -1706,7 +1717,7 @@ if('serviceWorker' in navigator && location.protocol.indexOf('http')===0){ navig
 
 /* start */
 /* Play Store (TWA) mode: Google Play policy ke kaaran app ke andar paid eBook / payment nahi dikhte */
-var IS_TWA=(function(){ try{ if(/[?&]source=twa/.test(location.search)||document.referrer.indexOf('android-app://')===0) localStorage.setItem('ak_twa','1'); return localStorage.getItem('ak_twa')==='1'; }catch(e){ return /[?&]source=twa/.test(location.search); } })();
+var IS_TWA=false; try{ localStorage.removeItem('ak_twa'); }catch(e){} /* App Play Store par nahi hai: installed app (Chrome) mein bhi sab paid books dikhein */
 loadContent().then(function(){ setTimeout(processUnlockLink,800); setTimeout(function(){ adminFreeAll('',true); },600); loadPacks().then(function(){ if(CURV==='tests') tests(); }); if(autoPay()){ setTimeout(retryPending,2500); setTimeout(function(){ syncMine(false); },4000); } regUser(false); if(IS_TWA){ EBOOKS=EBOOKS.filter(function(b){ return !b.price || b.twa; }); } trackOpen(); if(!profile()) return loginPage(); if(location.hash==='#admin' && CONFIG.backendUrl) go('admin'); else if(deepTest()){} else if(deepBook()){} else if(/[?&]go=updates/.test(location.search)||location.hash==='#updates') go('updates'); else if(/[?&]go=tests/.test(location.search)){ var gs=(location.search.match(/[?&]s=([\w-]+)/)||[])[1]; if(gs) set('series',gs); go('tests',gs); } else if(/[?&]go=nf/.test(location.search)) go('nf',(location.search.match(/[?&]t=(syl|notes)/)||[])[1]); else if(/[?&]go=syllabus/.test(location.search)||/^#syllabus/.test(location.hash)) go('syllabus',(location.search.match(/[?&]s=([\w-]+)/)||location.hash.match(/#syllabus-([\w-]+)/)||[])[1]); else go('home'); sessionCheck(); loadSyl(); loadJobs(); setInterval(loadJobs,15*60*1000); });
 document.addEventListener('visibilitychange',function(){ if(!document.hidden) sessionCheck(); });
 </script>
