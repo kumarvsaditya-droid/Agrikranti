@@ -213,6 +213,11 @@
   ],
   "banners": [
     {
+      "img": "img/banner-fast-revision-3pdf.jpg",
+      "go": "book:bookmwq5t74e",
+      "new": true
+    },
+    {
       "img": "img/banner-fast-revision-update.jpg",
       "go": "book:bookmwq5t74e",
       "new": true
