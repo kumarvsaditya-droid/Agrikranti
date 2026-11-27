@@ -241,7 +241,16 @@ sup{font-size:.7em}
 .reader{position:fixed;inset:0;z-index:60;background:#2a2f2b;display:flex;flex-direction:column;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .rbar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg2);border-bottom:1px solid var(--line);padding-top:calc(8px + env(safe-area-inset-top,0px))}
 .rbody{position:relative;flex:1;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 8px 40px}
-.rpage{flex:none;background:#fff;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.4);overflow:hidden}
+.rpage{position:relative;flex:none;background:#fff;border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.4);overflow:hidden}
+.rpage canvas.rink{position:absolute;left:0;top:0}
+.reader.inkon .rpage canvas.rink{pointer-events:auto;touch-action:none;cursor:crosshair}
+#rpen.on{background:var(--green);color:#0e1410}
+.rtools{display:none;position:absolute;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:8;background:#141c16;border:1px solid var(--line);border-radius:16px;padding:7px 8px;gap:6px;align-items:center;box-shadow:0 6px 24px rgba(0,0,0,.55);max-width:96%;overflow-x:auto}
+.reader.inkon .rtools{display:flex}
+.rtools button{flex:none;border:2px solid transparent;background:#223026;color:#fff;border-radius:10px;height:36px;min-width:36px;padding:0 9px;font:700 14px var(--body);cursor:pointer}
+.rtools button.on{border-color:var(--gold)}
+.rtools .dot{width:28px;min-width:28px;height:28px;border-radius:50%;padding:0;background:var(--c);border:3px solid #141c16;box-shadow:0 0 0 2px #445}
+.rtools .dot.on{box-shadow:0 0 0 3px var(--gold)}
 .rpage canvas{display:block;pointer-events:none}
 @media print{body *{display:none!important}}
 .pills{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
@@ -568,7 +577,7 @@ function tilesFor(cat){
 }
 function bannerSlides(){
   var sl=[];
-  if(window.BANNERS && BANNERS.length) BANNERS.forEach(function(b){ sl.push('<a class="slide imgs" '+(b.go?'data-goto="'+esc(b.go)+'" style="cursor:pointer"':b.link?'href="'+esc(b.link)+'" target="_blank" rel="noopener"':'')+'>'+(b.go&&b.go.indexOf('tests:')===0?newBadge(b.go.slice(6)):'')+'<img src="'+esc(b.img)+'" alt=""></a>'); });
+  if(window.BANNERS && BANNERS.length) BANNERS.forEach(function(b){ sl.push('<a class="slide imgs" '+(b.go?'data-goto="'+esc(b.go)+'" style="cursor:pointer"':b.link?'href="'+esc(b.link)+'" target="_blank" rel="noopener"':'')+'>'+(b.new?'<span class="newb">NEW</span>':b.go&&b.go.indexOf('tests:')===0?newBadge(b.go.slice(6)):'')+'<img src="'+esc(b.img)+'" alt=""></a>'); });
   sl.push('<div class="slide teach" style="background:radial-gradient(120% 160% at 100% 100%,#1d3a22 0%,#0b0f0c 60%)"><div style="flex:1;min-width:0;padding:16px 0 16px 16px;z-index:1"><span class="tag" style="margin:0 0 8px">आपके Teacher</span><h3>Aditya Kumar</h3><p style="margin-top:6px"><b style="color:var(--gold)">M.Sc. (Ag.) Soil Science</b><br>Gold Medalist · DDUGU Gorakhpur</p><p>Agrikranti 1928 के साथ तैयारी करें</p></div><img src="img/aditya.jpg" alt="Aditya Kumar" class="tpic"></div>');
   sl.push('<div class="slide" style="background:radial-gradient(120% 140% at 0% 0%,#1d3a22 0%,#121a14 60%)"><img class="lg" src="icons/logo.png" alt=""><div><h3>AGRIKRANTI 1928</h3><p>'+esc(CONFIG.tagline)+'</p><span class="tag">Sugarcane Supervisor · '+TESTS.length+' Free Tests</span></div></div>');
   sl.push('<div class="slide" data-goto="ask" style="background:radial-gradient(120% 140% at 100% 0%,#4a3a05 0%,#141a10 65%)"><div style="font-size:64px;line-height:1">✨</div><div><h3>Agrikranti AI</h3><p>Agriculture का कोई भी doubt पूछें, आसान हिंदी में तुरंत जवाब।</p><span class="tag">अभी पूछें</span></div></div>');
@@ -1307,11 +1316,11 @@ function openReader(id,again,pi){
   if(!b||!u||!(pt?pt.enc:b.enc)) return;
   readerOpen(pt?(pt.title||b.title):b.title,pt?pt.enc:b.enc,keyFor(id),(p.name?p.name+' · ':'')+u.m,!again?function(){ var uu=unlocked(); if(uu[id]&&uu[id].c&&uu[id].k){ delete uu[id].k; set('unlocked',uu); return openReader(id,1,pi); } if(!autoPay()) return openReader(id,1,pi); MINE_T=Date.now(); return syncMine(true).then(function(){ openReader(id,1,pi); }); }:null);
 }
-function rtoast(ov,m){ var t=document.createElement('div'); t.textContent=m; t.style.cssText='position:absolute;left:50%;bottom:24px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 14px;border-radius:10px;font-size:14px;z-index:9;max-width:90%;text-align:center'; ov.appendChild(t); setTimeout(function(){ t.remove(); },3500); }
+function rtoast(ov,m){ var t=document.createElement('div'); t.textContent=m; t.style.cssText='position:absolute;left:50%;bottom:76px;transform:translateX(-50%);background:#222;color:#fff;padding:10px 14px;border-radius:10px;font-size:14px;z-index:9;max-width:90%;text-align:center'; ov.appendChild(t); setTimeout(function(){ t.remove(); },3500); }
 function readerOpen(title,encUrl,keyP,wm,onBadKey){
   var p=profile()||{}; wm=wm===false?'':(wm||((p.name?p.name+' · ':'')+(p.mobile||'')));
   var ov=document.createElement('div'); ov.className='reader';
-  ov.innerHTML='<div class="rbar"><button class="iconbtn" id="rx">✕ बंद करें</button><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(title)+'</b><span class="muted small" id="rp"></span><button class="iconbtn" id="rzo" title="Zoom कम करें" style="min-width:36px;font-size:18px">−</button><button class="iconbtn" id="rzi" title="Zoom बढ़ाएँ" style="min-width:36px;font-size:18px">+</button><button class="iconbtn" id="rrot" title="Landscape / Portrait">↻</button></div><div class="rbody" id="rb"><div class="card muted" style="margin:16px">Book खुल रही है... (पहली बार थोड़ा समय लगेगा)</div></div>';
+  ov.innerHTML='<div class="rbar"><button class="iconbtn" id="rx">✕ बंद करें</button><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(title)+'</b><span class="muted small" id="rp"></span><button class="iconbtn" id="rzo" title="Zoom कम करें" style="min-width:36px;font-size:18px">−</button><button class="iconbtn" id="rzi" title="Zoom बढ़ाएँ" style="min-width:36px;font-size:18px">+</button><button class="iconbtn" id="rpen" title="Pen से PDF पर लिखें">✏️</button><button class="iconbtn" id="rrot" title="Landscape / Portrait">↻</button></div><div class="rtools" id="rtools"><button class="dot on" data-pc="#e53935" style="--c:#e53935" title="लाल"></button><button class="dot" data-pc="#1e63d6" style="--c:#1e63d6" title="नीला"></button><button class="dot" data-pc="#1b9e3a" style="--c:#1b9e3a" title="हरा"></button><button class="dot" data-pc="#111111" style="--c:#111" title="काला"></button><button data-pt="hl" title="Highlighter">🖍</button><button data-pt="er" title="Eraser - मिटाएँ">🧽</button><button data-pt="un" title="Undo">↶</button><button data-pt="cl" title="इस पेज की लिखावट साफ़ करें">🗑</button><button data-pt="dn" title="Pen बंद करें">✓ बंद</button></div><div class="rbody" id="rb"><div class="card muted" style="margin:16px">Book खुल रही है... (पहली बार थोड़ा समय लगेगा)</div></div>';
   document.body.appendChild(ov); document.body.style.overflow='hidden';
   var stop=function(e){ e.preventDefault(); return false; };
   ov.addEventListener('contextmenu',stop); ov.addEventListener('dragstart',stop); ov.addEventListener('selectstart',stop);
@@ -1332,6 +1341,45 @@ function readerOpen(title,encUrl,keyP,wm,onBadKey){
   };
   var close=function(){ unlock(); window.removeEventListener('resize',onResize); window.removeEventListener('orientationchange',onResize); ov.remove(); document.body.style.overflow=''; document.removeEventListener('keydown',keyBlock); };
   ov.querySelector('#rx').onclick=close;
+  /* ===== Pen / drawing: lines saved on this phone per PDF (normalized to page width) ===== */
+  var INKK='akink:'+encUrl, INK={}, HIST=[], PEN={on:false,c:'#e53935',mode:'pen'};
+  try{ INK=JSON.parse(localStorage.getItem(INKK)||'{}')||{}; }catch(e){ INK={}; }
+  var saveInk=function(){ try{ localStorage.setItem(INKK,JSON.stringify(INK)); }catch(e){ rtoast(ov,'लिखावट save नहीं हो पाई (phone storage भरा है)'); } };
+  var inkStroke=function(x,s,w){ var p=s.p; if(!p||p.length<2) return; x.save(); x.lineCap='round'; x.lineJoin='round'; x.strokeStyle=s.c; x.globalAlpha=s.h?0.35:1; x.lineWidth=Math.max(1,s.w*w); x.beginPath(); x.moveTo(p[0]*w,p[1]*w); if(p.length===2) x.lineTo(p[0]*w+0.5,p[1]*w); for(var i=2;i<p.length;i+=2) x.lineTo(p[i]*w,p[i+1]*w); x.stroke(); x.restore(); };
+  var inkPaint=function(ic,extra){ var x=ic.getContext('2d'); x.clearRect(0,0,ic.width,ic.height); (INK[ic.dataset.p]||[]).forEach(function(s){ inkStroke(x,s,ic.width); }); if(extra) inkStroke(x,extra,ic.width); };
+  var inkAdd=function(n,box,cw,ch){ var r=Math.min(window.devicePixelRatio||1,2,4096/cw,4096/ch), ic=document.createElement('canvas'); ic.className='rink'; ic.width=Math.round(cw*r); ic.height=Math.round(ch*r); ic.style.width=cw+'px'; ic.style.height=ch+'px'; ic.dataset.p=n; box.appendChild(ic); inkPaint(ic); };
+  var inkRepaint=function(n){ var ic=ov.querySelector('canvas.rink[data-p="'+n+'"]'); if(ic) inkPaint(ic); };
+  var penBtn=ov.querySelector('#rpen'), tools=ov.querySelector('#rtools');
+  var setPen=function(on){ PEN.on=on; ov.classList.toggle('inkon',on); penBtn.classList.toggle('on',on); if(on) rtoast(ov,'✏️ Pen चालू - उँगली / mouse से लिखें। Scroll: 2 उँगली से, या "✓ बंद" दबाएँ'); };
+  penBtn.onclick=function(){ setPen(!PEN.on); };
+  var markTool=function(){ tools.querySelectorAll('button').forEach(function(b){ var pc=b.getAttribute('data-pc'), pt=b.getAttribute('data-pt'); b.classList.toggle('on', pc?(PEN.mode==='pen'&&PEN.c===pc):(pt===PEN.mode)); }); };
+  var curPage=function(rb){ var mid=rb.scrollTop+rb.clientHeight/2, k=rb.children; for(var i=0;i<k.length;i++){ if(k[i].offsetTop+k[i].offsetHeight>=mid) return +k[i].dataset.p||1; } return 1; };
+  tools.onclick=function(e){ var b=e.target.closest('button'); if(!b) return; var pc=b.getAttribute('data-pc'), pt=b.getAttribute('data-pt'), rb=ov.querySelector('#rb');
+    if(pc){ PEN.c=pc; PEN.mode='pen'; }
+    else if(pt==='hl'||pt==='er'){ PEN.mode=PEN.mode===pt?'pen':pt; }
+    else if(pt==='un'){ var hs=HIST.pop(); if(!hs){ rtoast(ov,'Undo के लिए कुछ नहीं'); return; } if(hs.prev.length) INK[hs.n]=hs.prev; else delete INK[hs.n]; saveInk(); inkRepaint(hs.n); }
+    else if(pt==='cl'){ var n=curPage(rb); if(!(INK[n]||[]).length){ rtoast(ov,'Page '+n+' पर कोई लिखावट नहीं'); return; } if(!confirm('Page '+n+' की सारी लिखावट मिटाएँ?')) return; HIST.push({n:n,prev:INK[n].slice()}); delete INK[n]; saveInk(); inkRepaint(n); }
+    else if(pt==='dn'){ setPen(false); }
+    markTool(); };
+  var ptrs={}, cur=null, curIc=null, pan=false, erDone=false;
+  var inkPos=function(e,ic){ var b=ic.getBoundingClientRect(); return [Math.round((e.clientX-b.left)/b.width*1e4)/1e4,Math.round((e.clientY-b.top)/b.width*1e4)/1e4]; };
+  var inkErase=function(q,ic){ var n=ic.dataset.p, arr=INK[n]||[], rr=14/ic.getBoundingClientRect().width, keep=arr.filter(function(s){ for(var i=0;i<s.p.length;i+=2){ var dx=s.p[i]-q[0], dy=s.p[i+1]-q[1]; if(dx*dx+dy*dy<rr*rr) return false; } return true; });
+    if(keep.length!==arr.length){ if(!erDone){ HIST.push({n:n,prev:arr.slice()}); erDone=true; } if(keep.length) INK[n]=keep; else delete INK[n]; inkPaint(ic); } };
+  ov.addEventListener('pointerdown',function(e){ if(!PEN.on) return; ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+    if(Object.keys(ptrs).length>=2){ if(cur&&curIc){ cur=null; inkPaint(curIc); } pan=true; return; }
+    var ic=e.target.closest&&e.target.closest('canvas.rink'); if(!ic) return; e.preventDefault(); try{ ic.setPointerCapture(e.pointerId); }catch(_){}
+    curIc=ic; var q=inkPos(e,ic);
+    if(PEN.mode==='er'){ cur={er:1}; erDone=false; inkErase(q,ic); return; }
+    var hl=PEN.mode==='hl'; cur={c:hl?'#ffd600':PEN.c,h:hl?1:0,w:Math.round((hl?16:2.6)/ic.getBoundingClientRect().width*1e5)/1e5,p:q}; inkPaint(ic,cur); });
+  ov.addEventListener('pointermove',function(e){ var o=ptrs[e.pointerId]; if(!PEN.on||!o) return;
+    if(pan){ var rb=ov.querySelector('#rb'), k=Object.keys(ptrs).length||1; rb.scrollTop-=(e.clientY-o.y)/k; rb.scrollLeft-=(e.clientX-o.x)/k; o.x=e.clientX; o.y=e.clientY; return; }
+    o.x=e.clientX; o.y=e.clientY; if(!cur||!curIc) return; e.preventDefault(); var q=inkPos(e,curIc);
+    if(cur.er){ inkErase(q,curIc); return; }
+    var p=cur.p, lx=p[p.length-2], ly=p[p.length-1]; if(Math.abs(q[0]-lx)+Math.abs(q[1]-ly)<0.002) return; p.push(q[0],q[1]); inkPaint(curIc,cur); });
+  var inkEnd=function(e){ if(!ptrs[e.pointerId]) return; delete ptrs[e.pointerId];
+    if(cur&&curIc&&!Object.keys(ptrs).length){ if(cur.er){ if(erDone) saveInk(); } else { var n=curIc.dataset.p; HIST.push({n:n,prev:(INK[n]||[]).slice()}); (INK[n]=INK[n]||[]).push(cur); saveInk(); inkPaint(curIc); } }
+    if(!Object.keys(ptrs).length){ cur=null; pan=false; } };
+  ov.addEventListener('pointerup',inkEnd); ov.addEventListener('pointercancel',inkEnd);
   Promise.all([loadPdfJs(), fetch(encUrl).then(function(r){ if(!r.ok) throw new Error('dl'); return r.arrayBuffer(); }), keyP])
   .then(function(r){ if(!r[2]) return new Uint8Array(r[1]); return AK.rawKey(r[2]).then(function(k){ return AK.aesDec(k,new Uint8Array(r[1])); }); })
   .then(function(bytes){ return pdfjsLib.getDocument({data:bytes,disableAutoFetch:true}).promise; })
@@ -1347,7 +1395,7 @@ function readerOpen(title,encUrl,keyP,wm,onBadKey){
           if(wm){ ctx.save(); ctx.globalAlpha=0.13; ctx.fillStyle='#b00020'; ctx.font='bold '+Math.round(22*dpr)+'px sans-serif'; ctx.translate(cv.width/2,cv.height/2); ctx.rotate(-Math.PI/5);
           for(var y=-cv.height;y<cv.height;y+=170*dpr){ for(var x=-cv.width;x<cv.width;x+=420*dpr){ ctx.fillText(wm,x,y); } } ctx.restore();
           ctx.globalAlpha=0.5; ctx.fillStyle='#444'; ctx.font=Math.round(10*dpr)+'px sans-serif'; ctx.fillText('Agrikranti 1928 · '+wm+' · Page '+n,10*dpr,cv.height-8*dpr); }
-          if(Wd!==W) return; box.innerHTML=''; box.style.height=(v.height/dpr)+'px'; box.appendChild(cv); });
+          if(Wd!==W) return; box.innerHTML=''; box.style.height=(v.height/dpr)+'px'; box.appendChild(cv); inkAdd(n,box,Wd,v.height/dpr); });
       });
     }
     function layout(){
